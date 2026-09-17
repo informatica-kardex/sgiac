@@ -1,0 +1,71 @@
+import { useEffect, useState } from "react";
+import { comunicadosApi } from "../../api/comunicados.api";
+import { Comunicado } from "../../api/types";
+import { ComunicadoCard } from "../components/ComunicadoCard";
+import { LoadingSpinner } from "../components/LoadingSpinner";
+
+const CATEGORIA_TODAS = "Todas";
+
+export default function ComunicadosPage() {
+  const [comunicados, setComunicados] = useState<Comunicado[]>([]);
+  const [cargando, setCargando] = useState(true);
+  const [categoria, setCategoria] = useState(CATEGORIA_TODAS);
+
+  useEffect(() => {
+    comunicadosApi
+      .listar()
+      .then(({ data }) => setComunicados(data.data))
+      .finally(() => setCargando(false));
+  }, []);
+
+  const categorias = [
+    CATEGORIA_TODAS,
+    ...Array.from(new Set(comunicados.map((c) => c.categoria))),
+  ];
+
+  const filtrados =
+    categoria === CATEGORIA_TODAS
+      ? comunicados
+      : comunicados.filter((c) => c.categoria === categoria);
+
+  return (
+    <div className="container-public py-14">
+      <div className="mb-8">
+        <h1 className="text-3xl font-extrabold text-slate-800">Comunicados</h1>
+        <p className="mt-1 text-slate-500">
+          Información oficial publicada por la Carrera de Informática.
+        </p>
+      </div>
+
+      {!cargando && (
+        <div className="mb-8 flex flex-wrap gap-2">
+          {categorias.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setCategoria(cat)}
+              className={`rounded-full px-4 py-1.5 text-sm font-medium transition ${
+                categoria === cat
+                  ? "bg-primary-700 text-white"
+                  : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {cargando ? (
+        <LoadingSpinner label="Cargando comunicados..." />
+      ) : filtrados.length === 0 ? (
+        <p className="text-slate-500">No hay comunicados en esta categoría.</p>
+      ) : (
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {filtrados.map((c) => (
+            <ComunicadoCard key={c.idComunicado} comunicado={c} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}

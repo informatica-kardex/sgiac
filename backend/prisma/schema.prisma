@@ -1,0 +1,413 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Usuario {
+  idUsuario               BigInt                   @id @default(autoincrement()) @map("id_usuario")
+  nombreCompleto          String                   @map("nombre_completo") @db.VarChar(150)
+  correo                  String                   @unique @map("correo") @db.VarChar(150)
+  estado                  String                   @default("ACTIVO") @map("estado") @db.VarChar(20)
+  fechaCreacion           DateTime                 @default(now()) @map("fecha_creacion") @db.Timestamptz(6)
+  contrasenaHash          String?                  @map("contrasena_hash")
+  correoVerificado        Boolean                  @default(false) @map("correo_verificado")
+  debeCambiarPassword     Boolean                  @default(false) @map("debe_cambiar_password")
+  fechaActualizacion      DateTime?                @updatedAt @map("fecha_actualizacion") @db.Timestamp(6)
+  bitacoras               Bitacora[]
+  cierre_gestion          cierre_gestion[]
+  comunicado              comunicado[]
+  consulta_faq            consulta_faq[]
+  emailVerificationTokens EmailVerificationToken[]
+  historial_comunicado    historial_comunicado[]
+  historial_ficha         historial_ficha[]
+  jornada_atencion        jornada_atencion[]
+  passwordResetTokens     PasswordResetToken[]
+  pregunta_faq            pregunta_faq[]
+  refreshTokens           RefreshToken[]
+  roles                   UsuarioRol[]
+  estudiante              estudiante?
+
+  @@map("usuario")
+}
+
+model Rol {
+  idRol       BigInt       @id @default(autoincrement()) @map("id_rol")
+  nombre      String       @unique @map("nombre") @db.VarChar(80)
+  descripcion String?      @map("descripcion")
+  estado      String       @default("ACTIVO") @map("estado") @db.VarChar(20)
+  usuarios    UsuarioRol[]
+
+  @@map("rol")
+}
+
+model UsuarioRol {
+  idUsuario       BigInt   @map("id_usuario")
+  idRol           BigInt   @map("id_rol")
+  fechaAsignacion DateTime @default(now()) @map("fecha_asignacion") @db.Timestamptz(6)
+  estado          String   @default("ACTIVO") @db.VarChar(20)
+  rol             Rol      @relation(fields: [idRol], references: [idRol], onDelete: Cascade, onUpdate: NoAction, map: "fk_usuario_rol_rol")
+  usuario         Usuario  @relation(fields: [idUsuario], references: [idUsuario], onDelete: Cascade, onUpdate: NoAction, map: "fk_usuario_rol_usuario")
+
+  @@id([idUsuario, idRol])
+  @@map("usuario_rol")
+}
+
+model Bitacora {
+  idBitacora         BigInt   @id @default(autoincrement()) @map("id_bitacora")
+  accion             String   @map("accion") @db.VarChar(100)
+  entidadAfectada    String   @map("entidad_afectada") @db.VarChar(100)
+  idRegistroAfectado String?  @map("id_registro_afectado") @db.VarChar(100)
+  detalle            String?  @map("detalle")
+  fechaHora          DateTime @default(now()) @map("fecha_hora") @db.Timestamptz(6)
+  idUsuario          BigInt?  @map("id_usuario")
+  usuario            Usuario? @relation(fields: [idUsuario], references: [idUsuario], onUpdate: NoAction, map: "fk_bitacora_usuario")
+
+  @@map("bitacora")
+}
+
+model RefreshToken {
+  idRefreshToken Int      @id @default(autoincrement()) @map("id_refresh_token")
+  idUsuario      BigInt   @map("id_usuario")
+  tokenHash      String   @unique @map("token_hash")
+  expiraEn       DateTime @map("expira_en") @db.Timestamp(6)
+  revocado       Boolean  @default(false) @map("revocado")
+  creadoEn       DateTime @default(now()) @map("creado_en") @db.Timestamp(6)
+  userAgent      String?  @map("user_agent")
+  ip             String?  @map("ip")
+  usuario        Usuario  @relation(fields: [idUsuario], references: [idUsuario], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("refresh_token")
+}
+
+model PasswordResetToken {
+  idToken   Int      @id @default(autoincrement()) @map("id_token")
+  idUsuario BigInt   @map("id_usuario")
+  codigo    String   @map("codigo")
+  expiraEn  DateTime @map("expira_en") @db.Timestamp(6)
+  usado     Boolean  @default(false) @map("usado")
+  creadoEn  DateTime @default(now()) @map("creado_en") @db.Timestamp(6)
+  usuario   Usuario  @relation(fields: [idUsuario], references: [idUsuario], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("password_reset_token")
+}
+
+model EmailVerificationToken {
+  idToken   Int      @id @default(autoincrement()) @map("id_token")
+  idUsuario BigInt   @map("id_usuario")
+  codigo    String   @map("codigo")
+  expiraEn  DateTime @map("expira_en") @db.Timestamp(6)
+  usado     Boolean  @default(false) @map("usado")
+  creadoEn  DateTime @default(now()) @map("creado_en") @db.Timestamp(6)
+  usuario   Usuario  @relation(fields: [idUsuario], references: [idUsuario], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("email_verification_token")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model adjunto_comunicado {
+  id_adjunto     BigInt     @id @default(autoincrement())
+  nombre_archivo String     @db.VarChar(255)
+  tipo_archivo   String?    @db.VarChar(100)
+  url_archivo    String
+  fecha_carga    DateTime   @default(now()) @db.Timestamptz(6)
+  id_comunicado  BigInt
+  comunicado     comunicado @relation(fields: [id_comunicado], references: [id_comunicado], onDelete: Cascade, onUpdate: NoAction, map: "fk_adjunto_comunicado")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model ambiente {
+  codigo_ambiente       String                  @id @db.VarChar(30)
+  nombre                String                  @db.VarChar(150)
+  ubicacion             String?                 @db.VarChar(200)
+  capacidad             Int                     @default(0)
+  tipo                  String                  @db.VarChar(40)
+  estado                String                  @default("DISPONIBLE") @db.VarChar(30)
+  ambiente_equipamiento ambiente_equipamiento[]
+  horario               horario[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model ambiente_equipamiento {
+  codigo_ambiente String       @db.VarChar(30)
+  id_equipamiento BigInt
+  cantidad        Int          @default(1)
+  ambiente        ambiente     @relation(fields: [codigo_ambiente], references: [codigo_ambiente], onDelete: Cascade, onUpdate: NoAction, map: "fk_ambiente_equipo_ambiente")
+  equipamiento    equipamiento @relation(fields: [id_equipamiento], references: [id_equipamiento], onUpdate: NoAction, map: "fk_ambiente_equipo_equipamiento")
+
+  @@id([codigo_ambiente, id_equipamiento])
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model bloque_horario {
+  id_bloque   Int       @id @db.SmallInt
+  hora_inicio DateTime  @db.Time(6)
+  hora_fin    DateTime  @db.Time(6)
+  horario     horario[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model categoria_comunicado {
+  id_categoria_comunicado BigInt       @id @default(autoincrement())
+  nombre                  String       @unique @db.VarChar(100)
+  descripcion             String?
+  estado                  String       @default("ACTIVO") @db.VarChar(20)
+  comunicado              comunicado[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model categoria_faq {
+  id_categoria_faq BigInt         @id @default(autoincrement())
+  nombre           String         @unique @db.VarChar(120)
+  descripcion      String?
+  orden            Int            @default(1)
+  estado           String         @default("ACTIVO") @db.VarChar(20)
+  pregunta_faq     pregunta_faq[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model cierre_gestion {
+  id_cierre         BigInt            @id @default(autoincrement())
+  fecha_cierre      DateTime          @default(now()) @db.Timestamptz(6)
+  observaciones     String?
+  estado            String            @default("CERRADO") @db.VarChar(20)
+  id_periodo        BigInt            @unique(map: "uq_cierre_periodo")
+  id_usuario        BigInt
+  periodo_academico periodo_academico @relation(fields: [id_periodo], references: [id_periodo], onUpdate: NoAction, map: "fk_cierre_periodo")
+  usuario           Usuario           @relation(fields: [id_usuario], references: [idUsuario], onUpdate: NoAction, map: "fk_cierre_usuario")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model comunicado {
+  id_comunicado           BigInt                 @id @default(autoincrement())
+  titulo                  String                 @db.VarChar(250)
+  contenido               String
+  fecha_creacion          DateTime               @default(now()) @db.Timestamptz(6)
+  fecha_publicacion       DateTime?              @db.Timestamptz(6)
+  fecha_vencimiento       DateTime?              @db.Timestamptz(6)
+  fecha_archivado         DateTime?              @db.Timestamptz(6)
+  estado                  String                 @default("BORRADOR") @db.VarChar(30)
+  destacado               Boolean                @default(false)
+  id_categoria_comunicado BigInt
+  id_usuario              BigInt
+  adjunto_comunicado      adjunto_comunicado[]
+  categoria_comunicado    categoria_comunicado   @relation(fields: [id_categoria_comunicado], references: [id_categoria_comunicado], onUpdate: NoAction, map: "fk_comunicado_categoria")
+  usuario                 Usuario                @relation(fields: [id_usuario], references: [idUsuario], onUpdate: NoAction, map: "fk_comunicado_usuario")
+  historial_comunicado    historial_comunicado[]
+
+  @@index([estado], map: "idx_comunicado_estado")
+  @@index([fecha_publicacion], map: "idx_comunicado_publicacion")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model consulta_faq {
+  id_consulta          BigInt        @id @default(autoincrement())
+  texto_consulta       String
+  canal                String        @db.VarChar(20)
+  resuelta             Boolean       @default(false)
+  fecha_hora           DateTime      @default(now()) @db.Timestamptz(6)
+  fecha_revision       DateTime?     @db.Timestamptz(6)
+  observacion_revision String?
+  id_pregunta          BigInt?
+  id_usuario           BigInt?
+  pregunta_faq         pregunta_faq? @relation(fields: [id_pregunta], references: [id_pregunta], onUpdate: NoAction, map: "fk_consulta_pregunta")
+  usuario              Usuario?      @relation(fields: [id_usuario], references: [idUsuario], onUpdate: NoAction, map: "fk_consulta_usuario")
+
+  @@index([fecha_hora], map: "idx_consulta_faq_fecha")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model docente {
+  id_docente      BigInt     @id @default(autoincrement())
+  nombre_completo String     @db.VarChar(150)
+  especialidad    String?    @db.VarChar(150)
+  estado          String     @default("ACTIVO") @db.VarChar(20)
+  paralelo        paralelo[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model equipamiento {
+  id_equipamiento       BigInt                  @id @default(autoincrement())
+  nombre                String                  @db.VarChar(120)
+  tipo                  String?                 @db.VarChar(100)
+  descripcion           String?
+  estado                String                  @default("ACTIVO") @db.VarChar(20)
+  ambiente_equipamiento ambiente_equipamiento[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model estudiante {
+  id_usuario           BigInt?          @unique
+  carrera              String?          @db.VarChar(150)
+  semestre             Int?             @db.SmallInt
+  gestion              Int?
+  usuario              Usuario?         @relation(fields: [id_usuario], references: [idUsuario], onDelete: SetNull, onUpdate: NoAction, map: "fk_estudiante_usuario")
+  id_estudiante        BigInt           @id @default(autoincrement())
+  nombres              String           @db.VarChar(120)
+  apellidos            String           @db.VarChar(120)
+  ci                   String           @unique @db.VarChar(30)
+  ru                   String           @unique @db.VarChar(30)
+  correo_institucional String           @unique @db.VarChar(150)
+  ficha_atencion       ficha_atencion[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model ficha_atencion {
+  id_ficha         BigInt            @id @default(autoincrement())
+  numero_ficha     Int
+  motivo_atencion  String
+  estado_actual    String            @default("GENERADA") @db.VarChar(30)
+  fecha_generacion DateTime          @default(dbgenerated("CURRENT_DATE")) @db.Date
+  hora_generacion  DateTime          @default(dbgenerated("CURRENT_TIME")) @db.Time(6)
+  id_estudiante    BigInt
+  id_jornada       BigInt
+  estudiante       estudiante        @relation(fields: [id_estudiante], references: [id_estudiante], onUpdate: NoAction, map: "fk_ficha_estudiante")
+  jornada_atencion jornada_atencion  @relation(fields: [id_jornada], references: [id_jornada], onUpdate: NoAction, map: "fk_ficha_jornada")
+  historial_ficha  historial_ficha[]
+
+  @@unique([id_jornada, numero_ficha], map: "uq_ficha_jornada_numero")
+  @@index([estado_actual], map: "idx_ficha_estado")
+  @@index([id_estudiante], map: "idx_ficha_estudiante")
+  @@index([id_jornada], map: "idx_ficha_jornada")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model historial_comunicado {
+  id_historial    BigInt     @id @default(autoincrement())
+  accion          String     @db.VarChar(100)
+  estado_anterior String?    @db.VarChar(30)
+  estado_nuevo    String?    @db.VarChar(30)
+  fecha_hora      DateTime   @default(now()) @db.Timestamptz(6)
+  id_comunicado   BigInt
+  id_usuario      BigInt?
+  comunicado      comunicado @relation(fields: [id_comunicado], references: [id_comunicado], onDelete: Cascade, onUpdate: NoAction, map: "fk_historial_comunicado")
+  usuario         Usuario?   @relation(fields: [id_usuario], references: [idUsuario], onUpdate: NoAction, map: "fk_historial_comunicado_usuario")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model historial_ficha {
+  id_historial_ficha BigInt           @id @default(autoincrement())
+  estado             String           @db.VarChar(30)
+  observacion        String?
+  incidencia         String?
+  fecha_hora         DateTime         @default(now()) @db.Timestamptz(6)
+  id_ficha           BigInt
+  id_jornada         BigInt
+  id_usuario         BigInt?
+  ficha_atencion     ficha_atencion   @relation(fields: [id_ficha], references: [id_ficha], onDelete: Cascade, onUpdate: NoAction, map: "fk_historial_ficha")
+  jornada_atencion   jornada_atencion @relation(fields: [id_jornada], references: [id_jornada], onUpdate: NoAction, map: "fk_historial_jornada")
+  usuario            Usuario?         @relation(fields: [id_usuario], references: [idUsuario], onUpdate: NoAction, map: "fk_historial_usuario")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model horario {
+  id_horario      BigInt         @id @default(autoincrement())
+  dia_semana      String         @db.VarChar(20)
+  estado          String         @default("ASIGNADO") @db.VarChar(20)
+  publicado       Boolean        @default(false)
+  id_paralelo     BigInt
+  id_bloque       Int            @db.SmallInt
+  codigo_ambiente String         @db.VarChar(30)
+  ambiente        ambiente       @relation(fields: [codigo_ambiente], references: [codigo_ambiente], onUpdate: NoAction, map: "fk_horario_ambiente")
+  bloque_horario  bloque_horario @relation(fields: [id_bloque], references: [id_bloque], onUpdate: NoAction, map: "fk_horario_bloque")
+  paralelo        paralelo       @relation(fields: [id_paralelo], references: [id_paralelo], onUpdate: NoAction, map: "fk_horario_paralelo")
+
+  @@index([codigo_ambiente], map: "idx_horario_ambiente")
+  @@index([id_bloque], map: "idx_horario_bloque")
+  @@index([id_paralelo], map: "idx_horario_paralelo")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model jornada_atencion {
+  id_jornada      BigInt            @id @default(autoincrement())
+  fecha           DateTime          @db.Date
+  hora_inicio     DateTime          @db.Time(6)
+  hora_fin        DateTime          @db.Time(6)
+  cupo_total      Int
+  estado          String            @default("ACTIVO") @db.VarChar(20)
+  id_usuario      BigInt
+  ficha_atencion  ficha_atencion[]
+  historial_ficha historial_ficha[]
+  usuario         Usuario           @relation(fields: [id_usuario], references: [idUsuario], onUpdate: NoAction, map: "fk_jornada_usuario")
+
+  @@index([fecha], map: "idx_jornada_fecha")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model materia {
+  codigo_materia String     @id @db.VarChar(30)
+  nombre         String     @db.VarChar(150)
+  estado         String     @default("ACTIVO") @db.VarChar(20)
+  paralelo       paralelo[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model paralelo {
+  id_paralelo        BigInt            @id @default(autoincrement())
+  nombre_paralelo    String            @db.VarChar(50)
+  capacidad_estimada Int               @default(0)
+  estado             String            @default("ACTIVO") @db.VarChar(20)
+  id_docente         BigInt
+  codigo_materia     String            @db.VarChar(30)
+  id_periodo         BigInt
+  horario            horario[]
+  docente            docente           @relation(fields: [id_docente], references: [id_docente], onUpdate: NoAction, map: "fk_paralelo_docente")
+  materia            materia           @relation(fields: [codigo_materia], references: [codigo_materia], onUpdate: NoAction, map: "fk_paralelo_materia")
+  periodo_academico  periodo_academico @relation(fields: [id_periodo], references: [id_periodo], onUpdate: NoAction, map: "fk_paralelo_periodo")
+
+  @@index([id_docente], map: "idx_paralelo_docente")
+  @@index([codigo_materia], map: "idx_paralelo_materia")
+  @@index([id_periodo], map: "idx_paralelo_periodo")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model periodo_academico {
+  id_periodo     BigInt          @id @default(autoincrement())
+  gestion        Int
+  periodo        String          @db.VarChar(20)
+  fecha_inicio   DateTime        @db.Date
+  fecha_fin      DateTime        @db.Date
+  estado         String          @default("ACTIVO") @db.VarChar(20)
+  cierre_gestion cierre_gestion?
+  paralelo       paralelo[]
+
+  @@unique([gestion, periodo], map: "uq_periodo_gestion")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model pregunta_faq {
+  id_pregunta         BigInt         @id @default(autoincrement())
+  pregunta            String
+  respuesta           String
+  orden               Int            @default(1)
+  estado              String         @default("ACTIVO") @db.VarChar(20)
+  fecha_creacion      DateTime       @default(now()) @db.Timestamptz(6)
+  fecha_actualizacion DateTime       @default(now()) @db.Timestamptz(6)
+  id_categoria_faq    BigInt
+  id_usuario          BigInt
+  consulta_faq        consulta_faq[]
+  categoria_faq       categoria_faq  @relation(fields: [id_categoria_faq], references: [id_categoria_faq], onUpdate: NoAction, map: "fk_pregunta_categoria")
+  usuario             Usuario        @relation(fields: [id_usuario], references: [idUsuario], onUpdate: NoAction, map: "fk_pregunta_usuario")
+
+  @@index([id_categoria_faq], map: "idx_pregunta_categoria")
+}

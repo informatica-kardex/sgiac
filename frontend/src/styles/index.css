@@ -1,0 +1,109 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Paleta y superficies del panel administrativo, basadas en la referencia. */
+.admin-theme {
+  --admin-blue: #2459a9;
+  background: #f5f7fa;
+  color: #13213d;
+  font-family: Inter, "Segoe UI", system-ui, sans-serif;
+}
+.admin-theme .admin-sidebar { background: #111c32; }
+.admin-sidebar nav {
+  min-height: 0;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #40516b #111c32;
+}
+.admin-sidebar nav::-webkit-scrollbar { width: 6px; }
+.admin-sidebar nav::-webkit-scrollbar-track { background: #111c32; }
+.admin-sidebar nav::-webkit-scrollbar-thumb { background: #40516b; border-radius: 10px; }
+.admin-sidebar nav::-webkit-scrollbar-thumb:hover { background: #64748b; }
+.admin-sidebar nav::-webkit-scrollbar-button { display: none; width: 0; height: 0; }
+.admin-theme .card {
+  border: 1px solid #e2e8f0;
+  border-radius: 0;
+  background: white;
+  box-shadow: 0 1px 2px rgb(15 23 42 / 4%), 0 8px 24px rgb(15 23 42 / 5%);
+}
+.admin-theme :is(.btn-primary, .btn-secondary, .btn-danger, .btn-ghost) {
+  border-radius: 0;
+  gap: .5rem;
+}
+.admin-theme .btn-primary { background: var(--admin-blue); }
+.admin-theme .btn-primary:hover { background: #1d4b92; }
+.admin-theme :is(.input-field, .select-field, .textarea-field) {
+  border-radius: 0;
+  background-color: white;
+  box-shadow: none;
+}
+.admin-theme :is(.input-field, .select-field, .textarea-field):focus {
+  border-color: var(--admin-blue);
+  box-shadow: 0 0 0 2px rgb(36 89 169 / 12%);
+}
+.admin-theme :is(button, a):focus-visible { outline: 3px solid #7199d3; outline-offset: 3px; }
+.admin-theme :is(h1, h2, h3) { color: #13213d; }
+.admin-theme main h1 { font-size: 1.5rem; letter-spacing: -.025em; }
+.admin-theme main h1 + p { margin-top: .375rem; }
+.admin-theme :is(.bg-primary-600, .bg-primary-700) { background-color: var(--admin-blue); }
+.admin-theme .bg-primary-50 { background-color: #eef3fb; }
+.admin-theme :is(.text-primary-600, .text-primary-700, .text-primary-800) { color: var(--admin-blue); }
+.admin-theme table { font-size: .8125rem; }
+.admin-theme thead { background: #f8fafc; }
+.admin-theme th { font-size: .625rem; text-transform: uppercase; letter-spacing: .08em; color: #64748b; }
+.admin-theme td { padding-top: 1rem; padding-bottom: 1rem; }
+.admin-theme tbody tr:hover { background: #f8fafc; }
+.admin-theme .badge { border-radius: 0; border: 1px solid currentColor; font-size: .625rem; }
+.admin-theme .rounded-2xl { border-radius: 0; }
+.admin-theme .rounded-xl { border-radius: 2px; }
+@media (max-width: 639px) {
+  .admin-theme main > div > .flex.items-center.justify-between { flex-wrap: wrap; gap: 1rem; }
+}
+
+@layer base {
+  html {
+    @apply antialiased scroll-smooth;
+  }
+  body {
+    @apply bg-slate-50 text-slate-900 font-sans;
+  }
+}
+
+@layer components {
+  /* Botones */
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-lg bg-primary-700 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-primary-800 disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn-danger {
+    @apply inline-flex items-center justify-center rounded-lg bg-red-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100;
+  }
+
+  /* Formularios */
+  .input-field {
+    @apply w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm text-slate-900 shadow-sm outline-none transition focus:border-primary-600 focus:ring-2 focus:ring-primary-100;
+  }
+  .select-field {
+    @apply w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm outline-none transition focus:border-primary-600 focus:ring-2 focus:ring-primary-100;
+  }
+  .textarea-field {
+    @apply w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm text-slate-900 shadow-sm outline-none transition focus:border-primary-600 focus:ring-2 focus:ring-primary-100;
+  }
+
+  /* Layout */
+  .card {
+    @apply rounded-2xl border border-slate-200 bg-white shadow-sm;
+  }
+  .badge {
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
+  }
+  .container-public {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+}
