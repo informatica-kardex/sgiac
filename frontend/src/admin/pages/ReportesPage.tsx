@@ -89,7 +89,7 @@ export default function ReportesPage() {
           <ColorBar
             data={fichasPorEstado.map((f) => ({ label: f.estado, cantidad: f.cantidad }))}
             max={maxFichas}
-            color="bg-amber-500"
+            color="bg-[#238878]"
           />
         </div>
 

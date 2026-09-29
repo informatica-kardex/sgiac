@@ -1,6 +1,9 @@
 import dotenv from "dotenv";
+import path from "node:path";
 
-dotenv.config();
+// La misma ruta sirve para src/config y dist/config, sin depender del cwd.
+// Las variables suministradas por el entorno conservan su prioridad.
+dotenv.config({ path: path.resolve(__dirname, "../../.env") });
 
 function required(name: string): string {
   const value = process.env[name];

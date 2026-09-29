@@ -1,10 +1,10 @@
 import { Router } from "express";
 import { reporteController } from "./reporte.controller";
-import { requireAuth, requireAdmin } from "../../middlewares/auth.middleware";
+import { requireAuth, requirePermission } from "../../middlewares/auth.middleware";
 
 const router = Router();
 
-router.use(requireAuth, requireAdmin());
+router.use(requireAuth, requirePermission("reportes"));
 
 router.get("/dashboard", reporteController.dashboard);
 router.get("/comunicados-por-categoria", reporteController.comunicadosPorCategoria);

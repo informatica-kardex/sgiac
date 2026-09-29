@@ -1,3 +1,4 @@
+import { tienePermiso } from "../roles/permissions";
 import { Request } from "express";
 import { asyncHandler } from "../../utils/asyncHandler";
 import { sendSuccess } from "../../utils/apiResponse";
@@ -8,7 +9,7 @@ const faqService = new FaqService();
 
 export const faqController = {
   listar: asyncHandler(async (req: Request, res) => {
-    const faqs = req.user
+    const faqs = tienePermiso(req.user, "faq")
       ? await faqService.listarTodas()
       : await faqService.listarPublicadas();
     return sendSuccess(res, faqs, "Preguntas frecuentes obtenidas");

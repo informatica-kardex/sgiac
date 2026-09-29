@@ -1,58 +1,46 @@
-import { Request } from "express";
+import { tienePermiso } from "../roles/permissions";
+﻿import { Request } from "express";
 import { asyncHandler } from "../../utils/asyncHandler";
 import { sendSuccess } from "../../utils/apiResponse";
 import { ComunicadoService } from "./comunicado.service";
-import {
-  actualizarComunicadoSchema,
-  crearComunicadoSchema,
-} from "./comunicado.validation";
+import { actualizarComunicadoSchema, crearComunicadoSchema } from "./comunicado.validation";
+import { idSchema } from "../users/user.validation";
+import { rutaArchivo } from "./comunicado.files";
+import { env } from "../../config/env";
+import { ApiError } from "../../utils/apiError";
 
-const comunicadoService = new ComunicadoService();
-
-// Determina si la peticion viene de un usuario autenticado con
-// sesion administrativa (para decidir si se muestran tambien los
-// comunicados en estado "borrador"/"archivado").
-function esSolicitudAdministrativa(req: Request): boolean {
-  return Boolean(req.user);
+const service = new ComunicadoService();
+function esAdministrativo(req: Request) {
+  return req.query.publico !== "1" && tienePermiso(req.user, "comunicados");
 }
-
 export const comunicadoController = {
-  listar: asyncHandler(async (req, res) => {
-    const comunicados = esSolicitudAdministrativa(req)
-      ? await comunicadoService.listarTodos()
-      : await comunicadoService.listarPublicados();
-    return sendSuccess(res, comunicados, "Comunicados obtenidos");
+  listar: asyncHandler(async (req, res) => sendSuccess(res, esAdministrativo(req) ? await service.listarTodos() : await service.listarPublicados(), "Comunicados obtenidos")),
+  obtener: asyncHandler(async (req, res) => sendSuccess(res, await service.obtener(idSchema.parse(req.params.id), !esAdministrativo(req)), "Comunicado obtenido")),
+  archivo: asyncHandler(async (req, res, next) => {
+    const archivo = await service.archivo(idSchema.parse(req.params.id), idSchema.parse(req.params.adjunto), !esAdministrativo(req));
+    res.setHeader("Content-Type", archivo.tipo_archivo || "application/octet-stream");
+    const nombre = encodeURIComponent(archivo.nombre_archivo).replace(/['()*]/g, c => `%${c.charCodeAt(0).toString(16)}`);
+    res.setHeader("Content-Disposition", `${req.query.descargar === "1" ? "attachment" : "inline"}; filename*=UTF-8''${nombre}`);
+    res.setHeader("Cache-Control", "private, no-store");
+    res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+    res.removeHeader("X-Frame-Options");
+    res.setHeader("Content-Security-Policy", `frame-ancestors 'self' ${new URL(env.frontendUrl).origin}`);
+    res.sendFile(rutaArchivo(archivo.url_archivo), error => {
+      if (!error) return;
+      if ((error as NodeJS.ErrnoException).code === "ENOENT") return next(ApiError.notFound("Archivo no encontrado"));
+      next(error);
+    });
   }),
-
-  obtener: asyncHandler(async (req, res) => {
-    const comunicado = await comunicadoService.obtener(Number(req.params.id));
-    return sendSuccess(res, comunicado, "Comunicado obtenido");
-  }),
-
-  crear: asyncHandler(async (req, res) => {
-    const data = crearComunicadoSchema.parse(req.body);
-    const comunicado = await comunicadoService.crear(data);
-    return sendSuccess(res, comunicado, "Comunicado creado", 201);
-  }),
-
-  actualizar: asyncHandler(async (req, res) => {
-    const data = actualizarComunicadoSchema.parse(req.body);
-    const comunicado = await comunicadoService.actualizar(Number(req.params.id), data);
-    return sendSuccess(res, comunicado, "Comunicado actualizado");
-  }),
-
+  crear: asyncHandler(async (req, res) => sendSuccess(res,
+    await service.guardar(crearComunicadoSchema.parse(req.body), BigInt(req.user!.idUsuario), undefined, req.file), "Comunicado creado", 201)),
+  actualizar: asyncHandler(async (req, res) => sendSuccess(res,
+    await service.guardar(actualizarComunicadoSchema.parse(req.body), BigInt(req.user!.idUsuario), idSchema.parse(req.params.id), req.file), "Comunicado actualizado")),
   eliminar: asyncHandler(async (req, res) => {
-    await comunicadoService.eliminar(Number(req.params.id));
+    await service.eliminar(idSchema.parse(req.params.id), BigInt(req.user!.idUsuario));
     return sendSuccess(res, null, "Comunicado eliminado");
   }),
-
-  publicar: asyncHandler(async (req, res) => {
-    const comunicado = await comunicadoService.publicar(Number(req.params.id));
-    return sendSuccess(res, comunicado, "Comunicado publicado");
-  }),
-
-  archivar: asyncHandler(async (req, res) => {
-    const comunicado = await comunicadoService.archivar(Number(req.params.id));
-    return sendSuccess(res, comunicado, "Comunicado archivado");
-  }),
+  publicar: asyncHandler(async (req, res) => sendSuccess(res,
+    await service.guardar({ estado: "publicado" }, BigInt(req.user!.idUsuario), idSchema.parse(req.params.id)), "Comunicado publicado")),
+  archivar: asyncHandler(async (req, res) => sendSuccess(res,
+    await service.guardar({ estado: "archivado" }, BigInt(req.user!.idUsuario), idSchema.parse(req.params.id)), "Comunicado archivado")),
 };

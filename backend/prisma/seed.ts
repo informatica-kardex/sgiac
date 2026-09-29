@@ -10,12 +10,8 @@ const ROLES = [
     descripcion: "Acceso total al sistema, gestion de usuarios y configuracion",
   },
   {
-    nombre: "SUBADMINISTRADOR_ACADEMICO",
-    descripcion: "Gestiona aulas, horarios, comunicados y preguntas frecuentes",
-  },
-  {
-    nombre: "SUBADMINISTRADOR_ATENCION",
-    descripcion: "Gestiona fichas de atencion Kardex",
+    nombre: "SUBADMINISTRADOR",
+    descripcion: "Funciones asignadas por el administrador, con vigencia opcional",
   },
   {
     nombre: "CONSULTA_INTERNA",

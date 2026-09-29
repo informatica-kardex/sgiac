@@ -4,6 +4,7 @@ import { sendSuccess } from "../../utils/apiResponse";
 import { ApiError } from "../../utils/apiError";
 import { env } from "../../config/env";
 import { AuthService } from "./auth.service";
+import { createCaptcha } from "./login-security";
 import {
   adminLoginSchema,
   changePasswordSchema,
@@ -12,6 +13,10 @@ import {
   registerSchema,
   resetPasswordSchema,
   verifyEmailSchema,
+  verifyLoginSchema,
+  twoFactorSetupSchema,
+  confirmTwoFactorSchema,
+  resendVerificationSchema,
 } from "./auth.validation";
 import { UserService } from "../users/user.service";
 
@@ -56,6 +61,15 @@ function getRequestMeta(req: Request) {
 }
 
 export const authController = {
+  resendVerification: asyncHandler(async (req, res) => {
+    const { correo } = resendVerificationSchema.parse(req.body);
+    res.setHeader("Cache-Control", "no-store");
+    return sendSuccess(res, await authService.reenviarVerificacion(correo));
+  }),
+  captcha: asyncHandler(async (_req, res) => {
+    res.setHeader("Cache-Control", "no-store");
+    return sendSuccess(res, createCaptcha(), "CAPTCHA generado");
+  }),
   register: asyncHandler(async (req, res) => {
     const parsed = registerSchema.parse(req.body);
     const resultado = await authService.registrar(parsed, getRequestMeta(req));
@@ -64,26 +78,46 @@ export const authController = {
 
   login: asyncHandler(async (req, res) => {
     const parsed = loginSchema.parse(req.body);
-    const { usuario, tokens } = await authService.login(
+    const challenge = await authService.login(
       parsed,
       getRequestMeta(req)
     );
-    setAuthCookies(res, tokens);
-    return sendSuccess(res, { usuario, ...tokens }, "Inicio de sesion exitoso");
+    res.setHeader("Cache-Control", "no-store");
+    if ("tokens" in challenge) {
+      setAuthCookies(res, challenge.tokens);
+      return sendSuccess(res, { usuario: challenge.usuario, ...challenge.tokens }, "Inicio de sesion exitoso");
+    }
+    return sendSuccess(res, challenge, "Codigo de verificacion enviado");
   }),
 
   adminLogin: asyncHandler(async (req, res) => {
     const parsed = adminLoginSchema.parse(req.body);
-    const { usuario, tokens } = await authService.loginAdmin(
+    const challenge = await authService.loginAdmin(
       parsed,
       getRequestMeta(req)
     );
+    res.setHeader("Cache-Control", "no-store");
+    if ("tokens" in challenge) {
+      setAuthCookies(res, challenge.tokens);
+      return sendSuccess(res, { usuario: challenge.usuario, ...challenge.tokens }, "Inicio de sesion administrativo exitoso");
+    }
+    return sendSuccess(res, challenge, "Codigo de verificacion enviado");
+  }),
+
+  verifyLogin: asyncHandler(async (req, res) => {
+    const parsed = verifyLoginSchema.parse(req.body);
+    const { usuario, tokens } = await authService.verificarLogin(parsed, false, getRequestMeta(req));
+    res.setHeader("Cache-Control", "no-store");
     setAuthCookies(res, tokens);
-    return sendSuccess(
-      res,
-      { usuario, ...tokens },
-      "Inicio de sesion administrativo exitoso"
-    );
+    return sendSuccess(res, { usuario, ...tokens }, "Inicio de sesion exitoso");
+  }),
+
+  verifyAdminLogin: asyncHandler(async (req, res) => {
+    const parsed = verifyLoginSchema.parse(req.body);
+    const { usuario, tokens } = await authService.verificarLogin(parsed, true, getRequestMeta(req));
+    res.setHeader("Cache-Control", "no-store");
+    setAuthCookies(res, tokens);
+    return sendSuccess(res, { usuario, ...tokens }, "Inicio de sesion administrativo exitoso");
   }),
 
   changePassword: asyncHandler(async (req: Request, res: Response) => {
@@ -95,7 +129,28 @@ export const authController = {
       BigInt(req.user.idUsuario),
       parsed
     );
+    clearAuthCookies(res);
     return sendSuccess(res, resultado, "Contrasena actualizada");
+  }),
+
+  twoFactorStatus: asyncHandler(async (req, res) => {
+    if (!req.user) throw ApiError.unauthorized("No autenticado");
+    res.setHeader("Cache-Control", "no-store");
+    return sendSuccess(res, await authService.estadoTwoFactor(BigInt(req.user.idUsuario)));
+  }),
+
+  twoFactorSetup: asyncHandler(async (req, res) => {
+    if (!req.user) throw ApiError.unauthorized("No autenticado");
+    res.setHeader("Cache-Control", "no-store");
+    const input = twoFactorSetupSchema.parse(req.body);
+    return sendSuccess(res, await authService.solicitarCambioTwoFactor(BigInt(req.user.idUsuario), input), "Codigo enviado");
+  }),
+
+  twoFactorConfirm: asyncHandler(async (req, res) => {
+    if (!req.user) throw ApiError.unauthorized("No autenticado");
+    res.setHeader("Cache-Control", "no-store");
+    const input = confirmTwoFactorSchema.parse(req.body);
+    return sendSuccess(res, await authService.confirmarCambioTwoFactor(BigInt(req.user.idUsuario), input), "Configuracion actualizada");
   }),
 
   refresh: asyncHandler(async (req: Request, res: Response) => {
@@ -130,6 +185,7 @@ export const authController = {
   resetPassword: asyncHandler(async (req, res) => {
     const parsed = resetPasswordSchema.parse(req.body);
     const resultado = await authService.restablecerContrasena(parsed);
+    clearAuthCookies(res);
     return sendSuccess(res, resultado, "Contrasena restablecida");
   }),
 

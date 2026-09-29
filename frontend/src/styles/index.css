@@ -4,25 +4,35 @@
 
 /* Paleta y superficies del panel administrativo, basadas en la referencia. */
 .admin-theme {
-  --admin-blue: #2459a9;
-  background: #f5f7fa;
-  color: #13213d;
+  --admin-blue: #238878;
+  --admin-green: #238878;
+  --admin-green-dark: #1b6f65;
+  background: #f4fbf8;
+  color: #153b36;
   font-family: Inter, "Segoe UI", system-ui, sans-serif;
 }
-.admin-theme .admin-sidebar { background: #111c32; }
+.admin-theme .admin-sidebar { background: #102f2c; }
+.admin-theme .admin-sidebar nav a[aria-current="page"] {
+  background: rgb(35 136 120 / 20%);
+  box-shadow: inset 3px 0 0 var(--admin-green);
+  color: #fff;
+}
+.admin-theme .admin-sidebar nav a:hover:not([aria-current="page"]) {
+  background: rgb(35 136 120 / 11%);
+}
 .admin-sidebar nav {
   min-height: 0;
   overscroll-behavior: contain;
   scrollbar-width: thin;
-  scrollbar-color: #40516b #111c32;
+  scrollbar-color: #39756b #102f2c;
 }
 .admin-sidebar nav::-webkit-scrollbar { width: 6px; }
-.admin-sidebar nav::-webkit-scrollbar-track { background: #111c32; }
-.admin-sidebar nav::-webkit-scrollbar-thumb { background: #40516b; border-radius: 10px; }
-.admin-sidebar nav::-webkit-scrollbar-thumb:hover { background: #64748b; }
+.admin-sidebar nav::-webkit-scrollbar-track { background: #102f2c; }
+.admin-sidebar nav::-webkit-scrollbar-thumb { background: #39756b; border-radius: 10px; }
+.admin-sidebar nav::-webkit-scrollbar-thumb:hover { background: #5d9f91; }
 .admin-sidebar nav::-webkit-scrollbar-button { display: none; width: 0; height: 0; }
 .admin-theme .card {
-  border: 1px solid #e2e8f0;
+  border: 1px solid #d3eee6;
   border-radius: 0;
   background: white;
   box-shadow: 0 1px 2px rgb(15 23 42 / 4%), 0 8px 24px rgb(15 23 42 / 5%);
@@ -32,7 +42,11 @@
   gap: .5rem;
 }
 .admin-theme .btn-primary { background: var(--admin-blue); }
-.admin-theme .btn-primary:hover { background: #1d4b92; }
+.admin-theme .btn-primary:hover { background: #1b6f65; }
+.admin-theme .btn-secondary:hover {
+  border-color: #8ddcca;
+  color: var(--admin-green-dark);
+}
 .admin-theme :is(.input-field, .select-field, .textarea-field) {
   border-radius: 0;
   background-color: white;
@@ -40,14 +54,14 @@
 }
 .admin-theme :is(.input-field, .select-field, .textarea-field):focus {
   border-color: var(--admin-blue);
-  box-shadow: 0 0 0 2px rgb(36 89 169 / 12%);
+  box-shadow: 0 0 0 2px rgb(35 136 120 / 14%);
 }
-.admin-theme :is(button, a):focus-visible { outline: 3px solid #7199d3; outline-offset: 3px; }
-.admin-theme :is(h1, h2, h3) { color: #13213d; }
+.admin-theme :is(button, a):focus-visible { outline: 3px solid #62c9b3; outline-offset: 3px; }
+.admin-theme :is(h1, h2, h3) { color: #153b36; }
 .admin-theme main h1 { font-size: 1.5rem; letter-spacing: -.025em; }
 .admin-theme main h1 + p { margin-top: .375rem; }
 .admin-theme :is(.bg-primary-600, .bg-primary-700) { background-color: var(--admin-blue); }
-.admin-theme .bg-primary-50 { background-color: #eef3fb; }
+.admin-theme .bg-primary-50 { background-color: #d3f7eb; }
 .admin-theme :is(.text-primary-600, .text-primary-700, .text-primary-800) { color: var(--admin-blue); }
 .admin-theme table { font-size: .8125rem; }
 .admin-theme thead { background: #f8fafc; }
@@ -107,3 +121,34 @@
     @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
   }
 }
+
+/* Azul institucional con verde como acento compartido por las pantallas
+   fuera de los temas que ya tienen una composición propia. */
+.btn-primary {
+  background: linear-gradient(135deg, #238878 0%, #02b5b1 100%);
+}
+.btn-primary:hover {
+  background: linear-gradient(135deg, #1b6f65 0%, #238878 100%);
+}
+.btn-primary.bg-blue-700 {
+  background: linear-gradient(135deg, #238878 0%, #02b5b1 100%);
+}
+.btn-primary.bg-blue-700:hover {
+  background: linear-gradient(135deg, #1b6f65 0%, #238878 100%);
+}
+.btn-secondary:hover {
+  border-color: #8ddcca;
+  color: #1b6f65;
+}
+a.text-blue-700:hover { color: #1b6f65; }
+
+/* Compatibilidad visual para clases utilitarias azules que aún usan algunas
+   vistas: la nueva identidad las presenta con la paleta verde. */
+.bg-blue-50 { background-color: #d3f7eb !important; }
+.text-blue-700 { color: #238878 !important; }
+.text-blue-900 { color: #14554e !important; }
+.border-blue-200 { border-color: #a2eadb !important; }
+.admin-theme [class~="bg-[#2459a9]"] { background-color: #238878 !important; }
+.admin-theme [class~="text-[#2459a9]"] { color: #238878 !important; }
+.admin-theme [class~="text-[#13213d]"] { color: #153b36 !important; }
+.admin-theme header a:hover { color: #238878 !important; }

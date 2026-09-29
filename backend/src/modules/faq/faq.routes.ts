@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { faqController } from "./faq.controller";
-import { requireAuth, requireAdmin, optionalAuth } from "../../middlewares/auth.middleware";
+import { requireAuth, requirePermission, optionalAuth } from "../../middlewares/auth.middleware";
 
 const router = Router();
 
@@ -8,7 +8,7 @@ router.get("/", optionalAuth, faqController.listar);
 
 const soloAdmin = [
   requireAuth,
-  requireAdmin("ADMINISTRADOR", "SUBADMINISTRADOR_ACADEMICO"),
+  requirePermission("faq"),
 ];
 
 router.post("/", ...soloAdmin, faqController.crear);

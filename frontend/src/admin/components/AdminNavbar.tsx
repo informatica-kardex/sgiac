@@ -3,7 +3,7 @@ import { useAdminAuth } from "../../hooks/useAdminAuth";
 import { ROL_LABEL } from "../../utils/formatters";
 import { AdminIcon } from "./AdminIcon";
 
-const titles: Record<string, string> = { auditoria: "Auditoría", dashboard: "Dashboard", aulas: "Gestión de aulas", horarios: "Gestión de horarios", comunicados: "Comunicados", faq: "Preguntas frecuentes", fichas: "Atención Kardex", reportes: "Reportes", usuarios: "Usuarios", roles: "Roles y permisos", configuracion: "Configuración" };
+const titles: Record<string, string> = { auditoria: "Auditoría", dashboard: "Dashboard", aulas: "Gestión de aulas", horarios: "Gestión de horarios", comunicados: "Comunicados", faq: "Preguntas frecuentes", fichas: "Atención Kardex", reportes: "Reportes", subadministradores: "Subadministradores", estudiantes: "Estudiantes", roles: "Roles y permisos", configuracion: "Configuración" };
 export function AdminNavbar({ open, onMenu }: { open: boolean; onMenu: () => void }) {
   const { usuario } = useAdminAuth();
   const location = useLocation();

@@ -1,0 +1,228 @@
+/* Presentacion compartida por los inicios de sesion y el registro institucional. */
+.institutional-login.container-public,
+.admin-theme.admin-login-shell {
+  --login-ink: #203b4c;
+  --login-muted: #576b78;
+  --login-accent: #246c67;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  max-width: none;
+  background:
+    radial-gradient(ellipse at 8% 16%, rgb(186 215 219 / 42%), transparent 48%),
+    radial-gradient(ellipse at 94% 82%, rgb(181 211 198 / 36%), transparent 48%),
+    linear-gradient(135deg, #edf2f6 0%, #fafbf9 48%, #e8f0ed 100%);
+}
+
+.admin-theme.admin-login-shell {
+  background: radial-gradient(circle at 12% 12%, rgb(58 197 166 / 28%), transparent 30%),
+    radial-gradient(circle at 88% 18%, rgb(35 136 120 / 36%), transparent 35%),
+    linear-gradient(135deg, #102f2c 0%, #1b6f65 50%, #238878 100%);
+}
+
+.institutional-login.container-public::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  width: auto;
+  height: auto;
+  border: 0;
+  border-radius: 0;
+  background-image: linear-gradient(rgb(40 81 85 / 4%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(40 81 85 / 4%) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: linear-gradient(to bottom, #000, transparent 85%);
+  content: "";
+  pointer-events: none;
+}
+
+.login-background-logo {
+  position: absolute;
+  z-index: 0;
+  top: 50%;
+  width: min(24vw, 360px);
+  aspect-ratio: 1;
+  background-color: #315e68;
+  opacity: .11;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+.admin-login-shell .login-background-logo {
+  background-color: #c3eee3;
+  opacity: .12;
+}
+
+.login-background-kardex {
+  left: 15%;
+  mask-image: url("/images/kardex.png");
+}
+
+.login-background-career {
+  left: 84%;
+  width: min(23vw, 320px);
+  mask-image: url("/images/informatica-umsa.png");
+}
+
+.institutional-login .login-panel.card,
+.admin-theme.admin-login-shell .login-panel.card {
+  position: relative;
+  z-index: 1;
+  padding: 2rem;
+  border: 1px solid #dce6e7;
+  border-top: 3px solid var(--login-accent);
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: 0 20px 60px -24px rgb(32 59 76 / 25%), 0 3px 12px rgb(32 59 76 / 4%);
+  animation: login-panel-enter .35s ease both;
+  transition: box-shadow .2s ease, border-color .2s ease;
+}
+
+.institutional-login .login-panel.card:focus-within,
+.admin-theme.admin-login-shell .login-panel.card:focus-within {
+  border-color: #8ab7af;
+  box-shadow: 0 20px 64px -24px rgb(32 59 76 / 30%), 0 0 0 3px rgb(36 108 103 / 5%);
+}
+
+.login-panel.card .login-heading::before {
+  display: inline-block;
+  width: 2.8rem;
+  height: 4px;
+  margin-bottom: .8rem;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #238878, #3ac5a6);
+  content: "";
+}
+
+.login-panel .login-heading h1 {
+  color: var(--login-ink);
+  font-size: clamp(1.4rem, 3vw, 1.75rem);
+  letter-spacing: -.045em;
+  line-height: 1.25;
+}
+
+.login-panel .login-heading > p:last-child {
+  margin-top: .7rem;
+  color: var(--login-muted);
+  line-height: 1.7;
+}
+
+.login-panel.card form label {
+  color: var(--login-ink);
+  font-size: .8rem;
+  font-weight: 600;
+}
+
+.login-panel.card input.input-field {
+  min-height: 46px;
+  border-color: #cbd8de;
+  border-radius: 10px;
+  background: #f8fafb;
+  color: var(--login-ink);
+  box-shadow: none;
+  transition: background-color .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+
+.login-panel.card input.input-field:hover { border-color: #8aadae; }
+
+.login-panel.card input.input-field:focus {
+  border-color: var(--login-accent);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgb(36 108 103 / 13%);
+  outline: none;
+}
+
+.institutional-login .login-panel .btn-primary,
+.admin-theme.admin-login-shell .login-panel .btn-primary {
+  min-height: 48px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #238878 0%, #02b5b1 100%);
+  color: #fff;
+  box-shadow: 0 6px 16px rgb(35 77 91 / 14%);
+  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+}
+
+.institutional-login .login-panel .btn-primary:hover:not(:disabled),
+.admin-theme.admin-login-shell .login-panel .btn-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #1b6f65 0%, #238878 100%);
+  filter: none;
+  box-shadow: 0 9px 20px rgb(35 77 91 / 22%);
+  transform: translateY(-1px);
+}
+
+.institutional-login .login-panel .btn-primary:active:not(:disabled),
+.admin-theme.admin-login-shell .login-panel .btn-primary:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: 0 2px 6px rgb(35 77 91 / 14%);
+}
+
+.login-panel.card > p,
+.login-panel.card > div:last-child,
+.admin-login-shell > div > nav {
+  color: var(--login-muted);
+}
+
+.login-panel.card a,
+.admin-login-shell > div > nav a {
+  color: #285e64;
+  text-underline-offset: 3px;
+  transition: color .18s ease;
+}
+
+.login-panel.card a:hover,
+.admin-login-shell > div > nav a:hover {
+  color: #173c47;
+  text-decoration: underline;
+}
+
+.admin-login-shell > div > nav a { color: #c3e7de; }
+.admin-login-shell > div > nav a:hover { color: #fff; }
+
+.login-panel.card :is(a, button):focus-visible,
+.admin-login-shell > div > nav a:focus-visible {
+  outline: 3px solid #377e82;
+  outline-offset: 3px;
+}
+
+@keyframes login-panel-enter {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 1023px) {
+  .institutional-login.container-public,
+  .admin-theme.admin-login-shell { padding-top: 150px; }
+
+  .login-background-logo {
+    top: 20px;
+    transform: translateX(-50%);
+  }
+
+  .login-background-kardex { left: 28%; width: 112px; }
+  .login-background-career { top: 28px; left: 72%; width: 96px; }
+}
+
+@media (max-width: 639px) {
+  .institutional-login .login-panel.card,
+  .admin-theme.admin-login-shell .login-panel.card { padding: 1.5rem; border-radius: 20px; }
+}
+
+/* El registro tiene un formulario mas ancho: reservar espacio para las marcas. */
+.registration-page .login-background-kardex { left: 12%; width: min(20vw, 300px); }
+.registration-page .login-background-career { left: 88%; width: min(18vw, 270px); }
+
+@media (max-width: 1199px) {
+  .institutional-login.registration-page.container-public { padding-top: 150px; }
+  .registration-page .login-background-logo { top: 20px; transform: translateX(-50%); }
+  .registration-page .login-background-kardex { left: 28%; width: 112px; }
+  .registration-page .login-background-career { top: 28px; left: 72%; width: 96px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .institutional-login .login-panel.card,
+  .admin-theme.admin-login-shell .login-panel.card { animation: none; }
+  .login-panel.card *, .login-panel.card { transition: none !important; }
+}

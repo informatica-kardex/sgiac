@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { horarioController } from "./horario.controller";
-import { requireAuth, requireAdmin } from "../../middlewares/auth.middleware";
+import { requireAuth, requirePermission } from "../../middlewares/auth.middleware";
 
 const router = Router();
 
@@ -12,19 +12,19 @@ router.get("/:id", horarioController.obtener);
 router.post(
   "/",
   requireAuth,
-  requireAdmin("ADMINISTRADOR", "SUBADMINISTRADOR_ACADEMICO"),
+  requirePermission("horarios"),
   horarioController.crear
 );
 router.put(
   "/:id",
   requireAuth,
-  requireAdmin("ADMINISTRADOR", "SUBADMINISTRADOR_ACADEMICO"),
+  requirePermission("horarios"),
   horarioController.actualizar
 );
 router.delete(
   "/:id",
   requireAuth,
-  requireAdmin("ADMINISTRADOR", "SUBADMINISTRADOR_ACADEMICO"),
+  requirePermission("horarios"),
   horarioController.eliminar
 );
 

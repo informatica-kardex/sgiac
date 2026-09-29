@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { ZodError } from "zod";
+import { MulterError } from "multer";
 import { ApiError } from "../utils/apiError";
 import { isProduction } from "../config/env";
 
@@ -13,6 +14,12 @@ export function errorMiddleware(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   next: NextFunction
 ) {
+  if (err instanceof MulterError) {
+    return res.status(err.code === "LIMIT_FILE_SIZE" ? 413 : 400).json({
+      success: false,
+      message: err.code === "LIMIT_FILE_SIZE" ? "El archivo no puede superar 10 MB" : "Adjunta un solo archivo JPG, PNG, WebP o PDF y revisa el formulario",
+    });
+  }
   if (err instanceof ZodError) {
     return res.status(400).json({
       success: false,

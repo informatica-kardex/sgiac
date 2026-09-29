@@ -1,50 +1,65 @@
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { AxiosError } from "axios";
-import { fichasApi } from "../../api/fichas.api";
-import { FichaPublicaFormData, fichaPublicaSchema } from "../../utils/validators";
+import { Link } from "react-router-dom";
+import { useUserAuthStore } from "../../store/userAuthStore";
+import { LoadingSpinner } from "../components/LoadingSpinner";
 
 export default function AtencionPage() {
-  const [enviado, setEnviado] = useState(false);
-  const [error, setError] = useState("");
-  const [enviando, setEnviando] = useState(false);
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<FichaPublicaFormData>({ resolver: zodResolver(fichaPublicaSchema) });
-
-  const onSubmit = async (data: FichaPublicaFormData) => {
-    setError("");
-    setEnviando(true);
-    try {
-      await fichasApi.crear(data);
-      setEnviado(true);
-      reset();
-    } catch (err) {
-      const message =
-        err instanceof AxiosError ? err.response?.data?.message : undefined;
-      setError(message || "No se pudo registrar tu solicitud. Intenta nuevamente.");
-    } finally {
-      setEnviando(false);
-    }
-  };
+  const { isAuthenticated, isInitializing } = useUserAuthStore();
 
   return (
     <div className="container-public py-14">
       <div className="mb-10 max-w-2xl">
         <h1 className="text-3xl font-extrabold text-slate-800">Atención Kardex</h1>
-        <p className="mt-1 text-slate-500">
-          Información de contacto y formulario para generar tu ficha de
-          atención en línea (kardex, certificados, trámites académicos).
+        <p className="mt-2 text-slate-500">
+          Genera tu ficha de atención para realizar tus trámites académicos.
         </p>
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-5">
-        <div className="card space-y-5 p-6 lg:col-span-2">
+      <div className="grid items-start gap-8 lg:grid-cols-5">
+        <section className="card p-6 sm:p-8 lg:col-span-3" aria-labelledby="generar-ficha">
+          <span className="student-access-icon mb-4" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <path d="M4 4h16v5a3 3 0 0 0 0 6v5H4v-5a3 3 0 0 0 0-6V4Z" />
+              <path d="M9 8h6M9 12h6M9 16h4" />
+            </svg>
+          </span>
+          <h2 id="generar-ficha" className="text-2xl font-bold text-slate-800">Generar ficha</h2>
+          {isInitializing ? <LoadingSpinner label="Verificando tu sesión..." /> : isAuthenticated ? (
+            <>
+              <p className="mt-4 leading-7 text-slate-600">
+                Ya iniciaste sesión. Ingresa a tus fichas para elegir una jornada con cupos disponibles e indicar el motivo de tu atención.
+              </p>
+              <Link to="/usuario/fichas?solicitar=1" className="btn-primary mt-6 inline-flex">
+                Solicitar mi ficha
+              </Link>
+            </>
+          ) : (
+            <>
+              <p className="mt-4 leading-7 text-slate-600">
+                Para generar una ficha de atención necesitas una cuenta de estudiante.
+                Si todavía no tienes una, crea tu cuenta y confirma tu correo electrónico.
+                Si ya estás registrado, inicia sesión para continuar.
+              </p>
+              <ol className="mt-5 list-decimal space-y-3 pl-5 text-sm leading-6 text-slate-600">
+                <li>Crea tu cuenta con tus datos de estudiante y verifica tu correo.</li>
+                <li>Inicia sesión para acceder a tus fichas de atención.</li>
+                <li>Elige una jornada disponible y completa el motivo de tu solicitud.</li>
+              </ol>
+              <div className="mt-7 flex flex-wrap gap-3">
+                <Link to="/login" state={{ generarFicha: true }} className="btn-primary">
+                  Iniciar sesión para generar ficha
+                </Link>
+                <Link to="/registro" className="btn-secondary">
+                  Crear cuenta
+                </Link>
+              </div>
+            </>
+          )}
+          <p className="mt-5 text-sm text-slate-500">
+            La ficha quedará vinculada a tu cuenta para que puedas consultar su estado. La disponibilidad depende de los cupos de cada jornada.
+          </p>
+        </section>
+
+        <aside className="card space-y-5 p-6 lg:col-span-2" aria-label="Información de atención">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wide text-primary-700">Horario</p>
             <p className="text-slate-700">Lunes a viernes, 8:00 - 16:00</p>
@@ -55,69 +70,10 @@ export default function AtencionPage() {
           </div>
           <div>
             <p className="text-xs font-semibold uppercase tracking-wide text-primary-700">Contacto</p>
-            <p className="text-slate-700">kardex.informatica@universidad.edu.bo</p>
+            <p className="break-words text-slate-700">kardex.informatica@universidad.edu.bo</p>
             <p className="text-slate-700">Tel. (591) 2-2xx-xxxx</p>
           </div>
-          <div className="rounded-lg bg-primary-50 p-3 text-sm text-primary-800">
-            Las solicitudes en línea se reciben las 24 horas. El tiempo estimado
-            de respuesta es de 3 a 5 días hábiles.
-          </div>
-        </div>
-
-        <div className="card p-6 lg:col-span-3">
-          <h2 className="mb-4 text-lg font-bold text-slate-800">
-            Solicitar ficha de atención
-          </h2>
-
-          {enviado ? (
-            <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-700">
-              Tu solicitud fue registrada correctamente. Te contactaremos al
-              correo proporcionado en los próximos días hábiles.
-            </div>
-          ) : (
-            <form className="space-y-4" onSubmit={handleSubmit(onSubmit)} noValidate>
-              {error && (
-                <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
-                  {error}
-                </div>
-              )}
-
-              <div className="space-y-1.5">
-                <label className="block text-sm font-medium text-slate-700">Nombre completo</label>
-                <input className="input-field" {...register("solicitante")} />
-                {errors.solicitante && (
-                  <p className="text-xs text-red-600">{errors.solicitante.message}</p>
-                )}
-              </div>
-
-              <div className="space-y-1.5">
-                <label className="block text-sm font-medium text-slate-700">Correo de contacto</label>
-                <input className="input-field" type="email" {...register("correo")} />
-                {errors.correo && <p className="text-xs text-red-600">{errors.correo.message}</p>}
-              </div>
-
-              <div className="space-y-1.5">
-                <label className="block text-sm font-medium text-slate-700">Motivo</label>
-                <input
-                  className="input-field"
-                  placeholder="Ej. Solicitud de Kardex"
-                  {...register("motivo")}
-                />
-                {errors.motivo && <p className="text-xs text-red-600">{errors.motivo.message}</p>}
-              </div>
-
-              <div className="space-y-1.5">
-                <label className="block text-sm font-medium text-slate-700">Detalle de la solicitud</label>
-                <textarea className="textarea-field" rows={4} {...register("detalle")} />
-                {errors.detalle && <p className="text-xs text-red-600">{errors.detalle.message}</p>}
-              </div>
-
-              <button type="submit" className="btn-primary" disabled={enviando}>
-                {enviando ? "Enviando..." : "Enviar solicitud"}
-              </button>
-            </form>
-          )}
-        </div>
+        </aside>
       </div>
     </div>
   );

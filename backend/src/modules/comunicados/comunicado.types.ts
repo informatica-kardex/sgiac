@@ -1,12 +1,15 @@
 export type EstadoComunicado = "publicado" | "borrador" | "archivado";
 
 export interface ArchivoAdjunto {
+  idAdjunto?: string;
   nombre: string;
   url: string;
+  tipo?: string;
 }
 
 export interface Comunicado {
-  idComunicado: number;
+  idComunicado: string | number;
+  tipo?: "texto" | "imagen" | "pdf";
   titulo: string;
   contenido: string;
   resumen: string;

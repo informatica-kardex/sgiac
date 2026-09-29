@@ -8,7 +8,9 @@ const router = Router();
 router.use(requireAuth, requireAdmin("ADMINISTRADOR"));
 
 router.get("/", userController.listar);
+router.post("/", userController.crear);
 router.patch("/:id/estado", userController.cambiarEstado);
-router.patch("/:id/rol", userController.asignarRol);
+router.patch("/:id/permisos", userController.asignarPermisos);
+router.post("/:id/reset-password", userController.resetearPassword);
 
 export default router;

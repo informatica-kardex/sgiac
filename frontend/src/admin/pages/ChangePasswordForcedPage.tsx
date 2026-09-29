@@ -3,18 +3,21 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AxiosError } from "axios";
-import { useNavigate } from "react-router-dom";
+import { usePasswordUpdated } from "../../hooks/usePasswordUpdated";
 import { AlertMessage } from "../components/AlertMessage";
 import { authApi } from "../../api/auth.api";
 import { useAdminAuthStore } from "../../store/adminAuthStore";
+import { useUserAuthStore } from "../../store/userAuthStore";
 import { ChangePasswordFormData, changePasswordSchema } from "../../utils/validators";
 
 // Pantalla obligatoria tras el primer login con la contraseña
 // temporal del administrador (Admin123*) o de cualquier cuenta
 // creada con `debeCambiarPassword = true`.
-export default function ChangePasswordForcedPage() {
-  const navigate = useNavigate();
-  const { usuario, clearSession } = useAdminAuthStore();
+export default function ChangePasswordForcedPage({ admin = true }: { admin?: boolean }) {
+  const mostrarConfirmacion = usePasswordUpdated(admin);
+  const adminSession = useAdminAuthStore();
+  const userSession = useUserAuthStore();
+  const { usuario } = admin ? adminSession : userSession;
   const [serverError, setServerError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -30,11 +33,7 @@ export default function ChangePasswordForcedPage() {
     setIsSubmitting(true);
     try {
       await authApi.changePassword(data);
-      // La contrasena se roto en backend y se revocaron los refresh
-      // tokens existentes; se limpia la sesion local para forzar un
-      // nuevo login limpio con la contrasena definitiva.
-      clearSession();
-      navigate("/admin/login");
+      mostrarConfirmacion();
     } catch (error) {
       const message =
         error instanceof AxiosError ? error.response?.data?.message : undefined;
@@ -63,6 +62,7 @@ export default function ChangePasswordForcedPage() {
           <label className="block text-sm font-medium text-slate-700">
             Contraseña temporal actual
           </label>
+          <p className="text-xs text-slate-500">Si el administrador restableció tu contraseña, ingresa tu CI como contraseña temporal.</p>
           <PasswordInput
             type="password"
             className="input-field"

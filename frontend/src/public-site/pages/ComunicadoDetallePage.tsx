@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { comunicadosApi } from "../../api/comunicados.api";
+import { comunicadosApi, comunicadoArchivoUrl } from "../../api/comunicados.api";
+import { ComunicadoArchivo } from "../../components/ComunicadoArchivo";
 import { Comunicado } from "../../api/types";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 import { formatFecha } from "../../utils/formatters";
+import { useUserAuthStore } from "../../store/userAuthStore";
 
 export default function ComunicadoDetallePage() {
+  const authenticated = useUserAuthStore(s => s.isAuthenticated);
   const { id } = useParams();
   const [comunicado, setComunicado] = useState<Comunicado | null>(null);
   const [cargando, setCargando] = useState(true);
@@ -13,8 +16,9 @@ export default function ComunicadoDetallePage() {
 
   useEffect(() => {
     if (!id) return;
+    setCargando(true); setError(""); setComunicado(null);
     comunicadosApi
-      .obtener(Number(id))
+      .obtener(id, true)
       .then(({ data }) => setComunicado(data.data))
       .catch(() => setError("No se encontró el comunicado solicitado."))
       .finally(() => setCargando(false));
@@ -26,7 +30,7 @@ export default function ComunicadoDetallePage() {
     return (
       <div className="container-public py-16 text-center">
         <p className="text-slate-500">{error || "Comunicado no encontrado."}</p>
-        <Link to="/comunicados" className="mt-4 inline-block text-primary-700 hover:underline">
+        <Link to={authenticated ? "/usuario/comunicados" : "/comunicados"} className="mt-4 inline-block text-primary-700 hover:underline">
           ← Volver a comunicados
         </Link>
       </div>
@@ -35,7 +39,7 @@ export default function ComunicadoDetallePage() {
 
   return (
     <article className="container-public max-w-3xl py-14">
-      <Link to="/comunicados" className="text-sm text-primary-700 hover:underline">
+      <Link to={authenticated ? "/usuario/comunicados" : "/comunicados"} className="text-sm text-primary-700 hover:underline">
         ← Volver a comunicados
       </Link>
 
@@ -51,17 +55,13 @@ export default function ComunicadoDetallePage() {
       </div>
 
       {comunicado.adjuntos.length > 0 && (
-        <div className="mt-8 rounded-xl border border-slate-200 bg-slate-50 p-4">
-          <p className="mb-2 text-sm font-semibold text-slate-700">Archivos adjuntos</p>
-          <ul className="space-y-1">
+        <div className="mt-8 space-y-6">
             {comunicado.adjuntos.map((adj) => (
-              <li key={adj.nombre}>
-                <a href={adj.url} className="text-sm text-primary-700 hover:underline">
-                  📎 {adj.nombre}
-                </a>
-              </li>
+              <section key={adj.idAdjunto} className="space-y-3">
+                <ComunicadoArchivo url={comunicadoArchivoUrl(adj.url, true)} nombre={adj.nombre} tipo={adj.tipo} />
+                <a href={comunicadoArchivoUrl(adj.url, true, true)} className="inline-block text-sm font-semibold text-primary-700 hover:underline">Descargar {adj.nombre}</a>
+              </section>
             ))}
-          </ul>
         </div>
       )}
     </article>

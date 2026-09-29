@@ -7,8 +7,20 @@ import { StatCard } from "../components/StatCard";
 import { AdminIcon } from "../components/AdminIcon";
 import { AlertMessage } from "../components/AlertMessage";
 import { useAdminAuthStore } from "../../store/adminAuthStore";
+import { MODULOS_ADMIN, puedeAccederModulo } from "../../utils/roles";
 
 export default function DashboardPage() {
+  const usuario = useAdminAuthStore(state => state.usuario);
+  if (usuario?.roles.includes("ADMINISTRADOR")) return <DashboardAdministrador />;
+  return <div className="space-y-6">
+    <div><h1 className="text-xl font-bold">Bienvenido, {usuario?.nombreCompleto}</h1><p className="text-sm text-slate-500">Accede a los módulos habilitados por el administrador.</p></div>
+    <div className="grid gap-4 sm:grid-cols-2">{Object.entries(MODULOS_ADMIN)
+      .filter(([key]) => key !== "dashboard" && puedeAccederModulo(usuario?.roles ?? [], key, usuario?.permisos))
+      .map(([key, modulo]) => <Link className="card p-6 font-semibold text-primary-700 hover:bg-primary-50" key={key} to={`/admin/${key}`}>{modulo.label} →</Link>)}</div>
+  </div>;
+}
+
+function DashboardAdministrador() {
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(false);
   const [resumen, setResumen] = useState<ResumenDashboard | null>(null);
@@ -33,7 +45,7 @@ export default function DashboardPage() {
   const maxComunicados = Math.max(1, ...comunicados.map(item => item.cantidad));
   const hour = new Date().getHours();
   const greeting = hour < 12 ? "Buenos días" : hour < 19 ? "Buenas tardes" : "Buenas noches";
-  const canManageAttention = usuario?.roles.some(role => ["ADMINISTRADOR", "SUBADMINISTRADOR_ATENCION"].includes(role));
+  const canManageAttention = puedeAccederModulo(usuario?.roles ?? [], "fichas", usuario?.permisos);
 
   return <div className="space-y-6">
     <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end">

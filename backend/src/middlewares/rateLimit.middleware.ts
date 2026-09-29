@@ -26,3 +26,13 @@ export const authRateLimiter = rateLimit({
       "Demasiados intentos. Por seguridad, espera unos minutos antes de volver a intentar.",
   },
 });
+
+// Límite por cuenta, además del límite por IP, para los códigos de seis dígitos.
+export const emailVerificationLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 5,
+  skipSuccessfulRequests: true,
+  keyGenerator: req => typeof req.body?.correo === "string" ? req.body.correo.trim().toLowerCase() : "correo-invalido",
+  standardHeaders: true, legacyHeaders: false,
+  message: { success: false, message: "Demasiados códigos incorrectos. Espera 15 minutos antes de volver a intentar." },
+});

@@ -1,12 +1,12 @@
 import { prisma } from "../../database/prisma";
 import { aulasMock } from "../aulas/aula.mock";
-import { comunicadosMock } from "../comunicados/comunicado.mock";
+import { ComunicadoRepository } from "../comunicados/comunicado.repository";
 import { fichasMock } from "../fichas/ficha.mock";
 import { horariosMock } from "../horarios/horario.mock";
 
 // ------------------------------------------------------------
 // Servicio de reportes: agrega datos reales (usuarios, vía
-// Prisma) y datos mock (aulas, comunicados, fichas, horarios)
+// Prisma, incluidos comunicados) y datos mock (aulas, fichas, horarios)
 // para alimentar las tarjetas y graficos del dashboard admin.
 // Cuando los modulos mock se conecten a tablas reales, este
 // servicio solo necesita reemplazar el import del mock por el
@@ -20,7 +20,7 @@ export class ReporteService {
     });
 
     const aulasDisponibles = aulasMock.filter((a) => a.estado === "disponible").length;
-    const comunicadosActivos = comunicadosMock.filter((c) => c.estado === "publicado").length;
+    const comunicadosActivos = (await new ComunicadoRepository().findAllPublicados()).length;
     const atencionesPendientes = fichasMock.filter((f) => f.estado === "pendiente").length;
 
     return {
@@ -36,7 +36,7 @@ export class ReporteService {
 
   async comunicadosPorCategoria() {
     const conteo = new Map<string, number>();
-    comunicadosMock.forEach((c) => {
+    (await new ComunicadoRepository().findAll()).forEach((c) => {
       conteo.set(c.categoria, (conteo.get(c.categoria) ?? 0) + 1);
     });
     return Array.from(conteo.entries()).map(([categoria, cantidad]) => ({

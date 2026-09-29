@@ -10,11 +10,14 @@ export interface ApiEnvelope<T> {
   details?: unknown;
 }
 
+export interface PermisoUsuario { modulo: string; desde: string | null; hasta: string | null; }
+
 export interface UsuarioSesion {
   idUsuario: string;
   nombreCompleto: string;
   correo: string;
   roles: string[];
+  permisos?: PermisoUsuario[];
   correoVerificado: boolean;
   debeCambiarPassword: boolean;
 }
@@ -58,14 +61,15 @@ export interface Horario {
 export type EstadoComunicado = "publicado" | "borrador" | "archivado";
 
 export interface Comunicado {
-  idComunicado: number;
+  idComunicado: string;
+  tipo: "texto" | "imagen" | "pdf";
   titulo: string;
   contenido: string;
   resumen: string;
   categoria: string;
   fechaPublicacion: string;
   estado: EstadoComunicado;
-  adjuntos: { nombre: string; url: string }[];
+  adjuntos: { idAdjunto: string; nombre: string; url: string; tipo: string }[];
 }
 
 export interface Faq {
@@ -91,17 +95,20 @@ export interface FichaAtencion {
 }
 
 export interface UsuarioAdmin {
-  idUsuario: number;
+  ciRegistrado: boolean;
+  idUsuario: string;
   nombreCompleto: string;
   correo: string;
   estado: string;
   correoVerificado: boolean;
+  debeCambiarPassword: boolean;
   fechaCreacion: string;
   roles: string[];
+  permisos?: PermisoUsuario[];
 }
 
 export interface Rol {
-  idRol: number;
+  idRol: string | number;
   nombre: string;
   descripcion: string | null;
   estado: string;

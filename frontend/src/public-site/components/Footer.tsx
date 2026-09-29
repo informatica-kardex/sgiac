@@ -1,19 +1,15 @@
 import { Link } from "react-router-dom";
 
-export function Footer() {
+export function Footer({ portal = false }: { portal?: boolean }) {
   return (
     <footer className="border-t border-slate-200 bg-slate-900 text-slate-300">
       <div className="container-public grid gap-8 py-12 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <div className="mb-3 flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary-600 font-bold text-white">
-              S
-            </div>
-            <p className="font-bold text-white">SGIAC</p>
-          </div>
+          <Link to="/" aria-label="Kardex — Inicio" className="mb-3 inline-flex p-2">
+            <img src="/images/kardex.png" alt="Kardex — Carrera de Informática" width={640} height={640} loading="lazy" className="h-24 w-24 object-contain" />
+          </Link>
           <p className="text-sm text-slate-400">
-            Sistema de Gestión Integral de Aulas y Comunicaciones de Kardex —
-            Carrera de Informática.
+            {portal ? "Carrera de Informática" : "Sistema de Gestión Integral de Aulas y Comunicaciones de Kardex — Carrera de Informática."}
           </p>
         </div>
 
@@ -51,7 +47,12 @@ export function Footer() {
       </div>
 
       <div className="border-t border-slate-800 py-4 text-center text-xs text-slate-500">
-        © {new Date().getFullYear()} SGIAC — Carrera de Informática. Todos los derechos reservados.
+        <nav aria-label="Políticas del sistema" className="mb-3 flex flex-wrap justify-center gap-x-5 gap-y-2 px-4 text-slate-300">
+          <Link to="/privacidad" className="underline underline-offset-2 hover:text-white">Privacidad</Link>
+          <Link to="/seguridad" className="underline underline-offset-2 hover:text-white">Seguridad y uso responsable</Link>
+          <Link to="/cookies" className="underline underline-offset-2 hover:text-white">Cookies</Link>
+        </nav>
+        © {new Date().getFullYear()} {portal ? "Kardex" : "SGIAC"} — Carrera de Informática. Todos los derechos reservados.
       </div>
     </footer>
   );

@@ -7,16 +7,21 @@ export const ROL_POR_DEFECTO = "CONSULTA_INTERNA";
 // Roles con acceso al panel administrativo (/admin).
 export const ROLES_ADMINISTRATIVOS = [
   "ADMINISTRADOR",
-  "SUBADMINISTRADOR_ACADEMICO",
-  "SUBADMINISTRADOR_ATENCION",
+  "SUBADMINISTRADOR",
 ] as const;
 
 export const ROLES_SISTEMA = [
   "ADMINISTRADOR",
-  "SUBADMINISTRADOR_ACADEMICO",
-  "SUBADMINISTRADOR_ATENCION",
+  "SUBADMINISTRADOR",
   "CONSULTA_INTERNA",
 ] as const;
+
+export const ROLES_SUBADMIN = ["SUBADMINISTRADOR"];
+
+export function rolesActivos(relaciones: { estado: string; rol: { estado: string; nombre: string } }[]) {
+  return relaciones.filter(r => r.estado.toUpperCase() === "ACTIVO" && r.rol.estado.toUpperCase() === "ACTIVO")
+    .map(r => r.rol.nombre);
+}
 
 export class RoleRepository {
   async findByNombre(nombre: string) {
@@ -24,7 +29,7 @@ export class RoleRepository {
   }
 
   async findAll() {
-    return prisma.rol.findMany({ where: { estado: "activo" } });
+    return prisma.rol.findMany({ where: { estado: { equals: "ACTIVO", mode: "insensitive" }, nombre: { in: [...ROLES_ADMINISTRATIVOS] } } });
   }
 
   async findById(idRol: bigint | number) {

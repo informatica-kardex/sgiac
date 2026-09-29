@@ -36,7 +36,6 @@ export const DIAS_SEMANA_LABEL: Record<string, string> = {
 
 export const ROL_LABEL: Record<string, string> = {
   ADMINISTRADOR: "Administrador",
-  SUBADMINISTRADOR_ACADEMICO: "Subadministrador académico",
-  SUBADMINISTRADOR_ATENCION: "Subadministrador de atención",
+  SUBADMINISTRADOR: "Subadministrador",
   CONSULTA_INTERNA: "Consulta interna",
 };

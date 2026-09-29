@@ -60,6 +60,6 @@ export let comunicadosMock: Comunicado[] = [
 
 export function nextComunicadoId(): number {
   return comunicadosMock.length > 0
-    ? Math.max(...comunicadosMock.map((c) => c.idComunicado)) + 1
+    ? Math.max(...comunicadosMock.map((c) => Number(c.idComunicado))) + 1
     : 1;
 }

@@ -8,6 +8,7 @@ import comunicadoRoutes from "../modules/comunicados/comunicado.routes";
 import faqRoutes from "../modules/faq/faq.routes";
 import fichaRoutes from "../modules/fichas/ficha.routes";
 import reporteRoutes from "../modules/reportes/reporte.routes";
+import estudianteRoutes from "../modules/estudiantes/estudiante.routes";
 
 const router = Router();
 
@@ -24,6 +25,7 @@ router.use("/comunicados", comunicadoRoutes);
 router.use("/faq", faqRoutes);
 router.use("/fichas", fichaRoutes);
 router.use("/reportes", reporteRoutes);
+router.use("/estudiantes", estudianteRoutes);
 
 router.get("/health", (_req, res) => {
   res.json({

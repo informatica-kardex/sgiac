@@ -1,4 +1,5 @@
 import { PasswordInput, PasswordStrength } from "../../components/PasswordInput";
+import { TwoFactorSettings } from "../../components/TwoFactorSettings";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -8,10 +9,11 @@ import { AlertMessage } from "../components/AlertMessage";
 import { useAdminAuthStore } from "../../store/adminAuthStore";
 import { ChangePasswordFormData, changePasswordSchema } from "../../utils/validators";
 import { ROL_LABEL } from "../../utils/formatters";
+import { usePasswordUpdated } from "../../hooks/usePasswordUpdated";
 
 export default function ConfiguracionPage() {
   const { usuario } = useAdminAuthStore();
-  const [mensaje, setMensaje] = useState("");
+  const mostrarConfirmacion = usePasswordUpdated();
   const [error, setError] = useState("");
   const [enviando, setEnviando] = useState(false);
 
@@ -19,18 +21,15 @@ export default function ConfiguracionPage() {
     register,
     watch,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<ChangePasswordFormData>({ resolver: zodResolver(changePasswordSchema) });
 
   const onSubmit = async (data: ChangePasswordFormData) => {
     setError("");
-    setMensaje("");
     setEnviando(true);
     try {
       await authApi.changePassword(data);
-      setMensaje("Contraseña actualizada correctamente.");
-      reset();
+      mostrarConfirmacion();
     } catch (err) {
       const message =
         err instanceof AxiosError ? err.response?.data?.message : undefined;
@@ -46,6 +45,8 @@ export default function ConfiguracionPage() {
         <h1 className="text-xl font-bold text-slate-800">Configuración</h1>
         <p className="text-sm text-slate-500">Datos de tu cuenta y seguridad.</p>
       </div>
+
+      <TwoFactorSettings />
 
       <div className="card p-6">
         <h2 className="mb-4 text-sm font-semibold uppercase tracking-wide text-slate-500">
@@ -75,7 +76,6 @@ export default function ConfiguracionPage() {
         </h2>
 
         {error && <div className="mb-4"><AlertMessage type="error" message={error} /></div>}
-        {mensaje && <div className="mb-4"><AlertMessage type="success" message={mensaje} /></div>}
 
         <form className="space-y-4" onSubmit={handleSubmit(onSubmit)} noValidate>
           <div className="space-y-1.5">

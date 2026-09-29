@@ -3,22 +3,37 @@ import { ApiEnvelope, Comunicado } from "./types";
 
 export type CrearComunicadoPayload = Pick<
   Comunicado,
-  "titulo" | "resumen" | "contenido" | "categoria" | "estado"
+  "titulo" | "tipo" | "contenido" | "categoria" | "estado"
 >;
 export type ActualizarComunicadoPayload = Partial<CrearComunicadoPayload>;
 
+function formulario(payload: ActualizarComunicadoPayload, archivo?: File | null) {
+  const form = new FormData();
+  Object.entries(payload).forEach(([key, value]) => { if (value !== undefined) form.append(key, value); });
+  if (archivo) form.append("archivo", archivo);
+  return form;
+}
+
+export function comunicadoArchivoUrl(url: string, publico = false, descargar = false) {
+  const base = new URL(axiosClient.defaults.baseURL || "/api", window.location.origin);
+  const result = new URL(url, base);
+  if (publico) result.searchParams.set("publico", "1");
+  if (descargar) result.searchParams.set("descargar", "1");
+  return result.href;
+}
+
 export const comunicadosApi = {
-  listar: () => axiosClient.get<ApiEnvelope<Comunicado[]>>("/comunicados"),
-  obtener: (id: number) =>
-    axiosClient.get<ApiEnvelope<Comunicado>>(`/comunicados/${id}`),
-  crear: (payload: CrearComunicadoPayload) =>
-    axiosClient.post<ApiEnvelope<Comunicado>>("/comunicados", payload),
-  actualizar: (id: number, payload: ActualizarComunicadoPayload) =>
-    axiosClient.put<ApiEnvelope<Comunicado>>(`/comunicados/${id}`, payload),
-  eliminar: (id: number) =>
+  listar: (publico = false) => axiosClient.get<ApiEnvelope<Comunicado[]>>("/comunicados", { params: publico ? { publico: "1" } : {} }),
+  obtener: (id: string, publico = false) =>
+    axiosClient.get<ApiEnvelope<Comunicado>>(`/comunicados/${id}`, { params: publico ? { publico: "1" } : {} }),
+  crear: (payload: CrearComunicadoPayload, archivo?: File | null) =>
+    axiosClient.post<ApiEnvelope<Comunicado>>("/comunicados", formulario(payload, archivo)),
+  actualizar: (id: string, payload: ActualizarComunicadoPayload, archivo?: File | null) =>
+    axiosClient.put<ApiEnvelope<Comunicado>>(`/comunicados/${id}`, formulario(payload, archivo)),
+  eliminar: (id: string) =>
     axiosClient.delete<ApiEnvelope<null>>(`/comunicados/${id}`),
-  publicar: (id: number) =>
+  publicar: (id: string) =>
     axiosClient.patch<ApiEnvelope<Comunicado>>(`/comunicados/${id}/publicar`),
-  archivar: (id: number) =>
+  archivar: (id: string) =>
     axiosClient.patch<ApiEnvelope<Comunicado>>(`/comunicados/${id}/archivar`),
 };

@@ -6,9 +6,7 @@ export interface RegisterPayload {
   apellidos: string;
   ci: string;
   ru: string;
-  carrera: string;
-  semestre: number;
-  gestion: number;
+  mencion: string;
   correo: string;
   contrasena: string;
   confirmarContrasena: string;
@@ -17,6 +15,20 @@ export interface RegisterPayload {
 export interface LoginPayload {
   correo: string;
   contrasena: string;
+  captchaId: string;
+  captchaCode: string;
+}
+
+export interface LoginChallenge {
+  requiresTwoFactor: true;
+  challengeId: string;
+  maskedEmail: string;
+  expiresIn: number;
+}
+
+export interface VerifyLoginPayload {
+  challengeId: string;
+  codigo: string;
 }
 
 export interface ForgotPasswordPayload {
@@ -43,16 +55,28 @@ export interface ChangePasswordPayload {
 export const authApi = {
   // Portal publico
   register: (payload: RegisterPayload) =>
-    axiosClient.post<ApiEnvelope<{ idUsuario: string; correo: string; mensaje: string }>>(
+    axiosClient.post<ApiEnvelope<{ idUsuario: string; correo: string; mensaje: string; correoEnviado: boolean }>>(
       "/auth/register",
       payload
     ),
 
   login: (payload: LoginPayload) =>
-    axiosClient.post<ApiEnvelope<AuthResponse>>("/auth/login", payload),
+    axiosClient.post<ApiEnvelope<LoginChallenge | AuthResponse>>("/auth/login", payload),
+
+  captcha: () =>
+    axiosClient.get<ApiEnvelope<{ captchaId: string; image: string }>>("/auth/login/captcha"),
+
+  verifyLogin: (payload: VerifyLoginPayload) =>
+    axiosClient.post<ApiEnvelope<AuthResponse>>("/auth/login/verify", payload),
+
+  verifyAdminLogin: (payload: VerifyLoginPayload) =>
+    axiosClient.post<ApiEnvelope<AuthResponse>>("/auth/admin/login/verify", payload),
 
   verifyEmail: (payload: VerifyEmailPayload) =>
     axiosClient.post<ApiEnvelope<{ mensaje: string }>>("/auth/verify-email", payload),
+
+  resendVerification: (correo: string) =>
+    axiosClient.post<ApiEnvelope<{ mensaje: string; reenviarEn: number }>>("/auth/resend-verification", { correo }),
 
   forgotPassword: (payload: ForgotPasswordPayload) =>
     axiosClient.post<ApiEnvelope<{ mensaje: string }>>(
@@ -68,7 +92,15 @@ export const authApi = {
 
   // Panel administrativo
   adminLogin: (payload: LoginPayload) =>
-    axiosClient.post<ApiEnvelope<AuthResponse>>("/auth/admin/login", payload),
+    axiosClient.post<ApiEnvelope<LoginChallenge | AuthResponse>>("/auth/admin/login", payload),
+
+  twoFactorStatus: () => axiosClient.get<ApiEnvelope<{ enabled: boolean }>>("/auth/two-factor"),
+
+  setupTwoFactor: (payload: { contrasena: string; enabled: boolean }) =>
+    axiosClient.post<ApiEnvelope<LoginChallenge>>("/auth/two-factor/setup", payload),
+
+  confirmTwoFactor: (payload: VerifyLoginPayload & { enabled: boolean }) =>
+    axiosClient.post<ApiEnvelope<{ enabled: boolean }>>("/auth/two-factor/confirm", payload),
 
   changePassword: (payload: ChangePasswordPayload) =>
     axiosClient.post<ApiEnvelope<{ mensaje: string }>>(

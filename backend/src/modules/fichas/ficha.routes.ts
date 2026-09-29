@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { fichaController } from "./ficha.controller";
-import { requireAuth, requireAdmin } from "../../middlewares/auth.middleware";
+import { requireAuth, requirePermission } from "../../middlewares/auth.middleware";
 import { authRateLimiter } from "../../middlewares/rateLimit.middleware";
 
 const router = Router();
@@ -12,7 +12,7 @@ router.post("/", authRateLimiter, fichaController.crear);
 // Gestion administrativa de las fichas (bandeja de atencion)
 const soloAdmin = [
   requireAuth,
-  requireAdmin("ADMINISTRADOR", "SUBADMINISTRADOR_ATENCION"),
+  requirePermission("fichas"),
 ];
 
 router.get("/", ...soloAdmin, fichaController.listar);

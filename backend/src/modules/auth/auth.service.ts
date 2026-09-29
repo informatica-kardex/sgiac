@@ -1,16 +1,18 @@
 import crypto from "crypto";
+import { EmailVerificationService } from "./email-verification.service";
+import { beginLoginVerification, consumeLoginVerification, verifyCaptcha } from "./login-security";
 import { ApiError } from "../../utils/apiError";
-import { comparePassword, generateNumericCode, hashPassword } from "../../utils/password";
+import { PasswordRecoveryService } from "./password-recovery.service";
+import { comparePassword, hashPassword } from "../../utils/password";
 import {
   signAccessToken,
   signRefreshToken,
   verifyRefreshToken,
+  credentialVersion,
 } from "../../utils/jwt";
 import { UserRepository } from "../users/user.repository";
 import {
-  RoleRepository,
-  ROL_POR_DEFECTO,
-  ROLES_ADMINISTRATIVOS,
+  ROLES_ADMINISTRATIVOS, rolesActivos,
 } from "../roles/role.repository";
 import { AuditService, AuditAction } from "../audit/audit.service";
 import { AuthRepository } from "./auth.repository";
@@ -25,7 +27,6 @@ import {
 } from "./auth.validation";
 import { AuthenticatedUserDTO, TokensDTO } from "./auth.types";
 
-const CODIGO_EXPIRACION_MINUTOS = 15;
 
 function hashToken(token: string): string {
   return crypto.createHash("sha256").update(token).digest("hex");
@@ -38,9 +39,9 @@ interface RequestMeta {
 
 export class AuthService {
   private userRepository = new UserRepository();
-  private roleRepository = new RoleRepository();
   private authRepository = new AuthRepository();
   private auditService = new AuditService();
+  private emailVerification = new EmailVerificationService();
 
   // ---------------------------------------------------------
   // REGISTRO
@@ -54,31 +55,12 @@ export class AuthService {
     const contrasenaHash = await hashPassword(input.contrasena);
 
     const usuario = await this.authRepository.crearEstudiante(input, contrasenaHash);
-
-    // Asignar rol por defecto (Consulta interna). Si el rol no
-    // existe todavia en la tabla "rol", se omite silenciosamente
-    // y debe crearse manualmente / via seed.
-    const rolDefecto = await this.roleRepository.findByNombre(ROL_POR_DEFECTO);
-    if (rolDefecto) {
-      await this.roleRepository.asignarRolAUsuario(
-        usuario.idUsuario,
-        rolDefecto.idRol
-      );
+    let correoEnviado = true;
+    try {
+      await this.emailVerification.solicitar(usuario.correo);
+    } catch {
+      correoEnviado = false;
     }
-
-    // Generar codigo de verificacion de correo
-    const codigo = generateNumericCode();
-    const expiraEn = new Date(Date.now() + CODIGO_EXPIRACION_MINUTOS * 60000);
-    await this.authRepository.crearCodigoVerificacion(
-      usuario.idUsuario,
-      codigo,
-      expiraEn
-    );
-
-    // TODO: integrar proveedor de correo (Resend / SendGrid / SMTP)
-    // para enviar `codigo` al correo del usuario. Por ahora se
-    // deja registrado en consola para entornos de desarrollo.
-    console.log(`[DEV] Codigo de verificacion para ${usuario.correo}: ${codigo}`);
 
     await this.auditService.registrar({
       accion: AuditAction.REGISTRO_USUARIO,
@@ -91,18 +73,18 @@ export class AuthService {
     return {
       idUsuario: usuario.idUsuario,
       correo: usuario.correo,
-      mensaje:
-        "Cuenta creada correctamente. Revisa tu correo para verificar tu cuenta.",
+      correoEnviado,
+      mensaje: correoEnviado
+        ? "Cuenta creada. Confirma tu correo con el codigo temporal para poder ingresar."
+        : "Cuenta creada, pero no pudimos enviar el codigo. Usa Reenviar codigo para confirmar tu correo antes de ingresar.",
     };
   }
 
   // ---------------------------------------------------------
   // LOGIN
   // ---------------------------------------------------------
-  async login(input: LoginInput, meta: RequestMeta): Promise<{
-    usuario: AuthenticatedUserDTO;
-    tokens: TokensDTO;
-  }> {
+  async login(input: LoginInput, meta: RequestMeta) {
+    verifyCaptcha(input.captchaId, input.captchaCode);
     const usuario = await this.userRepository.findByIdWithRolesByCorreo(
       input.correo
     );
@@ -116,7 +98,7 @@ export class AuthService {
       throw ApiError.unauthorized("Credenciales invalidas");
     }
 
-    if (usuario.estado !== "ACTIVO") {
+    if (usuario.estado.toUpperCase() !== "ACTIVO") {
       throw ApiError.forbidden("Tu cuenta se encuentra inactiva. Contacta al administrador.");
     }
 
@@ -136,48 +118,8 @@ export class AuthService {
       throw ApiError.unauthorized("Credenciales invalidas");
     }
 
-    const roles = usuario.roles.map((r) => r.rol.nombre);
-
-    const accessToken = signAccessToken({
-      idUsuario: usuario.idUsuario.toString(),
-      correo: usuario.correo,
-      roles,
-    });
-
-    const tokenId = crypto.randomUUID();
-    const refreshToken = signRefreshToken({
-      idUsuario: usuario.idUsuario.toString(),
-      tokenId,
-    });
-
-    const refreshExpiraEn = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-    await this.authRepository.guardarRefreshToken({
-      idUsuario: usuario.idUsuario,
-      tokenHash: hashToken(refreshToken),
-      expiraEn: refreshExpiraEn,
-      userAgent: meta.userAgent,
-      ip: meta.ip,
-    });
-
-    await this.auditService.registrar({
-      accion: AuditAction.LOGIN_EXITOSO,
-      entidadAfectada: "usuario",
-      idRegistroAfectado: usuario.idUsuario,
-      detalle: `Login exitoso: ${usuario.correo}`,
-      idUsuario: usuario.idUsuario,
-    });
-
-    return {
-      usuario: {
-        idUsuario: usuario.idUsuario.toString(),
-        nombreCompleto: usuario.nombreCompleto,
-        correo: usuario.correo,
-        roles,
-        correoVerificado: usuario.correoVerificado,
-        debeCambiarPassword: usuario.debeCambiarPassword,
-      },
-      tokens: { accessToken, refreshToken },
-    };
+    if (!usuario.twoFactorEnabled) return this.crearSesion(usuario, false, meta);
+    return beginLoginVerification({ ...usuario, contrasenaHash: usuario.contrasenaHash }, false);
   }
 
   // ---------------------------------------------------------
@@ -187,10 +129,8 @@ export class AuthService {
   // los roles administrativos y registra una accion de
   // auditoria distinta (LOGIN_ADMIN_EXITOSO / LOGIN_ADMIN_FALLIDO).
   // ---------------------------------------------------------
-  async loginAdmin(input: AdminLoginInput, meta: RequestMeta): Promise<{
-    usuario: AuthenticatedUserDTO;
-    tokens: TokensDTO;
-  }> {
+  async loginAdmin(input: AdminLoginInput, meta: RequestMeta) {
+    verifyCaptcha(input.captchaId, input.captchaCode);
     const usuario = await this.userRepository.findByIdWithRolesByCorreo(
       input.correo
     );
@@ -204,7 +144,7 @@ export class AuthService {
       throw ApiError.unauthorized("Credenciales invalidas");
     }
 
-    if (usuario.estado !== "ACTIVO") {
+    if (usuario.estado.toUpperCase() !== "ACTIVO") {
       throw ApiError.forbidden("Tu cuenta se encuentra inactiva. Contacta al administrador.");
     }
 
@@ -224,7 +164,7 @@ export class AuthService {
       throw ApiError.unauthorized("Credenciales invalidas");
     }
 
-    const roles = usuario.roles.map((r) => r.rol.nombre);
+    const roles = rolesActivos(usuario.roles);
     const esAdministrativo = roles.some((rol) =>
       (ROLES_ADMINISTRATIVOS as readonly string[]).includes(rol)
     );
@@ -242,45 +182,81 @@ export class AuthService {
       );
     }
 
+    if (!usuario.twoFactorEnabled) return this.crearSesion(usuario, true, meta);
+    return beginLoginVerification({ ...usuario, contrasenaHash: usuario.contrasenaHash }, true);
+  }
+
+  async verificarLogin(input: { challengeId: string; codigo: string }, admin: boolean, meta: RequestMeta): Promise<{
+    usuario: AuthenticatedUserDTO; tokens: TokensDTO;
+  }> {
+    const challenge = consumeLoginVerification(input.challengeId, input.codigo, admin);
+    const usuario = await this.userRepository.findByIdWithRoles(BigInt(challenge.idUsuario));
+    if (!usuario || usuario.estado.toUpperCase() !== "ACTIVO" ||
+        !usuario.twoFactorEnabled || usuario.correo !== challenge.correo || usuario.contrasenaHash !== challenge.passwordHash) {
+      throw ApiError.unauthorized("La cuenta cambio. Vuelve a iniciar sesion.");
+    }
+    return this.crearSesion(usuario, admin, meta);
+  }
+
+  private async crearSesion(
+    usuario: NonNullable<Awaited<ReturnType<UserRepository["findByIdWithRoles"]>>>,
+    admin: boolean, meta: RequestMeta
+  ): Promise<{ usuario: AuthenticatedUserDTO; tokens: TokensDTO }> {
+    const roles = rolesActivos(usuario.roles);
+    if (admin && !roles.some((rol) => (ROLES_ADMINISTRATIVOS as readonly string[]).includes(rol))) {
+      throw ApiError.forbidden("Tu cuenta no tiene permisos para acceder al panel administrativo");
+    }
     const accessToken = signAccessToken({
-      idUsuario: usuario.idUsuario.toString(),
-      correo: usuario.correo,
-      roles,
+      idUsuario: usuario.idUsuario.toString(), correo: usuario.correo, roles, debeCambiarPassword: usuario.debeCambiarPassword,
+      credentialVersion: credentialVersion(usuario.contrasenaHash),
     });
-
-    const tokenId = crypto.randomUUID();
     const refreshToken = signRefreshToken({
-      idUsuario: usuario.idUsuario.toString(),
-      tokenId,
+      idUsuario: usuario.idUsuario.toString(), tokenId: crypto.randomUUID(),
+      credentialVersion: credentialVersion(usuario.contrasenaHash),
     });
-
     await this.authRepository.guardarRefreshToken({
-      idUsuario: usuario.idUsuario,
-      tokenHash: hashToken(refreshToken),
+      idUsuario: usuario.idUsuario, tokenHash: hashToken(refreshToken),
       expiraEn: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-      userAgent: meta.userAgent,
-      ip: meta.ip,
+      userAgent: meta.userAgent, ip: meta.ip,
     });
-
     await this.auditService.registrar({
-      accion: AuditAction.LOGIN_ADMIN_EXITOSO,
-      entidadAfectada: "usuario",
-      idRegistroAfectado: usuario.idUsuario,
-      detalle: `Login administrativo exitoso: ${usuario.correo}`,
+      accion: admin ? AuditAction.LOGIN_ADMIN_EXITOSO : AuditAction.LOGIN_EXITOSO,
+      entidadAfectada: "usuario", idRegistroAfectado: usuario.idUsuario,
+      detalle: usuario.twoFactorEnabled ? "Login exitoso con verificacion en dos pasos" : "Login exitoso",
       idUsuario: usuario.idUsuario,
     });
-
     return {
       usuario: {
-        idUsuario: usuario.idUsuario.toString(),
-        nombreCompleto: usuario.nombreCompleto,
-        correo: usuario.correo,
-        roles,
-        correoVerificado: usuario.correoVerificado,
+        idUsuario: usuario.idUsuario.toString(), nombreCompleto: usuario.nombreCompleto,
+        correo: usuario.correo, roles, permisos: usuario.permisos ?? [], correoVerificado: usuario.correoVerificado,
         debeCambiarPassword: usuario.debeCambiarPassword,
       },
       tokens: { accessToken, refreshToken },
     };
+  }
+
+  async estadoTwoFactor(idUsuario: bigint) {
+    const usuario = await this.userRepository.findById(idUsuario);
+    if (!usuario || usuario.estado.toUpperCase() !== "ACTIVO") throw ApiError.unauthorized("Usuario no valido");
+    return { enabled: usuario.twoFactorEnabled };
+  }
+
+  async solicitarCambioTwoFactor(idUsuario: bigint, input: { contrasena: string; enabled: boolean }) {
+    const usuario = await this.userRepository.findById(idUsuario);
+    if (!usuario || usuario.estado.toUpperCase() !== "ACTIVO" || !usuario.contrasenaHash ||
+        !await comparePassword(input.contrasena, usuario.contrasenaHash)) {
+      throw ApiError.badRequest("La contrasena actual es incorrecta");
+    }
+    if (usuario.twoFactorEnabled === input.enabled) throw ApiError.conflict("La configuracion ya tiene ese estado");
+    return beginLoginVerification({ ...usuario, contrasenaHash: usuario.contrasenaHash }, false,
+      input.enabled ? "enable" : "disable");
+  }
+
+  async confirmarCambioTwoFactor(idUsuario: bigint, input: { challengeId: string; codigo: string; enabled: boolean }) {
+    const challenge = consumeLoginVerification(input.challengeId, input.codigo, false,
+      input.enabled ? "enable" : "disable", idUsuario.toString());
+    await this.authRepository.actualizarTwoFactor(idUsuario, input.enabled, challenge.correo, challenge.passwordHash);
+    return { enabled: input.enabled };
   }
 
   // ---------------------------------------------------------
@@ -295,6 +271,8 @@ export class AuthService {
       throw ApiError.notFound("Usuario no encontrado");
     }
 
+    if (!usuario.correoVerificado) throw ApiError.forbidden("Confirma tu correo antes de cambiar la contrasena");
+
     const contrasenaValida = await comparePassword(
       input.contrasenaActual,
       usuario.contrasenaHash
@@ -304,9 +282,11 @@ export class AuthService {
       throw ApiError.unauthorized("La contrasena actual es incorrecta");
     }
 
+    if (await comparePassword(input.nuevaContrasena, usuario.contrasenaHash)) {
+      throw ApiError.badRequest("La nueva contraseña debe ser diferente de la contraseña actual o temporal");
+    }
     const nuevoHash = await hashPassword(input.nuevaContrasena);
-    await this.userRepository.actualizarContrasena(idUsuario, nuevoHash);
-    await this.authRepository.revocarTodosLosRefreshTokens(idUsuario);
+    await this.userRepository.actualizarContrasena(idUsuario, nuevoHash, usuario.contrasenaHash);
 
     await this.auditService.registrar({
       accion: usuario.debeCambiarPassword
@@ -342,25 +322,32 @@ export class AuthService {
 
     const usuario = await this.userRepository.findByIdWithRoles(BigInt(payload.idUsuario));
 
-    if (!usuario || usuario.estado !== "ACTIVO") {
+    if (!usuario || usuario.estado.toUpperCase() !== "ACTIVO") {
       throw ApiError.unauthorized("Usuario no valido");
+    }
+
+    if (payload.credentialVersion !== credentialVersion(usuario.contrasenaHash)) {
+      throw ApiError.unauthorized("La contraseña cambió. Inicia sesión nuevamente");
     }
 
     // Rotacion de refresh token: se revoca el anterior y se emite uno nuevo
     await this.authRepository.revocarRefreshToken(tokenHash);
 
-    const roles = usuario.roles.map((r) => r.rol.nombre);
+    const roles = rolesActivos(usuario.roles);
 
     const nuevoAccessToken = signAccessToken({
       idUsuario: usuario.idUsuario.toString(),
       correo: usuario.correo,
       roles,
+      debeCambiarPassword: usuario.debeCambiarPassword,
+      credentialVersion: credentialVersion(usuario.contrasenaHash),
     });
 
     const tokenId = crypto.randomUUID();
     const nuevoRefreshToken = signRefreshToken({
       idUsuario: usuario.idUsuario.toString(),
       tokenId,
+      credentialVersion: credentialVersion(usuario.contrasenaHash),
     });
 
     await this.authRepository.guardarRefreshToken({
@@ -399,102 +386,21 @@ export class AuthService {
   // VERIFICACION DE CORREO
   // ---------------------------------------------------------
   async verificarCorreo(input: VerifyEmailInput) {
-    const usuario = await this.userRepository.findByCorreo(input.correo);
-    if (!usuario) {
-      throw ApiError.notFound("Usuario no encontrado");
-    }
+    return this.emailVerification.confirmar(input.correo, input.codigo);
+  }
 
-    const codigoValido = await this.authRepository.buscarCodigoVerificacionValido(
-      usuario.idUsuario,
-      input.codigo
-    );
-
-    if (!codigoValido) {
-      throw ApiError.badRequest("Codigo invalido o expirado");
-    }
-
-    await this.authRepository.marcarCodigoVerificacionUsado(codigoValido.idToken);
-    await this.userRepository.marcarCorreoVerificado(usuario.idUsuario);
-
-    await this.auditService.registrar({
-      accion: AuditAction.VERIFICACION_CORREO,
-      entidadAfectada: "usuario",
-      idRegistroAfectado: usuario.idUsuario,
-      idUsuario: usuario.idUsuario,
-    });
-
-    return { mensaje: "Correo verificado correctamente" };
+  async reenviarVerificacion(correo: string) {
+    return this.emailVerification.solicitar(correo);
   }
 
   // ---------------------------------------------------------
   // FORGOT PASSWORD
   // ---------------------------------------------------------
   async solicitarRecuperacion(input: ForgotPasswordInput) {
-    const usuario = await this.userRepository.findByCorreo(input.correo);
-
-    // Por seguridad, no se revela si el correo existe o no.
-    if (!usuario) {
-      return {
-        mensaje:
-          "Si el correo existe en nuestro sistema, recibiras un codigo de recuperacion.",
-      };
-    }
-
-    const codigo = generateNumericCode();
-    const expiraEn = new Date(Date.now() + CODIGO_EXPIRACION_MINUTOS * 60000);
-    await this.authRepository.crearCodigoReset(usuario.idUsuario, codigo, expiraEn);
-
-    // TODO: integrar proveedor de correo real
-    console.log(`[DEV] Codigo de recuperacion para ${usuario.correo}: ${codigo}`);
-
-    await this.auditService.registrar({
-      accion: AuditAction.SOLICITUD_RESET_PASSWORD,
-      entidadAfectada: "usuario",
-      idRegistroAfectado: usuario.idUsuario,
-      idUsuario: usuario.idUsuario,
-    });
-
-    return {
-      mensaje:
-        "Si el correo existe en nuestro sistema, recibiras un codigo de recuperacion.",
-    };
+    return new PasswordRecoveryService().solicitar(input.correo);
   }
 
-  // ---------------------------------------------------------
-  // RESET PASSWORD
-  // ---------------------------------------------------------
   async restablecerContrasena(input: ResetPasswordInput) {
-    const usuario = await this.userRepository.findByCorreo(input.correo);
-    if (!usuario) {
-      throw ApiError.badRequest("Codigo invalido o expirado");
-    }
-
-    const codigoValido = await this.authRepository.buscarCodigoResetValido(
-      usuario.idUsuario,
-      input.codigo
-    );
-
-    if (!codigoValido) {
-      throw ApiError.badRequest("Codigo invalido o expirado");
-    }
-
-    const nuevaContrasenaHash = await hashPassword(input.nuevaContrasena);
-    await this.userRepository.actualizarContrasena(
-      usuario.idUsuario,
-      nuevaContrasenaHash
-    );
-    await this.authRepository.marcarCodigoResetUsado(codigoValido.idToken);
-
-    // Invalida todas las sesiones activas por seguridad
-    await this.authRepository.revocarTodosLosRefreshTokens(usuario.idUsuario);
-
-    await this.auditService.registrar({
-      accion: AuditAction.CAMBIO_CONTRASENA,
-      entidadAfectada: "usuario",
-      idRegistroAfectado: usuario.idUsuario,
-      idUsuario: usuario.idUsuario,
-    });
-
-    return { mensaje: "Contrasena actualizada correctamente" };
+    return new PasswordRecoveryService().restablecer(input);
   }
 }

@@ -26,26 +26,38 @@ export default function HomePage() {
   return (
     <div>
       {/* Banner principal */}
-      <section className="bg-gradient-to-br from-primary-800 via-primary-700 to-primary-900 text-white">
-        <div className="container-public flex flex-col items-start gap-6 py-20">
-          <span className="badge bg-white/10 text-primary-100">
-            Carrera de Informática
-          </span>
-          <h1 className="max-w-3xl text-3xl font-extrabold leading-tight sm:text-4xl lg:text-5xl">
-            Sistema de Gestión Integral de Aulas y Comunicaciones de Kardex
+      <section className="portal-hero text-white">
+        <div className="container-public portal-hero-grid">
+        <div className="portal-hero-copy">
+          <h1 className="portal-title">
+            Kardex
+            <span>Carrera de Informática</span>
           </h1>
-          <p className="max-w-2xl text-lg text-primary-100">
+          <p className="portal-intro">
             Consulta comunicados, horarios, preguntas frecuentes e información
             de atención Kardex, todo en un solo lugar.
           </p>
-          <div className="flex flex-wrap gap-3">
-            <Link to="/comunicados" className="btn-primary bg-white text-primary-800 hover:bg-primary-50">
-              Ver comunicados
+          <div className="portal-hero-actions flex flex-wrap gap-3">
+            <Link to="/atencion" className="btn-primary portal-button-light">
+              Generar ficha <span aria-hidden="true">→</span>
             </Link>
-            <Link to="/horarios" className="btn-secondary border-white/30 bg-transparent text-white hover:bg-white/10">
+            <Link to="/comunicados" className="btn-secondary portal-button-outline">
+              Ver comunicados <span aria-hidden="true">↗</span>
+            </Link>
+            <Link to="/horarios" className="btn-secondary portal-button-outline">
               Consultar horarios
             </Link>
           </div>
+        </div>
+        <div className="portal-illustration" aria-hidden="true">
+          <div className="portal-orbit portal-orbit-one" />
+          <div className="portal-orbit portal-orbit-two" />
+          <div className="portal-brand-logo">
+            <img src="/images/kardex.png" alt="" width={640} height={640} className="h-auto w-full object-contain" />
+          </div>
+          <div className="portal-floating-icon portal-floating-calendar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4m10-4v4M3 11h18m-14 4h3m4 0h3m-10 3h3"/></svg></div>
+          <div className="portal-floating-icon portal-floating-book"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 6c-3-2-6-2-9-1v15c3-1 6-1 9 1 3-2 6-2 9-1V5c-3-1-6-1-9 1Zm0 0v15M6 9l3 1m6 0 3-1M6 13l3 1m6 0 3-1"/></svg></div>
+        </div>
         </div>
       </section>
 
@@ -72,7 +84,7 @@ export default function HomePage() {
           </section>
 
           {/* FAQ */}
-          <section className="bg-slate-100 py-16">
+          <section className="portal-faq-section py-16">
             <div className="container-public">
               <div className="mb-8 flex items-end justify-between">
                 <div>
@@ -129,7 +141,7 @@ export default function HomePage() {
           </section>
 
           {/* Atencion Kardex */}
-          <section className="bg-primary-900 py-16 text-white">
+          <section className="portal-attention py-16 text-white">
             <div className="container-public grid gap-8 lg:grid-cols-3">
               <div>
                 <h2 className="mb-2 text-2xl font-bold">Atención Kardex</h2>
@@ -137,7 +149,7 @@ export default function HomePage() {
                   Consulta la información de contacto y horarios de atención,
                   o genera tu ficha de atención en línea.
                 </p>
-                <Link to="/atencion" className="btn-primary mt-4 inline-flex bg-white text-primary-800 hover:bg-primary-50">
+                <Link to="/atencion" className="btn-primary portal-button-light mt-4 inline-flex">
                   Ir a Atención Kardex
                 </Link>
               </div>

@@ -9,14 +9,18 @@ const CATEGORIA_TODAS = "Todas";
 export default function ComunicadosPage() {
   const [comunicados, setComunicados] = useState<Comunicado[]>([]);
   const [cargando, setCargando] = useState(true);
+  const [error, setError] = useState(false);
+  const [attempt, setAttempt] = useState(0);
   const [categoria, setCategoria] = useState(CATEGORIA_TODAS);
 
   useEffect(() => {
+    setCargando(true); setError(false);
     comunicadosApi
-      .listar()
+      .listar(true)
       .then(({ data }) => setComunicados(data.data))
+      .catch(() => setError(true))
       .finally(() => setCargando(false));
-  }, []);
+  }, [attempt]);
 
   const categorias = [
     CATEGORIA_TODAS,
@@ -57,6 +61,8 @@ export default function ComunicadosPage() {
 
       {cargando ? (
         <LoadingSpinner label="Cargando comunicados..." />
+      ) : error ? (
+        <div role="alert"><p>No se pudieron cargar los comunicados.</p><button className="btn-secondary mt-4" onClick={() => setAttempt(v => v + 1)}>Reintentar</button></div>
       ) : filtrados.length === 0 ? (
         <p className="text-slate-500">No hay comunicados en esta categoría.</p>
       ) : (

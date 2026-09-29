@@ -18,11 +18,13 @@ model Usuario {
   correoVerificado        Boolean                  @default(false) @map("correo_verificado")
   debeCambiarPassword     Boolean                  @default(false) @map("debe_cambiar_password")
   fechaActualizacion      DateTime?                @updatedAt @map("fecha_actualizacion") @db.Timestamp(6)
+  twoFactorEnabled        Boolean                  @default(false) @map("two_factor_enabled")
   bitacoras               Bitacora[]
   cierre_gestion          cierre_gestion[]
   comunicado              comunicado[]
   consulta_faq            consulta_faq[]
   emailVerificationTokens EmailVerificationToken[]
+  estudiante              estudiante?
   historial_comunicado    historial_comunicado[]
   historial_ficha         historial_ficha[]
   jornada_atencion        jornada_atencion[]
@@ -30,7 +32,7 @@ model Usuario {
   pregunta_faq            pregunta_faq[]
   refreshTokens           RefreshToken[]
   roles                   UsuarioRol[]
-  estudiante              estudiante?
+  permisos                PermisoUsuario[]
 
   @@map("usuario")
 }
@@ -43,6 +45,17 @@ model Rol {
   usuarios    UsuarioRol[]
 
   @@map("rol")
+}
+
+model PermisoUsuario {
+  idUsuario BigInt    @map("id_usuario")
+  modulo    String    @db.VarChar(40)
+  desde     DateTime? @db.Timestamptz(6)
+  hasta     DateTime? @db.Timestamptz(6)
+  usuario   Usuario  @relation(fields: [idUsuario], references: [idUsuario], onDelete: Cascade)
+
+  @@id([idUsuario, modulo])
+  @@map("permiso_usuario")
 }
 
 model UsuarioRol {
@@ -250,17 +263,17 @@ model equipamiento {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model estudiante {
-  id_usuario           BigInt?          @unique
-  carrera              String?          @db.VarChar(150)
-  semestre             Int?             @db.SmallInt
-  gestion              Int?
-  usuario              Usuario?         @relation(fields: [id_usuario], references: [idUsuario], onDelete: SetNull, onUpdate: NoAction, map: "fk_estudiante_usuario")
   id_estudiante        BigInt           @id @default(autoincrement())
   nombres              String           @db.VarChar(120)
   apellidos            String           @db.VarChar(120)
   ci                   String           @unique @db.VarChar(30)
   ru                   String           @unique @db.VarChar(30)
   correo_institucional String           @unique @db.VarChar(150)
+  id_usuario           BigInt?          @unique
+  carrera              String?          @db.VarChar(150)
+  semestre             Int?             @db.SmallInt
+  gestion              Int?
+  usuario              Usuario?         @relation(fields: [id_usuario], references: [idUsuario], onUpdate: NoAction, map: "fk_estudiante_usuario")
   ficha_atencion       ficha_atencion[]
 }
 

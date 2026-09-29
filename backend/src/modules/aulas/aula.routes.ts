@@ -1,10 +1,10 @@
 import { Router } from "express";
 import { aulaController } from "./aula.controller";
-import { requireAuth, requireAdmin } from "../../middlewares/auth.middleware";
+import { requireAuth, requirePermission } from "../../middlewares/auth.middleware";
 
 const router = Router();
 
-router.use(requireAuth, requireAdmin("ADMINISTRADOR", "SUBADMINISTRADOR_ACADEMICO"));
+router.use(requireAuth, requirePermission("aulas"));
 
 router.get("/", aulaController.listar);
 router.get("/:id", aulaController.obtener);

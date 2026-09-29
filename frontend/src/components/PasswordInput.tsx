@@ -1,4 +1,5 @@
 import { forwardRef, InputHTMLAttributes, useId, useState } from "react";
+import { passwordRequirements } from "../utils/password-policy";
 
 export const PasswordInput = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>>(
   function PasswordInput({ className = "input-field", id, ...props }, ref) {
@@ -19,17 +20,35 @@ export const PasswordInput = forwardRef<HTMLInputElement, InputHTMLAttributes<HT
   }
 );
 
+const passwordLevels = [
+  { label: "Muy débil", bar: "bg-red-500", text: "text-red-700" },
+  { label: "Débil", bar: "bg-orange-500", text: "text-orange-700" },
+  { label: "Moderada", bar: "bg-amber-500", text: "text-amber-800" },
+  { label: "Casi completa", bar: "bg-yellow-400", text: "text-yellow-800" },
+  { label: "Requisitos completos", bar: "bg-green-500", text: "text-green-700" },
+];
+
 export function PasswordStrength({ password }: { password: string }) {
-  const requirements = [password.length >= 8, /[A-Z]/.test(password), /[a-z]/.test(password), /[0-9]/.test(password)];
-  const meetsRequirements = requirements.every(Boolean);
-  const score = !password ? 0 : !meetsRequirements ? 1 : password.length >= 14 && /[^A-Za-z0-9\s]/.test(password) ? 4 : password.length >= 12 ? 3 : 2;
-  const labels = ["Sin contraseña", "Débil", "Básica", "Buena", "Fuerte"];
-  const colors = ["bg-slate-200", "bg-red-500", "bg-amber-500", "bg-blue-500", "bg-emerald-500"];
-  return <div className="mt-2 space-y-1.5">
-    <div role="meter" aria-label="Seguridad estimada de la contraseña" aria-valuemin={0} aria-valuemax={4} aria-valuenow={score} aria-valuetext={labels[score]} className="flex gap-1">
-      {[1, 2, 3, 4].map(segment => <span key={segment} className={`h-1.5 flex-1 rounded-full ${segment <= score ? colors[score] : "bg-slate-200"}`} />)}
+  const requirements = passwordRequirements(password);
+  const score = requirements.filter(item => item.met).length;
+  // La longitud mínima es un requisito más: no debe ocultar el avance
+  // de los otros requisitos. El verde exige cumplirlos todos.
+  const strengthLevel = !password ? 0 : password.length > 72 ? 1 : Math.max(1, score);
+  const level = !password
+    ? { label: "Sin contraseña", bar: "bg-slate-200", text: "text-slate-600" }
+    : password.length > 72
+      ? { label: "Supera el máximo de 72 caracteres", bar: "bg-red-500", text: "text-red-700" }
+      : passwordLevels[strengthLevel - 1];
+  const label = password ? `${level.label} · ${score} de 5 requisitos` : level.label;
+  return <div className="mt-2 space-y-2">
+    <div role="meter" aria-label="Requisitos de la contraseña" aria-valuemin={0} aria-valuemax={5} aria-valuenow={strengthLevel} aria-valuetext={label} className="flex gap-1.5">
+      {passwordLevels.map((segment, index) => <span key={segment.label} aria-hidden="true" className={`h-1 flex-1 rounded-full transition-colors duration-300 motion-reduce:transition-none ${index < strengthLevel ? level.bar : "bg-slate-200"}`} />)}
     </div>
-    <p className="text-xs text-slate-600" aria-live="polite">Seguridad estimada: <strong>{labels[score]}</strong></p>
-    <p className="text-[11px] leading-4 text-slate-500">Mínimo 8 caracteres, mayúscula, minúscula y número. Para reforzarla, usa 14 o más caracteres y un símbolo.</p>
+    <p className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 text-[11px]" aria-live="polite">
+      <span className={`font-semibold transition-colors duration-300 motion-reduce:transition-none ${level.text}`}>{level.label}</span>
+      {password && <span className="text-slate-500">{score} de 5 requisitos</span>}
+    </p>
+    <ul className="grid gap-1 text-[11px] sm:grid-cols-2">{requirements.map(item => <li key={item.label} className={item.met ? "text-emerald-700" : "text-slate-500"}>{item.met ? "✓" : "○"} {item.label}</li>)}</ul>
+    <p className="text-[11px] text-slate-500">Usa entre 8 y 72 caracteres. El indicador muestra el cumplimiento de los requisitos.</p>
   </div>;
 }

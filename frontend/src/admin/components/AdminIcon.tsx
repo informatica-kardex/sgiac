@@ -1,4 +1,4 @@
-export type AdminIconName = "auditoria" | "dashboard" | "aulas" | "horarios" | "comunicados" | "faq" | "fichas" | "reportes" | "usuarios" | "roles" | "configuracion" | "logout" | "book" | "menu" | "close" | "arrow" | "clock";
+export type AdminIconName = "auditoria" | "dashboard" | "aulas" | "horarios" | "comunicados" | "faq" | "fichas" | "reportes" | "usuarios" | "subadministradores" | "estudiantes" | "roles" | "configuracion" | "logout" | "book" | "menu" | "close" | "arrow" | "clock";
 const paths: Record<AdminIconName, string> = {
   auditoria: "M3 11a9 9 0 1 1 2 7 M3 4v7h7 M12 7v5l3 2",
   dashboard: "M3 3h7v7H3z M14 3h7v7h-7z M3 14h7v7H3z M14 14h7v7h-7z",
@@ -9,6 +9,8 @@ const paths: Record<AdminIconName, string> = {
   fichas: "M9 5H5v16h14V5h-4 M9 3h6v4H9z M8 11h8 M8 15h8 M8 18h5",
   reportes: "M5 3h9l5 5v13H5z M14 3v6h5 M8 17v-3 M12 17v-6 M16 17v-4",
   usuarios: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M22 21v-2a4 4 0 0 0-3-3.9 M16 3a4 4 0 0 1 0 8 M13 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0",
+  subadministradores: "M14 21H3v-2a4 4 0 0 1 4-4h4 M13 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0 M18 12l4 2v3c0 3-4 5-4 5s-4-2-4-5v-3z",
+  estudiantes: "M2 8l10-5 10 5-10 5z M6 10v6c3 3 9 3 12 0v-6 M22 8v8",
   roles: "M12 3l8 4v5c0 5-8 9-8 9s-8-4-8-9V7z M8 12l3 3 5-6",
   configuracion: "M9 3h6l1 3 3 1 2 5-2 5-3 1-1 3H9l-1-3-3-1-2-5 2-5 3-1z M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0",
   logout: "M9 3H4v18h5 M9 12h12 M17 8l4 4-4 4",

@@ -6,7 +6,7 @@ import { horariosApi } from "../api/horarios.api";
 // combina comunicados, horarios y FAQ en una sola carga inicial.
 export async function cargarResumenPortal() {
   const [comunicados, horarios, faq] = await Promise.all([
-    comunicadosApi.listar(),
+    comunicadosApi.listar(true),
     horariosApi.listar(),
     faqApi.listar(),
   ]);
