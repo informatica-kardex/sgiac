@@ -1,0 +1,968 @@
+{
+  "fuente": "Sistema Kardex - Aulas  - AULAS.pdf",
+  "sha256": "54ac32233fefd9c4f8a25dc10520d84cfac06e55760b11ec3a4f03acdb95e78a",
+  "codigosAnterioresHorarios": {
+    "P3-LAB3": "P3-LAB2",
+    "P3-LAB4": "P3-LAB3"
+  },
+  "notas": [
+    "Capacidades copiadas de la columna Capacidad, sin recalcularlas por mobiliario.",
+    "SI y Estrado sin cantidad se registran como una unidad; NO, 0 y celdas vacías no agregan equipamiento.",
+    "P5-LAB1 no tiene capacidad indicada: se conserva como por confirmar.",
+    "04-02-08 no figura en el PDF: se conserva sin inventar su capacidad ni equipamiento.",
+    "P5-A1 figura como Sala de Consejo de Docentes, sin inventario ni capacidad: no se agrega como aula de clases.",
+    "Equipo con silla conserva el conjunto de la columna Equipos + sillas; no se duplica con la columna Sillas.",
+    "LASIN conserva Mesa (6 personas) tal como dice su encabezado. P4-LAB1 conserva capacidad 58 aunque equipos más sillas sumen 77.",
+    "PAB-E y PAB-G: Estrado sin número se registra como disponible (1). 04-01-05 indica 2 Estrado."
+  ],
+  "aulas": [
+    {
+      "codigo": "LASIN-1",
+      "capacidad": 61,
+      "pagina": 1,
+      "lugar": "LASIN",
+      "piso": null,
+      "tipo": "LABORATORIO",
+      "equipamiento": [
+        {
+          "nombre": "Equipo con silla",
+          "cantidad": 31
+        },
+        {
+          "nombre": "Mesa (6 personas)",
+          "cantidad": 5
+        },
+        {
+          "nombre": "Silla",
+          "cantidad": 30
+        },
+        {
+          "nombre": "Data (proyector)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Ecram (pantalla de proyección)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Parlante",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Cámara",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Pizarra",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Ventilador",
+          "cantidad": 2
+        }
+      ]
+    },
+    {
+      "codigo": "LASIN-2",
+      "capacidad": 49,
+      "pagina": 1,
+      "lugar": "LASIN",
+      "piso": null,
+      "tipo": "LABORATORIO",
+      "equipamiento": [
+        {
+          "nombre": "Equipo con silla",
+          "cantidad": 25
+        },
+        {
+          "nombre": "Mesa (6 personas)",
+          "cantidad": 4
+        },
+        {
+          "nombre": "Silla",
+          "cantidad": 24
+        },
+        {
+          "nombre": "Data (proyector)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Ecram (pantalla de proyección)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Cámara",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Pizarra",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Ventilador",
+          "cantidad": 2
+        }
+      ]
+    },
+    {
+      "codigo": "LASIN-3",
+      "capacidad": 34,
+      "pagina": 1,
+      "lugar": "LASIN",
+      "piso": null,
+      "tipo": "LABORATORIO",
+      "equipamiento": [
+        {
+          "nombre": "Equipo con silla",
+          "cantidad": 20
+        },
+        {
+          "nombre": "Mesa (6 personas)",
+          "cantidad": 7
+        },
+        {
+          "nombre": "Silla",
+          "cantidad": 14
+        },
+        {
+          "nombre": "Data (proyector)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Ecram (pantalla de proyección)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Cámara",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Pizarra",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Ventilador",
+          "cantidad": 1
+        }
+      ]
+    },
+    {
+      "codigo": "PAB-E",
+      "capacidad": 168,
+      "pagina": 1,
+      "lugar": "PABELLONES",
+      "piso": null,
+      "tipo": "AULA",
+      "equipamiento": [
+        {
+          "nombre": "Mesa (fila)",
+          "cantidad": 24
+        },
+        {
+          "nombre": "Silla (fila 7)",
+          "cantidad": 96
+        },
+        {
+          "nombre": "Data (proyector)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Ecram (pantalla de proyección)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Pizarra",
+          "cantidad": 2
+        },
+        {
+          "nombre": "Estrado",
+          "cantidad": 1
+        }
+      ]
+    },
+    {
+      "codigo": "PAB-G",
+      "capacidad": 196,
+      "pagina": 1,
+      "lugar": "PABELLONES",
+      "piso": null,
+      "tipo": "AULA",
+      "equipamiento": [
+        {
+          "nombre": "Mesa (fila)",
+          "cantidad": 28
+        },
+        {
+          "nombre": "Silla (fila 7)",
+          "cantidad": 96
+        },
+        {
+          "nombre": "Ecram (pantalla de proyección)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Pizarra",
+          "cantidad": 2
+        },
+        {
+          "nombre": "Estrado",
+          "cantidad": 1
+        }
+      ]
+    },
+    {
+      "codigo": "SS-A1",
+      "capacidad": 112,
+      "pagina": 1,
+      "lugar": "INFORMATICA",
+      "piso": -1,
+      "tipo": "AULA",
+      "equipamiento": [
+        {
+          "nombre": "Mesa bipersonal",
+          "cantidad": 56
+        },
+        {
+          "nombre": "Data (proyector)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Ecram (pantalla de proyección)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Cámara",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Pizarra",
+          "cantidad": 2
+        },
+        {
+          "nombre": "Wi-Fi",
+          "cantidad": 1
+        }
+      ]
+    },
+    {
+      "codigo": "SS-A2",
+      "capacidad": 114,
+      "pagina": 1,
+      "lugar": "INFORMATICA",
+      "piso": -1,
+      "tipo": "AULA",
+      "equipamiento": [
+        {
+          "nombre": "Mesa bipersonal",
+          "cantidad": 57
+        },
+        {
+          "nombre": "Data (proyector)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Ecram (pantalla de proyección)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Cámara",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Pizarra",
+          "cantidad": 2
+        }
+      ]
+    },
+    {
+      "codigo": "SS-A3",
+      "capacidad": 110,
+      "pagina": 1,
+      "lugar": "INFORMATICA",
+      "piso": -1,
+      "tipo": "AULA",
+      "equipamiento": [
+        {
+          "nombre": "Mesa bipersonal",
+          "cantidad": 55
+        },
+        {
+          "nombre": "Data (proyector)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Ecram (pantalla de proyección)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Cámara",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Pizarra",
+          "cantidad": 2
+        }
+      ]
+    },
+    {
+      "codigo": "SS-A4",
+      "capacidad": 104,
+      "pagina": 1,
+      "lugar": "INFORMATICA",
+      "piso": -1,
+      "tipo": "AULA",
+      "equipamiento": [
+        {
+          "nombre": "Mesa bipersonal",
+          "cantidad": 52
+        },
+        {
+          "nombre": "Data (proyector)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Ecram (pantalla de proyección)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Cámara",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Pizarra",
+          "cantidad": 2
+        }
+      ]
+    },
+    {
+      "codigo": "PB-A1",
+      "capacidad": 94,
+      "pagina": 1,
+      "lugar": "INFORMATICA",
+      "piso": 0,
+      "tipo": "AULA",
+      "equipamiento": [
+        {
+          "nombre": "Mesa bipersonal",
+          "cantidad": 47
+        },
+        {
+          "nombre": "Data (proyector)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Ecram (pantalla de proyección)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Pizarra",
+          "cantidad": 2
+        }
+      ]
+    },
+    {
+      "codigo": "PB-A2",
+      "capacidad": 74,
+      "pagina": 1,
+      "lugar": "INFORMATICA",
+      "piso": 0,
+      "tipo": "AULA",
+      "equipamiento": [
+        {
+          "nombre": "Mesa bipersonal",
+          "cantidad": 37
+        },
+        {
+          "nombre": "Mesa unipersonal",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Data (proyector)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Ecram (pantalla de proyección)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Pizarra",
+          "cantidad": 2
+        }
+      ]
+    },
+    {
+      "codigo": "P1-A1",
+      "capacidad": 122,
+      "pagina": 1,
+      "lugar": "INFORMATICA",
+      "piso": 1,
+      "tipo": "AULA",
+      "equipamiento": [
+        {
+          "nombre": "Mesa bipersonal",
+          "cantidad": 61
+        },
+        {
+          "nombre": "Data (proyector)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Ecram (pantalla de proyección)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Pizarra",
+          "cantidad": 2
+        }
+      ]
+    },
+    {
+      "codigo": "P1-A2",
+      "capacidad": 91,
+      "pagina": 1,
+      "lugar": "INFORMATICA",
+      "piso": 1,
+      "tipo": "AULA",
+      "equipamiento": [
+        {
+          "nombre": "Mesa unipersonal",
+          "cantidad": 91
+        },
+        {
+          "nombre": "Data (proyector)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Ecram (pantalla de proyección)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Parlante",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Pizarra",
+          "cantidad": 2
+        }
+      ]
+    },
+    {
+      "codigo": "P1-A3",
+      "capacidad": 166,
+      "pagina": 1,
+      "lugar": "INFORMATICA",
+      "piso": 1,
+      "tipo": "AULA",
+      "equipamiento": [
+        {
+          "nombre": "Mesa bipersonal",
+          "cantidad": 60
+        },
+        {
+          "nombre": "Mesa unipersonal",
+          "cantidad": 46
+        },
+        {
+          "nombre": "Data (proyector)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Ecram (pantalla de proyección)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Parlante",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Pizarra",
+          "cantidad": 2
+        }
+      ]
+    },
+    {
+      "codigo": "P3-LAB1",
+      "capacidad": 106,
+      "pagina": 2,
+      "lugar": "INFORMATICA",
+      "piso": 3,
+      "tipo": "LABORATORIO",
+      "equipamiento": [
+        {
+          "nombre": "Equipo con silla",
+          "cantidad": 65
+        },
+        {
+          "nombre": "Mesa",
+          "cantidad": 3
+        },
+        {
+          "nombre": "Silla",
+          "cantidad": 41
+        },
+        {
+          "nombre": "Data (proyector)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Ecram (pantalla de proyección)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Parlante",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Cámara",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Pizarra",
+          "cantidad": 2
+        },
+        {
+          "nombre": "Wi-Fi",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Aire acondicionado",
+          "cantidad": 1
+        }
+      ]
+    },
+    {
+      "codigo": "P3-LAB2",
+      "capacidad": 115,
+      "pagina": 2,
+      "lugar": "INFORMATICA",
+      "piso": 3,
+      "tipo": "LABORATORIO",
+      "equipamiento": [
+        {
+          "nombre": "Equipo con silla",
+          "cantidad": 74
+        },
+        {
+          "nombre": "Mesa",
+          "cantidad": 6
+        },
+        {
+          "nombre": "Silla",
+          "cantidad": 41
+        },
+        {
+          "nombre": "Data (proyector)",
+          "cantidad": 2
+        },
+        {
+          "nombre": "Ecram (pantalla de proyección)",
+          "cantidad": 2
+        },
+        {
+          "nombre": "Cámara",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Pizarra",
+          "cantidad": 2
+        }
+      ]
+    },
+    {
+      "codigo": "P3-LAB3",
+      "capacidad": 70,
+      "pagina": 2,
+      "lugar": "INFORMATICA",
+      "piso": 3,
+      "tipo": "LABORATORIO",
+      "equipamiento": [
+        {
+          "nombre": "Equipo con silla",
+          "cantidad": 24
+        },
+        {
+          "nombre": "Mesa",
+          "cantidad": 5
+        },
+        {
+          "nombre": "Silla",
+          "cantidad": 46
+        },
+        {
+          "nombre": "Data (proyector)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Ecram (pantalla de proyección)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Pizarra",
+          "cantidad": 2
+        },
+        {
+          "nombre": "Wi-Fi",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Aire acondicionado",
+          "cantidad": 1
+        }
+      ]
+    },
+    {
+      "codigo": "P4-A1",
+      "capacidad": 64,
+      "pagina": 2,
+      "lugar": "INFORMATICA",
+      "piso": 4,
+      "tipo": "AULA",
+      "equipamiento": [
+        {
+          "nombre": "Mesa bipersonal",
+          "cantidad": 30
+        },
+        {
+          "nombre": "Mesa",
+          "cantidad": 30
+        },
+        {
+          "nombre": "Silla",
+          "cantidad": 4
+        },
+        {
+          "nombre": "Data (proyector)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Ecram (pantalla de proyección)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Pizarra",
+          "cantidad": 2
+        }
+      ]
+    },
+    {
+      "codigo": "P4-A2",
+      "capacidad": 29,
+      "pagina": 2,
+      "lugar": "INFORMATICA",
+      "piso": 4,
+      "tipo": "AULA",
+      "equipamiento": [
+        {
+          "nombre": "Mesa bipersonal",
+          "cantidad": 13
+        },
+        {
+          "nombre": "Mesa",
+          "cantidad": 19
+        },
+        {
+          "nombre": "Silla",
+          "cantidad": 3
+        },
+        {
+          "nombre": "Data (proyector)",
+          "cantidad": 3
+        },
+        {
+          "nombre": "Ecram (pantalla de proyección)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Pizarra",
+          "cantidad": 4
+        },
+        {
+          "nombre": "Televisión",
+          "cantidad": 2
+        },
+        {
+          "nombre": "Equipo",
+          "cantidad": 1
+        }
+      ]
+    },
+    {
+      "codigo": "P4-A3",
+      "capacidad": 59,
+      "pagina": 2,
+      "lugar": "INFORMATICA",
+      "piso": 4,
+      "tipo": "AULA",
+      "equipamiento": [
+        {
+          "nombre": "Mesa unipersonal",
+          "cantidad": 59
+        },
+        {
+          "nombre": "Mesa",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Data (proyector)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Pizarra",
+          "cantidad": 2
+        }
+      ]
+    },
+    {
+      "codigo": "P4-A4",
+      "capacidad": 64,
+      "pagina": 2,
+      "lugar": "INFORMATICA",
+      "piso": 4,
+      "tipo": "AULA",
+      "equipamiento": [
+        {
+          "nombre": "Mesa unipersonal",
+          "cantidad": 64
+        },
+        {
+          "nombre": "Mesa",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Data (proyector)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Pizarra",
+          "cantidad": 2
+        }
+      ]
+    },
+    {
+      "codigo": "P4-LAB1",
+      "capacidad": 58,
+      "pagina": 2,
+      "lugar": "INFORMATICA",
+      "piso": 4,
+      "tipo": "LABORATORIO",
+      "equipamiento": [
+        {
+          "nombre": "Equipo con silla",
+          "cantidad": 47
+        },
+        {
+          "nombre": "Mesa",
+          "cantidad": 4
+        },
+        {
+          "nombre": "Silla",
+          "cantidad": 30
+        },
+        {
+          "nombre": "Data (proyector)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Ecram (pantalla de proyección)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Pizarra",
+          "cantidad": 2
+        },
+        {
+          "nombre": "Wi-Fi",
+          "cantidad": 1
+        }
+      ]
+    },
+    {
+      "codigo": "P5-A2",
+      "capacidad": 24,
+      "pagina": 2,
+      "lugar": "INFORMATICA",
+      "piso": 5,
+      "tipo": "AULA",
+      "equipamiento": [
+        {
+          "nombre": "Mesa",
+          "cantidad": 16
+        },
+        {
+          "nombre": "Silla",
+          "cantidad": 24
+        },
+        {
+          "nombre": "Data (proyector)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Ecram (pantalla de proyección)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Pizarra",
+          "cantidad": 2
+        },
+        {
+          "nombre": "Wi-Fi",
+          "cantidad": 1
+        }
+      ]
+    },
+    {
+      "codigo": "P5-A3",
+      "capacidad": 25,
+      "pagina": 2,
+      "lugar": "INFORMATICA",
+      "piso": 5,
+      "tipo": "AULA",
+      "equipamiento": [
+        {
+          "nombre": "Mesa unipersonal",
+          "cantidad": 25
+        },
+        {
+          "nombre": "Data (proyector)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Pizarra",
+          "cantidad": 2
+        },
+        {
+          "nombre": "Wi-Fi",
+          "cantidad": 1
+        }
+      ]
+    },
+    {
+      "codigo": "P5-A5",
+      "capacidad": 49,
+      "pagina": 2,
+      "lugar": "INFORMATICA",
+      "piso": 5,
+      "tipo": "AULA",
+      "equipamiento": [
+        {
+          "nombre": "Mesa unipersonal",
+          "cantidad": 49
+        },
+        {
+          "nombre": "Mesa",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Data (proyector)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Ecram (pantalla de proyección)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Pizarra",
+          "cantidad": 2
+        }
+      ]
+    },
+    {
+      "codigo": "P5-LAB1",
+      "capacidad": null,
+      "pagina": 2,
+      "lugar": "INFORMATICA",
+      "piso": 5,
+      "tipo": "LABORATORIO",
+      "equipamiento": [
+        {
+          "nombre": "Equipo con silla",
+          "cantidad": 27
+        },
+        {
+          "nombre": "Silla",
+          "cantidad": 3
+        },
+        {
+          "nombre": "Data (proyector)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Ecram (pantalla de proyección)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Pizarra",
+          "cantidad": 2
+        },
+        {
+          "nombre": "Televisión",
+          "cantidad": 1
+        }
+      ]
+    },
+    {
+      "codigo": "04-01-05",
+      "capacidad": 80,
+      "pagina": 2,
+      "lugar": "ANTIGUO",
+      "piso": null,
+      "tipo": "AULA",
+      "equipamiento": [
+        {
+          "nombre": "Mesa bipersonal",
+          "cantidad": 40
+        },
+        {
+          "nombre": "Data (proyector)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Ecram (pantalla de proyección)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Wi-Fi",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Pizarra",
+          "cantidad": 4
+        },
+        {
+          "nombre": "Estrado",
+          "cantidad": 2
+        }
+      ]
+    },
+    {
+      "codigo": "04-02-09",
+      "capacidad": 108,
+      "pagina": 2,
+      "lugar": "ANTIGUO",
+      "piso": null,
+      "tipo": "AULA",
+      "equipamiento": [
+        {
+          "nombre": "Mesa bipersonal",
+          "cantidad": 54
+        },
+        {
+          "nombre": "Mesa unipersonal",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Data (proyector)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Ecram (pantalla de proyección)",
+          "cantidad": 1
+        },
+        {
+          "nombre": "Pizarra",
+          "cantidad": 3
+        }
+      ]
+    }
+  ]
+}

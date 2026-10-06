@@ -1,5 +1,7 @@
 # SGIAC — Sistema de Gestión Integral de Aulas y Comunicaciones de Kardex
 
+> **Actualización de fichas (29/09/2026):** el módulo de fichas y atención ya utiliza PostgreSQL en administrador y estudiante, con trámites configurables, cupos por día y tablero público de llamados. La migración, uso y pruebas están documentados en [FICHAS-ATENCION.md](backend/scripts/FICHAS-ATENCION.md). Las menciones a fichas simuladas en la descripción original de V1 ya no aplican.
+
 **Carrera de Informática.** Primera versión (V1) profesional del sistema, con
 dos ambientes completamente separados:
 
@@ -422,3 +424,8 @@ npm run preview
 - ✓ Rutas públicas y administrativas separadas, sin mezclar login
 - ✓ Seed de roles + administrador inicial, con obligación de cambio de
   contraseña en el primer ingreso
+
+
+## Gestión académica (30/09/2026)
+
+Docentes, materias, aulas y horarios están conectados a PostgreSQL. La actualización de BD y la muestra del PDF ya se aplicaron en este entorno. Consulta [los cambios, uso y pruebas](backend/prisma/ACADEMICO.md). El administrador dispone de los módulos en ese orden; los nuevos permisos de subadministrador se asignan individualmente.

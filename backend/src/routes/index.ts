@@ -1,4 +1,5 @@
 import { Router } from "express";
+import academicoRoutes from "../modules/academico/academico.routes";
 import authRoutes from "../modules/auth/auth.routes";
 import userRoutes from "../modules/users/user.routes";
 import roleRoutes from "../modules/roles/role.routes";
@@ -20,6 +21,7 @@ router.use("/auth", authRoutes);
 router.use("/users", userRoutes);
 router.use("/roles", roleRoutes);
 router.use("/aulas", aulaRoutes);
+router.use("/academico", academicoRoutes);
 router.use("/horarios", horarioRoutes);
 router.use("/comunicados", comunicadoRoutes);
 router.use("/faq", faqRoutes);

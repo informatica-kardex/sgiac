@@ -8,6 +8,7 @@ import ComunicadoDetallePage from "../public-site/pages/ComunicadoDetallePage";
 import HorariosPage from "../public-site/pages/HorariosPage";
 import FaqPage from "../public-site/pages/FaqPage";
 import AtencionPage from "../public-site/pages/AtencionPage";
+import PantallaAtencionPage from "../public-site/pages/PantallaAtencionPage";
 import InformacionPage from "../public-site/pages/InformacionPage";
 import PoliticasPage from "../public-site/pages/PoliticasPage";
 
@@ -27,8 +28,11 @@ import { AdminLayout } from "../admin/layouts/AdminLayout";
 import AdminLoginPage from "../admin/pages/AdminLoginPage";
 import ChangePasswordForcedPage from "../admin/pages/ChangePasswordForcedPage";
 import DashboardPage from "../admin/pages/DashboardPage";
+import DocentesPage from "../admin/pages/DocentesPage";
+import MateriasPage from "../admin/pages/MateriasPage";
 import AulasPage from "../admin/pages/AulasPage";
 import AdminHorariosPage from "../admin/pages/HorariosPage";
+import VerHorariosPage from "../admin/pages/VerHorariosPage";
 import AdminComunicadosPage from "../admin/pages/ComunicadosPage";
 import AdminFaqPage from "../admin/pages/FaqPage";
 import FichasPage from "../admin/pages/FichasPage";
@@ -45,6 +49,7 @@ import PasswordUpdatedPage from "../admin/pages/PasswordUpdatedPage";
 export function AppRoutes() {
   return (
     <Routes>
+      <Route path="/atencion/pantalla" element={<PantallaAtencionPage />} />
       {/* ------------------ PORTAL PUBLICO (/) ------------------ */}
       <Route element={<PublicLayout />}>
         <Route path="/" element={<HomePage />} />
@@ -108,8 +113,11 @@ export function AppRoutes() {
 
         <Route element={<AdminLayout />}>
           <Route path="/admin/dashboard" element={<DashboardPage />} />
+          <Route path="/admin/docentes" element={<DocentesPage />} />
+          <Route path="/admin/materias" element={<MateriasPage />} />
           <Route path="/admin/aulas" element={<AulasPage />} />
           <Route path="/admin/horarios" element={<AdminHorariosPage />} />
+          <Route path="/admin/ver-horarios" element={<VerHorariosPage />} />
           <Route path="/admin/comunicados" element={<AdminComunicadosPage />} />
           <Route path="/admin/faq" element={<AdminFaqPage />} />
           <Route path="/admin/fichas" element={<FichasPage />} />

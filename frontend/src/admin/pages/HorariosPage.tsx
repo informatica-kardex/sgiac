@@ -1,216 +1,76 @@
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { horariosApi } from "../../api/horarios.api";
-import { Horario } from "../../api/types";
-import { HorarioFormData, horarioSchema } from "../../utils/validators";
-import { LoadingSpinner } from "../components/LoadingSpinner";
-import { Modal } from "../components/Modal";
-import { ConfirmDialog } from "../components/ConfirmDialog";
-import { AlertMessage } from "../components/AlertMessage";
-import { DIAS_SEMANA_LABEL } from "../../utils/formatters";
-
-const DIAS = ["LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO"] as const;
-
+import { FormEvent, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { academicoApi, LUGARES, pisoLabel } from '../../api/academico.api';
+import { horariosApi } from '../../api/horarios.api';
+import { DiaSemana, HorarioAcademico as Horario } from '../../api/types';
+import { AcademicHeader, Empty, ErrorNotice, Field, SaveActions, errorAcademico, useAcademico } from '../components/AcademicoUI';
+import { HorarioForm, ScheduleSeed, dayFromDate, plusDays } from '../components/HorarioForm';
+import { RoomSchedule } from '../components/RoomSchedule';
+import { useBoliviaDate } from '../../hooks/useBoliviaDate';
+import { semesterSessions } from '../schedule/semester';
+import { LoadingSpinner } from '../components/LoadingSpinner';
+import { Modal } from '../components/Modal';
+import { ConfirmDialog } from '../components/ConfirmDialog';
+import { RoomPicker } from '../components/RoomPicker';
+import { RoomSearch } from '../components/RoomSearch';
 export default function HorariosPage() {
-  const [horarios, setHorarios] = useState<Horario[]>([]);
-  const [cargando, setCargando] = useState(true);
-  const [modalAbierto, setModalAbierto] = useState(false);
-  const [editando, setEditando] = useState<Horario | null>(null);
-  const [aEliminar, setAEliminar] = useState<Horario | null>(null);
-  const [error, setError] = useState("");
-  const [guardando, setGuardando] = useState(false);
+  const c = useAcademico();
+  const [params] = useSearchParams();
+  const initialSelection = useRef(false);
+  const [periodo, setPeriodo] = useState(''), [lugar, setLugar] = useState(''), [piso, setPiso] = useState<string | null>(''), [aula, setAula] = useState('');
+  const today = useBoliviaDate();
+  const [seed, setSeed] = useState<ScheduleSeed | null>(null), [remove, setRemove] = useState<Horario | null>(null);
+  const [busy, setBusy] = useState(false), [error, setError] = useState('');
+  const [periodOpen, setPeriodOpen] = useState(false), [newPeriod, setNewPeriod] = useState({ gestion: new Date().getFullYear(), periodo:'II', fechaInicio:'', fechaFin:'' });
+  const period = c.periodos.find(p => p.idPeriodo === periodo);
+  useEffect(() => {
+    if (initialSelection.current || c.loading || c.error) return;
+    initialSelection.current = true;
+    const room = c.aulas.find(a => a.codigo === params.get('aula'));
+    if (room) { setLugar(room.lugar ?? ''); setPiso(String(room.piso)); setAula(room.codigo); }
+    setPeriodo(c.periodos.find(p => p.idPeriodo === params.get('periodo') && p.estado === 'ACTIVO')?.idPeriodo ?? c.periodos.find(p => p.estado === 'ACTIVO')?.idPeriodo ?? '');
+  }, [c.loading, c.error, c.aulas, c.periodos, params]);
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<HorarioFormData>({ resolver: zodResolver(horarioSchema) });
-
-  const cargar = () => {
-    setCargando(true);
-    horariosApi
-      .listar()
-      .then(({ data }) => setHorarios(data.data))
-      .finally(() => setCargando(false));
-  };
-
-  useEffect(cargar, []);
-
-  const abrirCrear = () => {
-    setEditando(null);
-    reset({
-      materia: "",
-      docente: "",
-      aula: "",
-      dia: "LUNES",
-      horaInicio: "08:00",
-      horaFin: "09:30",
-      grupo: "A",
-    });
-    setModalAbierto(true);
-  };
-
-  const abrirEditar = (h: Horario) => {
-    setEditando(h);
-    reset(h);
-    setModalAbierto(true);
-  };
-
-  const onSubmit = async (data: HorarioFormData) => {
-    setError("");
-    setGuardando(true);
-    try {
-      if (editando) {
-        await horariosApi.actualizar(editando.idHorario, data);
-      } else {
-        await horariosApi.crear(data);
-      }
-      setModalAbierto(false);
-      cargar();
-    } catch {
-      setError("No se pudo guardar el horario. Verifica los datos.");
-    } finally {
-      setGuardando(false);
-    }
-  };
-
-  const confirmarEliminar = async () => {
-    if (!aEliminar) return;
-    setGuardando(true);
-    try {
-      await horariosApi.eliminar(aEliminar.idHorario);
-      setAEliminar(null);
-      cargar();
-    } finally {
-      setGuardando(false);
-    }
-  };
-
-  return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-xl font-bold text-slate-800">Horarios</h1>
-          <p className="text-sm text-slate-500">
-            Calendario semanal administrativo de materias, docentes y aulas.
-          </p>
-        </div>
-        <button className="btn-primary" onClick={abrirCrear}>+ Nuevo horario</button>
-      </div>
-
-      {cargando ? (
-        <LoadingSpinner />
-      ) : (
-        <div className="card overflow-x-auto">
-          <table className="w-full text-left text-sm">
-            <thead className="border-b border-slate-100 bg-slate-50 text-slate-500">
-              <tr>
-                <th className="px-4 py-3 font-semibold">Día</th>
-                <th className="px-4 py-3 font-semibold">Hora</th>
-                <th className="px-4 py-3 font-semibold">Materia</th>
-                <th className="px-4 py-3 font-semibold">Docente</th>
-                <th className="px-4 py-3 font-semibold">Aula</th>
-                <th className="px-4 py-3 font-semibold">Grupo</th>
-                <th className="px-4 py-3 font-semibold text-right">Acciones</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100">
-              {horarios
-                .slice()
-                .sort((a, b) => DIAS.indexOf(a.dia) - DIAS.indexOf(b.dia) || a.horaInicio.localeCompare(b.horaInicio))
-                .map((h) => (
-                  <tr key={h.idHorario}>
-                    <td className="px-4 py-3 text-slate-600">{DIAS_SEMANA_LABEL[h.dia]}</td>
-                    <td className="px-4 py-3 text-slate-500">{h.horaInicio} - {h.horaFin}</td>
-                    <td className="px-4 py-3 font-medium text-slate-700">{h.materia}</td>
-                    <td className="px-4 py-3 text-slate-500">{h.docente}</td>
-                    <td className="px-4 py-3 text-slate-500">{h.aula}</td>
-                    <td className="px-4 py-3 text-slate-500">{h.grupo}</td>
-                    <td className="px-4 py-3 text-right">
-                      <button className="btn-ghost" onClick={() => abrirEditar(h)}>Editar</button>
-                      <button className="btn-ghost text-red-600" onClick={() => setAEliminar(h)}>
-                        Eliminar
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-
-      <Modal
-        title={editando ? "Editar horario" : "Nuevo horario"}
-        open={modalAbierto}
-        onClose={() => setModalAbierto(false)}
-      >
-        {error && <div className="mb-4"><AlertMessage type="error" message={error} /></div>}
-        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)} noValidate>
-          <div className="space-y-1.5">
-            <label className="block text-sm font-medium text-slate-700">Materia</label>
-            <input className="input-field" {...register("materia")} />
-            {errors.materia && <p className="text-xs text-red-600">{errors.materia.message}</p>}
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-1.5">
-              <label className="block text-sm font-medium text-slate-700">Docente</label>
-              <input className="input-field" {...register("docente")} />
-              {errors.docente && <p className="text-xs text-red-600">{errors.docente.message}</p>}
-            </div>
-            <div className="space-y-1.5">
-              <label className="block text-sm font-medium text-slate-700">Aula</label>
-              <input className="input-field" {...register("aula")} />
-              {errors.aula && <p className="text-xs text-red-600">{errors.aula.message}</p>}
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-1.5">
-              <label className="block text-sm font-medium text-slate-700">Día</label>
-              <select className="select-field" {...register("dia")}>
-                {DIAS.map((d) => (
-                  <option key={d} value={d}>{DIAS_SEMANA_LABEL[d]}</option>
-                ))}
-              </select>
-            </div>
-            <div className="space-y-1.5">
-              <label className="block text-sm font-medium text-slate-700">Grupo</label>
-              <input className="input-field" {...register("grupo")} />
-              {errors.grupo && <p className="text-xs text-red-600">{errors.grupo.message}</p>}
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-1.5">
-              <label className="block text-sm font-medium text-slate-700">Hora inicio</label>
-              <input className="input-field" placeholder="08:00" {...register("horaInicio")} />
-              {errors.horaInicio && <p className="text-xs text-red-600">{errors.horaInicio.message}</p>}
-            </div>
-            <div className="space-y-1.5">
-              <label className="block text-sm font-medium text-slate-700">Hora fin</label>
-              <input className="input-field" placeholder="09:30" {...register("horaFin")} />
-              {errors.horaFin && <p className="text-xs text-red-600">{errors.horaFin.message}</p>}
-            </div>
-          </div>
-          <div className="flex justify-end gap-3 pt-2">
-            <button type="button" className="btn-secondary" onClick={() => setModalAbierto(false)}>
-              Cancelar
-            </button>
-            <button type="submit" className="btn-primary" disabled={guardando}>
-              {guardando ? "Guardando..." : "Guardar"}
-            </button>
-          </div>
-        </form>
-      </Modal>
-
-      <ConfirmDialog
-        open={Boolean(aEliminar)}
-        title="Eliminar horario"
-        message={`¿Seguro que deseas eliminar la clase de "${aEliminar?.materia}"?`}
-        onCancel={() => setAEliminar(null)}
-        onConfirm={confirmarEliminar}
-        loading={guardando}
-      />
-    </div>
-  );
+  useEffect(() => { setError(''); }, [periodo, lugar, piso, aula]);
+  useLayoutEffect(() => { window.scrollTo({ top: 0, behavior: 'instant' }); }, [aula]);
+  const selectedRoom = c.aulas.find(a => a.codigo === aula);
+  const visible = period ? semesterSessions(c.horarios, aula, period, today) : [];
+  const canCreate = Boolean(selectedRoom?.estado === 'disponible' && period?.estado === 'ACTIVO' && !c.loading && !c.error);
+  function suggestedDate(day: DiaSemana) {
+    let date = period && today < period.fechaInicio ? period.fechaInicio : today;
+    for (let n = 0; n < 7 && dayFromDate(date) !== day; n++) date = plusDays(date, 1);
+    return period && date <= period.fechaFin ? date : '';
+  }
+  function create(day: DiaSemana = 'LUNES', hour = 8) {
+    if (!canCreate) return;
+    setError(''); setSeed({ aula, dia: day, fecha: suggestedDate(day), hora: hour });
+  }
+  function edit(h: Horario) { setError(''); setSeed({ aula: h.aula, dia: h.dia, fecha: h.fecha ?? suggestedDate(h.dia), hora: Number(h.horaInicio.slice(0,2)), editing: h }); }
+  async function saved() { setSeed(null); await c.cargar(); }
+  async function destroy() {
+    if (!remove) return; setBusy(true); setError('');
+    try { await horariosApi.eliminar(remove.idHorario); setRemove(null); setSeed(null); await c.cargar(); }
+    catch (e) { setRemove(null); setSeed(null); setError(errorAcademico(e)); } finally { setBusy(false); }
+  }
+  async function createPeriod(e: FormEvent) {
+    e.preventDefault(); setBusy(true); setError('');
+    try { const response = await academicoApi.crearPeriodo(newPeriod); setPeriodo(response.data.data.idPeriodo); setPeriodOpen(false); setAula(''); await c.cargar(); }
+    catch (e) { setError(errorAcademico(e)); } finally { setBusy(false); }
+  }
+  const periodControl = <Field label="Periodo académico"><select className="select-field" value={periodo} onChange={e => setPeriodo(e.target.value)}><option value="">Selecciona</option>{c.periodos.filter(p => p.estado === 'ACTIVO').map(p => <option key={p.idPeriodo} value={p.idPeriodo}>{p.periodo}/{p.gestion}</option>)}</select></Field>;
+  return <div className="space-y-6"><AcademicHeader title="Horarios" description="Consulta el horario de cada aula y programa clases, auxiliarías o reservas para fechas específicas."><RoomSearch aulas={c.aulas} disabled={c.loading || Boolean(c.error)} onSelect={a => { setLugar(a.lugar ?? ''); setPiso(String(a.piso)); setAula(a.codigo); }} /><button className="btn-secondary" onClick={() => { setError(''); setPeriodOpen(true); }}>+ Periodo</button><button className="btn-primary" disabled={!canCreate} onClick={() => create()}>+ Asignar horario</button></AcademicHeader>
+    <ErrorNotice message={c.error} retry={() => void c.cargar()} />{!periodOpen && <ErrorNotice message={error} />}
+    {!aula ? <RoomPicker aulas={c.aulas} lugar={lugar} piso={piso} loading={c.loading} periodControl={periodControl}
+      onPlace={place => { setLugar(place); setPiso(place === 'INFORMATICA' ? null : ''); }} onFloor={setPiso} onRoom={setAula} />
+      : <div className="flex flex-wrap items-end justify-between gap-3"><button className="btn-secondary" onClick={() => setAula('')}>← Volver a las aulas</button>{periodControl}</div>}
+    {aula && (c.loading ? <LoadingSpinner /> : !selectedRoom || !period ? <Empty>Selecciona un periodo activo y un aula disponible para consultar el horario.</Empty> : <section className="space-y-4" aria-label={`Horario del aula ${aula}`}>
+      <div><h2 className="text-lg font-bold text-slate-800">{selectedRoom.nombre} <span className="ml-2 text-sm font-normal text-slate-400">{aula}</span></h2><p className="mt-1 text-xs text-slate-500">{LUGARES[lugar] ?? 'Lugar por confirmar'} · {pisoLabel(selectedRoom.piso)} · {visible.length} sesiones del semestre y reservas vigentes</p><p className="mt-2 text-sm text-slate-600">{selectedRoom.tipo === 'LABORATORIO' ? 'Laboratorio' : 'Aula'} · Capacidad: {selectedRoom.capacidad > 0 ? `${selectedRoom.capacidad} personas` : 'Por confirmar'}</p><p className="mt-1 text-xs text-slate-500">Equipamiento: {selectedRoom.equipamiento?.filter(e => e.cantidad > 0).length ? selectedRoom.equipamiento.filter(e => e.cantidad > 0).map(e => `${e.nombre} (${e.cantidad})`).join(', ') : 'Sin equipamiento registrado'}</p></div>
+      {selectedRoom.estado !== 'disponible' && <p className="text-sm text-amber-700">El aula está {selectedRoom.estado}. Solo puedes consultar o retirar sus sesiones.</p>}
+      <div className="card overflow-x-auto"><RoomSchedule aula={selectedRoom} periodo={period} horarios={c.horarios} today={today} onCreate={canCreate ? create : undefined} onEdit={edit} /></div>
+      <p className="text-xs text-slate-500">Haz clic en un espacio para asignar o en una sesión para editarla. Las clases se repiten todo el semestre. Las reservas muestran “RESERVADO” y la fecha de uso; desaparecen del horario al terminar ese día. AUX identifica las auxiliarías.</p>
+    </section>)}
+    {seed && <HorarioForm c={c} periodo={periodo} seed={seed} close={() => setSeed(null)} saved={saved} remove={setRemove} />}
+    <Modal open={periodOpen} title="Nuevo periodo académico" onClose={() => !busy && setPeriodOpen(false)}><form className="space-y-4" onSubmit={createPeriod}><ErrorNotice message={error} /><Field label="Gestión"><input type="number" required min={2000} max={2100} className="input-field" value={newPeriod.gestion} onChange={e => setNewPeriod({ ...newPeriod, gestion:Number(e.target.value) })} /></Field><Field label="Periodo"><select className="select-field" value={newPeriod.periodo} onChange={e => setNewPeriod({ ...newPeriod, periodo:e.target.value })}>{['I','II','ANUAL','VERANO'].map(p => <option key={p}>{p}</option>)}</select></Field><Field label="Fecha de inicio"><input type="date" required className="input-field" value={newPeriod.fechaInicio} onChange={e => setNewPeriod({ ...newPeriod, fechaInicio:e.target.value })} /></Field><Field label="Fecha de fin"><input type="date" required min={newPeriod.fechaInicio} className="input-field" value={newPeriod.fechaFin} onChange={e => setNewPeriod({ ...newPeriod, fechaFin:e.target.value })} /></Field><SaveActions busy={busy} close={() => setPeriodOpen(false)} /></form></Modal>
+    <ConfirmDialog open={Boolean(remove)} title="Eliminar sesión" message={`¿Retirar ${remove?.materia}${remove?.fecha ? ` del ${remove.fecha}` : ` de los ${remove?.dia}`} de ${remove?.horaInicio} a ${remove?.horaFin}? Solo se eliminará esta sesión.`} onCancel={() => setRemove(null)} onConfirm={destroy} loading={busy} />
+  </div>;
 }

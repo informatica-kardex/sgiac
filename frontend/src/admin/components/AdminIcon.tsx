@@ -1,5 +1,8 @@
-export type AdminIconName = "auditoria" | "dashboard" | "aulas" | "horarios" | "comunicados" | "faq" | "fichas" | "reportes" | "usuarios" | "subadministradores" | "estudiantes" | "roles" | "configuracion" | "logout" | "book" | "menu" | "close" | "arrow" | "clock";
+export type AdminIconName = "ver-horarios" | "docentes" | "materias" | "auditoria" | "dashboard" | "aulas" | "horarios" | "comunicados" | "faq" | "fichas" | "reportes" | "usuarios" | "subadministradores" | "estudiantes" | "roles" | "configuracion" | "logout" | "book" | "menu" | "close" | "arrow" | "clock";
 const paths: Record<AdminIconName, string> = {
+  "ver-horarios": "M3 3h18v18H3z M3 8h18 M8 8v13 M12 12h5 M12 16h5",
+  docentes: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M13 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0 M17 4h5v10h-5",
+  materias: "M12 5v16 M12 5C9 3 5 3 2 4v15c3-1 7-1 10 2 3-3 7-3 10-2V4c-3-1-7-1-10 1",
   auditoria: "M3 11a9 9 0 1 1 2 7 M3 4v7h7 M12 7v5l3 2",
   dashboard: "M3 3h7v7H3z M14 3h7v7h-7z M3 14h7v7H3z M14 14h7v7h-7z",
   aulas: "M8 21V3h9v18 M8 8H3v13h18V11h-4 M11 7h3 M11 11h3 M11 15h3 M11 21v-3h3v3",

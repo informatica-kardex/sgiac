@@ -9,6 +9,7 @@ router.get("/", horarioController.listar);
 router.get("/:id", horarioController.obtener);
 
 // Mutaciones exclusivas del panel administrativo
+router.post('/lote', requireAuth, requirePermission('horarios'), horarioController.crearLote);
 router.post(
   "/",
   requireAuth,

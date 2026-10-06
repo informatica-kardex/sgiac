@@ -1,0 +1,54 @@
+{
+  "modo": "APLICADO",
+  "fuente": "Sistema Kardex - Aulas  - AULAS.pdf",
+  "huellaActual": "b194db2b72ebcac29d22ab1d7f5af77cb6e338af14b470687f077e0cc6b4d22f",
+  "respaldo": "F:\\sgiac\\backend\\prisma\\backups\\antes-aulas-kardex-1791207861878-b27fd4d0.json",
+  "renumeracion": {
+    "P3-LAB3 → P3-LAB2": 21,
+    "P3-LAB4 → P3-LAB3": 5
+  },
+  "aulasActualizadas": [
+    "LASIN-1",
+    "LASIN-2",
+    "LASIN-3",
+    "PAB-E",
+    "PAB-G",
+    "SS-A1",
+    "SS-A2",
+    "SS-A3",
+    "SS-A4",
+    "PB-A1",
+    "PB-A2",
+    "P1-A1",
+    "P1-A2",
+    "P1-A3",
+    "P3-LAB1",
+    "P3-LAB2",
+    "P3-LAB3",
+    "P4-A1",
+    "P4-A2",
+    "P4-A3",
+    "P4-A4",
+    "P4-LAB1",
+    "P5-A2",
+    "P5-A3",
+    "P5-A5",
+    "P5-LAB1",
+    "04-01-05",
+    "04-02-09"
+  ],
+  "aulasNuevas": [
+    "PAB-E"
+  ],
+  "horariosConservados": 299,
+  "notas": [
+    "Capacidades copiadas de la columna Capacidad, sin recalcularlas por mobiliario.",
+    "SI y Estrado sin cantidad se registran como una unidad; NO, 0 y celdas vacías no agregan equipamiento.",
+    "P5-LAB1 no tiene capacidad indicada: se conserva como por confirmar.",
+    "04-02-08 no figura en el PDF: se conserva sin inventar su capacidad ni equipamiento.",
+    "P5-A1 figura como Sala de Consejo de Docentes, sin inventario ni capacidad: no se agrega como aula de clases.",
+    "Equipo con silla conserva el conjunto de la columna Equipos + sillas; no se duplica con la columna Sillas.",
+    "LASIN conserva Mesa (6 personas) tal como dice su encabezado. P4-LAB1 conserva capacidad 58 aunque equipos más sillas sumen 77.",
+    "PAB-E y PAB-G: Estrado sin número se registra como disponible (1). 04-01-05 indica 2 Estrado."
+  ]
+}

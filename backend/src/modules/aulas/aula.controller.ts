@@ -12,7 +12,7 @@ export const aulaController = {
   }),
 
   obtener: asyncHandler(async (req, res) => {
-    const aula = await aulaService.obtener(Number(req.params.id));
+    const aula = await aulaService.obtener(req.params.id);
     return sendSuccess(res, aula, "Aula obtenida");
   }),
 
@@ -24,12 +24,12 @@ export const aulaController = {
 
   actualizar: asyncHandler(async (req, res) => {
     const data = actualizarAulaSchema.parse(req.body);
-    const aula = await aulaService.actualizar(Number(req.params.id), data);
+    const aula = await aulaService.actualizar(req.params.id, data);
     return sendSuccess(res, aula, "Aula actualizada");
   }),
 
   eliminar: asyncHandler(async (req, res) => {
-    await aulaService.eliminar(Number(req.params.id));
+    await aulaService.eliminar(req.params.id);
     return sendSuccess(res, null, "Aula eliminada");
   }),
 };

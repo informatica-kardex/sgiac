@@ -9,7 +9,7 @@ export class AulaService {
     return this.repository.findAll();
   }
 
-  async obtener(idAula: number) {
+  async obtener(idAula: string) {
     const aula = await this.repository.findById(idAula);
     if (!aula) {
       throw ApiError.notFound("Aula no encontrada");
@@ -21,11 +21,11 @@ export class AulaService {
     return this.repository.create(input);
   }
 
-  async actualizar(idAula: number, input: ActualizarAulaInput) {
+  async actualizar(idAula: string, input: ActualizarAulaInput) {
     return this.repository.update(idAula, input);
   }
 
-  async eliminar(idAula: number) {
+  async eliminar(idAula: string) {
     return this.repository.delete(idAula);
   }
 }

@@ -1,115 +1,76 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "../../database/prisma";
 import { ApiError } from "../../utils/apiError";
-
-// Fechas de atención en Bolivia, independientes de la zona horaria del servidor.
-export function ahoraBolivia(now = new Date()) {
-  const local = new Date(now.getTime() - 4 * 60 * 60 * 1000).toISOString();
-  return { fecha: local.slice(0, 10), hora: local.slice(11, 19) };
-}
-
-type Jornada = Prisma.jornada_atencionGetPayload<{}>;
-type Ficha = Prisma.ficha_atencionGetPayload<{ include: { jornada_atencion: true } }>;
-
-function jornadaVigente(jornada: Jornada) {
-  const ahora = ahoraBolivia();
-  const fecha = jornada.fecha.toISOString().slice(0, 10);
-  return jornada.estado === "ACTIVO" && (fecha > ahora.fecha ||
-    (fecha === ahora.fecha && jornada.hora_fin.toISOString().slice(11, 19) > ahora.hora));
-}
-
-function jornadaDTO(jornada: Jornada, ocupadas: number) {
-  return {
-    idJornada: jornada.id_jornada.toString(),
-    fecha: jornada.fecha.toISOString().slice(0, 10),
-    horaInicio: jornada.hora_inicio.toISOString().slice(11, 16),
-    horaFin: jornada.hora_fin.toISOString().slice(11, 16),
-    disponibles: Math.max(0, jornada.cupo_total - ocupadas),
-  };
-}
-
-function fichaDTO(ficha: Ficha) {
-  return {
-    idFicha: ficha.id_ficha.toString(), numero: ficha.numero_ficha,
-    motivo: ficha.motivo_atencion, estado: ficha.estado_actual,
-    fechaSolicitud: ficha.fecha_generacion.toISOString().slice(0, 10),
-    jornada: jornadaDTO(ficha.jornada_atencion, 0),
-  };
-}
+import { ahoraBolivia, fichaDTO, fichaInclude, jornadaDTO, jornadaInclude, jornadaVigente, ESPERA } from "../fichas/ficha.shared";
+export { ahoraBolivia } from "../fichas/ficha.shared";
 
 export class EstudianteService {
   private async estudiante(idUsuario: string) {
-    const estudiante = await prisma.estudiante.findUnique({
-      where: { id_usuario: BigInt(idUsuario) }, include: { usuario: true },
-    });
-    if (!estudiante || estudiante.usuario?.estado !== "ACTIVO") {
-      throw ApiError.forbidden("Tu cuenta no tiene un perfil de estudiante activo. Contacta a Kardex.");
-    }
+    const estudiante = await prisma.estudiante.findUnique({ where: { id_usuario: BigInt(idUsuario) }, include: { usuario: true } });
+    if (!estudiante || estudiante.usuario?.estado !== "ACTIVO") throw ApiError.forbidden("Tu cuenta no tiene un perfil de estudiante activo. Contacta a Kardex.");
     return estudiante;
   }
 
   async perfil(idUsuario: string) {
     const e = await this.estudiante(idUsuario);
-    return { nombres: e.nombres, apellidos: e.apellidos, ci: e.ci, ru: e.ru,
-      correo: e.correo_institucional, mencion: e.carrera };
+    return { nombres: e.nombres, apellidos: e.apellidos, ci: e.ci, ru: e.ru, correo: e.correo_institucional, mencion: e.carrera };
   }
 
   async jornadas(idUsuario: string) {
     await this.estudiante(idUsuario);
     const jornadas = await prisma.jornada_atencion.findMany({
-      where: { estado: "ACTIVO", fecha: { gte: new Date(`${ahoraBolivia().fecha}T00:00:00Z`) } },
-      include: { _count: { select: { ficha_atencion: { where: { estado_actual: { not: "CANCELADA" } } } } } },
-      orderBy: [{ fecha: "asc" }, { hora_inicio: "asc" }],
+      where: { estado: "ACTIVO", fecha: { gte: new Date(ahoraBolivia().fecha) }, OR: [{ id_tramite: null }, { tramite: { activo: true } }] },
+      include: jornadaInclude, orderBy: [{ fecha: "asc" }, { hora_inicio: "asc" }],
     });
-    return jornadas.filter(jornadaVigente).map(j => jornadaDTO(j, j._count.ficha_atencion));
+    return jornadas.filter(jornadaVigente).map(jornadaDTO);
   }
 
   async fichas(idUsuario: string) {
     const e = await this.estudiante(idUsuario);
-    const fichas = await prisma.ficha_atencion.findMany({
-      where: { id_estudiante: e.id_estudiante }, include: { jornada_atencion: true },
-      orderBy: { id_ficha: "desc" },
-    });
-    return fichas.map(fichaDTO);
+    return (await prisma.ficha_atencion.findMany({ where: { id_estudiante: e.id_estudiante }, include: fichaInclude, orderBy: { id_ficha: "desc" } })).map(fichaDTO);
   }
 
-  async solicitar(idUsuario: string, input: { idJornada: string; motivo: string; detalle: string }) {
+  async solicitar(idUsuario: string, input: { idJornada: string; detalle: string }) {
     const e = await this.estudiante(idUsuario);
     const idJornada = BigInt(input.idJornada);
     try {
       return await prisma.$transaction(async tx => {
-        // Serializa las solicitudes de una misma jornada para respetar cupos y numeración.
+        const inicial = await tx.jornada_atencion.findUnique({ where: { id_jornada: idJornada } });
+        if (!inicial) throw ApiError.notFound("Jornada no encontrada");
+        if (inicial.id_tramite) await tx.$queryRaw`SELECT id_tramite FROM tramite_atencion WHERE id_tramite = ${inicial.id_tramite} FOR UPDATE`;
         await tx.$queryRaw`SELECT id_jornada FROM jornada_atencion WHERE id_jornada = ${idJornada} FOR UPDATE`;
-        const jornada = await tx.jornada_atencion.findUnique({ where: { id_jornada: idJornada } });
-        if (!jornada || !jornadaVigente(jornada)) throw ApiError.conflict("La jornada ya no está disponible. Elige otra fecha.");
-        const existente = await tx.ficha_atencion.findFirst({ where: {
-          id_jornada: idJornada, id_estudiante: e.id_estudiante, estado_actual: { not: "CANCELADA" },
-        } });
-        if (existente) throw ApiError.conflict("Ya tienes una ficha para esta jornada. Revisa Mis fichas.");
+        const jornada = await tx.jornada_atencion.findUnique({ where: { id_jornada: idJornada }, include: { tramite: true } });
+        if (!jornada || !jornadaVigente(jornada) || jornada.tramite?.activo === false || jornada.id_tramite !== inicial.id_tramite) throw ApiError.conflict("La jornada ya no está disponible. Actualiza y elige otra fecha.");
+        if (await tx.ficha_atencion.findFirst({ where: { id_jornada: idJornada, id_estudiante: e.id_estudiante, estado_actual: { not: "CANCELADA" } } })) throw ApiError.conflict("Ya tienes una ficha para este trámite y jornada. Revisa Mis fichas.");
         const ocupadas = await tx.ficha_atencion.count({ where: { id_jornada: idJornada, estado_actual: { not: "CANCELADA" } } });
         if (ocupadas >= jornada.cupo_total) throw ApiError.conflict("Se agotaron los cupos de esta jornada. Elige otra fecha.");
         const ultima = await tx.ficha_atencion.aggregate({ where: { id_jornada: idJornada }, _max: { numero_ficha: true } });
         const ahora = ahoraBolivia();
-        const ficha = await tx.ficha_atencion.create({
-          data: {
-            id_estudiante: e.id_estudiante, id_jornada: idJornada,
-            numero_ficha: (ultima._max.numero_ficha ?? 0) + 1,
-            motivo_atencion: `${input.motivo}\n\n${input.detalle}`, estado_actual: "GENERADA",
-            fecha_generacion: new Date(`${ahora.fecha}T00:00:00Z`),
-            hora_generacion: new Date(`1970-01-01T${ahora.hora}Z`),
-          }, include: { jornada_atencion: true },
-        });
-        await tx.historial_ficha.create({ data: {
-          id_ficha: ficha.id_ficha, id_jornada: idJornada, id_usuario: BigInt(idUsuario),
-          estado: "GENERADA", observacion: "Solicitud desde el portal de estudiantes",
+        const ficha = await tx.ficha_atencion.create({ data: {
+          id_estudiante: e.id_estudiante, id_jornada: idJornada, numero_ficha: (ultima._max.numero_ficha ?? 0) + 1,
+          motivo_atencion: [jornada.tramite?.nombre ?? "Atención general", input.detalle].filter(Boolean).join("\n\n"),
+          estado_actual: "GENERADA", fecha_generacion: new Date(ahora.fecha), hora_generacion: new Date(`1970-01-01T${ahora.hora}Z`),
         } });
-        return fichaDTO(ficha);
+        await tx.historial_ficha.create({ data: { id_ficha: ficha.id_ficha, id_jornada: idJornada, id_usuario: BigInt(idUsuario), estado: "GENERADA", observacion: "Solicitud desde el portal de estudiantes" } });
+        return fichaDTO(await tx.ficha_atencion.findUniqueOrThrow({ where: { id_ficha: ficha.id_ficha }, include: fichaInclude }));
       });
     } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError && ["P2002", "P2034"].includes(error.code)) {
-        throw ApiError.conflict("La disponibilidad cambió. Actualiza las jornadas e intenta nuevamente.");
-      }
+      if (error instanceof Prisma.PrismaClientKnownRequestError && ["P2002", "P2034"].includes(error.code)) throw ApiError.conflict("La disponibilidad cambió. Actualiza las jornadas e intenta nuevamente.");
       throw error;
     }
+  }
+
+  async cancelar(idUsuario: string, idFicha: string) {
+    const e = await this.estudiante(idUsuario);
+    return prisma.$transaction(async tx => {
+      const f = await tx.ficha_atencion.findFirst({ where: { id_ficha: BigInt(idFicha), id_estudiante: e.id_estudiante } });
+      if (!f) throw ApiError.notFound("Ficha no encontrada");
+      await tx.$queryRaw`SELECT id_jornada FROM jornada_atencion WHERE id_jornada = ${f.id_jornada} FOR UPDATE`;
+      const actual = await tx.ficha_atencion.findUniqueOrThrow({ where: { id_ficha: f.id_ficha }, include: { jornada_atencion: true } });
+      if (!ESPERA.includes(actual.estado_actual) || actual.jornada_atencion.fecha.toISOString().slice(0, 10) < ahoraBolivia().fecha) throw ApiError.conflict("Solo puedes cancelar una ficha pendiente de hoy o de una fecha futura.");
+      await tx.ficha_atencion.update({ where: { id_ficha: f.id_ficha }, data: { estado_actual: "CANCELADA" } });
+      await tx.historial_ficha.create({ data: { id_ficha: f.id_ficha, id_jornada: f.id_jornada, id_usuario: BigInt(idUsuario), estado: "CANCELADA", observacion: "Cancelada por el estudiante; cupo liberado" } });
+      return null;
+    });
   }
 }

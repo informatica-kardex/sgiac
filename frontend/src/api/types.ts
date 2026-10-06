@@ -31,7 +31,11 @@ export interface AuthResponse {
 export type EstadoAula = "disponible" | "mantenimiento" | "inhabilitada";
 
 export interface Aula {
-  idAula: number;
+  equipamiento?: { nombre: string; cantidad: number }[];
+  idAula: string;
+  lugar: string | null;
+  piso: number | null;
+  tipo: string;
   codigo: string;
   nombre: string;
   capacidad: number;
@@ -58,6 +62,21 @@ export interface Horario {
   grupo: string;
 }
 
+export interface HorarioAcademico extends Horario {
+  fecha: string | null;
+  motivo: string;
+  idAuxiliar: string | null;
+  responsable: string;
+  idAsignacion: string;
+  idDocente: string;
+  codigoMateria: string;
+  siglas: string[];
+  idPeriodo: string;
+  periodo: string;
+  lugar: string | null;
+  piso: number | null;
+}
+
 export type EstadoComunicado = "publicado" | "borrador" | "archivado";
 
 export interface Comunicado {
@@ -78,20 +97,6 @@ export interface Faq {
   respuesta: string;
   categoria: string;
   estado: "publicada" | "borrador";
-}
-
-export type EstadoFicha = "pendiente" | "en_proceso" | "atendida" | "rechazada";
-
-export interface FichaAtencion {
-  idFicha: number;
-  solicitante: string;
-  correo: string;
-  motivo: string;
-  detalle: string;
-  estado: EstadoFicha;
-  fechaSolicitud: string;
-  fechaAtencion: string | null;
-  atendidoPor: string | null;
 }
 
 export interface UsuarioAdmin {

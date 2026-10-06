@@ -1,0 +1,38 @@
+.room-schedule { color: #24333a; background: #ffffff; min-width: 720px; }
+.room-timetable { width: 100%; table-layout: fixed; border-collapse: collapse; border: 1px solid #b6b1a2; font-family: Arial, sans-serif; }
+.room-timetable caption { border: 1px solid #b6b1a2; border-bottom: 0; padding: 10px 12px; text-align: left; background: #e5f4ef; color: #185b4c; font-size: 17px; font-weight: 700; }
+.room-time-col { width: 78px; }
+.room-timetable thead { height: 34px; }
+.room-timetable tbody { height: 560px; }
+.room-timetable th, .room-timetable td { border: 1px solid #b6b1a2; padding: 0 !important; text-align: center; vertical-align: middle; }
+.room-timetable thead th { background: #f0f6fa; color: #354653; font-size: 11px; letter-spacing: .02em; text-transform: uppercase; }
+.room-timetable .room-time { font-size: 11px; font-weight: 600; color: #354653; letter-spacing: 0; background: #f0f6fa; }
+.room-time span { display: block; }
+.room-cell-sessions { display: flex; flex-direction: column; }
+.room-session { display: flex; flex: 1; width: 100%; flex-direction: column; justify-content: center; align-items: center; gap: 3px; padding: 8px 5px; font-size: 12px; line-height: 1.22; overflow-wrap: anywhere; color: #24333a; }
+.room-session strong { font-weight: 600; }
+.room-session small { font-size: 10px; }
+.room-session + .room-session { border-top: 1px dashed #aaa58f; }
+.room-session .room-reserved { color: #573b13; font-weight: 700; }
+button.room-session:hover { filter: brightness(.97); }
+.room-slot { width: 100%; min-height: 44px; color: transparent; font-size: 11px; }
+.room-slot:hover:not(:disabled), .room-slot:focus-visible { color: #756348; background: #faf2df; }
+.room-slot:disabled { cursor: default; }
+.horarios-print-root { position: fixed; top: 0; left: -100000px; width: 195.9mm; visibility: hidden; pointer-events: none; }
+.schedule-print-page { page: horarios-aulas; break-after: page; display: grid; grid-template-rows: 124mm 124mm; gap: 7mm; }
+.schedule-print-page:last-child { break-after: auto; }
+.horarios-print-root .room-schedule { min-width: 0; width: 100%; height: 124mm; break-inside: avoid; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+.horarios-print-root .room-timetable caption { height: 8mm; padding: 1.5mm 2mm; font-size: calc(10pt * var(--schedule-print-density, 1)); }
+.horarios-print-root .room-time-col { width: 15mm; }
+.horarios-print-root .room-timetable thead { height: 6mm; }
+.horarios-print-root .room-timetable tbody { height: 107mm; }
+.horarios-print-root .room-timetable th { font-size: calc(7pt * var(--schedule-print-density, 1)); }
+.horarios-print-root .room-session { padding: calc(1.2mm * var(--schedule-print-density, 1)) .6mm; gap: calc(.5mm * var(--schedule-print-density, 1)); font-size: calc(8pt * var(--schedule-print-density, 1)); line-height: 1.14; }
+.horarios-print-root .room-session small { font-size: calc(6.5pt * var(--schedule-print-density, 1)); }
+.horarios-print-root .room-timetable tr { break-inside: avoid; }
+@page horarios-aulas { size: letter portrait; margin: 10mm; }
+@media print {
+  body.print-room-schedules { margin: 0 !important; padding: 0 !important; background: white !important; }
+  body.print-room-schedules > :not(.horarios-print-root) { display: none !important; }
+  body.print-room-schedules > .horarios-print-root { position: static; width: auto; visibility: visible; pointer-events: auto; }
+}

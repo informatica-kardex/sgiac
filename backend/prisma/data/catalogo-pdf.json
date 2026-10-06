@@ -1,0 +1,1552 @@
+{
+  "fuente": "referencias/HORARIOS PASANTES PRACTICA PARA COLAR.pdf",
+  "sha256": "a26159f709e3a9692f6f097254b4615510e79f49b8d31b8822bb47d1bb618b07",
+  "materias": [
+    {
+      "nombre": "PROGRAMACION I",
+      "siglas": [
+        "INF-111"
+      ],
+      "paginas": [
+        1
+      ]
+    },
+    {
+      "nombre": "FUNDAMENTOS DIGITALES",
+      "siglas": [
+        "INF-112"
+      ],
+      "paginas": [
+        1
+      ]
+    },
+    {
+      "nombre": "PROGRAMACION WEB I",
+      "siglas": [
+        "INF-113"
+      ],
+      "paginas": [
+        1
+      ]
+    },
+    {
+      "nombre": "ALGEBRA",
+      "siglas": [
+        "INF-114"
+      ],
+      "paginas": [
+        1
+      ]
+    },
+    {
+      "nombre": "CALCULO I",
+      "siglas": [
+        "INF-115"
+      ],
+      "paginas": [
+        1
+      ]
+    },
+    {
+      "nombre": "FISICA",
+      "siglas": [
+        "INF-116"
+      ],
+      "paginas": [
+        1,
+        2
+      ]
+    },
+    {
+      "nombre": "MATEMATICA DISCRETA",
+      "siglas": [
+        "INF-117"
+      ],
+      "paginas": [
+        1,
+        2
+      ]
+    },
+    {
+      "nombre": "PROGRAMACIÓN II",
+      "siglas": [
+        "INF-121"
+      ],
+      "paginas": [
+        2
+      ]
+    },
+    {
+      "nombre": "PROGRAMACIÓN WEB II",
+      "siglas": [
+        "INF-122"
+      ],
+      "paginas": [
+        2
+      ]
+    },
+    {
+      "nombre": "ELECTRONICA GENERAL I",
+      "siglas": [
+        "INF-123"
+      ],
+      "paginas": [
+        2
+      ]
+    },
+    {
+      "nombre": "ESTADÍSTICA I",
+      "siglas": [
+        "INF-124"
+      ],
+      "paginas": [
+        2
+      ]
+    },
+    {
+      "nombre": "ALGEBRA LINEAL",
+      "siglas": [
+        "INF-125"
+      ],
+      "paginas": [
+        2
+      ]
+    },
+    {
+      "nombre": "CÁLCULO II",
+      "siglas": [
+        "INF-126"
+      ],
+      "paginas": [
+        2
+      ]
+    },
+    {
+      "nombre": "PROGRAMACIÓN III",
+      "siglas": [
+        "INF-131"
+      ],
+      "paginas": [
+        2
+      ]
+    },
+    {
+      "nombre": "BASE DE DATOS I",
+      "siglas": [
+        "INF-132"
+      ],
+      "paginas": [
+        3
+      ]
+    },
+    {
+      "nombre": "PROGRAMACIÓN WEB III",
+      "siglas": [
+        "INF-133"
+      ],
+      "paginas": [
+        3
+      ]
+    },
+    {
+      "nombre": "ESTADÍSTICA II",
+      "siglas": [
+        "INF-134"
+      ],
+      "paginas": [
+        3
+      ]
+    },
+    {
+      "nombre": "CALCULO III",
+      "siglas": [
+        "DAT-135",
+        "INF-247",
+        "INF-321"
+      ],
+      "paginas": [
+        3,
+        4,
+        9
+      ]
+    },
+    {
+      "nombre": "ELECTRÓNICA GENERAL II",
+      "siglas": [
+        "IID-135"
+      ],
+      "paginas": [
+        3
+      ]
+    },
+    {
+      "nombre": "INTRODUCCION A LAS REDES Y TELECOMUNICACIONES",
+      "siglas": [
+        "TIC-135"
+      ],
+      "paginas": [
+        3
+      ]
+    },
+    {
+      "nombre": "SISTEMAS OPERATIVOS",
+      "siglas": [
+        "INF-135",
+        "TIC-246"
+      ],
+      "paginas": [
+        3,
+        4
+      ]
+    },
+    {
+      "nombre": "METODOLOGIA DE LA INVESTIGACION",
+      "siglas": [
+        "TRA-136"
+      ],
+      "paginas": [
+        3
+      ]
+    },
+    {
+      "nombre": "ANÁLISIS Y DISEÑO DE SISTEMAS I",
+      "siglas": [
+        "INF-241"
+      ],
+      "paginas": [
+        3
+      ]
+    },
+    {
+      "nombre": "PROGRAMACION DISTRIBUIDA Y PARALELA",
+      "siglas": [
+        "DAT-241"
+      ],
+      "paginas": [
+        3
+      ]
+    },
+    {
+      "nombre": "METODOS NUMERICOS I",
+      "siglas": [
+        "DAT-242",
+        "COM-254",
+        "INF-373"
+      ],
+      "paginas": [
+        3,
+        5,
+        7
+      ]
+    },
+    {
+      "nombre": "REDES I",
+      "siglas": [
+        "INF-242"
+      ],
+      "paginas": [
+        3
+      ]
+    },
+    {
+      "nombre": "INVESTIGACIÓN OPERATIVA I",
+      "siglas": [
+        "INF-243"
+      ],
+      "paginas": [
+        3
+      ]
+    },
+    {
+      "nombre": "BASE DE DATOS II",
+      "siglas": [
+        "INF-244",
+        "INF-252",
+        "COM-322"
+      ],
+      "paginas": [
+        3,
+        4,
+        5,
+        8
+      ]
+    },
+    {
+      "nombre": "INTRODUCCIÓN A LA ROBÓTICA",
+      "siglas": [
+        "INF-244"
+      ],
+      "paginas": [
+        4
+      ]
+    },
+    {
+      "nombre": "RECONOCIMIENTO DE PATRONES",
+      "siglas": [
+        "COM-244"
+      ],
+      "paginas": [
+        4
+      ]
+    },
+    {
+      "nombre": "SEGURIDAD DE LA INFORMACION",
+      "siglas": [
+        "SEG-244",
+        "INF-265",
+        "INF-371",
+        "DAT-321"
+      ],
+      "paginas": [
+        4,
+        6,
+        8
+      ]
+    },
+    {
+      "nombre": "INTELIGENCIA ARTIFICIAL",
+      "siglas": [
+        "DAT-245",
+        "COM-252",
+        "INF-372",
+        "INF-335"
+      ],
+      "paginas": [
+        4,
+        5,
+        6,
+        7,
+        9
+      ]
+    },
+    {
+      "nombre": "LOGICA PARA LA CIENCIA DE LA COMPUTACION",
+      "siglas": [
+        "COM-245"
+      ],
+      "paginas": [
+        4
+      ]
+    },
+    {
+      "nombre": "PROGRAMACIÓN DE DISPOSITIVOS MÓVILES I",
+      "siglas": [
+        "INF-245",
+        "DAT-319"
+      ],
+      "paginas": [
+        4,
+        8
+      ]
+    },
+    {
+      "nombre": "SISTEMAS DE INFORMACION",
+      "siglas": [
+        "SIS-245"
+      ],
+      "paginas": [
+        4
+      ]
+    },
+    {
+      "nombre": "CRIPTOGRAFIA I",
+      "siglas": [
+        "SEG-246",
+        "COM-253"
+      ],
+      "paginas": [
+        4,
+        5
+      ]
+    },
+    {
+      "nombre": "ELECTRONICA INDUSTRIAL",
+      "siglas": [
+        "IID-246"
+      ],
+      "paginas": [
+        4
+      ]
+    },
+    {
+      "nombre": "FUNDAMENTOS DE DISEÑO Y ANIMACIÓN",
+      "siglas": [
+        "INF-246"
+      ],
+      "paginas": [
+        4
+      ]
+    },
+    {
+      "nombre": "INGENIERIA DE SISTEMAS",
+      "siglas": [
+        "SIS-246",
+        "TIC-322"
+      ],
+      "paginas": [
+        4,
+        9
+      ]
+    },
+    {
+      "nombre": "MODELACION ESTADISTICA",
+      "siglas": [
+        "DAT-246"
+      ],
+      "paginas": [
+        4
+      ]
+    },
+    {
+      "nombre": "LABORATORIO DE REDES",
+      "siglas": [
+        "TIC-247"
+      ],
+      "paginas": [
+        4
+      ]
+    },
+    {
+      "nombre": "BASE DE DATOS III",
+      "siglas": [
+        "DAT-251",
+        "INF-262"
+      ],
+      "paginas": [
+        4,
+        6
+      ]
+    },
+    {
+      "nombre": "INGENIERIA DE SOFTWARE I",
+      "siglas": [
+        "INF-251",
+        "IID-264",
+        "TIC-371"
+      ],
+      "paginas": [
+        4,
+        6,
+        7
+      ]
+    },
+    {
+      "nombre": "APLICACIONES Y SERVICIOS MULTIMEDIA",
+      "siglas": [
+        "TIC-251"
+      ],
+      "paginas": [
+        4
+      ]
+    },
+    {
+      "nombre": "METODOS NUMERICOS II",
+      "siglas": [
+        "DAT-252"
+      ],
+      "paginas": [
+        5
+      ]
+    },
+    {
+      "nombre": "REDES II",
+      "siglas": [
+        "SEG-252",
+        "INF-333"
+      ],
+      "paginas": [
+        5,
+        9
+      ]
+    },
+    {
+      "nombre": "ANALISIS Y DISEÑO DE SISTEMAS II",
+      "siglas": [
+        "INF-253"
+      ],
+      "paginas": [
+        5
+      ]
+    },
+    {
+      "nombre": "MICROCONTROLADORES",
+      "siglas": [
+        "IID-252"
+      ],
+      "paginas": [
+        5
+      ]
+    },
+    {
+      "nombre": "MINERIA DE DATOS (DATA MINING)",
+      "siglas": [
+        "DAT-253",
+        "INF-311"
+      ],
+      "paginas": [
+        5,
+        8
+      ]
+    },
+    {
+      "nombre": "PREPARACION Y EVALUACION DE PROYECTOS",
+      "siglas": [
+        "SIS-253",
+        "INF-315"
+      ],
+      "paginas": [
+        5,
+        8
+      ]
+    },
+    {
+      "nombre": "SEGURIDAD EN BASE DE DATOS",
+      "siglas": [
+        "SEG-253"
+      ],
+      "paginas": [
+        5
+      ]
+    },
+    {
+      "nombre": "CRIPTOGRAFIA II",
+      "siglas": [
+        "SEG-254"
+      ],
+      "paginas": [
+        5
+      ]
+    },
+    {
+      "nombre": "DIRECCION DE PROYECTOS INFORMATICOS",
+      "siglas": [
+        "TIC-253"
+      ],
+      "paginas": [
+        5
+      ]
+    },
+    {
+      "nombre": "INVESTIGACION OPERATIVA II",
+      "siglas": [
+        "DAT-254",
+        "INF-331"
+      ],
+      "paginas": [
+        5,
+        9
+      ]
+    },
+    {
+      "nombre": "PROGRAMACION DE DISPOSITIVOS MOVILES II",
+      "siglas": [
+        "INF-254",
+        "IID-311"
+      ],
+      "paginas": [
+        5,
+        8
+      ]
+    },
+    {
+      "nombre": "APRENDIZAJE AUTOMATICO (MACHINE LEARNING)",
+      "siglas": [
+        "DAT-255",
+        "INF-323"
+      ],
+      "paginas": [
+        5,
+        9
+      ]
+    },
+    {
+      "nombre": "COMERCIO ELECTRONICO Y MARKETING DIGITAL",
+      "siglas": [
+        "SIS-255",
+        "DAT-313"
+      ],
+      "paginas": [
+        5,
+        8
+      ]
+    },
+    {
+      "nombre": "REDES INALAMBRICAS",
+      "siglas": [
+        "TIC-254",
+        "SEG-264"
+      ],
+      "paginas": [
+        5,
+        6
+      ]
+    },
+    {
+      "nombre": "APLICACIONES Y SERVICIOS TIC",
+      "siglas": [
+        "TIC-255"
+      ],
+      "paginas": [
+        5
+      ]
+    },
+    {
+      "nombre": "LEGISLACION INFORMATICA Y ETICA",
+      "siglas": [
+        "TRA-256"
+      ],
+      "paginas": [
+        5
+      ]
+    },
+    {
+      "nombre": "HACKING ETICO I (ETICA Y VULNERABILIDAD DE SISTEMAS)",
+      "siglas": [
+        "SEG-261",
+        "INF-332"
+      ],
+      "paginas": [
+        5,
+        9
+      ]
+    },
+    {
+      "nombre": "INGENIERIA DE SOFTWARE II",
+      "siglas": [
+        "INF-261"
+      ],
+      "paginas": [
+        5
+      ]
+    },
+    {
+      "nombre": "LENGUAJES FORMALES Y AUTOMATAS",
+      "siglas": [
+        "COM-261",
+        "IID-316"
+      ],
+      "paginas": [
+        5,
+        8
+      ]
+    },
+    {
+      "nombre": "SEGURIDAD DE REDES I",
+      "siglas": [
+        "SEG-262",
+        "TIC-372"
+      ],
+      "paginas": [
+        5,
+        7
+      ]
+    },
+    {
+      "nombre": "COMPILADORES",
+      "siglas": [
+        "COM-262"
+      ],
+      "paginas": [
+        6
+      ]
+    },
+    {
+      "nombre": "PROCESAMIENTO DEL LENGUAJE NATURAL",
+      "siglas": [
+        "DAT-261",
+        "COM-316"
+      ],
+      "paginas": [
+        6,
+        8
+      ]
+    },
+    {
+      "nombre": "SIMULACION DE SISTEMAS",
+      "siglas": [
+        "IID-261",
+        "COM-371",
+        "INF-381",
+        "DAT-318"
+      ],
+      "paginas": [
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "nombre": "SOFTWARE MALICIOSO Y AMENAZAS DIRIGIDAS",
+      "siglas": [
+        "SEG-263"
+      ],
+      "paginas": [
+        6
+      ]
+    },
+    {
+      "nombre": "CENTRO DE DATOS (DATA CENTER)",
+      "siglas": [
+        "TIC-261"
+      ],
+      "paginas": [
+        6
+      ]
+    },
+    {
+      "nombre": "COMPUTACION PARALELA",
+      "siglas": [
+        "COM-263"
+      ],
+      "paginas": [
+        6
+      ]
+    },
+    {
+      "nombre": "DESARROLLO DE APLICACIONES MULTIMEDIA",
+      "siglas": [
+        "INF-263"
+      ],
+      "paginas": [
+        6
+      ]
+    },
+    {
+      "nombre": "DINAMICA DE SISTEMAS",
+      "siglas": [
+        "SIS-262"
+      ],
+      "paginas": [
+        6
+      ]
+    },
+    {
+      "nombre": "PROCESOS ESTOCASTICOS Y ANALISIS DE SERIES DE TIEMPO",
+      "siglas": [
+        "DAT-262"
+      ],
+      "paginas": [
+        6
+      ]
+    },
+    {
+      "nombre": "ANALISIS DE DATOS",
+      "siglas": [
+        "DAT-263"
+      ],
+      "paginas": [
+        6
+      ]
+    },
+    {
+      "nombre": "EMPRENDIMIENTO E INNOVACION TECNOLOGICA",
+      "siglas": [
+        "INF-264",
+        "INF-337"
+      ],
+      "paginas": [
+        6,
+        9
+      ]
+    },
+    {
+      "nombre": "SISTEMAS DE GESTION DE RED",
+      "siglas": [
+        "TIC-262"
+      ],
+      "paginas": [
+        6
+      ]
+    },
+    {
+      "nombre": "SISTEMAS DE GESTION EMPRESARIAL",
+      "siglas": [
+        "SIS-263"
+      ],
+      "paginas": [
+        6
+      ]
+    },
+    {
+      "nombre": "APRENDIZAJE PROFUNDO (DEEP LEARNING)",
+      "siglas": [
+        "DAT-264",
+        "INF-324"
+      ],
+      "paginas": [
+        6,
+        9
+      ]
+    },
+    {
+      "nombre": "REDES DE COMUNICACION I",
+      "siglas": [
+        "TIC-263",
+        "SEG-311"
+      ],
+      "paginas": [
+        6,
+        8
+      ]
+    },
+    {
+      "nombre": "TALLER DE PROYECTO",
+      "siglas": [
+        "INF-266"
+      ],
+      "paginas": [
+        6
+      ]
+    },
+    {
+      "nombre": "GESTION DE INCIDENTES Y CONTINUIDAD DEL NEGOCIO",
+      "siglas": [
+        "SEG-371"
+      ],
+      "paginas": [
+        6
+      ]
+    },
+    {
+      "nombre": "ARQUITECTURA ORIENTADA A SERVICIOS",
+      "siglas": [
+        "COM-372"
+      ],
+      "paginas": [
+        7
+      ]
+    },
+    {
+      "nombre": "INTELIGENCIA DE NEGOCIOS (BUSSINES INTELLIGENCE)",
+      "siglas": [
+        "DAT-371",
+        "INF-327"
+      ],
+      "paginas": [
+        7,
+        9
+      ]
+    },
+    {
+      "nombre": "SEGURIDAD DE REDES II",
+      "siglas": [
+        "SEG-372",
+        "TIC-382"
+      ],
+      "paginas": [
+        7
+      ]
+    },
+    {
+      "nombre": "INFORMATICA FORENSE",
+      "siglas": [
+        "SEG-373",
+        "INF-316"
+      ],
+      "paginas": [
+        7,
+        8
+      ]
+    },
+    {
+      "nombre": "SISTEMAS DISTRIBUIDOS",
+      "siglas": [
+        "SIS-371"
+      ],
+      "paginas": [
+        7
+      ]
+    },
+    {
+      "nombre": "COMPUTACION EN LA NUBE",
+      "siglas": [
+        "SIS-372",
+        "INF-318",
+        "TSS-261"
+      ],
+      "paginas": [
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "nombre": "ORGANIZACION Y METODOS",
+      "siglas": [
+        "SIS-373"
+      ],
+      "paginas": [
+        7
+      ]
+    },
+    {
+      "nombre": "REDES DE COMUNICACION II",
+      "siglas": [
+        "TIC-373",
+        "SEG-312"
+      ],
+      "paginas": [
+        7,
+        8
+      ]
+    },
+    {
+      "nombre": "PRACTICA PROFESIONAL",
+      "siglas": [
+        "TRA-374"
+      ],
+      "paginas": [
+        7
+      ]
+    },
+    {
+      "nombre": "GESTION DE RIESGOS EN SEGURIDAD DE LA INFORMACION",
+      "siglas": [
+        "SEG-381"
+      ],
+      "paginas": [
+        7
+      ]
+    },
+    {
+      "nombre": "INTERACCION HUMANO-COMPUTADOR",
+      "siglas": [
+        "COM-381"
+      ],
+      "paginas": [
+        7
+      ]
+    },
+    {
+      "nombre": "MACRODATOS Y ANALITICA DE DATOS (BIG DATA)",
+      "siglas": [
+        "DAT-381",
+        "INF-322"
+      ],
+      "paginas": [
+        7,
+        9
+      ]
+    },
+    {
+      "nombre": "WEB SEMANTICA",
+      "siglas": [
+        "COM-382"
+      ],
+      "paginas": [
+        7
+      ]
+    },
+    {
+      "nombre": "AUDITORIA DE SISTEMAS",
+      "siglas": [
+        "SIS-382",
+        "INF-320"
+      ],
+      "paginas": [
+        7,
+        9
+      ]
+    },
+    {
+      "nombre": "INGENIERIA DE SOFTWARE III",
+      "siglas": [
+        "INF-382"
+      ],
+      "paginas": [
+        7
+      ]
+    },
+    {
+      "nombre": "VISUALIZACION DE DATOS",
+      "siglas": [
+        "DAT-382"
+      ],
+      "paginas": [
+        7
+      ]
+    },
+    {
+      "nombre": "ADMINISTRACION DE CENTROS DE DATOS Y DE RED",
+      "siglas": [
+        "TIC-381"
+      ],
+      "paginas": [
+        7
+      ]
+    },
+    {
+      "nombre": "GESTION DE ACTIVOS DE INFORMACION",
+      "siglas": [
+        "SEG-383"
+      ],
+      "paginas": [
+        7
+      ]
+    },
+    {
+      "nombre": "TALLER DE GRADUACION I",
+      "siglas": [
+        "INF-384"
+      ],
+      "paginas": [
+        8
+      ]
+    },
+    {
+      "nombre": "SISTEMAS ESTOCASTICOS",
+      "siglas": [
+        "COM-311"
+      ],
+      "paginas": [
+        8
+      ]
+    },
+    {
+      "nombre": "CALCULO IV",
+      "siglas": [
+        "DAT-311"
+      ],
+      "paginas": [
+        8
+      ]
+    },
+    {
+      "nombre": "BIOINFORMATICA",
+      "siglas": [
+        "INF-312"
+      ],
+      "paginas": [
+        8
+      ]
+    },
+    {
+      "nombre": "INGLES TECNICO",
+      "siglas": [
+        "INF-314"
+      ],
+      "paginas": [
+        8
+      ]
+    },
+    {
+      "nombre": "TEORIA GENERAL DE SISTEMAS",
+      "siglas": [
+        "SIS-315"
+      ],
+      "paginas": [
+        8
+      ]
+    },
+    {
+      "nombre": "ADMINISTRACION DE CENTROS DE OPERACIONES DE RED",
+      "siglas": [
+        "SEG-317"
+      ],
+      "paginas": [
+        8
+      ]
+    },
+    {
+      "nombre": "ESPECIFICACION FORMAL Y VERIFICACION",
+      "siglas": [
+        "COM-320"
+      ],
+      "paginas": [
+        8
+      ]
+    },
+    {
+      "nombre": "COMPUTABILIDAD Y COMPLEJIDAD ALGORITMICA",
+      "siglas": [
+        "COM-323"
+      ],
+      "paginas": [
+        8
+      ]
+    },
+    {
+      "nombre": "SERVICIOS EN LA NUBE",
+      "siglas": [
+        "TIC-323"
+      ],
+      "paginas": [
+        9
+      ]
+    },
+    {
+      "nombre": "SISTEMAS CONTABLES",
+      "siglas": [
+        "SIS-325"
+      ],
+      "paginas": [
+        9
+      ]
+    },
+    {
+      "nombre": "ADMINISTRACION DE REDES Y SERVICIOS DE INFRAESTRUCTURA TI",
+      "siglas": [
+        "TSS-251"
+      ],
+      "paginas": [
+        9
+      ]
+    },
+    {
+      "nombre": "TEORIA DE LA INFORMACION Y LA CODIFICACION",
+      "siglas": [
+        "TRC-251"
+      ],
+      "paginas": [
+        9
+      ]
+    },
+    {
+      "nombre": "ELECTIVA I.DESARROLLO WEB BACKEND",
+      "siglas": [
+        "TAW-251"
+      ],
+      "paginas": [
+        9
+      ]
+    },
+    {
+      "nombre": "ELECTIVA II. INGENIERIA WEB",
+      "siglas": [
+        "TAW-261"
+      ],
+      "paginas": [
+        9
+      ]
+    }
+  ],
+  "aulas": [
+    {
+      "codigo": "04-01-05",
+      "nombre": "Aula 04-01-05",
+      "lugar": "ANTIGUO",
+      "piso": null,
+      "tipo": "AULA",
+      "paginas": [
+        3,
+        4,
+        8
+      ]
+    },
+    {
+      "codigo": "04-02-08",
+      "nombre": "Aula 04-02-08",
+      "lugar": "ANTIGUO",
+      "piso": null,
+      "tipo": "AULA",
+      "paginas": [
+        4,
+        5
+      ]
+    },
+    {
+      "codigo": "04-02-09",
+      "nombre": "Aula 04-02-09",
+      "lugar": "ANTIGUO",
+      "piso": null,
+      "tipo": "AULA",
+      "paginas": [
+        1,
+        2,
+        3,
+        4,
+        9
+      ]
+    },
+    {
+      "codigo": "P1-A1",
+      "nombre": "P1-A1",
+      "lugar": "INFORMATICA",
+      "piso": 1,
+      "tipo": "AULA",
+      "paginas": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "codigo": "P1-A2",
+      "nombre": "P1-A2",
+      "lugar": "INFORMATICA",
+      "piso": 1,
+      "tipo": "AULA",
+      "paginas": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        9
+      ]
+    },
+    {
+      "codigo": "P1-A3",
+      "nombre": "P1-A3",
+      "lugar": "INFORMATICA",
+      "piso": 1,
+      "tipo": "AULA",
+      "paginas": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "codigo": "P3-LAB1",
+      "nombre": "P3-Lab1",
+      "lugar": "INFORMATICA",
+      "piso": 3,
+      "tipo": "LABORATORIO",
+      "paginas": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "codigo": "P3-LAB3",
+      "nombre": "P3-Lab3",
+      "lugar": "INFORMATICA",
+      "piso": 3,
+      "tipo": "LABORATORIO",
+      "paginas": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        8
+      ]
+    },
+    {
+      "codigo": "P3-LAB4",
+      "nombre": "P3-Lab4",
+      "lugar": "INFORMATICA",
+      "piso": 3,
+      "tipo": "LABORATORIO",
+      "paginas": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9
+      ]
+    },
+    {
+      "codigo": "P4-A1",
+      "nombre": "P4-A1",
+      "lugar": "INFORMATICA",
+      "piso": 4,
+      "tipo": "AULA",
+      "paginas": [
+        1,
+        3,
+        5,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "codigo": "P4-A2",
+      "nombre": "P4-A2",
+      "lugar": "INFORMATICA",
+      "piso": 4,
+      "tipo": "AULA",
+      "paginas": [
+        2,
+        3,
+        5,
+        7,
+        8
+      ]
+    },
+    {
+      "codigo": "P4-A3",
+      "nombre": "P4-A3",
+      "lugar": "INFORMATICA",
+      "piso": 4,
+      "tipo": "AULA",
+      "paginas": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        9
+      ]
+    },
+    {
+      "codigo": "P4-A4",
+      "nombre": "P4-A4",
+      "lugar": "INFORMATICA",
+      "piso": 4,
+      "tipo": "AULA",
+      "paginas": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "codigo": "P4-LAB1",
+      "nombre": "P4-Lab1",
+      "lugar": "INFORMATICA",
+      "piso": 4,
+      "tipo": "LABORATORIO",
+      "paginas": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9
+      ]
+    },
+    {
+      "codigo": "P5-A2",
+      "nombre": "P5-A2",
+      "lugar": "INFORMATICA",
+      "piso": 5,
+      "tipo": "AULA",
+      "paginas": [
+        3,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "codigo": "P5-A3",
+      "nombre": "P5-A3",
+      "lugar": "INFORMATICA",
+      "piso": 5,
+      "tipo": "AULA",
+      "paginas": [
+        3,
+        8
+      ]
+    },
+    {
+      "codigo": "P5-A5",
+      "nombre": "P5-A5",
+      "lugar": "INFORMATICA",
+      "piso": 5,
+      "tipo": "AULA",
+      "paginas": [
+        3,
+        4,
+        5,
+        8,
+        9
+      ]
+    },
+    {
+      "codigo": "P5-LAB1",
+      "nombre": "P5-Lab1",
+      "lugar": "INFORMATICA",
+      "piso": 5,
+      "tipo": "LABORATORIO",
+      "paginas": [
+        1,
+        3,
+        4,
+        5,
+        7
+      ]
+    },
+    {
+      "codigo": "PB-A1",
+      "nombre": "PB-A1",
+      "lugar": "INFORMATICA",
+      "piso": 0,
+      "tipo": "AULA",
+      "paginas": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "codigo": "PB-A2",
+      "nombre": "PB-A2",
+      "lugar": "INFORMATICA",
+      "piso": 0,
+      "tipo": "AULA",
+      "paginas": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "codigo": "SS-A1",
+      "nombre": "SS-A1",
+      "lugar": "INFORMATICA",
+      "piso": -1,
+      "tipo": "AULA",
+      "paginas": [
+        1,
+        2,
+        3,
+        5,
+        7,
+        9
+      ]
+    },
+    {
+      "codigo": "SS-A2",
+      "nombre": "SS-A2",
+      "lugar": "INFORMATICA",
+      "piso": -1,
+      "tipo": "AULA",
+      "paginas": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "codigo": "SS-A3",
+      "nombre": "SS-A3",
+      "lugar": "INFORMATICA",
+      "piso": -1,
+      "tipo": "AULA",
+      "paginas": [
+        1,
+        2,
+        3,
+        7
+      ]
+    },
+    {
+      "codigo": "SS-A4",
+      "nombre": "SS-A4",
+      "lugar": "INFORMATICA",
+      "piso": -1,
+      "tipo": "AULA",
+      "paginas": [
+        1,
+        2,
+        3,
+        6,
+        8
+      ]
+    },
+    {
+      "codigo": "LASIN-1",
+      "nombre": "LASIN 1",
+      "lugar": "LASIN",
+      "piso": null,
+      "tipo": "LABORATORIO",
+      "paginas": [
+        1,
+        2,
+        3,
+        5,
+        7,
+        9
+      ]
+    },
+    {
+      "codigo": "LASIN-2",
+      "nombre": "LASIN 2",
+      "lugar": "LASIN",
+      "piso": null,
+      "tipo": "LABORATORIO",
+      "paginas": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9
+      ]
+    },
+    {
+      "codigo": "LASIN-3",
+      "nombre": "LASIN 3",
+      "lugar": "LASIN",
+      "piso": null,
+      "tipo": "LABORATORIO",
+      "paginas": [
+        2,
+        3,
+        6
+      ]
+    },
+    {
+      "codigo": "PAB-G",
+      "nombre": "Pabellón G",
+      "lugar": "PABELLONES",
+      "piso": null,
+      "tipo": "AULA",
+      "paginas": [
+        2,
+        3,
+        5,
+        9
+      ]
+    }
+  ],
+  "conflictos": [
+    {
+      "sigla": "INF-244",
+      "nombres": [
+        "BASE DE DATOS II",
+        "INTRODUCCIÓN A LA ROBÓTICA"
+      ]
+    }
+  ]
+}

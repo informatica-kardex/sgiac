@@ -1,0 +1,50 @@
+{
+  "modo": "APLICADO",
+  "fuente": "HORARIOS PASANTES PRACTICA PARA COLAR.pdf",
+  "reemplazarII2026": false,
+  "huellaActual": "c0284383f01c14e2a73da102c8d9e81fceb2892168b25255f09490659bd51552",
+  "respaldo": "F:\\sgiac\\backend\\prisma\\backups\\antes-horarios-2026-10-04T01-36-40-523Z-73ca1150.json",
+  "aulasNuevas": [
+    "P3-LAB4"
+  ],
+  "docentesNuevos": 82,
+  "docentesIdentificadosPDF": 88,
+  "asignacionesNuevas": 174,
+  "horariosNuevos": 287,
+  "horariosYaPresentes": 8,
+  "retirados": null,
+  "periodosNuevos": [
+    "I/2027"
+  ],
+  "catalogosConservados": {
+    "materias": 114,
+    "aulas": 28,
+    "docentesPrevios": 6,
+    "auxiliares": 1
+  },
+  "auxiliaresImportados": 0,
+  "horariosAuxiliaresImportados": 0,
+  "sesionesAuxiliaresExcluidas": 57,
+  "pendientesBD": [
+    {
+      "grupo": "INF-111|B",
+      "motivo": "Asignación existente con otro docente/estado; conservada"
+    },
+    {
+      "grupo": "INF-112|B",
+      "motivo": "Asignación existente con otro docente/estado; conservada"
+    },
+    {
+      "grupo": "INF-112|C",
+      "motivo": "Asignación existente con otro docente/estado; conservada"
+    },
+    {
+      "grupo": "TRA-256|C",
+      "dia": "JUEVES",
+      "horaInicio": "08:00",
+      "aula": "SS-A1",
+      "motivo": "Cruce con horario existente; conservado",
+      "existente": "19"
+    }
+  ]
+}

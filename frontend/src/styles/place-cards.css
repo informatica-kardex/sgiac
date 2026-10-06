@@ -1,0 +1,140 @@
+.place-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 12px;
+}
+
+.place-card {
+  --place-rise: -5px;
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  min-width: 0;
+  padding: 20px 24px;
+  border-radius: 6px;
+  text-align: left;
+  color: #233b43;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 220ms cubic-bezier(.2, .7, .2, 1);
+}
+
+/* Buildings keep a subtle slant; floor and room cards use a straight face below. */
+.place-card::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0 7px;
+  transform: skewX(-4deg);
+  border-radius: inherit;
+  border: 1px solid color-mix(in srgb, var(--place-accent) 25%, white);
+  border-top: 3px solid var(--place-accent);
+  background:
+    radial-gradient(ellipse at 100% 0, color-mix(in srgb, var(--place-accent) 10%, transparent), transparent 70%),
+    linear-gradient(145deg, #ffffff94, #ffffff00 65%),
+    var(--place-surface);
+  box-shadow: 0 3px 6px #233b4305, 0 8px 18px -14px color-mix(in srgb, var(--place-accent) 40%, transparent);
+  transition: background-color 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+}
+
+.place-card.is-selected::before {
+  border-color: var(--place-accent);
+  background-color: color-mix(in srgb, var(--place-surface) 88%, var(--place-accent));
+  box-shadow: inset 0 0 0 1px var(--place-accent), 0 8px 20px -14px var(--place-accent);
+}
+
+.place-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  color: var(--place-accent);
+}
+
+.place-card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 11px;
+  color: white;
+  background: var(--place-accent);
+  box-shadow: 0 5px 10px -5px var(--place-accent);
+  transition: transform 220ms ease;
+}
+
+.place-card-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #ffffff8c;
+  font-size: 15px;
+  font-weight: 700;
+  transition: transform 220ms ease, color 220ms ease, background-color 220ms ease;
+}
+
+.place-card.is-selected .place-card-check { background: var(--place-accent); color: white; }
+.place-card-name { font-size: 14px; line-height: 1.4; font-weight: 650; min-height: 2.8em; }
+.place-card-count { margin-top: auto; color: #526673; font-size: 11px; }
+.place-card-count strong { margin-right: 4px; font-size: 27px; font-weight: 700; color: var(--place-accent); }
+
+/* Hover is restricted to a mouse or trackpad so touch selection never sticks. */
+@media (hover: hover) and (pointer: fine) {
+  .place-card:not(:disabled):hover { transform: translateY(var(--place-rise)); }
+  .place-card:not(:disabled):hover::before {
+    border-color: var(--place-accent);
+    box-shadow: 0 6px 12px -8px #233b4333, 0 20px 30px -18px color-mix(in srgb, var(--place-accent) 65%, transparent);
+  }
+  .place-card.is-selected:not(:disabled):hover::before {
+    box-shadow: inset 0 0 0 1px var(--place-accent), 0 20px 30px -18px color-mix(in srgb, var(--place-accent) 65%, transparent);
+  }
+  .place-card:not(:disabled):hover .place-card-icon { transform: rotate(-4deg) scale(1.06); }
+  .place-card:not(:disabled):hover .place-card-check { transform: translate(2px, -2px); }
+}
+
+.admin-theme .place-card:focus-visible { outline: 3px solid var(--place-accent); outline-offset: 3px; }
+.place-card:focus-visible::before { border-color: var(--place-accent); }
+.place-card:not(:disabled):active { transform: translateY(-1px) scale(.985); transition-duration: 80ms; }
+.place-card:disabled { opacity: .6; cursor: wait; }
+
+.room-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+.room-choice { --place-rise: -3px; padding: 14px 16px; gap: 5px; border-radius: 12px; }
+.room-choice::before {
+  inset: 0;
+  transform: none;
+  border-top-width: 2px;
+  background: linear-gradient(140deg, #ffffff99, #ffffff14), var(--place-surface);
+}
+.room-choice-kind { text-transform: uppercase; font-size: 9px; letter-spacing: .1em; font-weight: 700; }
+.room-choice-code { font-size: 16px; color: #233b43; }
+.room-choice-name { font-size: 12px; overflow-wrap: anywhere; }
+.room-choice-detail { font-size: 10px; color: #526673; line-height: 1.5; }
+.room-choice-status { align-self: flex-start; padding: 2px 6px; border-radius: 4px; background: #fff3d5; font-size: 10px; font-weight: 600; color: #765118; }
+.place-step { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 650; color: #486a60; }
+.place-step span { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: #deeee8; color: #286b5c; font-size: 10px; }
+@media (min-width: 1100px) {
+  .place-cards { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .place-cards.with-all { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+}
+@media (max-width: 480px) {
+  .place-card { padding: 16px 20px; }
+  .place-card-name { font-size: 12px; }
+  .place-card-icon { width: 34px; height: 34px; border-radius: 9px; }
+  .room-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .room-choice { padding: 12px 14px; }
+  .room-choice-code { font-size: 14px; overflow-wrap: anywhere; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .place-card, .place-card::before, .place-card-icon, .place-card-check { transition: none; }
+  .place-card:not(:disabled):is(:hover, :active),
+  .place-card:not(:disabled):hover :is(.place-card-icon, .place-card-check) { transform: none; }
+}

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useUserAuthStore } from "../../store/userAuthStore";
 import { LoadingSpinner } from "../components/LoadingSpinner";
+import { TableroAtencion } from "../../components/TableroAtencion";
 
 export default function AtencionPage() {
   const { isAuthenticated, isInitializing } = useUserAuthStore();
@@ -14,6 +15,7 @@ export default function AtencionPage() {
         </p>
       </div>
 
+      <div className="mb-10"><TableroAtencion /></div>
       <div className="grid items-start gap-8 lg:grid-cols-5">
         <section className="card p-6 sm:p-8 lg:col-span-3" aria-labelledby="generar-ficha">
           <span className="student-access-icon mb-4" aria-hidden="true">
@@ -42,7 +44,7 @@ export default function AtencionPage() {
               <ol className="mt-5 list-decimal space-y-3 pl-5 text-sm leading-6 text-slate-600">
                 <li>Crea tu cuenta con tus datos de estudiante y verifica tu correo.</li>
                 <li>Inicia sesión para acceder a tus fichas de atención.</li>
-                <li>Elige una jornada disponible y completa el motivo de tu solicitud.</li>
+                <li>Elige tu trámite y una jornada disponible. La ficha se genera con los datos de tu cuenta.</li>
               </ol>
               <div className="mt-7 flex flex-wrap gap-3">
                 <Link to="/login" state={{ generarFicha: true }} className="btn-primary">

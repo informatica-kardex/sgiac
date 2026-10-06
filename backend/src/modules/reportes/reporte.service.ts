@@ -1,16 +1,12 @@
 import { prisma } from "../../database/prisma";
-import { aulasMock } from "../aulas/aula.mock";
+import { AulaRepository } from "../aulas/aula.repository";
 import { ComunicadoRepository } from "../comunicados/comunicado.repository";
-import { fichasMock } from "../fichas/ficha.mock";
-import { horariosMock } from "../horarios/horario.mock";
+import { ESPERA } from "../fichas/ficha.shared";
+import { HorarioRepository } from "../horarios/horario.repository";
 
 // ------------------------------------------------------------
-// Servicio de reportes: agrega datos reales (usuarios, vía
-// Prisma, incluidos comunicados) y datos mock (aulas, fichas, horarios)
-// para alimentar las tarjetas y graficos del dashboard admin.
-// Cuando los modulos mock se conecten a tablas reales, este
-// servicio solo necesita reemplazar el import del mock por el
-// repositorio real correspondiente.
+// Agrega los datos persistidos de los módulos para las tarjetas
+// y gráficos del dashboard administrativo.
 // ------------------------------------------------------------
 export class ReporteService {
   async resumenDashboard() {
@@ -19,18 +15,19 @@ export class ReporteService {
       where: { estado: "activo" },
     });
 
-    const aulasDisponibles = aulasMock.filter((a) => a.estado === "disponible").length;
+    const aulas = await new AulaRepository().findAll();
+    const aulasDisponibles = aulas.filter((a) => a.estado === "disponible").length;
     const comunicadosActivos = (await new ComunicadoRepository().findAllPublicados()).length;
-    const atencionesPendientes = fichasMock.filter((f) => f.estado === "pendiente").length;
+    const atencionesPendientes = await prisma.ficha_atencion.count({ where: { estado_actual: { in: ESPERA } } });
 
     return {
-      totalAulas: aulasMock.length,
+      totalAulas: aulas.length,
       aulasDisponibles,
       comunicadosActivos,
       totalUsuarios,
       usuariosActivos,
       atencionesPendientes,
-      totalHorarios: horariosMock.length,
+      totalHorarios: (await new HorarioRepository().findAll()).length,
     };
   }
 
@@ -46,19 +43,13 @@ export class ReporteService {
   }
 
   async fichasPorEstado() {
-    const conteo = new Map<string, number>();
-    fichasMock.forEach((f) => {
-      conteo.set(f.estado, (conteo.get(f.estado) ?? 0) + 1);
-    });
-    return Array.from(conteo.entries()).map(([estado, cantidad]) => ({
-      estado,
-      cantidad,
-    }));
+    return (await prisma.ficha_atencion.groupBy({ by: ["estado_actual"], _count: true }))
+      .map(f => ({ estado: f.estado_actual, cantidad: f._count }));
   }
 
   async aulasPorEstado() {
     const conteo = new Map<string, number>();
-    aulasMock.forEach((a) => {
+    (await new AulaRepository().findAll()).forEach((a) => {
       conteo.set(a.estado, (conteo.get(a.estado) ?? 0) + 1);
     });
     return Array.from(conteo.entries()).map(([estado, cantidad]) => ({

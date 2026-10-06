@@ -6,10 +6,24 @@ export const globalRateLimiter = rateLimit({
   limit: 300,
   standardHeaders: true,
   legacyHeaders: false,
+  // Estas lecturas automáticas tienen límites propios para no consumir el de navegación.
+  skip: req => req.method === "GET" && ["/api/fichas/tablero", "/api/fichas/panel", "/api/estudiantes/atencion", "/api/fichas/tv/config"].includes(req.path),
   message: {
     success: false,
     message: "Demasiadas solicitudes. Intenta nuevamente mas tarde.",
   },
+});
+
+export const atencionPollingLimiter = rateLimit({
+  windowMs: 60000, limit: 120,
+  keyGenerator: req => `usuario:${req.user!.idUsuario}`,
+  standardHeaders: true, legacyHeaders: false,
+  message: { success: false, message: "Demasiadas actualizaciones. Espera un minuto." },
+});
+export const tableroPollingLimiter = rateLimit({
+  windowMs: 60000, limit: 600,
+  standardHeaders: true, legacyHeaders: false,
+  message: { success: false, message: "Demasiadas actualizaciones del tablero. Espera un minuto." },
 });
 
 // Limite estricto para endpoints sensibles de autenticacion

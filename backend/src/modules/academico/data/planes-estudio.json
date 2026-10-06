@@ -1,0 +1,3157 @@
+{
+  "fuentes": [
+    "referencias/HORARIOS PASANTES PRACTICA PARA COLAR.pdf",
+    "referencias/TABLA CONVALIDACION 3 PLANES",
+    "http://informatica.umsa.bo/static/pdf/malla2023.pdf"
+  ],
+  "criterio": "Semestres y orden de la malla 2023, contrastados por nombre con la convalidación ajustada. Siglas del catálogo de horarios. Las electivas sin semestre fijo se ordenan después de las materias semestrales. La vista general promedia los semestres conocidos por mención.",
+  "menciones": [
+    {
+      "id": "SOFTWARE",
+      "nombre": "Desarrollo de Software e Innovación Tecnológica"
+    },
+    {
+      "id": "SISTEMAS",
+      "nombre": "Ingeniería de Sistemas"
+    },
+    {
+      "id": "COMPUTACION",
+      "nombre": "Ciencias de la Computación"
+    },
+    {
+      "id": "DATOS",
+      "nombre": "Inteligencia Artificial y Ciencia de Datos"
+    },
+    {
+      "id": "SEGURIDAD",
+      "nombre": "Seguridad de la Información"
+    },
+    {
+      "id": "REDES",
+      "nombre": "Redes y Tecnologías de la Información y Comunicación"
+    },
+    {
+      "id": "INDUSTRIAL",
+      "nombre": "Informática Industrial"
+    }
+  ],
+  "materias": [
+    {
+      "nombre": "PROGRAMACION I",
+      "siglas": [
+        "INF-111"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 1,
+          "orden": 1,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 1,
+          "orden": 1,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 1,
+          "orden": 1,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": 1,
+          "orden": 1,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 1,
+          "orden": 1,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": 1,
+          "orden": 1,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": 1,
+          "orden": 1,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "FUNDAMENTOS DIGITALES",
+      "siglas": [
+        "INF-112"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 1,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 1,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 1,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": 1,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 1,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": 1,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": 1,
+          "orden": 2,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "PROGRAMACION WEB I",
+      "siglas": [
+        "INF-113"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 1,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 1,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 1,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": 1,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 1,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": 1,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": 1,
+          "orden": 3,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "ALGEBRA",
+      "siglas": [
+        "INF-114"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 1,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 1,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 1,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": 1,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 1,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": 1,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": 1,
+          "orden": 4,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "CALCULO I",
+      "siglas": [
+        "INF-115"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 1,
+          "orden": 5,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 1,
+          "orden": 5,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 1,
+          "orden": 5,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": 1,
+          "orden": 5,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 1,
+          "orden": 5,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": 1,
+          "orden": 5,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": 1,
+          "orden": 5,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "FISICA",
+      "siglas": [
+        "INF-116"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 1,
+          "orden": 6,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 1,
+          "orden": 6,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 1,
+          "orden": 6,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": 1,
+          "orden": 6,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": 1,
+          "orden": 6,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "MATEMATICA DISCRETA",
+      "siglas": [
+        "INF-117"
+      ],
+      "planes": [
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 1,
+          "orden": 6,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": 1,
+          "orden": 6,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "PROGRAMACIÓN II",
+      "siglas": [
+        "INF-121"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 2,
+          "orden": 1,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 2,
+          "orden": 1,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 2,
+          "orden": 1,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": 2,
+          "orden": 1,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 2,
+          "orden": 1,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": 2,
+          "orden": 1,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": 2,
+          "orden": 1,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "PROGRAMACIÓN WEB II",
+      "siglas": [
+        "INF-122"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 2,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 2,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 2,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": 2,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 2,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": 2,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": 2,
+          "orden": 2,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "ELECTRONICA GENERAL I",
+      "siglas": [
+        "INF-123"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 2,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 2,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 2,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": 2,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 2,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": 2,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": 2,
+          "orden": 3,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "ESTADÍSTICA I",
+      "siglas": [
+        "INF-124"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 2,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 2,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 2,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": 2,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 2,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": 2,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": 2,
+          "orden": 4,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "ALGEBRA LINEAL",
+      "siglas": [
+        "INF-125"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 2,
+          "orden": 5,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 2,
+          "orden": 5,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 2,
+          "orden": 5,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": 2,
+          "orden": 5,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 2,
+          "orden": 5,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": 2,
+          "orden": 5,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": 2,
+          "orden": 5,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "CÁLCULO II",
+      "siglas": [
+        "INF-126"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 2,
+          "orden": 6,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 2,
+          "orden": 6,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 2,
+          "orden": 6,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": 2,
+          "orden": 6,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 2,
+          "orden": 6,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": 2,
+          "orden": 6,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": 2,
+          "orden": 6,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "PROGRAMACIÓN III",
+      "siglas": [
+        "INF-131"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 3,
+          "orden": 1,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 3,
+          "orden": 1,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 3,
+          "orden": 1,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": 3,
+          "orden": 1,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 3,
+          "orden": 1,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": 3,
+          "orden": 1,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": 3,
+          "orden": 1,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "BASE DE DATOS I",
+      "siglas": [
+        "INF-132"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 3,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 3,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 3,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": 3,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 3,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": 3,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": 3,
+          "orden": 2,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "PROGRAMACIÓN WEB III",
+      "siglas": [
+        "INF-133"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 3,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 3,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 3,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": 3,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 3,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": 3,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": 3,
+          "orden": 3,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "ESTADÍSTICA II",
+      "siglas": [
+        "INF-134"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 3,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 3,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 3,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": 3,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 3,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": 3,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": 3,
+          "orden": 4,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "CALCULO III",
+      "siglas": [
+        "DAT-135",
+        "INF-247",
+        "INF-321"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": null,
+          "orden": 8,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": null,
+          "orden": 6,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 4,
+          "orden": 6,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": 3,
+          "orden": 5,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": null,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": 4,
+          "orden": 7,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "ELECTRÓNICA GENERAL II",
+      "siglas": [
+        "IID-135"
+      ],
+      "planes": [
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": 3,
+          "orden": 5,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "INTRODUCCION A LAS REDES Y TELECOMUNICACIONES",
+      "siglas": [
+        "TIC-135"
+      ],
+      "planes": [
+        {
+          "mencion": "REDES",
+          "semestre": 3,
+          "orden": 5,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "SISTEMAS OPERATIVOS",
+      "siglas": [
+        "INF-135",
+        "TIC-246"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 3,
+          "orden": 5,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 3,
+          "orden": 5,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 3,
+          "orden": 5,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 3,
+          "orden": 5,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": 4,
+          "orden": 1,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "METODOLOGIA DE LA INVESTIGACION",
+      "siglas": [
+        "TRA-136"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 3,
+          "orden": 6,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 3,
+          "orden": 6,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 3,
+          "orden": 6,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": 3,
+          "orden": 6,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 3,
+          "orden": 6,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": 3,
+          "orden": 6,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": 3,
+          "orden": 6,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "ANÁLISIS Y DISEÑO DE SISTEMAS I",
+      "siglas": [
+        "INF-241"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 4,
+          "orden": 1,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 4,
+          "orden": 1,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 4,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 4,
+          "orden": 1,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": 4,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": 4,
+          "orden": 1,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "PROGRAMACION DISTRIBUIDA Y PARALELA",
+      "siglas": [
+        "DAT-241"
+      ],
+      "planes": [
+        {
+          "mencion": "SISTEMAS",
+          "semestre": null,
+          "orden": 9,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": 4,
+          "orden": 1,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "METODOS NUMERICOS I",
+      "siglas": [
+        "DAT-242",
+        "COM-254",
+        "INF-373"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 7,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 5,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 5,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": 4,
+          "orden": 3,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "REDES I",
+      "siglas": [
+        "INF-242"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 4,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 4,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 4,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 4,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": 4,
+          "orden": 6,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": 4,
+          "orden": 2,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "INVESTIGACIÓN OPERATIVA I",
+      "siglas": [
+        "INF-243"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 4,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 4,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 4,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": 4,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 4,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": 4,
+          "orden": 5,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": 4,
+          "orden": 3,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "BASE DE DATOS II",
+      "siglas": [
+        "INF-244",
+        "INF-252",
+        "COM-322"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 5,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 4,
+          "orden": 5,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": null,
+          "orden": 8,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": 4,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": 4,
+          "orden": 4,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "INTRODUCCIÓN A LA ROBÓTICA",
+      "siglas": [
+        "INF-244"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 4,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": 4,
+          "orden": 5,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "RECONOCIMIENTO DE PATRONES",
+      "siglas": [
+        "COM-244"
+      ],
+      "planes": [
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 4,
+          "orden": 1,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "SEGURIDAD DE LA INFORMACION",
+      "siglas": [
+        "SEG-244",
+        "INF-265",
+        "INF-371",
+        "DAT-321"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 7,
+          "orden": 1,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 6,
+          "orden": 1,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 6,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": null,
+          "orden": 8,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 4,
+          "orden": 5,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": 6,
+          "orden": 4,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "INTELIGENCIA ARTIFICIAL",
+      "siglas": [
+        "DAT-245",
+        "COM-252",
+        "INF-372",
+        "INF-335"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 7,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": null,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 5,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": 4,
+          "orden": 5,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": null,
+          "orden": 1,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": 5,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": null,
+          "orden": 6,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "LOGICA PARA LA CIENCIA DE LA COMPUTACION",
+      "siglas": [
+        "COM-245"
+      ],
+      "planes": [
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 4,
+          "orden": 5,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "PROGRAMACIÓN DE DISPOSITIVOS MÓVILES I",
+      "siglas": [
+        "INF-245",
+        "DAT-319"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 4,
+          "orden": 5,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": null,
+          "orden": 7,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 4,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": 4,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": 4,
+          "orden": 4,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "SISTEMAS DE INFORMACION",
+      "siglas": [
+        "SIS-245"
+      ],
+      "planes": [
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 4,
+          "orden": 4,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "CRIPTOGRAFIA I",
+      "siglas": [
+        "SEG-246",
+        "COM-253"
+      ],
+      "planes": [
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 5,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 4,
+          "orden": 6,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "ELECTRONICA INDUSTRIAL",
+      "siglas": [
+        "IID-246"
+      ],
+      "planes": [
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": 4,
+          "orden": 6,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "FUNDAMENTOS DE DISEÑO Y ANIMACIÓN",
+      "siglas": [
+        "INF-246"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 4,
+          "orden": 6,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "INGENIERIA DE SISTEMAS",
+      "siglas": [
+        "SIS-246",
+        "TIC-322"
+      ],
+      "planes": [
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 4,
+          "orden": 6,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": null,
+          "orden": 5,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "MODELACION ESTADISTICA",
+      "siglas": [
+        "DAT-246"
+      ],
+      "planes": [
+        {
+          "mencion": "DATOS",
+          "semestre": 4,
+          "orden": 6,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "LABORATORIO DE REDES",
+      "siglas": [
+        "TIC-247"
+      ],
+      "planes": [
+        {
+          "mencion": "REDES",
+          "semestre": 4,
+          "orden": 7,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "BASE DE DATOS III",
+      "siglas": [
+        "DAT-251",
+        "INF-262"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 6,
+          "orden": 1,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": 5,
+          "orden": 1,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "INGENIERIA DE SOFTWARE I",
+      "siglas": [
+        "INF-251",
+        "IID-264",
+        "TIC-371"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 5,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 5,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 5,
+          "orden": 1,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 5,
+          "orden": 1,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": 7,
+          "orden": 1,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": 6,
+          "orden": 2,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "APLICACIONES Y SERVICIOS MULTIMEDIA",
+      "siglas": [
+        "TIC-251"
+      ],
+      "planes": [
+        {
+          "mencion": "REDES",
+          "semestre": 5,
+          "orden": 1,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "METODOS NUMERICOS II",
+      "siglas": [
+        "DAT-252"
+      ],
+      "planes": [
+        {
+          "mencion": "DATOS",
+          "semestre": 5,
+          "orden": 2,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "REDES II",
+      "siglas": [
+        "SEG-252",
+        "INF-333"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": null,
+          "orden": 12,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 5,
+          "orden": 1,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": null,
+          "orden": 5,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 5,
+          "orden": 2,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "ANALISIS Y DISEÑO DE SISTEMAS II",
+      "siglas": [
+        "INF-253"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 5,
+          "orden": 3,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "MICROCONTROLADORES",
+      "siglas": [
+        "IID-252"
+      ],
+      "planes": [
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": 5,
+          "orden": 1,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "MINERIA DE DATOS (DATA MINING)",
+      "siglas": [
+        "DAT-253",
+        "INF-311"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": null,
+          "orden": 1,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": null,
+          "orden": 1,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": 5,
+          "orden": 3,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "PREPARACION Y EVALUACION DE PROYECTOS",
+      "siglas": [
+        "SIS-253",
+        "INF-315"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": null,
+          "orden": 5,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 5,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": null,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": null,
+          "orden": 6,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": null,
+          "orden": 6,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": null,
+          "orden": 7,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": null,
+          "orden": 3,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "SEGURIDAD EN BASE DE DATOS",
+      "siglas": [
+        "SEG-253"
+      ],
+      "planes": [
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 5,
+          "orden": 3,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "CRIPTOGRAFIA II",
+      "siglas": [
+        "SEG-254"
+      ],
+      "planes": [
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 5,
+          "orden": 4,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "DIRECCION DE PROYECTOS INFORMATICOS",
+      "siglas": [
+        "TIC-253"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": null,
+          "orden": 14,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": 5,
+          "orden": 3,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "INVESTIGACION OPERATIVA II",
+      "siglas": [
+        "DAT-254",
+        "INF-331"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": null,
+          "orden": 10,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": null,
+          "orden": 7,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": 5,
+          "orden": 4,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "PROGRAMACION DE DISPOSITIVOS MOVILES II",
+      "siglas": [
+        "INF-254",
+        "IID-311"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 5,
+          "orden": 1,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": null,
+          "orden": 1,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "APRENDIZAJE AUTOMATICO (MACHINE LEARNING)",
+      "siglas": [
+        "DAT-255",
+        "INF-323"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": null,
+          "orden": 6,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": null,
+          "orden": 10,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 6,
+          "orden": 5,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": 5,
+          "orden": 5,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": null,
+          "orden": 2,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "COMERCIO ELECTRONICO Y MARKETING DIGITAL",
+      "siglas": [
+        "SIS-255",
+        "DAT-313"
+      ],
+      "planes": [
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 5,
+          "orden": 5,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": null,
+          "orden": 2,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "REDES INALAMBRICAS",
+      "siglas": [
+        "TIC-254",
+        "SEG-264"
+      ],
+      "planes": [
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 6,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": 5,
+          "orden": 4,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "APLICACIONES Y SERVICIOS TIC",
+      "siglas": [
+        "TIC-255"
+      ],
+      "planes": [
+        {
+          "mencion": "REDES",
+          "semestre": 5,
+          "orden": 5,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "LEGISLACION INFORMATICA Y ETICA",
+      "siglas": [
+        "TRA-256"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 5,
+          "orden": 5,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 5,
+          "orden": 6,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 5,
+          "orden": 5,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": 5,
+          "orden": 6,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 5,
+          "orden": 5,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": 5,
+          "orden": 6,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": 5,
+          "orden": 2,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "HACKING ETICO I (ETICA Y VULNERABILIDAD DE SISTEMAS)",
+      "siglas": [
+        "SEG-261",
+        "INF-332"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": null,
+          "orden": 11,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 6,
+          "orden": 1,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "INGENIERIA DE SOFTWARE II",
+      "siglas": [
+        "INF-261"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 6,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 6,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 6,
+          "orden": 6,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "LENGUAJES FORMALES Y AUTOMATAS",
+      "siglas": [
+        "COM-261",
+        "IID-316"
+      ],
+      "planes": [
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 6,
+          "orden": 1,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": null,
+          "orden": 5,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "SEGURIDAD DE REDES I",
+      "siglas": [
+        "SEG-262",
+        "TIC-372"
+      ],
+      "planes": [
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 6,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": 7,
+          "orden": 2,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "COMPILADORES",
+      "siglas": [
+        "COM-262"
+      ],
+      "planes": [
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 6,
+          "orden": 2,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "PROCESAMIENTO DEL LENGUAJE NATURAL",
+      "siglas": [
+        "DAT-261",
+        "COM-316"
+      ],
+      "planes": [
+        {
+          "mencion": "COMPUTACION",
+          "semestre": null,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": 6,
+          "orden": 1,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "SIMULACION DE SISTEMAS",
+      "siglas": [
+        "IID-261",
+        "COM-371",
+        "INF-381",
+        "DAT-318"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 8,
+          "orden": 1,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 8,
+          "orden": 1,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 7,
+          "orden": 1,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": null,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": 6,
+          "orden": 1,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "SOFTWARE MALICIOSO Y AMENAZAS DIRIGIDAS",
+      "siglas": [
+        "SEG-263"
+      ],
+      "planes": [
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 6,
+          "orden": 3,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "CENTRO DE DATOS (DATA CENTER)",
+      "siglas": [
+        "TIC-261"
+      ],
+      "planes": [
+        {
+          "mencion": "REDES",
+          "semestre": 6,
+          "orden": 1,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "COMPUTACION PARALELA",
+      "siglas": [
+        "COM-263"
+      ],
+      "planes": [
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 6,
+          "orden": 3,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "DESARROLLO DE APLICACIONES MULTIMEDIA",
+      "siglas": [
+        "INF-263"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 6,
+          "orden": 3,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "DINAMICA DE SISTEMAS",
+      "siglas": [
+        "SIS-262"
+      ],
+      "planes": [
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 6,
+          "orden": 2,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "PROCESOS ESTOCASTICOS Y ANALISIS DE SERIES DE TIEMPO",
+      "siglas": [
+        "DAT-262"
+      ],
+      "planes": [
+        {
+          "mencion": "DATOS",
+          "semestre": 6,
+          "orden": 2,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "ANALISIS DE DATOS",
+      "siglas": [
+        "DAT-263"
+      ],
+      "planes": [
+        {
+          "mencion": "DATOS",
+          "semestre": 6,
+          "orden": 3,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "EMPRENDIMIENTO E INNOVACION TECNOLOGICA",
+      "siglas": [
+        "INF-264",
+        "INF-337"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 6,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 6,
+          "orden": 5,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": null,
+          "orden": 9,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": null,
+          "orden": 4,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "SISTEMAS DE GESTION DE RED",
+      "siglas": [
+        "TIC-262"
+      ],
+      "planes": [
+        {
+          "mencion": "REDES",
+          "semestre": 6,
+          "orden": 2,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "SISTEMAS DE GESTION EMPRESARIAL",
+      "siglas": [
+        "SIS-263"
+      ],
+      "planes": [
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 6,
+          "orden": 3,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "APRENDIZAJE PROFUNDO (DEEP LEARNING)",
+      "siglas": [
+        "DAT-264",
+        "INF-324"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": null,
+          "orden": 7,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": null,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": 6,
+          "orden": 4,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "REDES DE COMUNICACION I",
+      "siglas": [
+        "TIC-263",
+        "SEG-311"
+      ],
+      "planes": [
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": null,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": 6,
+          "orden": 3,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "TALLER DE PROYECTO",
+      "siglas": [
+        "INF-266"
+      ],
+      "planes": [
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": 6,
+          "orden": 6,
+          "fuente": "convalidacion-ajustada"
+        },
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 6,
+          "orden": 6,
+          "fuente": "convalidacion-ajustada"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": 6,
+          "orden": 6,
+          "fuente": "convalidacion-ajustada"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 6,
+          "orden": 6,
+          "fuente": "convalidacion-ajustada"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": 6,
+          "orden": 6,
+          "fuente": "convalidacion-ajustada"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 6,
+          "orden": 6,
+          "fuente": "convalidacion-ajustada"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 6,
+          "orden": 6,
+          "fuente": "convalidacion-ajustada"
+        }
+      ]
+    },
+    {
+      "nombre": "GESTION DE INCIDENTES Y CONTINUIDAD DEL NEGOCIO",
+      "siglas": [
+        "SEG-371"
+      ],
+      "planes": [
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 7,
+          "orden": 1,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "ARQUITECTURA ORIENTADA A SERVICIOS",
+      "siglas": [
+        "COM-372"
+      ],
+      "planes": [
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 7,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": null,
+          "orden": 5,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "INTELIGENCIA DE NEGOCIOS (BUSSINES INTELLIGENCE)",
+      "siglas": [
+        "DAT-371",
+        "INF-327"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": null,
+          "orden": 15,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": null,
+          "orden": 11,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": 7,
+          "orden": 2,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "SEGURIDAD DE REDES II",
+      "siglas": [
+        "SEG-372",
+        "TIC-382"
+      ],
+      "planes": [
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 7,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": 8,
+          "orden": 2,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "INFORMATICA FORENSE",
+      "siglas": [
+        "SEG-373",
+        "INF-316"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": null,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": null,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": null,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 7,
+          "orden": 3,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "SISTEMAS DISTRIBUIDOS",
+      "siglas": [
+        "SIS-371"
+      ],
+      "planes": [
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 7,
+          "orden": 1,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "COMPUTACION EN LA NUBE",
+      "siglas": [
+        "SIS-372",
+        "INF-318",
+        "TSS-261"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": null,
+          "orden": 13,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 7,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": null,
+          "orden": 6,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": 7,
+          "orden": 1,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 6,
+          "orden": 5,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": null,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": null,
+          "orden": 4,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "ORGANIZACION Y METODOS",
+      "siglas": [
+        "SIS-373"
+      ],
+      "planes": [
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 7,
+          "orden": 2,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "REDES DE COMUNICACION II",
+      "siglas": [
+        "TIC-373",
+        "SEG-312"
+      ],
+      "planes": [
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": null,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": 7,
+          "orden": 3,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "PRACTICA PROFESIONAL",
+      "siglas": [
+        "TRA-374"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 7,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 7,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 7,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": 7,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 7,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": 7,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": 7,
+          "orden": 1,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "GESTION DE RIESGOS EN SEGURIDAD DE LA INFORMACION",
+      "siglas": [
+        "SEG-381"
+      ],
+      "planes": [
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 8,
+          "orden": 1,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "INTERACCION HUMANO-COMPUTADOR",
+      "siglas": [
+        "COM-381"
+      ],
+      "planes": [
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 8,
+          "orden": 1,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "MACRODATOS Y ANALITICA DE DATOS (BIG DATA)",
+      "siglas": [
+        "DAT-381",
+        "INF-322"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": null,
+          "orden": 9,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": null,
+          "orden": 7,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": 8,
+          "orden": 1,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "WEB SEMANTICA",
+      "siglas": [
+        "COM-382"
+      ],
+      "planes": [
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 8,
+          "orden": 2,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "AUDITORIA DE SISTEMAS",
+      "siglas": [
+        "SIS-382",
+        "INF-320"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": null,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 8,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": null,
+          "orden": 5,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 8,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": null,
+          "orden": 1,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "INGENIERIA DE SOFTWARE III",
+      "siglas": [
+        "INF-382"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 8,
+          "orden": 2,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "VISUALIZACION DE DATOS",
+      "siglas": [
+        "DAT-382"
+      ],
+      "planes": [
+        {
+          "mencion": "DATOS",
+          "semestre": 8,
+          "orden": 2,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "ADMINISTRACION DE CENTROS DE DATOS Y DE RED",
+      "siglas": [
+        "TIC-381"
+      ],
+      "planes": [
+        {
+          "mencion": "REDES",
+          "semestre": 8,
+          "orden": 1,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "GESTION DE ACTIVOS DE INFORMACION",
+      "siglas": [
+        "SEG-383"
+      ],
+      "planes": [
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 8,
+          "orden": 2,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "TALLER DE GRADUACION I",
+      "siglas": [
+        "INF-384"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 8,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": 8,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": 8,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": 8,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 8,
+          "orden": 4,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": 8,
+          "orden": 3,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": 8,
+          "orden": 1,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "SISTEMAS ESTOCASTICOS",
+      "siglas": [
+        "COM-311"
+      ],
+      "planes": [
+        {
+          "mencion": "COMPUTACION",
+          "semestre": null,
+          "orden": 1,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "CALCULO IV",
+      "siglas": [
+        "DAT-311"
+      ],
+      "planes": [
+        {
+          "mencion": "DATOS",
+          "semestre": null,
+          "orden": 1,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "BIOINFORMATICA",
+      "siglas": [
+        "INF-312"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": null,
+          "orden": 2,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": null,
+          "orden": 3,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "INGLES TECNICO",
+      "siglas": [
+        "INF-314"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": null,
+          "orden": 16,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SISTEMAS",
+          "semestre": null,
+          "orden": 5,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "COMPUTACION",
+          "semestre": null,
+          "orden": 10,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "DATOS",
+          "semestre": null,
+          "orden": 10,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": null,
+          "orden": 8,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "REDES",
+          "semestre": null,
+          "orden": 8,
+          "fuente": "malla2023"
+        },
+        {
+          "mencion": "INDUSTRIAL",
+          "semestre": null,
+          "orden": 2,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "TEORIA GENERAL DE SISTEMAS",
+      "siglas": [
+        "SIS-315"
+      ],
+      "planes": [
+        {
+          "mencion": "SISTEMAS",
+          "semestre": null,
+          "orden": 8,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "ADMINISTRACION DE CENTROS DE OPERACIONES DE RED",
+      "siglas": [
+        "SEG-317"
+      ],
+      "planes": [
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": null,
+          "orden": 7,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "ESPECIFICACION FORMAL Y VERIFICACION",
+      "siglas": [
+        "COM-320"
+      ],
+      "planes": [
+        {
+          "mencion": "COMPUTACION",
+          "semestre": null,
+          "orden": 11,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "COMPUTABILIDAD Y COMPLEJIDAD ALGORITMICA",
+      "siglas": [
+        "COM-323"
+      ],
+      "planes": [
+        {
+          "mencion": "COMPUTACION",
+          "semestre": null,
+          "orden": 9,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "SERVICIOS EN LA NUBE",
+      "siglas": [
+        "TIC-323"
+      ],
+      "planes": [
+        {
+          "mencion": "REDES",
+          "semestre": null,
+          "orden": 6,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "SISTEMAS CONTABLES",
+      "siglas": [
+        "SIS-325"
+      ],
+      "planes": [
+        {
+          "mencion": "SISTEMAS",
+          "semestre": null,
+          "orden": 12,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "ADMINISTRACION DE REDES Y SERVICIOS DE INFRAESTRUCTURA TI",
+      "siglas": [
+        "TSS-251"
+      ],
+      "planes": [
+        {
+          "mencion": "SEGURIDAD",
+          "semestre": 5,
+          "orden": 6,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "TEORIA DE LA INFORMACION Y LA CODIFICACION",
+      "siglas": [
+        "TRC-251"
+      ],
+      "planes": [
+        {
+          "mencion": "REDES",
+          "semestre": 5,
+          "orden": 7,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "ELECTIVA I.DESARROLLO WEB BACKEND",
+      "siglas": [
+        "TAW-251"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 5,
+          "orden": 6,
+          "fuente": "malla2023"
+        }
+      ]
+    },
+    {
+      "nombre": "ELECTIVA II. INGENIERIA WEB",
+      "siglas": [
+        "TAW-261"
+      ],
+      "planes": [
+        {
+          "mencion": "SOFTWARE",
+          "semestre": 6,
+          "orden": 5,
+          "fuente": "malla2023"
+        }
+      ]
+    }
+  ]
+}

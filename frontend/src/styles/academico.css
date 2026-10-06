@@ -1,0 +1,24 @@
+.academic-header { display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap; }
+.academic-header h1 { color:#153b36; font-size:26px; font-weight:750; margin:4px 0; }
+.academic-header p:not(.academic-eyebrow) { color:#64748b; font-size:14px; max-width:650px; }
+.academic-eyebrow { font-size:10px; font-weight:700; letter-spacing:.16em; color:#238878; }
+.academic-table { width:100%; text-align:left; font-size:13px; }
+.academic-table th { color:#64748b; background:#f8fafc; font-size:11px; letter-spacing:.04em; font-weight:600; padding:14px 18px; }
+.academic-table td { border-top:1px solid #edf1f3; padding:18px; vertical-align:top; }
+.academic-table tr:hover td { background:#fbfdfc; }
+.academic-tag { display:inline-block; border:1px solid #d7e9e3; background:#f1faf6; color:#226c5f; border-radius:5px; padding:3px 7px; font-size:11px; margin:2px 4px 2px 0; }
+.academic-week { display:grid; grid-template-columns:64px repeat(6,minmax(140px,1fr)); min-width:920px; }
+.academic-day { height:50px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:#334155; background:#f8fafc; border-bottom:1px solid #dce5e2; }
+.academic-time { height:80px; color:#64748b; font-size:11px; text-align:center; padding-top:5px; border-top:1px solid #edf1f3; }
+.academic-column { position:relative; height:1200px; border-left:1px solid #e2e8f0; }
+.academic-slot { display:block; width:100%; height:80px; border-top:1px solid #edf1f3; text-align:center; font-size:11px; color:transparent; }
+.academic-slot:hover:not(:disabled), .academic-slot:focus-visible { background:#f0faf6; color:#238878; outline:2px solid #238878; outline-offset:-2px; }
+.academic-slot:disabled { cursor:default; }
+.academic-class { position:absolute; left:4px; right:4px; display:flex; flex-direction:column; align-items:flex-start; border:1px solid #b9dcd0; border-left:3px solid #238878; background:#e7f5ee; color:#194e43; border-radius:6px; padding:6px; text-align:left; overflow:hidden; font-size:11px; line-height:1.35; }
+.academic-class.other { background:#f0f3f8; border-color:#d2dbe7; border-left-color:#7d8fa8; color:#475569; }
+.academic-class.assistant { background:#f3edff; border-color:#d7c8f4; border-left-color:#8b5bc3; color:#5e3b88; }
+.academic-class.temporary { background:#fff4d9; border-color:#ead397; border-left-color:#c39329; color:#79591b; }
+.academic-class:hover { filter:brightness(.97); box-shadow:0 2px 6px #153b361a; }
+.academic-class > * { display:block; max-width:100%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; flex-shrink:0; }
+.academic-class strong { font-size:12px; margin:0; }
+.academic-class small { margin-top:2px; }

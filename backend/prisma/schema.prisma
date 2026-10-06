@@ -136,6 +136,8 @@ model adjunto_comunicado {
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model ambiente {
   codigo_ambiente       String                  @id @db.VarChar(30)
+  lugar                 String?                 @db.VarChar(40)
+  piso                  Int?                    @db.SmallInt
   nombre                String                  @db.VarChar(150)
   ubicacion             String?                 @db.VarChar(200)
   capacidad             Int                     @default(0)
@@ -244,7 +246,10 @@ model consulta_faq {
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model docente {
   id_docente      BigInt     @id @default(autoincrement())
+  correo          String?    @db.VarChar(150)
+  telefono        String?    @db.VarChar(30)
   nombre_completo String     @db.VarChar(150)
+  grado_academico String?    @db.VarChar(30)
   especialidad    String?    @db.VarChar(150)
   estado          String     @default("ACTIVO") @db.VarChar(20)
   paralelo        paralelo[]
@@ -294,6 +299,7 @@ model ficha_atencion {
 
   @@unique([id_jornada, numero_ficha], map: "uq_ficha_jornada_numero")
   @@index([estado_actual], map: "idx_ficha_estado")
+  @@index([id_jornada, estado_actual], map: "idx_ficha_jornada_estado")
   @@index([id_estudiante], map: "idx_ficha_estudiante")
   @@index([id_jornada], map: "idx_ficha_jornada")
 }
@@ -330,6 +336,10 @@ model historial_ficha {
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model horario {
   id_horario      BigInt         @id @default(autoincrement())
+  fecha           DateTime?      @db.Date
+  motivo          String?        @db.VarChar(200)
+  id_auxiliar     BigInt?
+  auxiliar        auxiliar?      @relation(fields: [id_auxiliar], references: [id_auxiliar], onDelete: Restrict, onUpdate: NoAction)
   dia_semana      String         @db.VarChar(20)
   estado          String         @default("ASIGNADO") @db.VarChar(20)
   publicado       Boolean        @default(false)
@@ -343,6 +353,8 @@ model horario {
   @@index([codigo_ambiente], map: "idx_horario_ambiente")
   @@index([id_bloque], map: "idx_horario_bloque")
   @@index([id_paralelo], map: "idx_horario_paralelo")
+  @@index([fecha])
+  @@index([id_auxiliar])
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
@@ -355,20 +367,44 @@ model jornada_atencion {
   cupo_total      Int
   estado          String            @default("ACTIVO") @db.VarChar(20)
   id_usuario      BigInt
+  id_tramite      BigInt?
+  modo_cupo      String            @default("MANUAL") @db.VarChar(10)
+  minutos_por_estudiante Int       @default(10)
+  puesto         String            @default("Kardex") @db.VarChar(80)
+  tramite        tramite_atencion? @relation(fields: [id_tramite], references: [id_tramite], onDelete: Restrict)
   ficha_atencion  ficha_atencion[]
   historial_ficha historial_ficha[]
   usuario         Usuario           @relation(fields: [id_usuario], references: [idUsuario], onUpdate: NoAction, map: "fk_jornada_usuario")
 
   @@index([fecha], map: "idx_jornada_fecha")
+  @@unique([fecha, id_tramite], map: "uq_jornada_fecha_tramite")
+}
+
+model tramite_atencion {
+  id_tramite BigInt @id @default(autoincrement())
+  nombre String @unique @db.VarChar(150)
+  descripcion String @default("") @db.VarChar(500)
+  activo Boolean @default(true)
+  jornada_atencion jornada_atencion[]
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model materia {
   codigo_materia String     @id @db.VarChar(30)
+  siglas         materia_sigla[]
   nombre         String     @db.VarChar(150)
   estado         String     @default("ACTIVO") @db.VarChar(20)
   paralelo       paralelo[]
+}
+
+model materia_sigla {
+  sigla          String  @db.VarChar(30)
+  codigo_materia String  @db.VarChar(30)
+  materia        materia @relation(fields: [codigo_materia], references: [codigo_materia], onDelete: Cascade, onUpdate: NoAction)
+  @@index([codigo_materia])
+  @@id([codigo_materia, sigla])
+  @@index([sigla])
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
@@ -382,6 +418,7 @@ model paralelo {
   codigo_materia     String            @db.VarChar(30)
   id_periodo         BigInt
   horario            horario[]
+  auxiliares         auxiliar_asignacion[]
   docente            docente           @relation(fields: [id_docente], references: [id_docente], onUpdate: NoAction, map: "fk_paralelo_docente")
   materia            materia           @relation(fields: [codigo_materia], references: [codigo_materia], onUpdate: NoAction, map: "fk_paralelo_materia")
   periodo_academico  periodo_academico @relation(fields: [id_periodo], references: [id_periodo], onUpdate: NoAction, map: "fk_paralelo_periodo")
@@ -389,6 +426,24 @@ model paralelo {
   @@index([id_docente], map: "idx_paralelo_docente")
   @@index([codigo_materia], map: "idx_paralelo_materia")
   @@index([id_periodo], map: "idx_paralelo_periodo")
+}
+
+model auxiliar {
+  id_auxiliar     BigInt @id @default(autoincrement())
+  nombre_completo String @db.VarChar(150)
+  correo          String? @db.VarChar(150)
+  telefono        String? @db.VarChar(30)
+  estado          String @default("ACTIVO") @db.VarChar(20)
+  asignaciones    auxiliar_asignacion[]
+  horarios        horario[]
+}
+
+model auxiliar_asignacion {
+  id_auxiliar BigInt
+  id_paralelo BigInt
+  auxiliar auxiliar @relation(fields: [id_auxiliar], references: [id_auxiliar], onDelete: Cascade, onUpdate: NoAction)
+  paralelo paralelo @relation(fields: [id_paralelo], references: [id_paralelo], onDelete: Cascade, onUpdate: NoAction)
+  @@id([id_auxiliar, id_paralelo])
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
