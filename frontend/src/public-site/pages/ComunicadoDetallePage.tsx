@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { comunicadosApi, comunicadoArchivoUrl } from "../../api/comunicados.api";
 import { ComunicadoArchivo } from "../../components/ComunicadoArchivo";
+import { ComunicadoDocumento } from "../../components/ComunicadoDocumento";
+import { ComunicadoDescarga } from "../../components/ComunicadoDescarga";
 import { Comunicado } from "../../api/types";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 import { formatFecha } from "../../utils/formatters";
@@ -38,28 +40,37 @@ export default function ComunicadoDetallePage() {
   }
 
   return (
-    <article className="container-public max-w-3xl py-14">
+    <article className={`container-public ${comunicado.tipo === "texto" ? "max-w-4xl" : "max-w-3xl"} py-8 sm:py-14`}>
       <Link to={authenticated ? "/usuario/comunicados" : "/comunicados"} className="text-sm text-primary-700 hover:underline">
         ← Volver a comunicados
       </Link>
 
-      <div className="mt-4 flex items-center gap-3">
-        <span className="badge bg-primary-50 text-primary-700">{comunicado.categoria}</span>
-        <span className="text-sm text-slate-400">{formatFecha(comunicado.fechaPublicacion)}</span>
-      </div>
+      {comunicado.tipo === "texto" ? (
+        <>
+          <ComunicadoDocumento comunicado={comunicado} />
+          <div className="mt-4"><ComunicadoDescarga comunicado={comunicado} /></div>
+        </>
+      ) : (
+        <>
+          <div className="mt-4 flex items-center gap-3">
+            <span className="badge bg-primary-50 text-primary-700">{comunicado.categoria}</span>
+            <span className="text-sm text-slate-400">{formatFecha(comunicado.fechaPublicacion)}</span>
+          </div>
 
-      <h1 className="mt-3 text-3xl font-extrabold text-slate-800">{comunicado.titulo}</h1>
+          <h1 className="mt-3 text-3xl font-extrabold text-slate-800">{comunicado.titulo}</h1>
 
-      <div className="prose prose-slate mt-6 max-w-none whitespace-pre-line text-slate-600">
-        {comunicado.contenido}
-      </div>
+          <div className="prose prose-slate mt-6 max-w-none whitespace-pre-line text-slate-600">
+            {comunicado.contenido}
+          </div>
+        </>
+      )}
 
       {comunicado.adjuntos.length > 0 && (
         <div className="mt-8 space-y-6">
             {comunicado.adjuntos.map((adj) => (
               <section key={adj.idAdjunto} className="space-y-3">
                 <ComunicadoArchivo url={comunicadoArchivoUrl(adj.url, true)} nombre={adj.nombre} tipo={adj.tipo} />
-                <a href={comunicadoArchivoUrl(adj.url, true, true)} className="inline-block text-sm font-semibold text-primary-700 hover:underline">Descargar {adj.nombre}</a>
+                <ComunicadoDescarga url={comunicadoArchivoUrl(adj.url, true, true)} />
               </section>
             ))}
         </div>

@@ -3,6 +3,7 @@ import { codigoSchema, idSchema } from '../academico/academico.shared';
 const fields = z.object({
   idAsignacion: idSchema, aula: codigoSchema,
   idAuxiliar: idSchema.nullable().optional().default(null),
+  esAuxiliar: z.boolean().optional().default(false),
   fecha: z.string().date().nullable().optional().default(null),
   motivo: z.string().trim().max(200).optional().default(''),
   dia: z.enum(['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO']),

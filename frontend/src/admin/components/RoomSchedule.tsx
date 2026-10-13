@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Aula, DiaSemana, HorarioAcademico } from '../../api/types';
 import { Periodo } from '../../api/academico.api';
-import { clockLabel, reservationDate, semesterLayout, semesterSessions, sessionColor, semesterColors, sessionKey } from '../schedule/semester';
+import { clockLabel, reservationDate, semesterLayout, semesterSessions, sessionColor, semesterColors, sessionKey, isAssistantSession } from '../schedule/semester';
 import '../../styles/ver-horarios.css';
 
 interface Props {
@@ -28,10 +28,10 @@ export function RoomSchedule({ aula, periodo, horarios, today, onCreate, onEdit 
           return <td key={day.key} rowSpan={boundaries.indexOf(block.end) - i} className="room-occupied" style={{ backgroundColor: block.sessions.length === 1 ? color(block.sessions[0]) : undefined }}>
             <div className="room-cell-sessions">{block.sessions.map(h => {
               const title = `${h.siglas.join(' / ')} · ${h.materia} · ${h.grupo} · ${h.responsable} · ${h.horaInicio}–${h.horaFin}${h.fecha ? ` · Reservado ${reservationDate(h.fecha)} · ${h.motivo}` : ''}`;
-              const content = <><strong>{h.idAuxiliar ? 'AUX ' : ''}{h.siglas.join(' / ') || h.codigoMateria} {h.grupo}</strong><span>{h.responsable}</span>
+              const content = <><strong>{isAssistantSession(h) ? 'AUX ' : ''}{h.siglas.join(' / ') || h.codigoMateria} {h.grupo === 'SIN PARALELO' ? '' : h.grupo}</strong><span>{h.responsable}</span>
                 {h.fecha && <small className="room-reserved">RESERVADO · {reservationDate(h.fecha)}</small>}
                 {(block.sessions.length > 1 || h.horaInicio.slice(3) !== '00' || h.horaFin.slice(3) !== '00') && <small>{h.horaInicio}–{h.horaFin}</small>}</>;
-              const props = { className: `room-session${h.fecha ? ' temporary' : h.idAuxiliar ? ' assistant' : ''}`, style: { backgroundColor: color(h) }, title };
+              const props = { className: `room-session${h.fecha ? ' temporary' : ''}${isAssistantSession(h) ? ' assistant' : ''}`, style: { backgroundColor: color(h) }, title };
               return onEdit ? <button type="button" key={h.idHorario} {...props} onClick={() => onEdit(h)} aria-label={`Editar ${title}`}>{content}</button> : <div key={h.idHorario} {...props}>{content}</div>;
             })}</div>
           </td>;

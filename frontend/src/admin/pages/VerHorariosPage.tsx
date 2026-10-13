@@ -1,7 +1,6 @@
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal, flushSync } from 'react-dom';
 import { Link } from 'react-router-dom';
-import { pisoLabel } from '../../api/academico.api';
 import { useAdminAuth } from '../../hooks/useAdminAuth';
 import { puedeAccederModulo } from '../../utils/roles';
 import { AcademicHeader, Empty, ErrorNotice, Field, useAcademico } from '../components/AcademicoUI';
@@ -9,6 +8,9 @@ import { useBoliviaDate } from '../../hooks/useBoliviaDate';
 import { RoomSchedule } from '../components/RoomSchedule';
 import { RoomPicker } from '../components/RoomPicker';
 import { RoomSearch } from '../components/RoomSearch';
+import { RoomScheduleHeader } from '../components/RoomScheduleHeader';
+import { HorariosPdfPreview, type HorariosPdfSnapshot } from '../components/HorariosPdfPreview';
+import { capturarHorariosPdf } from '../../utils/horarioPdf';
 
 export default function VerHorariosPage() {
   const c = useAcademico();
@@ -16,6 +18,8 @@ export default function VerHorariosPage() {
   const canEdit = puedeAccederModulo(usuario?.roles ?? [], 'horarios', usuario?.permisos);
   const [lugar, setLugar] = useState<string | null>(null), [piso, setPiso] = useState<string | null>(''), [aula, setAula] = useState('');
   const [printMode, setPrintMode] = useState<'filtered' | 'selected'>('filtered');
+  const printRoot = useRef<HTMLDivElement>(null);
+  const [preview, setPreview] = useState<HorariosPdfSnapshot | null>(null);
   const [periodo, setPeriodo] = useState('');
   const today = useBoliviaDate();
   const period = c.periodos.find(p => p.idPeriodo === periodo);
@@ -53,14 +57,20 @@ export default function VerHorariosPage() {
   const printRooms = printMode === 'selected' ? visible : rooms;
   const pages = Array.from({ length: Math.ceil(printRooms.length / 2) }, (_, i) => printRooms.slice(i * 2, i * 2 + 2));
   const ready = Boolean(period && rooms.length && !c.loading && !c.error);
-  function print(mode: 'filtered' | 'selected') { flushSync(() => setPrintMode(mode)); window.print(); }
+  function print(mode: 'filtered' | 'selected') {
+    if (!ready || !period || !printRoot.current) return;
+    flushSync(() => setPrintMode(mode));
+    const titulo = `${mode === 'selected' ? `Horario de ${aula}` : 'Horarios de aulas'} · ${period.periodo}/${period.gestion}`;
+    const nombre = `horarios-${mode === 'selected' ? aula : 'aulas'}-${period.periodo}-${period.gestion}`.replace(/[^a-zA-Z0-9_-]/g, '-');
+    setPreview({ horarios: capturarHorariosPdf(printRoot.current), titulo, nombre: `${nombre}.pdf` });
+  }
   function selectPlace(place: string) { setLugar(place); setPiso(place === 'INFORMATICA' ? null : ''); setAula(''); setPrintMode('filtered'); }
   function selectRoom(code: string) { setAula(code); setPrintMode('selected'); }
   function backToRooms() { setAula(''); setPrintMode('filtered'); }
   const periodControl = <Field label="Periodo académico"><select className="select-field" value={periodo} onChange={e => setPeriodo(e.target.value)}><option value="">Selecciona</option>{c.periodos.map(p => <option key={p.idPeriodo} value={p.idPeriodo}>{p.periodo}/{p.gestion}{p.estado !== 'ACTIVO' ? ' (inactivo)' : ''}</option>)}</select></Field>;
   return <div className="space-y-6">
     <AcademicHeader title="Ver Horarios" description="Elige un lugar, selecciona un aula y consulta su horario del semestre.">
-      <RoomSearch aulas={c.aulas} disabled={c.loading || Boolean(c.error)} onSelect={a => { setLugar(a.lugar ?? ''); setPiso(String(a.piso)); selectRoom(a.codigo); }} />
+      <RoomSearch aulas={c.aulas} horarios={c.horarios} periodos={c.periodos} periodo={periodo} disabled={c.loading || Boolean(c.error)} error={c.error} refresh={c.cargar} onSelect={(a, idPeriodo) => { if (idPeriodo) setPeriodo(idPeriodo); setLugar(a.lugar ?? ''); setPiso(String(a.piso)); selectRoom(a.codigo); }} />
       <button className="btn-secondary" disabled={!ready} onClick={() => print('filtered')}>Imprimir / PDF{rooms.length > 0 ? ` · ${rooms.length} ${rooms.length === 1 ? 'aula' : 'aulas'}` : ''}</button>
       {aula && visible.length > 0 && <button className="btn-primary" disabled={!ready} onClick={() => print('selected')}>Imprimir aula {aula}</button>}
     </AcademicHeader>
@@ -70,17 +80,14 @@ export default function VerHorariosPage() {
       : <div className="flex flex-wrap items-end justify-between gap-3"><button className="btn-secondary" onClick={backToRooms}>{lugar === '' ? '← Volver a todos los horarios' : '← Volver a las aulas'}</button>{periodControl}</div>}
     {!c.loading && !c.error && lugar === '' && !rooms.length && <Empty>No hay aulas registradas para mostrar sus horarios.</Empty>}
     {!c.loading && !c.error && visible.length > 0 && !period && <Empty>Selecciona un periodo para ver el horario del aula.</Empty>}
-    {!c.loading && !c.error && period && visible.map(a => <article className="card p-5" key={a.codigo}>
-      <div className="flex flex-wrap items-start justify-between gap-4"><div><h2 className="font-bold text-slate-800">{a.nombre} <span className="font-normal text-slate-500">· {a.codigo}</span></h2>
-        <p className="mt-1 text-sm text-slate-600">Capacidad: {a.capacidad > 0 ? `${a.capacidad} personas` : 'Por confirmar'} · {a.tipo === 'LABORATORIO' ? 'Laboratorio' : a.tipo === 'AULA' ? 'Aula' : a.tipo} · {pisoLabel(a.piso)} · {a.estado}</p>
-        {a.ubicacion && <p className="mt-1 text-xs text-slate-500">{a.ubicacion}</p>}
-        <p className="mt-1 text-xs text-slate-500">Equipamiento: {a.equipamiento?.length ? a.equipamiento.map(e => `${e.nombre} (${e.cantidad})`).join(', ') : 'Sin equipamiento registrado'}</p></div>
-        <div className="flex flex-wrap gap-2">{!aula && <button className="btn-secondary" aria-label={`Abrir horario de ${a.codigo}`} onClick={() => selectRoom(a.codigo)}>Abrir aula</button>}
+    {!c.loading && !c.error && period && visible.map(a => <article className="card p-3 sm:p-5" key={a.codigo}>
+      <RoomScheduleHeader aula={a} periodo={period}>
+        {!aula && <button className="btn-secondary" aria-label={`Abrir horario de ${a.codigo}`} onClick={() => selectRoom(a.codigo)}>Abrir aula</button>}
           {canEdit && period.estado === 'ACTIVO' && <Link className="btn-secondary" to={`/admin/horarios?${new URLSearchParams({ aula: a.codigo, periodo })}`}>Modificar horario</Link>}
-        </div>
-      </div><div className="mt-3 overflow-x-auto"><RoomSchedule aula={a} periodo={period} today={today} horarios={c.horarios} /></div>
+      </RoomScheduleHeader><div className="mt-3 overflow-x-auto"><RoomSchedule aula={a} periodo={period} today={today} horarios={c.horarios} /></div>
     </article>)}
-    {lugar !== null && <p className="text-xs text-slate-500">Imprime o guarda como PDF: dos horarios por hoja carta vertical. Las reservas muestran su fecha de uso y desaparecen al finalizar ese día, según la hora de Bolivia.</p>}
-    {createPortal(<div className="horarios-print-root">{ready && period && pages.map((page, i) => <div className="schedule-print-page" key={i}>{page.map(a => <RoomSchedule key={a.codigo} aula={a} periodo={period} today={today} horarios={c.horarios} />)}</div>)}</div>, document.body)}
+    {lugar !== null && <p className="text-xs text-slate-500">Los botones de impresión abren una vista previa del PDF para revisar, descargar o imprimir: dos horarios por hoja carta vertical. Las reservas muestran su fecha de uso y desaparecen al finalizar ese día, según la hora de Bolivia.</p>}
+    {createPortal(<div ref={printRoot} className="horarios-print-root">{ready && period && pages.map((page, i) => <div className="schedule-print-page" key={i}>{page.map(a => <RoomSchedule key={a.codigo} aula={a} periodo={period} today={today} horarios={c.horarios} />)}</div>)}</div>, document.body)}
+    {preview && <HorariosPdfPreview snapshot={preview} onClose={() => setPreview(null)} />}
   </div>;
 }

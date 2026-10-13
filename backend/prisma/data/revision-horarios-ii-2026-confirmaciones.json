@@ -1,0 +1,9 @@
+{
+  "fecha": "2026-10-12",
+  "grados": [{
+    "nombre": "BORIS FERNANDO ALFARO BAZAN",
+    "grado": "Ing.",
+    "evidencia": "El usuario confirmó: Ponle Ing."
+  }],
+  "criterio": "El usuario indicó que no puede haber materias distintas en un mismo horario. Las convalidaciones no autorizan a impartir materias diferentes simultáneamente. Solo se permite compartir ocupación para la misma materia identificada, incluida una misma materia con varias siglas."
+}

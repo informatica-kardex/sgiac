@@ -12,7 +12,7 @@ function load(name) {
   return compiled.exports;
 }
 const { filterSubjects, subjectPosition } = load('subjects');
-const { semesterSessions, semesterLayout, localDate, clockLabel, sessionColor, semesterColors, sessionKey } = load('semester');
+const { semesterSessions, semesterLayout, localDate, clockLabel, sessionColor, semesterColors, sessionKey, assistantColor, preuniversityColor } = load('semester');
 const { datosPlan, compararPlanes, menciones } = require('../../backend/dist/modules/academico/planes-estudio');
 const catalog = require('../../backend/prisma/data/catalogo-pdf.json').materias;
 const subjects = catalog.map((m,i) => ({...m, codigo:String(i), estado:'ACTIVO', ...datosPlan(m.nombre)}));
@@ -90,4 +90,21 @@ test('colores vivos sin repeticiones exactas entre asignaciones y consistentes e
   };
   const lum=color=>rgb(color).map(c=>c<=.04045?c/12.92:((c+.055)/1.055)**2.4).reduce((n,c,i)=>n+c*[.2126,.7152,.0722][i],0);
   for(const color of colors.values())assert.ok((lum(color)+.05)/(lum('#24333a')+.05)>=4.5,`Texto legible sobre ${color}`);
+});
+
+test('auxiliares siempre plateados, C.P.U. tiene un color fijo y las demás asignaciones no lo repiten',()=>{
+  const teacher=lesson(), assistant=lesson({idAuxiliar:'9'}), pending=lesson({codigoMateria:'OTRA',esAuxiliar:true,idAuxiliar:null});
+  const cpu=lesson({codigoMateria:'CPU',grupo:'SIN PARALELO'});
+  const rows=[teacher,assistant,pending,cpu,lesson({codigoMateria:'CPU',aula:'LASIN-2',dia:'MIERCOLES'}),lesson({codigoMateria:'OTRA',idDocente:'2'})];
+  const colors=semesterColors(rows);
+  assert.equal(colors.get(sessionKey(assistant)),assistantColor);
+  assert.equal(colors.get(sessionKey(pending)),assistantColor);
+  assert.equal(sessionColor(pending),assistantColor);
+  assert.equal(colors.get(sessionKey(cpu)),preuniversityColor);
+  assert.equal(sessionColor(cpu),preuniversityColor);
+  for(const h of rows.filter(h=>!h.esAuxiliar&&!h.idAuxiliar&&h.codigoMateria!=='CPU')) {
+    assert.notEqual(colors.get(sessionKey(h)),assistantColor);
+    assert.notEqual(colors.get(sessionKey(h)),preuniversityColor);
+  }
+  assert.notEqual(colors.get(sessionKey(teacher)),colors.get(sessionKey(rows.at(-1))));
 });

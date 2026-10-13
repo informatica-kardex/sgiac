@@ -1,0 +1,261 @@
+.comunicado-documento {
+  position: relative;
+  overflow: hidden;
+  margin-top: 1.5rem;
+  border: 1px solid #dce2eb;
+  border-radius: 4px;
+  background: #fff;
+  color: #24334b;
+  box-shadow: 0 16px 48px rgb(27 44 74 / 9%), 0 2px 6px rgb(27 44 74 / 4%);
+}
+
+.comunicado-documento-membrete {
+  display: grid;
+  grid-template-columns: 6rem minmax(0, 1fr) 6rem;
+  align-items: center;
+  gap: 1.25rem;
+  margin: 0 2.75rem;
+  padding: 2.25rem 0 1.5rem;
+  border-bottom: 2px solid #253e65;
+}
+
+.comunicado-documento-logo {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.comunicado-documento-institucion {
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.comunicado-documento-universidad {
+  color: #20395e;
+  font-size: .94rem;
+  font-weight: 800;
+  letter-spacing: .035em;
+  line-height: 1.5;
+}
+
+.comunicado-documento-facultad {
+  margin-top: .2rem;
+  font-size: .64rem;
+  font-weight: 600;
+  letter-spacing: .07em;
+}
+
+.comunicado-documento-carrera {
+  margin-top: .25rem;
+  color: #20395e;
+  font-size: .8rem;
+  font-weight: 700;
+  letter-spacing: .09em;
+}
+
+.comunicado-documento-ciudad {
+  margin-top: .4rem;
+  color: #64748b;
+  font-size: .68rem;
+  text-transform: none;
+}
+
+.comunicado-documento-cuerpo {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  min-height: 35rem;
+  flex-direction: column;
+  padding: 1.5rem 3.5rem 2.5rem;
+}
+
+.comunicado-documento-marca {
+  position: absolute;
+  z-index: -1;
+  top: 48%;
+  left: 50%;
+  width: min(65%, 23rem);
+  height: auto;
+  opacity: .045;
+  pointer-events: none;
+  user-select: none;
+  transform: translate(-50%, -50%);
+}
+
+.comunicado-documento-lateral {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  color: #8d3b4b;
+  font-size: .5rem;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.comunicado-documento-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  color: #64748b;
+  font-size: .73rem;
+}
+
+.comunicado-documento-categoria {
+  max-width: 100%;
+  padding: .25rem .75rem;
+  border: 1px solid #e1e7ef;
+  border-radius: 999px;
+  background: #f5f7fa;
+  color: #435675;
+  font-size: .68rem;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.comunicado-documento-titular {
+  margin: 2.5rem 0 2rem;
+  text-align: center;
+}
+
+.comunicado-documento-etiqueta {
+  color: #933d50;
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+}
+
+.comunicado-documento-titulo {
+  margin-top: .75rem;
+  color: #20395e;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.65rem, 3vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+/* La miniatura conserva el membrete de la vista completa dentro de la tarjeta. */
+.comunicado-documento--miniatura {
+  display: flex;
+  width: 100%;
+  height: 16rem;
+  flex-direction: column;
+  margin: 0;
+  box-shadow: 0 3px 10px rgb(27 44 74 / 6%);
+  pointer-events: none;
+}
+
+.comunicado-documento--miniatura .comunicado-documento-membrete {
+  grid-template-columns: 2rem minmax(0, 1fr) 2rem;
+  gap: .4rem;
+  margin: 0 .7rem;
+  padding: .7rem 0 .6rem;
+  border-bottom-width: 1px;
+}
+
+.comunicado-documento--miniatura .comunicado-documento-universidad { font-size: .42rem; letter-spacing: 0; }
+.comunicado-documento--miniatura .comunicado-documento-facultad { margin-top: .1rem; font-size: .31rem; letter-spacing: 0; }
+.comunicado-documento--miniatura .comunicado-documento-carrera { margin-top: .12rem; font-size: .38rem; letter-spacing: .02em; }
+.comunicado-documento--miniatura .comunicado-documento-ciudad { margin-top: .15rem; font-size: .32rem; }
+.comunicado-documento--miniatura .comunicado-documento-cuerpo { flex: 1; min-height: 0; overflow: hidden; padding: .75rem 1rem; }
+.comunicado-documento--miniatura .comunicado-documento-meta,
+.comunicado-documento--miniatura .comunicado-documento-lateral { display: none; }
+.comunicado-documento--miniatura .comunicado-documento-titular { flex-shrink: 0; margin: 0 0 .65rem; }
+.comunicado-documento--miniatura .comunicado-documento-etiqueta { font-size: .4rem; }
+.comunicado-documento--miniatura .comunicado-documento-titulo { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; margin-top: .3rem; font-size: .9rem; }
+.comunicado-documento--miniatura .comunicado-documento-separador { width: 1.5rem; height: 2px; margin-top: .45rem; }
+.comunicado-documento--miniatura .comunicado-documento-texto { overflow: hidden; font-size: .59rem; line-height: 1.65; mask-image: linear-gradient(#000 80%, transparent); }
+.comunicado-documento--miniatura .comunicado-documento-texto p { margin-bottom: .4rem; }
+.comunicado-documento--miniatura .comunicado-documento-marca { width: 7rem; }
+.comunicado-documento--miniatura .comunicado-documento-emisor { flex-shrink: 0; min-width: 5rem; margin-top: .65rem; padding-top: .35rem; line-height: 1; }
+.comunicado-documento--miniatura .comunicado-documento-emisor p { font-size: .45rem; }
+.comunicado-documento--miniatura .comunicado-documento-emisor span { font-size: .35rem; }
+.comunicado-documento--miniatura .comunicado-documento-pie { flex-shrink: 0; justify-content: space-between; gap: .25rem; padding: .4rem .7rem; font-size: .3rem; }
+
+.comunicado-documento-separador {
+  display: block;
+  width: 3rem;
+  height: 3px;
+  margin: 1.25rem auto 0;
+  background: linear-gradient(90deg, #253e65 60%, #933d50 60%);
+}
+
+.comunicado-documento-texto {
+  flex: 1;
+  font-size: 1rem;
+  line-height: 1.95;
+  overflow-wrap: anywhere;
+}
+
+.comunicado-documento-texto p {
+  margin: 0 0 1.15rem;
+  white-space: pre-line;
+}
+
+.comunicado-documento-texto strong {
+  color: #20395e;
+  font-weight: 700;
+}
+
+.comunicado-documento-emisor {
+  align-self: center;
+  min-width: 11rem;
+  margin-top: 3rem;
+  padding-top: .85rem;
+  border-top: 1px solid #d5dce6;
+  text-align: center;
+}
+
+.comunicado-documento-emisor p {
+  color: #20395e;
+  font-size: .85rem;
+  font-weight: 700;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+
+.comunicado-documento-emisor span {
+  color: #64748b;
+  font-size: .72rem;
+}
+
+.comunicado-documento-pie {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: .5rem;
+  padding: .9rem 2.75rem;
+  background: linear-gradient(105deg, #20395e 20%, #3c3455 65%, #843447);
+  color: #fff;
+  font-size: .6rem;
+  font-weight: 500;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 639px) {
+  .comunicado-documento-membrete {
+    grid-template-columns: 3.1rem minmax(0, 1fr) 3.1rem;
+    gap: .5rem;
+    margin: 0 1rem;
+    padding: 1.4rem 0 1.1rem;
+  }
+
+  .comunicado-documento-universidad { font-size: .68rem; letter-spacing: 0; }
+  .comunicado-documento-facultad { font-size: .48rem; letter-spacing: 0; }
+  .comunicado-documento-carrera { font-size: .57rem; letter-spacing: .02em; }
+  .comunicado-documento-ciudad { font-size: .58rem; }
+  .comunicado-documento-cuerpo { min-height: 31rem; padding: 1.25rem 1.25rem 2rem; }
+  .comunicado-documento-lateral { display: none; }
+  .comunicado-documento-meta { font-size: .65rem; }
+  .comunicado-documento-titular { margin: 2rem 0 1.5rem; }
+  .comunicado-documento-texto { font-size: .94rem; line-height: 1.85; }
+  .comunicado-documento-emisor { margin-top: 2.5rem; }
+  .comunicado-documento-pie { justify-content: center; padding: .85rem 1rem; font-size: .52rem; text-align: center; }
+}

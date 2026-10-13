@@ -10,16 +10,19 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.9.0",
     "axios": "^1.7.7",
+    "pdfjs-dist": "6.3.289",
+    "pdfmake": "0.3.11",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.53.0",
     "react-router-dom": "^6.26.2",
     "zod": "^3.23.8",
-    "@hookform/resolvers": "^3.9.0",
     "zustand": "^4.5.5"
   },
   "devDependencies": {
+    "@types/pdfmake": "0.3.3",
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",

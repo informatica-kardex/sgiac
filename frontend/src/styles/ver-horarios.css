@@ -18,6 +18,23 @@ button.room-session:hover { filter: brightness(.97); }
 .room-slot { width: 100%; min-height: 44px; color: transparent; font-size: 11px; }
 .room-slot:hover:not(:disabled), .room-slot:focus-visible { color: #756348; background: #faf2df; }
 .room-slot:disabled { cursor: default; }
+.schedule-preview { width: min(1160px, calc(100vw - 32px)); max-width: none; max-height: calc(100dvh - 32px); padding: 0; border: 0; border-radius: 16px; color: #24333a; background: #ffffff; box-shadow: 0 24px 80px #0f172a55; }
+.schedule-preview::backdrop { background: #0f172a99; }
+.schedule-preview-content { display: flex; flex-direction: column; max-height: calc(100dvh - 32px); }
+.schedule-preview-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 20px; }
+.schedule-preview-header h2 { font-size: 18px; font-weight: 700; }
+.schedule-preview-header p, .schedule-preview-footer p { font-size: 13px; color: #64748b; }
+.schedule-preview-frame { display: block; width: 100%; height: 72vh; min-height: 180px; flex: 1 1 auto; border: 0; background: #3b3b3b; }
+.schedule-preview-footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 20px; border-top: 1px solid #e2e8f0; }
+.schedule-preview-footer > div { display: flex; flex-wrap: wrap; gap: 8px; }
+.schedule-preview-status { display: flex; min-height: 240px; align-items: center; justify-content: center; flex-direction: column; gap: 16px; padding: 24px; background: #f8fafc; }
+@media (max-width: 640px) {
+  .schedule-preview { width: calc(100vw - 16px); max-height: calc(100dvh - 16px); }
+  .schedule-preview-content { max-height: calc(100dvh - 16px); }
+  .schedule-preview-header, .schedule-preview-footer { padding: 12px; }
+  .schedule-preview-header h2 { font-size: 15px; }
+  .schedule-preview-frame { height: 60vh; }
+}
 .horarios-print-root { position: fixed; top: 0; left: -100000px; width: 195.9mm; visibility: hidden; pointer-events: none; }
 .schedule-print-page { page: horarios-aulas; break-after: page; display: grid; grid-template-rows: 124mm 124mm; gap: 7mm; }
 .schedule-print-page:last-child { break-after: auto; }

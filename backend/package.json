@@ -12,6 +12,7 @@
     "prisma:seed": "ts-node prisma/seed.ts",
     "prisma:importar:catalogo": "ts-node prisma/importar-catalogo-pdf.ts",
     "prisma:importar:horarios": "ts-node prisma/importar-horarios-pdf.ts",
+    "prisma:revisar:horarios": "node prisma/revisar-horarios-manuales.cjs --cpu",
     "prisma:seed:academico": "ts-node prisma/seed-academico.ts",
     "prisma:studio": "prisma studio"
   },

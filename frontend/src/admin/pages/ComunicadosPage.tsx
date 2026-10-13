@@ -216,6 +216,7 @@ export default function ComunicadosPage() {
           <div className="space-y-1.5">
             <label className="block text-sm font-medium text-slate-700">{tipo === "texto" ? "Texto del comunicado" : "Descripción (opcional)"}</label>
             <textarea className="textarea-field" rows={5} {...register("contenido")} />
+            {tipo === "texto" && <p className="text-xs text-slate-500">Se mostrará en una hoja membretada con los logos institucionales. Usa **texto** para resaltar en negrita y una línea en blanco para separar párrafos.</p>}
             {errors.contenido && <p className="text-xs text-red-600">{errors.contenido.message}</p>}
           </div>
           <div className="flex justify-end gap-3 pt-2">

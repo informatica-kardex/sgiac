@@ -1,5 +1,6 @@
 import { Horario } from "../../api/types";
 import { DIAS_SEMANA_LABEL } from "../../utils/formatters";
+import { assistantColor, preuniversityColor } from "../../admin/schedule/semester";
 
 const DIAS_ORDEN = ["LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO"];
 
@@ -23,14 +24,15 @@ export function HorarioSemanal({ horarios }: { horarios: Horario[] }) {
               {clasesDelDia.map((clase) => (
                 <div
                   key={clase.idHorario}
+                  style={clase.esAuxiliar ? { backgroundColor: assistantColor } : clase.esCoordinacion ? { backgroundColor: preuniversityColor } : undefined}
                   className="rounded-lg border border-slate-100 bg-slate-50 p-2.5"
                 >
                   <p className="text-xs font-bold text-slate-700">
                     {clase.horaInicio} - {clase.horaFin}
                   </p>
                   <p className="text-xs font-medium text-slate-600">{clase.materia}</p>
-                  <p className="text-[11px] text-slate-400">
-                    {clase.docente} · Aula {clase.aula} · Grupo {clase.grupo}
+                  <p className={`text-[11px] ${clase.esAuxiliar || clase.esCoordinacion ? 'text-slate-700' : 'text-slate-400'}`}>
+                    {clase.docente} · Aula {clase.aula}{clase.grupo !== 'SIN PARALELO' && ` · Grupo ${clase.grupo}`}
                   </p>
                 </div>
               ))}

@@ -52,6 +52,8 @@ export type DiaSemana =
   | "SABADO";
 
 export interface Horario {
+  esAuxiliar?: boolean;
+  esCoordinacion?: boolean;
   idHorario: number;
   materia: string;
   docente: string;
@@ -63,6 +65,7 @@ export interface Horario {
 }
 
 export interface HorarioAcademico extends Horario {
+  sesionCompartida?: string | null;
   fecha: string | null;
   motivo: string;
   idAuxiliar: string | null;

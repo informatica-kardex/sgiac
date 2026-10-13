@@ -1,0 +1,5589 @@
+{
+  "modo": "APLICADO",
+  "huella": "bb6f012c933cf241c9cf9761f39d921970328998445645d30b118c0e94c59c94",
+  "respaldo": "F:\\sgiac\\backend\\prisma\\backups\\antes-revision-manual-2026-10-12T13-54-04-901Z.json",
+  "fuentes": [
+    {
+      "archivo": "HORARIOS PASANTES PRACTICA PARA COLAR.pdf",
+      "sha256": "a26159f709e3a9692f6f097254b4615510e79f49b8d31b8822bb47d1bb618b07"
+    },
+    {
+      "archivo": "horarios 2-2026.pdf",
+      "sha256": "1ae1af489eb434e49afb158efb8e6c5e79752515c83de7fdcbb6033bfae36c3b"
+    }
+  ],
+  "idPeriodo": "1",
+  "incluirCpu": true,
+  "grados": [
+    {
+      "idDocente": "53",
+      "nombre": "HELDER EDWIN LOPEZ ROMERO",
+      "antes": null,
+      "despues": "Lic.",
+      "evidencia": [
+        {
+          "grado": "Lic.",
+          "pagina": 1,
+          "texto": "INF-114 A Lic. Helder Lopez"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 1,
+          "texto": "INF-114 A Lic. Helder Lopez"
+        }
+      ]
+    },
+    {
+      "idDocente": "48",
+      "nombre": "CESAR BELTRAN VILLALTA",
+      "antes": null,
+      "despues": "Ing.",
+      "evidencia": [
+        {
+          "grado": "Ing.",
+          "pagina": 1,
+          "texto": "TRA-256 C Ing. Cesar Beltran"
+        },
+        {
+          "grado": "Ing.",
+          "pagina": 1,
+          "texto": "TRA-256 C Ing. Cesar Beltran"
+        },
+        {
+          "grado": "Ing.",
+          "pagina": 4,
+          "texto": "INF-112 D Ing. Cesar Beltran"
+        },
+        {
+          "grado": "Ing.",
+          "pagina": 4,
+          "texto": "INF-112 D Ing. Cesar Beltran"
+        },
+        {
+          "grado": "Ing.",
+          "pagina": 11,
+          "texto": "TRA-136 B Ing. Cesar Beltran"
+        },
+        {
+          "grado": "Ing.",
+          "pagina": 11,
+          "texto": "TRA-136 B Ing. Cesar Beltran"
+        }
+      ]
+    },
+    {
+      "idDocente": "42",
+      "nombre": "JORGE HUMBERTO TERAN POMIER",
+      "antes": null,
+      "despues": "M.Sc.",
+      "evidencia": [
+        {
+          "grado": "M.Sc.",
+          "pagina": 1,
+          "texto": "INF-111 B M.Sc. Jorge Teran"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 1,
+          "texto": "INF-111 B M.Sc. Jorge Teran"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 8,
+          "texto": "INF-242 C M.Sc. Jorge Teran"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 8,
+          "texto": "INF-242 C M.Sc. Jorge Teran"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 8,
+          "texto": "INF-242 D M.Sc. Jorge Teran"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 8,
+          "texto": "INF-242 D M.Sc. Jorge Teran"
+        }
+      ]
+    },
+    {
+      "idDocente": "117",
+      "nombre": "SALOMON MENDOZA CONDORI",
+      "antes": null,
+      "despues": "Lic.",
+      "evidencia": [
+        {
+          "grado": "Lic.",
+          "pagina": 1,
+          "texto": "SIS-373 A Lic. Salomon Mendoza"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 1,
+          "texto": "SIS-373 A Lic. Salomon Mendoza"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 3,
+          "texto": "SIS-325 A Lic. Salomon Mendoza"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 3,
+          "texto": "SIS-325 A Lic. Salomon Mendoza"
+        }
+      ]
+    },
+    {
+      "idDocente": "55",
+      "nombre": "ERIK ALVARO MAMANI CALLISAYA",
+      "antes": null,
+      "despues": "Lic.",
+      "evidencia": [
+        {
+          "grado": "Lic.",
+          "pagina": 1,
+          "texto": "INF-114 D Lic. Erik Mamani"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 1,
+          "texto": "INF-114 D Lic. Erik Mamani"
+        }
+      ]
+    },
+    {
+      "idDocente": "70",
+      "nombre": "ISAAC POMA MAMANI",
+      "antes": null,
+      "despues": "Lic.",
+      "evidencia": [
+        {
+          "grado": "Lic.",
+          "pagina": 1,
+          "texto": "INF-116 H Lic. Isaac Poma"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 1,
+          "texto": "INF-116 H Lic. Isaac Poma"
+        }
+      ]
+    },
+    {
+      "idDocente": "54",
+      "nombre": "RONNALD ALVARO SILVA GUZMAN",
+      "antes": null,
+      "despues": "Lic.",
+      "evidencia": [
+        {
+          "grado": "Lic.",
+          "pagina": 1,
+          "texto": "INF-114 C Lic. Ronnald Silva"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 1,
+          "texto": "INF-114 C Lic. Ronnald Silva"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 5,
+          "texto": "INF-114 B Lic. Ronnald Silva"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 5,
+          "texto": "INF-114 B Lic. Ronnald Silva"
+        }
+      ]
+    },
+    {
+      "idDocente": "76",
+      "nombre": "PAOLA GEOVANNA PATZI AQUINO",
+      "antes": null,
+      "despues": "Ph.D.",
+      "evidencia": [
+        {
+          "grado": "Ph.D.",
+          "pagina": 1,
+          "texto": "INF-126 A Ph.D. Paola Patzi"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 1,
+          "texto": "INF-126 A Ph.D. Paola Patzi"
+        }
+      ]
+    },
+    {
+      "idDocente": "56",
+      "nombre": "NELSON MAMANI ALEGRIA",
+      "antes": null,
+      "despues": "Ph.D.",
+      "evidencia": [
+        {
+          "grado": "Ph.D.",
+          "pagina": 1,
+          "texto": "INF-114 E Ph.D. Nelson Mamani"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 1,
+          "texto": "INF-114 E Ph.D. Nelson Mamani"
+        }
+      ]
+    },
+    {
+      "idDocente": "116",
+      "nombre": "EDGAR RUFO ENRIQUEZ RALDE",
+      "antes": null,
+      "despues": "M.Sc.",
+      "evidencia": [
+        {
+          "grado": "M.Sc.",
+          "pagina": 1,
+          "texto": "INF-382 A M.Sc. Edgar Enriquez"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 1,
+          "texto": "INF-382 A M.Sc. Edgar Enriquez"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 8,
+          "texto": "SIS-372 B INF-318 B / TIC-323 B / TSS-261 B M.Sc. Edgar Enriquez"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 8,
+          "texto": "SIS-372 B INF-318 B / TIC-323 B / TSS-261 B M.Sc. Edgar Enriquez"
+        }
+      ]
+    },
+    {
+      "idDocente": "108",
+      "nombre": "HENRY MAMANI CHAVEZ",
+      "antes": null,
+      "despues": "Ph.D.",
+      "evidencia": [
+        {
+          "grado": "Ph.D.",
+          "pagina": 1,
+          "texto": "SEG-381 A Ph.D. Henry Mamani"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 1,
+          "texto": "SEG-381 A Ph.D. Henry Mamani"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 10,
+          "texto": "SEG-261 A / INF-332 A Ph.D. Henry Mamani"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 10,
+          "texto": "SEG-261 A / INF-332 A Ph.D. Henry Mamani"
+        }
+      ]
+    },
+    {
+      "idDocente": "123",
+      "nombre": "PATRICIO JOSE ILALUQUE VARGAS",
+      "antes": null,
+      "despues": "Lic.",
+      "evidencia": [
+        {
+          "grado": "Lic.",
+          "pagina": 1,
+          "texto": "TSS-251 A Lic. Patricio Ilaluque"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 1,
+          "texto": "TSS-251 A Lic. Patricio Ilaluque"
+        }
+      ]
+    },
+    {
+      "idDocente": "119",
+      "nombre": "CESAR ROBERTO CUENCA DIAZ",
+      "antes": null,
+      "despues": "M.Sc.",
+      "evidencia": [
+        {
+          "grado": "M.Sc.",
+          "pagina": 1,
+          "texto": "SEG-383 A M.Sc. Cesar Cuenca"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 1,
+          "texto": "SEG-383 A M.Sc. Cesar Cuenca"
+        }
+      ]
+    },
+    {
+      "idDocente": "44",
+      "nombre": "VICTORIA HURTADO CERRUTO",
+      "antes": null,
+      "despues": "Lic.",
+      "evidencia": [
+        {
+          "grado": "Lic.",
+          "pagina": 1,
+          "texto": "INF-131 B Lic. Victoria Hurtado"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 2,
+          "texto": "INF-111 D Lic. Victoria Hurtado"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 2,
+          "texto": "INF-121 C Lic. Victoria Hurtado"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 6,
+          "texto": "INF-121 C Lic. Victoria Hurtado"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 6,
+          "texto": "INF-111 D Lic. Victoria Hurtado"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 11,
+          "texto": "INF-131 B Lic. Victoria Hurtado"
+        }
+      ]
+    },
+    {
+      "idDocente": "43",
+      "nombre": "MARISOL TELLEZ RAMIREZ",
+      "antes": null,
+      "despues": "Ph.D.",
+      "evidencia": [
+        {
+          "grado": "Ph.D.",
+          "pagina": 1,
+          "texto": "INF-111 C Ph.D. Marisol Tellez"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 6,
+          "texto": "INF-111 C Ph.D. Marisol Tellez"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 6,
+          "texto": "INF-113 D Ph.D. Marisol Tellez"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 6,
+          "texto": "INF-122 A Ph.D. Marisol Tellez"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 6,
+          "texto": "INF-113 D Ph.D. Marisol Tellez"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 6,
+          "texto": "INF-122 A Ph.D. Marisol Tellez"
+        }
+      ]
+    },
+    {
+      "idDocente": "63",
+      "nombre": "CARLOS ANDRES CRUZ CARPIO",
+      "antes": null,
+      "despues": "Lic.",
+      "evidencia": [
+        {
+          "grado": "Lic.",
+          "pagina": 1,
+          "texto": "INF-116 L Lic. Carlos Cruz"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 1,
+          "texto": "INF-116 L Lic. Carlos Cruz"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 3,
+          "texto": "INF-116 J Lic. Carlos Cruz"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 3,
+          "texto": "INF-116 J Lic. Carlos Cruz"
+        }
+      ]
+    },
+    {
+      "idDocente": "102",
+      "nombre": "MADELINA LOZA SOLIZ",
+      "antes": null,
+      "despues": "M.Sc.",
+      "evidencia": [
+        {
+          "grado": "M.Sc.",
+          "pagina": 1,
+          "texto": "INF-253 A M.Sc. Madelina Loza"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 4,
+          "texto": "INF-253 A M.Sc. Madelina Loza"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 11,
+          "texto": "DAT-263 A M.Sc. Madelina Loza"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 11,
+          "texto": "DAT-263 A M.Sc. Madelina Loza"
+        }
+      ]
+    },
+    {
+      "idDocente": "75",
+      "nombre": "RAMIRO JUSTO CHOQUE CANAZA",
+      "antes": null,
+      "despues": "Lic.",
+      "evidencia": [
+        {
+          "grado": "Lic.",
+          "pagina": 1,
+          "texto": "INF-125 C Lic. Ramiro Choque"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 1,
+          "texto": "INF-125 C Lic. Ramiro Choque"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 2,
+          "texto": "INF-126 D Lic. Ramiro Choque"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 2,
+          "texto": "INF-126 D Lic. Ramiro Choque"
+        }
+      ]
+    },
+    {
+      "idDocente": "45",
+      "nombre": "CARMEN ROSA HUANCA QUISBERT",
+      "antes": null,
+      "despues": "Lic.",
+      "evidencia": [
+        {
+          "grado": "Lic.",
+          "pagina": 1,
+          "texto": "INF-131 C Lic. Carmen Huanca"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 2,
+          "texto": "INF-111 E Lic. Carmen Huanca"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 2,
+          "texto": "INF-121 B Lic. Carmen Huanca"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 13,
+          "texto": "INF-121 B Lic. Carmen Huanca"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 13,
+          "texto": "INF-131 C Lic. Carmen Huanca"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 13,
+          "texto": "INF-111 E Lic. Carmen Huanca"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 13,
+          "texto": "INF-121 B Lic. Carmen Huanca"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 13,
+          "texto": "INF-131 C Lic. Carmen Huanca"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 13,
+          "texto": "INF-111 E Lic. Carmen Huanca"
+        }
+      ]
+    },
+    {
+      "idDocente": "77",
+      "nombre": "MIRIAM JULIA CUSI RODRIGUEZ",
+      "antes": null,
+      "despues": "Lic.",
+      "evidencia": [
+        {
+          "grado": "Lic.",
+          "pagina": 1,
+          "texto": "INF-126 C Lic. Miriam Cusi"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 1,
+          "texto": "INF-126 C Lic. Miriam Cusi"
+        }
+      ]
+    },
+    {
+      "idDocente": "65",
+      "nombre": "ELBA JHANNET COLQUE ZACARIAS",
+      "antes": null,
+      "despues": "Lic.",
+      "evidencia": [
+        {
+          "grado": "Lic.",
+          "pagina": 1,
+          "texto": "INF-116 C Lic. Elba Colque"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 1,
+          "texto": "INF-116 C Lic. Elba Colque"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 2,
+          "texto": "INF-123 D Lic. Elba Colque"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 3,
+          "texto": "INF-116 B Lic. Elba Colque"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 3,
+          "texto": "INF-116 B Lic. Elba Colque"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 3,
+          "texto": "INF-123 D Lic. Elba Colque"
+        }
+      ]
+    },
+    {
+      "idDocente": "71",
+      "nombre": "DANIELA BLANCO LIRA",
+      "antes": null,
+      "despues": "M.Sc.",
+      "evidencia": [
+        {
+          "grado": "M.Sc.",
+          "pagina": 2,
+          "texto": "INF-123 E M.Sc. Daniela Blanco"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 2,
+          "texto": "INF-123 E M.Sc. Daniela Blanco"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 2,
+          "texto": "INF-123 C M.Sc. Daniela Blanco"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 2,
+          "texto": "INF-123 C M.Sc. Daniela Blanco"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 4,
+          "texto": "INF-116 I M.Sc. Daniela Blanco"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 5,
+          "texto": "INF-116 I M.Sc. Daniela Blanco"
+        }
+      ]
+    },
+    {
+      "idDocente": "58",
+      "nombre": "MARCO ANTONIO COLQUE CHOQUECALLATA",
+      "antes": null,
+      "despues": "Lic.",
+      "evidencia": [
+        {
+          "grado": "Lic.",
+          "pagina": 2,
+          "texto": "INF-115 B Lic. Marco Colque"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 2,
+          "texto": "INF-115 B Lic. Marco Colque"
+        }
+      ]
+    },
+    {
+      "idDocente": "57",
+      "nombre": "HERNAN LAIME ZANGA",
+      "antes": null,
+      "despues": "M.Sc.",
+      "evidencia": [
+        {
+          "grado": "M.Sc.",
+          "pagina": 2,
+          "texto": "INF-115 A M.Sc. Hernan Laime"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 2,
+          "texto": "INF-115 A M.Sc. Hernan Laime"
+        }
+      ]
+    },
+    {
+      "idDocente": "62",
+      "nombre": "MONICA POZADAS ZAMBRANA",
+      "antes": null,
+      "despues": "Lic.",
+      "evidencia": [
+        {
+          "grado": "Lic.",
+          "pagina": 2,
+          "texto": "INF-116 A Lic. Monica Pozadas"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 2,
+          "texto": "INF-116 A Lic. Monica Pozadas"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 2,
+          "texto": "INF-123 B Lic. Monica Pozadas"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 2,
+          "texto": "INF-123 B Lic. Monica Pozadas"
+        }
+      ]
+    },
+    {
+      "idDocente": "5",
+      "nombre": "ROSA FLORES MORALES",
+      "antes": null,
+      "despues": "M.Sc.",
+      "evidencia": [
+        {
+          "grado": "M.Sc.",
+          "pagina": 2,
+          "texto": "INF-384 C M.Sc. Rosa Flores"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 2,
+          "texto": "INF-384 C M.Sc. Rosa Flores"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 5,
+          "texto": "IID-261 A / COM-371 A / INF-381 A / DAT-318 A M.Sc. Rosa Flores"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 5,
+          "texto": "IID-261 A / COM-371 A / INF-381 A / DAT-318 A M.Sc. Rosa Flores"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 9,
+          "texto": "DAT-261 A M.Sc. Rosa Flores"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 9,
+          "texto": "DAT-261 A M.Sc. Rosa Flores"
+        }
+      ]
+    },
+    {
+      "idDocente": "61",
+      "nombre": "RAUL FERNANDO BORDA VEGA",
+      "antes": null,
+      "despues": "Lic.",
+      "evidencia": [
+        {
+          "grado": "Lic.",
+          "pagina": 2,
+          "texto": "INF-115 E Lic. Raul Borda"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 2,
+          "texto": "INF-115 E Lic. Raul Borda"
+        }
+      ]
+    },
+    {
+      "idDocente": "49",
+      "nombre": "EDGAR PALMIRO CLAVIJO CARDENAS",
+      "antes": null,
+      "despues": "M.Sc.",
+      "evidencia": [
+        {
+          "grado": "M.Sc.",
+          "pagina": 2,
+          "texto": "INF-112 E M.Sc. Edgar Clavijo"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 2,
+          "texto": "INF-112 E M.Sc. Edgar Clavijo"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 4,
+          "texto": "INF-117 B M.Sc. Edgar Clavijo"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 4,
+          "texto": "INF-117 B M.Sc. Edgar Clavijo"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 11,
+          "texto": "TIC-135 A / COM-323 A M.Sc. Edgar Clavijo"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 11,
+          "texto": "TIC-135 A / COM-323 A M.Sc. Edgar Clavijo"
+        }
+      ]
+    },
+    {
+      "idDocente": "112",
+      "nombre": "HERMENEGILDO NOGALES QUISPE",
+      "antes": null,
+      "despues": "M.Sc.",
+      "evidencia": [
+        {
+          "grado": "M.Sc.",
+          "pagina": 2,
+          "texto": "SIS-263 A M.Sc. Hermenegildo Nogales"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 2,
+          "texto": "SIS-263 A M.Sc. Hermenegildo Nogales"
+        }
+      ]
+    },
+    {
+      "idDocente": "110",
+      "nombre": "MARIO AMILCAR MIRANDA GONZALES",
+      "antes": null,
+      "despues": "Lic.",
+      "evidencia": [
+        {
+          "grado": "Lic.",
+          "pagina": 2,
+          "texto": "DAT-262 A / COM-311 A Lic. Mario Miranda"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 2,
+          "texto": "DAT-262 A / COM-311 A Lic. Mario Miranda"
+        }
+      ]
+    },
+    {
+      "idDocente": "68",
+      "nombre": "RENE TORREZ SANTALLA",
+      "antes": null,
+      "despues": "M.Sc.",
+      "evidencia": [
+        {
+          "grado": "M.Sc.",
+          "pagina": 2,
+          "texto": "INF-123 A M.Sc. Rene Torrez"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 2,
+          "texto": "INF-123 A M.Sc. Rene Torrez"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 4,
+          "texto": "INF-116 E M.Sc. Rene Torrez"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 4,
+          "texto": "INF-116 E M.Sc. Rene Torrez"
+        }
+      ]
+    },
+    {
+      "idDocente": "4",
+      "nombre": "ZENON CONDORI GONZALES",
+      "antes": null,
+      "despues": "Lic.",
+      "evidencia": [
+        {
+          "grado": "Lic.",
+          "pagina": 3,
+          "texto": "INF-126 B Lic. Zenon Condori"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 3,
+          "texto": "INF-126 B Lic. Zenon Condori"
+        }
+      ]
+    },
+    {
+      "idDocente": "50",
+      "nombre": "JOSE MARIA TAPIA BALTAZAR",
+      "antes": null,
+      "despues": "Ph.D.",
+      "evidencia": [
+        {
+          "grado": "Ph.D.",
+          "pagina": 3,
+          "texto": "SIS-246 A / TIC-322 A Ph.D. Jose Tapia"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 3,
+          "texto": "SIS-246 A / TIC-322 A Ph.D. Jose Tapia"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 4,
+          "texto": "SIS-372 A / INF-318 A / TIC-323 A / TSS-261 A Ph.D. Jose Tapia"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 4,
+          "texto": "SIS-372 A / INF-318 A / TIC-323 A / TSS-261 A Ph.D. Jose Tapia"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 6,
+          "texto": "INF-113 A Ph.D. Jose Tapia"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 6,
+          "texto": "INF-113 A Ph.D. Jose Tapia"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 6,
+          "texto": "INF-244 A / INF-252 A / COM-322 A Ph.D. Jose Tapia"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 6,
+          "texto": "INF-244 A / INF-252 A / COM-322 A Ph.D. Jose Tapia"
+        }
+      ]
+    },
+    {
+      "idDocente": "83",
+      "nombre": "MARISOL PAREDES ALARCON",
+      "antes": null,
+      "despues": "Lic.",
+      "evidencia": [
+        {
+          "grado": "Lic.",
+          "pagina": 3,
+          "texto": "INF-134 B Lic. Marisol Paredes"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 3,
+          "texto": "INF-134 B Lic. Marisol Paredes"
+        }
+      ]
+    },
+    {
+      "idDocente": "109",
+      "nombre": "GROVER ALEX RODRIGUEZ RAMIREZ",
+      "antes": null,
+      "despues": "M.Sc.",
+      "evidencia": [
+        {
+          "grado": "M.Sc.",
+          "pagina": 3,
+          "texto": "INF-266 C M.Sc. Grover Rodriguez"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 3,
+          "texto": "INF-266 C M.Sc. Grover Rodriguez"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 3,
+          "texto": "SIS-262 A M.Sc. Grover Rodriguez"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 3,
+          "texto": "SIS-262 A M.Sc. Grover Rodriguez"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 4,
+          "texto": "IID-261 B / COM-371 B / INF-381 B / DAT-318 B M.Sc. Grover Rodriguez"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 4,
+          "texto": "IID-261 B / COM-371 B / INF-381 B / DAT-318 B M.Sc. Grover Rodriguez"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 5,
+          "texto": "TRA-374 B M.Sc. Grover Rodriguez"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 5,
+          "texto": "TRA-374 B M.Sc. Grover Rodriguez"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 8,
+          "texto": "INF-384 B M.Sc. Grover Rodriguez"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 8,
+          "texto": "INF-384 B M.Sc. Grover Rodriguez"
+        }
+      ]
+    },
+    {
+      "idDocente": "47",
+      "nombre": "FATIMA CONSUELO DOLZ SALVADOR",
+      "antes": null,
+      "despues": "Ph.D.",
+      "evidencia": [
+        {
+          "grado": "Ph.D.",
+          "pagina": 3,
+          "texto": "INF-112 C Ph.D. Fatima Dolz"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 3,
+          "texto": "INF-112 C Ph.D. Fatima Dolz"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 4,
+          "texto": "TRA-256 A Ph.D. Fatima Dolz"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 4,
+          "texto": "TRA-256 A Ph.D. Fatima Dolz"
+        }
+      ]
+    },
+    {
+      "idDocente": "115",
+      "nombre": "ROGELIO MAMANI RAMOS",
+      "antes": null,
+      "despues": "Ph.D.",
+      "evidencia": [
+        {
+          "grado": "Ph.D.",
+          "pagina": 3,
+          "texto": "SEG-373 A / INF-316 A Ph.D. Rogelio Mamani"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 3,
+          "texto": "SEG-373 A / INF-316 A Ph.D. Rogelio Mamani"
+        }
+      ]
+    },
+    {
+      "idDocente": "111",
+      "nombre": "JUAN CAYOJA CORTEZ",
+      "antes": null,
+      "despues": "M.Sc.",
+      "evidencia": [
+        {
+          "grado": "M.Sc.",
+          "pagina": 3,
+          "texto": "INF-264 A / INF-337 A M.Sc. Juan Cayoja"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 3,
+          "texto": "INF-264 A / INF-337 A M.Sc. Juan Cayoja"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 3,
+          "texto": "TRA-374 A M.Sc. Juan Cayoja"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 4,
+          "texto": "TRA-374 A M.Sc. Juan Cayoja"
+        }
+      ]
+    },
+    {
+      "idDocente": "81",
+      "nombre": "RUBEN ALCON LOPEZ",
+      "antes": null,
+      "despues": "Lic.",
+      "evidencia": [
+        {
+          "grado": "Lic.",
+          "pagina": 3,
+          "texto": "INF-135 B / TIC-246 B Lic. Ruben Alcon"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 3,
+          "texto": "INF-135 B / TIC-246 B Lic. Ruben Alcon"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 4,
+          "texto": "SIS-262 B Lic. Ruben Alcon"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 4,
+          "texto": "SIS-262 B Lic. Ruben Alcon"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 7,
+          "texto": "INF-133 C Lic. Ruben Alcon"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 7,
+          "texto": "INF-133 C Lic. Ruben Alcon"
+        }
+      ]
+    },
+    {
+      "idDocente": "95",
+      "nombre": "YOHONI CUENCA SARZURI",
+      "antes": null,
+      "despues": "P.Ph.D.",
+      "evidencia": [
+        {
+          "grado": "P.Ph.D.",
+          "pagina": 3,
+          "texto": "SEG-263 A P.Ph.D Yohoni Cuenca"
+        },
+        {
+          "grado": "P.Ph.D.",
+          "pagina": 3,
+          "texto": "SEG-263 A P.Ph.D Yohoni Cuenca"
+        },
+        {
+          "grado": "P.Ph.D.",
+          "pagina": 6,
+          "texto": "INF-244 A P.Ph.D Yohoni Cuenca"
+        },
+        {
+          "grado": "P.Ph.D.",
+          "pagina": 6,
+          "texto": "INF-244 A P.Ph.D Yohoni Cuenca"
+        }
+      ]
+    },
+    {
+      "idDocente": "87",
+      "nombre": "MAURO COSTANTINO",
+      "antes": null,
+      "despues": "Ph.D.",
+      "evidencia": [
+        {
+          "grado": "Ph.D.",
+          "pagina": 3,
+          "texto": "TRA-136 A Ph.D. Mauro Costantino"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 3,
+          "texto": "TRA-136 A Ph.D. Mauro Costantino"
+        }
+      ]
+    },
+    {
+      "idDocente": "96",
+      "nombre": "CARLOS MULLISACA CHOQUE",
+      "antes": null,
+      "despues": "M.Sc.",
+      "evidencia": [
+        {
+          "grado": "M.Sc.",
+          "pagina": 3,
+          "texto": "SIS-255 A / DAT-313 A M.Sc. Carlos Mullisaca"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 3,
+          "texto": "SIS-255 A / DAT-313 A M.Sc. Carlos Mullisaca"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 9,
+          "texto": "SEG-244 A / INF-265 A / INF-371 A / DAT-321 A M.Sc. Carlos Mullisaca"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 9,
+          "texto": "SEG-244 A / INF-265 A / INF-371 A / DAT-321 A M.Sc. Carlos Mullisaca"
+        }
+      ]
+    },
+    {
+      "idDocente": "101",
+      "nombre": "JUAN GONZALO CONTRERAS CANDIA",
+      "antes": null,
+      "despues": "Lic.",
+      "evidencia": [
+        {
+          "grado": "Lic.",
+          "pagina": 3,
+          "texto": "INF-251 B / IID-264 B / TIC-371 B Lic. Juan Contreras"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 3,
+          "texto": "INF-251 B / IID-264 B / TIC-371 B Lic. Juan Contreras"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 8,
+          "texto": "COM-372 A Lic. Juan Contreras"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 8,
+          "texto": "COM-372 A Lic. Juan Contreras"
+        }
+      ]
+    },
+    {
+      "idDocente": "104",
+      "nombre": "GERMAN HUANCA TICONA",
+      "antes": null,
+      "despues": "M.Sc.",
+      "evidencia": [
+        {
+          "grado": "M.Sc.",
+          "pagina": 3,
+          "texto": "SEG-262 A / TIC-372 A M.Sc. German Huanca"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 3,
+          "texto": "SEG-254 A M.Sc. German Huanca"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 3,
+          "texto": "SEG-262 A / TIC-372 A M.Sc. German Huanca"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 3,
+          "texto": "SEG-254 A M.Sc. German Huanca"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 3,
+          "texto": "INF-261 A M.Sc. German Huanca"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 3,
+          "texto": "INF-261 A M.Sc. German Huanca"
+        }
+      ]
+    },
+    {
+      "idDocente": "103",
+      "nombre": "VIVIAN ROCIO SANCHEZ RODRIGUEZ",
+      "antes": null,
+      "despues": "Lic.",
+      "evidencia": [
+        {
+          "grado": "Lic.",
+          "pagina": 3,
+          "texto": "SIS-253 A / TIC-253 A / INF-315 A Lic. Vivian Sanchez"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 3,
+          "texto": "SIS-253 A / TIC-253 A / INF-315 A Lic. Vivian Sanchez"
+        }
+      ]
+    },
+    {
+      "idDocente": "90",
+      "nombre": "PATRICIA SONIA TRINO CAMACHO",
+      "antes": null,
+      "despues": "M.Sc.",
+      "evidencia": [
+        {
+          "grado": "M.Sc.",
+          "pagina": 4,
+          "texto": "INF-241 B M.Sc. Patricia Trino"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 4,
+          "texto": "INF-241 B M.Sc. Patricia Trino"
+        }
+      ]
+    },
+    {
+      "idDocente": "69",
+      "nombre": "JUAN MARCOS CALLE FERNANDEZ",
+      "antes": null,
+      "despues": "Lic.",
+      "evidencia": [
+        {
+          "grado": "Lic.",
+          "pagina": 4,
+          "texto": "INF-116 G Lic. Juan Calle"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 4,
+          "texto": "INF-116 G Lic. Juan Calle"
+        }
+      ]
+    },
+    {
+      "idDocente": "64",
+      "nombre": "VERONICA SUBIETA FRIAS",
+      "antes": null,
+      "despues": "M.Sc.",
+      "evidencia": [
+        {
+          "grado": "M.Sc.",
+          "pagina": 4,
+          "texto": "INF-116 K M.Sc. Veronica Subieta"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 4,
+          "texto": "INF-116 K M.Sc. Veronica Subieta"
+        }
+      ]
+    },
+    {
+      "idDocente": "86",
+      "nombre": "HUGO PAREDES BARRA",
+      "antes": null,
+      "despues": "M.Sc.",
+      "evidencia": [
+        {
+          "grado": "M.Sc.",
+          "pagina": 4,
+          "texto": "DAT-135 B / INF-247 B / INF-321 B M.Sc. Hugo Paredes"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 4,
+          "texto": "DAT-135 B / INF-247 B / INF-321 B M.Sc. Hugo Paredes"
+        }
+      ]
+    },
+    {
+      "idDocente": "80",
+      "nombre": "REYNALDO JAVIER ZEBALLOS DAZA",
+      "antes": null,
+      "despues": "Ph.D.",
+      "evidencia": [
+        {
+          "grado": "Ph.D.",
+          "pagina": 4,
+          "texto": "INF-132 C Ph.D. Reynaldo Zeballos"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 4,
+          "texto": "INF-132 C Ph.D. Reynaldo Zeballos"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 6,
+          "texto": "C.P.U. Ph.D. Reynaldo Zeballos"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 7,
+          "texto": "C.P.U. Ph.D. Reynaldo Zeballos"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 13,
+          "texto": "C.P.U. Ph.D. Reynaldo Zeballos"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 13,
+          "texto": "C.P.U. Ph.D. Reynaldo Zeballos"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 13,
+          "texto": "C.P.U. Ph.D. Reynaldo Zeballos"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 13,
+          "texto": "C.P.U. Ph.D. Reynaldo Zeballos"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 13,
+          "texto": "C.P.U. Ph.D. Reynaldo Zeballos"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 13,
+          "texto": "C.P.U. Ph.D. Reynaldo Zeballos"
+        }
+      ]
+    },
+    {
+      "idDocente": "2",
+      "nombre": "NANCY IMELDA ORIHUELA SEQUEIROS",
+      "antes": null,
+      "despues": "Lic.",
+      "evidencia": [
+        {
+          "grado": "Lic.",
+          "pagina": 4,
+          "texto": "INF-112 A Lic. Nancy Orihuela"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 4,
+          "texto": "INF-112 A Lic. Nancy Orihuela"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 4,
+          "texto": "INF-135 C / TIC-246 C Lic. Nancy Orihuela"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 4,
+          "texto": "INF-135 C / TIC-246 C Lic. Nancy Orihuela"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 9,
+          "texto": "INF-117 A Lic. Nancy Orihuela"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 9,
+          "texto": "INF-117 A Lic. Nancy Orihuela"
+        }
+      ]
+    },
+    {
+      "idDocente": "72",
+      "nombre": "MARCELO GERMAN ARUQUIPA CHAMBI",
+      "antes": null,
+      "despues": "Lic.",
+      "evidencia": [
+        {
+          "grado": "Lic.",
+          "pagina": 4,
+          "texto": "INF-131 A Lic. Marcelo Aruquipa"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 6,
+          "texto": "INF-121 A Lic. Marcelo Aruquipa"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 6,
+          "texto": "INF-121 A Lic. Marcelo Aruquipa"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 6,
+          "texto": "INF-245 A / DAT-319 A Lic. Marcelo Aruquipa"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 6,
+          "texto": "INF-245 A / DAT-319 A Lic. Marcelo Aruquipa"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 10,
+          "texto": "INF-131 A Lic. Marcelo Aruquipa"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 10,
+          "texto": "INF-133 B Lic. Marcelo Aruquipa"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 10,
+          "texto": "INF-133 B Lic. Marcelo Aruquipa"
+        }
+      ]
+    },
+    {
+      "idDocente": "46",
+      "nombre": "MANUEL RAMIRO FLORES ROJAS",
+      "antes": null,
+      "despues": "M.Sc.",
+      "evidencia": [
+        {
+          "grado": "M.Sc.",
+          "pagina": 4,
+          "texto": "INF-112 B M.Sc. Ramiro Flores"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 4,
+          "texto": "INF-112 B M.Sc. Ramiro Flores"
+        }
+      ]
+    },
+    {
+      "idDocente": "67",
+      "nombre": "IVER RONALD WINKELMANN MENDIZABAL",
+      "antes": null,
+      "despues": "MGr.",
+      "evidencia": [
+        {
+          "grado": "MGr.",
+          "pagina": 4,
+          "texto": "INF-116 D MGr. Iver Winkelmann"
+        },
+        {
+          "grado": "MGr.",
+          "pagina": 4,
+          "texto": "INF-116 D MGr. Iver Winkelmann"
+        },
+        {
+          "grado": "MGr.",
+          "pagina": 8,
+          "texto": "INF-116 F MGr. Iver Winkelmann"
+        },
+        {
+          "grado": "MGr.",
+          "pagina": 8,
+          "texto": "INF-116 F MGr. Iver Winkelmann"
+        }
+      ]
+    },
+    {
+      "idDocente": "100",
+      "nombre": "WILLY ALEJANDRO APAZA PEREZ",
+      "antes": null,
+      "despues": "Ph.D.",
+      "evidencia": [
+        {
+          "grado": "Ph.D.",
+          "pagina": 4,
+          "texto": "SEG-253 A Ph.D. Willy Apaza"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 6,
+          "texto": "SEG-253 A Ph.D. Willy Apaza"
+        }
+      ]
+    },
+    {
+      "idDocente": "85",
+      "nombre": "LUISA VELASQUEZ LOPEZ",
+      "antes": null,
+      "despues": "Ph.D.",
+      "evidencia": [
+        {
+          "grado": "Ph.D.",
+          "pagina": 5,
+          "texto": "INF-251 A / TIC-371 A / IID-264 A Ph.D. Luisa Velasquez"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 5,
+          "texto": "INF-251 A / TIC-371 A / IID-264 A Ph.D. Luisa Velasquez"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 5,
+          "texto": "INF-135 A / TIC-246 A Ph.D. Luisa Velasquez"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 5,
+          "texto": "INF-135 A / TIC-246 A Ph.D. Luisa Velasquez"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 5,
+          "texto": "SEG-244 B / INF-265 B / INF-371 B / DAT-321 B Ph.D. Luisa Velasquez"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 5,
+          "texto": "SEG-244 B / INF-265 B / INF-371 B / DAT-321 B Ph.D. Luisa Velasquez"
+        }
+      ]
+    },
+    {
+      "idDocente": "59",
+      "nombre": "ELVIS RONALD VALERO KARI",
+      "antes": null,
+      "despues": "Ph.D.",
+      "evidencia": [
+        {
+          "grado": "Ph.D.",
+          "pagina": 5,
+          "texto": "INF-115 C Ph.D. Elvis Valero"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 5,
+          "texto": "INF-115 C Ph.D. Elvis Valero"
+        }
+      ]
+    },
+    {
+      "idDocente": "98",
+      "nombre": "JAVIER HUGO GUSTAVO REYES PACHECO",
+      "antes": null,
+      "despues": "Ph.D.",
+      "evidencia": [
+        {
+          "grado": "Ph.D.",
+          "pagina": 5,
+          "texto": "SIS-315 A Ph.D. Javier Reyes"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 5,
+          "texto": "SIS-315 A Ph.D. Javier Reyes"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 9,
+          "texto": "SIS-245 A Ph.D. Javier Reyes"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 9,
+          "texto": "SIS-245 A Ph.D. Javier Reyes"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 9,
+          "texto": "TIC-373 A / SEG-312 A Ph.D. Javier Reyes"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 9,
+          "texto": "TIC-373 A / SEG-312 A Ph.D. Javier Reyes"
+        }
+      ]
+    },
+    {
+      "idDocente": "97",
+      "nombre": "CELIA ELENA TARQUINO PERALTA",
+      "antes": null,
+      "despues": "Lic.",
+      "evidencia": [
+        {
+          "grado": "Lic.",
+          "pagina": 5,
+          "texto": "DAT-251 A / INF-262 A Lic. Celia Tarquino"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 6,
+          "texto": "DAT-251 A / INF-262 A Lic. Celia Tarquino"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 8,
+          "texto": "COM-322 B Lic. Celia Tarquino"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 8,
+          "texto": "COM-322 B Lic. Celia Tarquino"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 11,
+          "texto": "DAT-371 A / INF-327 A Lic. Celia Tarquino"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 11,
+          "texto": "DAT-371 A / INF-327 A Lic. Celia Tarquino"
+        }
+      ]
+    },
+    {
+      "idDocente": "99",
+      "nombre": "FREDDY MIGUEL TOLEDO PAZ",
+      "antes": null,
+      "despues": "Lic.",
+      "evidencia": [
+        {
+          "grado": "Lic.",
+          "pagina": 5,
+          "texto": "DAT-245 B / COM-252 B / INF-372 B / INF-335 B Lic. Freddy Toledo"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 5,
+          "texto": "DAT-245 B / COM-252 B / INF-372 B / INF-335 B Lic. Freddy Toledo"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 5,
+          "texto": "INF-384 A Lic. Freddy Toledo"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 5,
+          "texto": "INF-384 A Lic. Freddy Toledo"
+        }
+      ]
+    },
+    {
+      "idDocente": "1",
+      "nombre": "JHONNY ROBERTO FELIPEZ ANDRADE",
+      "antes": null,
+      "despues": "Lic.",
+      "evidencia": [
+        {
+          "grado": "Lic.",
+          "pagina": 6,
+          "texto": "INF-121 D Lic. Jhonny Felipez"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 6,
+          "texto": "INF-121 D Lic. Jhonny Felipez"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 6,
+          "texto": "INF-133 A Lic. Jhonny Felipez"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 6,
+          "texto": "INF-133 A Lic. Jhonny Felipez"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 10,
+          "texto": "INF-111 A Lic. Jhonny Felipez"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 10,
+          "texto": "INF-111 A Lic. Jhonny Felipez"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 10,
+          "texto": "TAW-251 A Lic. Jhonny Felipez"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 10,
+          "texto": "TAW-251 A Lic. Jhonny Felipez"
+        }
+      ]
+    },
+    {
+      "idDocente": "78",
+      "nombre": "JOSE LUIS ZEBALLOS ABASTO",
+      "antes": null,
+      "despues": "Lic.",
+      "evidencia": [
+        {
+          "grado": "Lic.",
+          "pagina": 6,
+          "texto": "INF-244 C / INF-252 C / COM-322 C Lic. Jose Zeballos"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 6,
+          "texto": "INF-244 C / INF-252 C / COM-322 C Lic. Jose Zeballos"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 6,
+          "texto": "INF-266 B Lic. Jose Zeballos"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 6,
+          "texto": "INF-266 B Lic. Jose Zeballos"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 6,
+          "texto": "INF-132 A Lic. Jose Zeballos"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 6,
+          "texto": "INF-132 A Lic. Jose Zeballos"
+        }
+      ]
+    },
+    {
+      "idDocente": "52",
+      "nombre": "BRIGIDA ALEXANDRA CARVAJAL BLANCO",
+      "antes": null,
+      "despues": "Lic.",
+      "evidencia": [
+        {
+          "grado": "Lic.",
+          "pagina": 6,
+          "texto": "INF-266 A Lic. Brigida Carvajal"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 6,
+          "texto": "INF-266 A Lic. Brigida Carvajal"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 11,
+          "texto": "DAT-242 A Lic. Brigida Carvajal"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 12,
+          "texto": "DAT-242 A Lic. Brigida Carvajal"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 12,
+          "texto": "DAT-242 A Lic. Brigida Carvajal"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 13,
+          "texto": "INF-113 C Lic. Brigida Carvajal"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 13,
+          "texto": "INF-113 C Lic. Brigida Carvajal"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 13,
+          "texto": "DAT-242 A Lic. Brigida Carvajal"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 13,
+          "texto": "INF-113 C Lic. Brigida Carvajal"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 13,
+          "texto": "INF-113 C Lic. Brigida Carvajal"
+        }
+      ]
+    },
+    {
+      "idDocente": "11",
+      "nombre": "JUAN MARCOS MIRANDA NINA",
+      "antes": null,
+      "despues": "Ph.D.",
+      "evidencia": [
+        {
+          "grado": "Ph.D.",
+          "pagina": 6,
+          "texto": "INF-254 A / IID-311 A Ph.D. Juan Miranda"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 6,
+          "texto": "INF-254 A / IID-311 A Ph.D. Juan Miranda"
+        }
+      ]
+    },
+    {
+      "idDocente": "92",
+      "nombre": "FRANZ RAMIRO GALLARDO PORTANDA",
+      "antes": null,
+      "despues": "M.Sc.",
+      "evidencia": [
+        {
+          "grado": "M.Sc.",
+          "pagina": 6,
+          "texto": "SEG-252 B / INF-333 B M.Sc. Franz Gallardo"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 6,
+          "texto": "SEG-252 B / INF-333 B M.Sc. Franz Gallardo"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 7,
+          "texto": "TIC-247 A M.Sc. Franz Gallardo"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 7,
+          "texto": "TIC-247 A M.Sc. Franz Gallardo"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 9,
+          "texto": "INF-242 B M.Sc. Franz Gallardo"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 9,
+          "texto": "INF-242 B M.Sc. Franz Gallardo"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 9,
+          "texto": "INF-242 B M.Sc. Franz Gallardo"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 9,
+          "texto": "INF-242 B M.Sc. Franz Gallardo"
+        }
+      ]
+    },
+    {
+      "idDocente": "114",
+      "nombre": "EDSON MICHEL VALLEJOS PACHECO",
+      "antes": null,
+      "despues": "Lic.",
+      "evidencia": [
+        {
+          "grado": "Lic.",
+          "pagina": 6,
+          "texto": "SEG-372 A / TIC-382 A Lic. Edson Vallejos"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 6,
+          "texto": "SEG-372 A / TIC-382 A Lic. Edson Vallejos"
+        }
+      ]
+    },
+    {
+      "idDocente": "73",
+      "nombre": "BHYLENIA YHASMYNA RIOS MIRANDA",
+      "antes": null,
+      "despues": "Ph.D.",
+      "evidencia": [
+        {
+          "grado": "Ph.D.",
+          "pagina": 6,
+          "texto": "INF-122 C Ph.D. Bhylenia Rios"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 10,
+          "texto": "INF-122 C Ph.D. Bhylenia Rios"
+        }
+      ]
+    },
+    {
+      "idDocente": "51",
+      "nombre": "VICTOR PABLO POZO DIAZ",
+      "antes": null,
+      "despues": "Lic.",
+      "evidencia": [
+        {
+          "grado": "Lic.",
+          "pagina": 6,
+          "texto": "INF-122 B Lic. Victor Pozo"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 6,
+          "texto": "INF-122 B Lic. Victor Pozo"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 13,
+          "texto": "INF-113 B Lic. Victor Pozo"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 13,
+          "texto": "INF-113 B Lic. Victor Pozo"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 13,
+          "texto": "INF-113 B Lic. Victor Pozo"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 13,
+          "texto": "INF-113 B Lic. Victor Pozo"
+        }
+      ]
+    },
+    {
+      "idDocente": "91",
+      "nombre": "ROBERTO VARGAS BLACUTT",
+      "antes": null,
+      "despues": "Lic.",
+      "evidencia": [
+        {
+          "grado": "Lic.",
+          "pagina": 7,
+          "texto": "TIC-247 B / SEG-252 A / INF-333 A Lic. Roberto Vargas"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 7,
+          "texto": "TIC-247 B / SEG-252 A / INF-333 A Lic. Roberto Vargas"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 9,
+          "texto": "INF-242 A Lic. Roberto Vargas"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 9,
+          "texto": "INF-242 A Lic. Roberto Vargas"
+        }
+      ]
+    },
+    {
+      "idDocente": "79",
+      "nombre": "MENFY MORALES RIOS",
+      "antes": null,
+      "despues": "M.Sc.",
+      "evidencia": [
+        {
+          "grado": "M.Sc.",
+          "pagina": 7,
+          "texto": "DAT-253 A / INF-311 A M.Sc. Menfy Morales"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 7,
+          "texto": "DAT-253 A / INF-311 A M.Sc. Menfy Morales"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 13,
+          "texto": "DAT-255 A / INF-323 A M.Sc. Menfy Morales"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 13,
+          "texto": "DAT-255 A / INF-323 A M.Sc. Menfy Morales"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 13,
+          "texto": "INF-132 B M.Sc. Menfy Morales"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 13,
+          "texto": "INF-132 B M.Sc. Menfy Morales"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 13,
+          "texto": "DAT-255 A / INF-323 A M.Sc. Menfy Morales"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 13,
+          "texto": "DAT-255 A / INF-323 A M.Sc. Menfy Morales"
+        }
+      ]
+    },
+    {
+      "idDocente": "113",
+      "nombre": "CESAR MAURICIO SANCHEZ RIVADENEIRA",
+      "antes": null,
+      "despues": "M.Sc.",
+      "evidencia": [
+        {
+          "grado": "M.Sc.",
+          "pagina": 7,
+          "texto": "SEG-371 A M.Sc. Cesar Sanchez"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 11,
+          "texto": "SEG-371 A M.Sc. Cesar Sanchez"
+        }
+      ]
+    },
+    {
+      "idDocente": "107",
+      "nombre": "EUFREN LLANQUE QUISPE",
+      "antes": null,
+      "despues": "Lic.",
+      "evidencia": [
+        {
+          "grado": "Lic.",
+          "pagina": 8,
+          "texto": "TRA-256 B Lic. Eufren Llanque"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 8,
+          "texto": "TRA-256 B Lic. Eufren Llanque"
+        }
+      ]
+    },
+    {
+      "idDocente": "88",
+      "nombre": "MIGUEL COTAÑA MIER",
+      "antes": null,
+      "despues": "M.Sc.",
+      "evidencia": [
+        {
+          "grado": "M.Sc.",
+          "pagina": 8,
+          "texto": "SIS-382 A / INF-320 A M.Sc. Miguel Cotaña"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 8,
+          "texto": "SIS-382 A / INF-320 A M.Sc. Miguel Cotaña"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 8,
+          "texto": "INF-241 A M.Sc. Miguel Cotaña"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 8,
+          "texto": "INF-241 A M.Sc. Miguel Cotaña"
+        }
+      ]
+    },
+    {
+      "idDocente": "118",
+      "nombre": "ELIZABETH PATRICIA POMMIER GALLO",
+      "antes": null,
+      "despues": "M.Sc.",
+      "evidencia": [
+        {
+          "grado": "M.Sc.",
+          "pagina": 8,
+          "texto": "DAT-382 A M.Sc. Elizabeth Pommier"
+        },
+        {
+          "grado": "M.Sc.",
+          "pagina": 8,
+          "texto": "DAT-382 A M.Sc. Elizabeth Pommier"
+        }
+      ]
+    },
+    {
+      "idDocente": "120",
+      "nombre": "LUCIO POLEVOI TORRICO DIAZ",
+      "antes": null,
+      "despues": "Lic.",
+      "evidencia": [
+        {
+          "grado": "Lic.",
+          "pagina": 9,
+          "texto": "TRC-251 A Lic. Lucio Torrico"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 9,
+          "texto": "TRC-251 A Lic. Lucio Torrico"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 12,
+          "texto": "INF-312 A Lic. Lucio Torrico"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 12,
+          "texto": "INF-312 A Lic. Lucio Torrico"
+        }
+      ]
+    },
+    {
+      "idDocente": "66",
+      "nombre": "FRANZ CUEVAS QUIROZ",
+      "antes": null,
+      "despues": "Ph.D.",
+      "evidencia": [
+        {
+          "grado": "Ph.D.",
+          "pagina": 9,
+          "texto": "INF-117 C Ph.D. Franz Cuevas"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 9,
+          "texto": "INF-117 C Ph.D. Franz Cuevas"
+        }
+      ]
+    },
+    {
+      "idDocente": "89",
+      "nombre": "MOISES MARTIN SILVA CHOQUE",
+      "antes": null,
+      "despues": "Ph.D.",
+      "evidencia": [
+        {
+          "grado": "Ph.D.",
+          "pagina": 10,
+          "texto": "DAT-264 A / INF-324 A Ph.D. Moises Silva"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 10,
+          "texto": "DAT-264 A / INF-324 A Ph.D. Moises Silva"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 10,
+          "texto": "DAT-245 A / COM-252 A / INF-372 A / INF-335 A Ph.D. Moises Silva"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 10,
+          "texto": "DAT-245 A / COM-252 A / INF-372 A / INF-335 A Ph.D. Moises Silva"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 10,
+          "texto": "DAT-241 A / COM-263 A / SIS-371 A Ph.D. Moises Silva"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 10,
+          "texto": "DAT-241 A / COM-263 A / SIS-371 A Ph.D. Moises Silva"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 13,
+          "texto": "DAT-381 A / INF-322 A Ph.D. Moises Silva"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 13,
+          "texto": "DAT-381 A / INF-322 A Ph.D. Moises Silva"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 13,
+          "texto": "TIC-251 A / INF-263 A Ph.D. Moises Silva"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 13,
+          "texto": "TIC-251 A / INF-263 A Ph.D. Moises Silva"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 13,
+          "texto": "DAT-381 A / INF-322 A Ph.D. Moises Silva"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 13,
+          "texto": "DAT-381 A / INF-322 A Ph.D. Moises Silva"
+        }
+      ]
+    },
+    {
+      "idDocente": "122",
+      "nombre": "FERNANDO NELZON ESPINOZA CENTELLAS",
+      "antes": null,
+      "despues": "Ph.D.",
+      "evidencia": [
+        {
+          "grado": "Ph.D.",
+          "pagina": 12,
+          "texto": "INF-314 B Ph.D. Fernando Espinoza"
+        },
+        {
+          "grado": "Ph.D.",
+          "pagina": 12,
+          "texto": "INF-314 B Ph.D. Fernando Espinoza"
+        }
+      ]
+    }
+  ],
+  "cambiosDocentes": [
+    {
+      "idAsignacion": "11",
+      "antes": "11",
+      "despues": "42",
+      "key": "INF-111|B",
+      "nombre": "JORGE HUMBERTO TERAN POMIER"
+    },
+    {
+      "idAsignacion": "12",
+      "antes": "11",
+      "despues": "46",
+      "key": "INF-112|B",
+      "nombre": "MANUEL RAMIRO FLORES ROJAS"
+    },
+    {
+      "idAsignacion": "13",
+      "antes": "1",
+      "despues": "47",
+      "key": "INF-112|C",
+      "nombre": "FATIMA CONSUELO DOLZ SALVADOR"
+    }
+  ],
+  "propuestas": [
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "DAT-255|A",
+        "idAsignacion": "172",
+        "idDocente": "79",
+        "aula": "LASIN-1",
+        "dia": "JUEVES",
+        "horaInicio": "08:00",
+        "horaFin": "10:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "DAT-255|A",
+        "pagina": 13,
+        "texto": "DAT-255 A / INF-323 A M.Sc. Menfy Morales",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "4e668c1b68a1274d66b0f6a76cfca7ffb6d785cdb1b8cb14"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "DAT-381|A",
+        "idAsignacion": "209",
+        "idDocente": "89",
+        "aula": "LASIN-1",
+        "dia": "JUEVES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "DAT-381|A",
+        "pagina": 13,
+        "texto": "DAT-381 A / INF-322 A Ph.D. Moises Silva",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "325be31c82029ef1a8697d822d7590ad32aa0aa35928bf9b"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-113|B",
+        "idAsignacion": "64",
+        "idDocente": "51",
+        "aula": "LASIN-1",
+        "dia": "JUEVES",
+        "horaInicio": "16:00",
+        "horaFin": "18:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-113|B",
+        "pagina": 13,
+        "texto": "INF-113 B Lic. Victor Pozo",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "814e0e10c65b2911e8d5547fe79d7f102e8d128e2af8e1dc"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "CPU|SIN PARALELO",
+        "idDocente": "80",
+        "aula": "LASIN-1",
+        "dia": "LUNES",
+        "horaInicio": "10:00",
+        "horaFin": "12:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "CPU|SIN PARALELO",
+        "pagina": 13,
+        "texto": "C.P.U. Ph.D. Reynaldo Zeballos",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "96feb578d7a1bca1605433d89553456e57dea366a1a20f66"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "CPU|SIN PARALELO",
+        "idDocente": "80",
+        "aula": "LASIN-1",
+        "dia": "LUNES",
+        "horaInicio": "16:00",
+        "horaFin": "18:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "CPU|SIN PARALELO",
+        "pagina": 13,
+        "texto": "C.P.U. Ph.D. Reynaldo Zeballos",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "065c0d3a63395d7561490dae98d0605a357e3d7ea705baae"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "DAT-242|A",
+        "idAsignacion": "134",
+        "idDocente": "52",
+        "aula": "LASIN-1",
+        "dia": "LUNES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "DAT-242|A",
+        "pagina": 13,
+        "texto": "DAT-242 A Lic. Brigida Carvajal",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-113|C",
+        "idAsignacion": "65",
+        "idDocente": "52",
+        "aula": "LASIN-1",
+        "dia": "LUNES",
+        "horaInicio": "12:00",
+        "horaFin": "14:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-113|C",
+        "pagina": 13,
+        "texto": "INF-113 C Lic. Brigida Carvajal",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "f7d04749138318ee4af15a4f97974aa88c2d91e60a32713e"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "DAT-255|A",
+        "idAsignacion": "172",
+        "idDocente": "79",
+        "aula": "LASIN-1",
+        "dia": "MARTES",
+        "horaInicio": "08:00",
+        "horaFin": "10:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "DAT-255|A",
+        "pagina": 13,
+        "texto": "DAT-255 A / INF-323 A M.Sc. Menfy Morales",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "1abd6cda4967a185452c782ff6b6dfbac658418a9044b9e0"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "DAT-381|A",
+        "idAsignacion": "209",
+        "idDocente": "89",
+        "aula": "LASIN-1",
+        "dia": "MARTES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "DAT-381|A",
+        "pagina": 13,
+        "texto": "DAT-381 A / INF-322 A Ph.D. Moises Silva",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "59046bcb44e50e486de626d36442819d7d73ad44300d2702"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-113|B",
+        "idAsignacion": "64",
+        "idDocente": "51",
+        "aula": "LASIN-1",
+        "dia": "MARTES",
+        "horaInicio": "16:00",
+        "horaFin": "18:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-113|B",
+        "pagina": 13,
+        "texto": "INF-113 B Lic. Victor Pozo",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "6883e7797fc995a70c7677a9c048bd8fd66265c5baf92ecc"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "CPU|SIN PARALELO",
+        "idDocente": "80",
+        "aula": "LASIN-1",
+        "dia": "MIERCOLES",
+        "horaInicio": "10:00",
+        "horaFin": "12:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "CPU|SIN PARALELO",
+        "pagina": 13,
+        "texto": "C.P.U. Ph.D. Reynaldo Zeballos",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "5256b390200e47313e5a8595f6541236e51372e8d67ade08"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-113|C",
+        "idAsignacion": "65",
+        "idDocente": "52",
+        "aula": "LASIN-1",
+        "dia": "MIERCOLES",
+        "horaInicio": "12:00",
+        "horaFin": "14:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-113|C",
+        "pagina": 13,
+        "texto": "INF-113 C Lic. Brigida Carvajal",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "651e54900fbf09a2b851b4960eeac7e42bc984832e965775"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-121|B",
+        "idAsignacion": "93",
+        "idDocente": "45",
+        "aula": "LASIN-1",
+        "dia": "MIERCOLES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-121|B",
+        "pagina": 13,
+        "texto": "INF-121 B Lic. Carmen Huanca",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "e2b9c116978c52c556b2eb862df290b3cbbebca975308355"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-131|C",
+        "idAsignacion": "114",
+        "idDocente": "45",
+        "aula": "LASIN-1",
+        "dia": "MIERCOLES",
+        "horaInicio": "16:00",
+        "horaFin": "18:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-131|C",
+        "pagina": 13,
+        "texto": "INF-131 C Lic. Carmen Huanca",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "7fa47210def335c3f562466f0baf1031535a3fa975fe5dc9"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-111|E",
+        "idAsignacion": "60",
+        "idDocente": "45",
+        "aula": "LASIN-1",
+        "dia": "VIERNES",
+        "horaInicio": "16:00",
+        "horaFin": "18:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-111|E",
+        "pagina": 13,
+        "texto": "INF-111 E Lic. Carmen Huanca",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "ae127a34ba636365a3f39cacda4a8427a11d015a33b1c89c"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-113|B",
+        "idAsignacion": "64",
+        "idDocente": "51",
+        "aula": "LASIN-1",
+        "dia": "VIERNES",
+        "horaInicio": "10:00",
+        "horaFin": "12:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-113|B",
+        "pagina": 13,
+        "texto": "AUX INF - 113 B",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-122|B",
+        "idAsignacion": "97",
+        "idDocente": "51",
+        "aula": "LASIN-1",
+        "dia": "VIERNES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-122|B",
+        "pagina": 13,
+        "texto": "AUX INF - 122 B",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-133|C",
+        "idAsignacion": "120",
+        "idDocente": "81",
+        "aula": "LASIN-1",
+        "dia": "VIERNES",
+        "horaInicio": "12:00",
+        "horaFin": "14:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-133|C",
+        "pagina": 13,
+        "texto": "AUX INF - 133 C",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "DAT-255|A",
+        "idAsignacion": "172",
+        "idDocente": "79",
+        "aula": "LASIN-2",
+        "dia": "JUEVES",
+        "horaInicio": "08:00",
+        "horaFin": "10:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "DAT-255|A",
+        "pagina": 13,
+        "texto": "DAT-255 A / INF-323 A M.Sc. Menfy Morales",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "4e668c1b68a1274d66b0f6a76cfca7ffb6d785cdb1b8cb14"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "DAT-381|A",
+        "idAsignacion": "209",
+        "idDocente": "89",
+        "aula": "LASIN-2",
+        "dia": "JUEVES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "DAT-381|A",
+        "pagina": 13,
+        "texto": "DAT-381 A / INF-322 A Ph.D. Moises Silva",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "325be31c82029ef1a8697d822d7590ad32aa0aa35928bf9b"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-113|B",
+        "idAsignacion": "64",
+        "idDocente": "51",
+        "aula": "LASIN-2",
+        "dia": "JUEVES",
+        "horaInicio": "16:00",
+        "horaFin": "18:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-113|B",
+        "pagina": 13,
+        "texto": "INF-113 B Lic. Victor Pozo",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "814e0e10c65b2911e8d5547fe79d7f102e8d128e2af8e1dc"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-263|A",
+        "idAsignacion": "185",
+        "idDocente": "89",
+        "aula": "LASIN-2",
+        "dia": "JUEVES",
+        "horaInicio": "10:00",
+        "horaFin": "12:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-263|A+TIC-251|A",
+        "pagina": 13,
+        "texto": "TIC-251 A / INF-263 A Ph.D. Moises Silva",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "c9ad6141f5ab14bbf5136f443667d35b36f81990281de59e"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "TIC-251|A",
+        "idAsignacion": "160",
+        "idDocente": "89",
+        "aula": "LASIN-2",
+        "dia": "JUEVES",
+        "horaInicio": "10:00",
+        "horaFin": "12:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-263|A+TIC-251|A",
+        "pagina": 13,
+        "texto": "TIC-251 A / INF-263 A Ph.D. Moises Silva",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "c9ad6141f5ab14bbf5136f443667d35b36f81990281de59e"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "CPU|SIN PARALELO",
+        "idDocente": "80",
+        "aula": "LASIN-2",
+        "dia": "LUNES",
+        "horaInicio": "10:00",
+        "horaFin": "12:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "CPU|SIN PARALELO",
+        "pagina": 13,
+        "texto": "C.P.U. Ph.D. Reynaldo Zeballos",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "96feb578d7a1bca1605433d89553456e57dea366a1a20f66"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "CPU|SIN PARALELO",
+        "idDocente": "80",
+        "aula": "LASIN-2",
+        "dia": "LUNES",
+        "horaInicio": "16:00",
+        "horaFin": "18:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "CPU|SIN PARALELO",
+        "pagina": 13,
+        "texto": "C.P.U. Ph.D. Reynaldo Zeballos",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "065c0d3a63395d7561490dae98d0605a357e3d7ea705baae"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-113|C",
+        "idAsignacion": "65",
+        "idDocente": "52",
+        "aula": "LASIN-2",
+        "dia": "LUNES",
+        "horaInicio": "12:00",
+        "horaFin": "14:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-113|C",
+        "pagina": 13,
+        "texto": "INF-113 C Lic. Brigida Carvajal",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "f7d04749138318ee4af15a4f97974aa88c2d91e60a32713e"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "DAT-255|A",
+        "idAsignacion": "172",
+        "idDocente": "79",
+        "aula": "LASIN-2",
+        "dia": "MARTES",
+        "horaInicio": "08:00",
+        "horaFin": "10:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "DAT-255|A",
+        "pagina": 13,
+        "texto": "DAT-255 A / INF-323 A M.Sc. Menfy Morales",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "1abd6cda4967a185452c782ff6b6dfbac658418a9044b9e0"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "DAT-381|A",
+        "idAsignacion": "209",
+        "idDocente": "89",
+        "aula": "LASIN-2",
+        "dia": "MARTES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "DAT-381|A",
+        "pagina": 13,
+        "texto": "DAT-381 A / INF-322 A Ph.D. Moises Silva",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "59046bcb44e50e486de626d36442819d7d73ad44300d2702"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-113|B",
+        "idAsignacion": "64",
+        "idDocente": "51",
+        "aula": "LASIN-2",
+        "dia": "MARTES",
+        "horaInicio": "16:00",
+        "horaFin": "18:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-113|B",
+        "pagina": 13,
+        "texto": "INF-113 B Lic. Victor Pozo",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "6883e7797fc995a70c7677a9c048bd8fd66265c5baf92ecc"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-263|A",
+        "idAsignacion": "185",
+        "idDocente": "89",
+        "aula": "LASIN-2",
+        "dia": "MARTES",
+        "horaInicio": "10:00",
+        "horaFin": "12:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-263|A+TIC-251|A",
+        "pagina": 13,
+        "texto": "TIC-251 A / INF-263 A Ph.D. Moises Silva",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "0526757da0cfbd680c76b1e997cb054050a8302f7ed8f967"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "TIC-251|A",
+        "idAsignacion": "160",
+        "idDocente": "89",
+        "aula": "LASIN-2",
+        "dia": "MARTES",
+        "horaInicio": "10:00",
+        "horaFin": "12:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-263|A+TIC-251|A",
+        "pagina": 13,
+        "texto": "TIC-251 A / INF-263 A Ph.D. Moises Silva",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "0526757da0cfbd680c76b1e997cb054050a8302f7ed8f967"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "CPU|SIN PARALELO",
+        "idDocente": "80",
+        "aula": "LASIN-2",
+        "dia": "MIERCOLES",
+        "horaInicio": "10:00",
+        "horaFin": "12:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "CPU|SIN PARALELO",
+        "pagina": 13,
+        "texto": "C.P.U. Ph.D. Reynaldo Zeballos",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "5256b390200e47313e5a8595f6541236e51372e8d67ade08"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-113|C",
+        "idAsignacion": "65",
+        "idDocente": "52",
+        "aula": "LASIN-2",
+        "dia": "MIERCOLES",
+        "horaInicio": "12:00",
+        "horaFin": "14:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-113|C",
+        "pagina": 13,
+        "texto": "INF-113 C Lic. Brigida Carvajal",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "651e54900fbf09a2b851b4960eeac7e42bc984832e965775"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-121|B",
+        "idAsignacion": "93",
+        "idDocente": "45",
+        "aula": "LASIN-2",
+        "dia": "MIERCOLES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-121|B",
+        "pagina": 13,
+        "texto": "INF-121 B Lic. Carmen Huanca",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "e2b9c116978c52c556b2eb862df290b3cbbebca975308355"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-131|C",
+        "idAsignacion": "114",
+        "idDocente": "45",
+        "aula": "LASIN-2",
+        "dia": "MIERCOLES",
+        "horaInicio": "16:00",
+        "horaFin": "18:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-131|C",
+        "pagina": 13,
+        "texto": "INF-131 C Lic. Carmen Huanca",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "7fa47210def335c3f562466f0baf1031535a3fa975fe5dc9"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-111|E",
+        "idAsignacion": "60",
+        "idDocente": "45",
+        "aula": "LASIN-2",
+        "dia": "VIERNES",
+        "horaInicio": "16:00",
+        "horaFin": "18:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-111|E",
+        "pagina": 13,
+        "texto": "INF-111 E Lic. Carmen Huanca",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "ae127a34ba636365a3f39cacda4a8427a11d015a33b1c89c"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-113|C",
+        "idAsignacion": "65",
+        "idDocente": "52",
+        "aula": "LASIN-2",
+        "dia": "VIERNES",
+        "horaInicio": "10:00",
+        "horaFin": "12:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-113|C",
+        "pagina": 13,
+        "texto": "AUX INF - 113 C",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-131|A",
+        "idAsignacion": "112",
+        "idDocente": "72",
+        "aula": "LASIN-2",
+        "dia": "VIERNES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-131|A",
+        "pagina": 13,
+        "texto": "AUX INF - 131 A",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-132|C",
+        "idAsignacion": "117",
+        "idDocente": "80",
+        "aula": "LASIN-2",
+        "dia": "VIERNES",
+        "horaInicio": "12:00",
+        "horaFin": "14:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-132|C",
+        "pagina": 13,
+        "texto": "AUX INF-132 C",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "3fc5e353a2249534e76a4d52d4b4ea415d9cfced8f2081da"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "DAT-242|A",
+        "idAsignacion": "134",
+        "idDocente": "52",
+        "aula": "LASIN-3",
+        "dia": "MIERCOLES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "DAT-242|A",
+        "pagina": 11,
+        "texto": "DAT-242 A Lic. Brigida Carvajal",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-131|B",
+        "idAsignacion": "113",
+        "idDocente": "44",
+        "aula": "LASIN-3",
+        "dia": "VIERNES",
+        "horaInicio": "10:00",
+        "horaFin": "14:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-131|B",
+        "pagina": 11,
+        "texto": "AUX INF-131 B",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "SIS-372|A",
+        "idAsignacion": "202",
+        "idDocente": "50",
+        "aula": "P1-A1",
+        "dia": "LUNES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "SIS-372|A+TIC-323|A",
+        "pagina": 4,
+        "texto": "SIS-372 A / INF-318 A / TIC-323 A / TSS-261 A Ph.D. Jose Tapia",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "6aee40fc8426b09db10673655417e28b53d7c5ffeb839598"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "TIC-323|A",
+        "idAsignacion": "225",
+        "idDocente": "50",
+        "aula": "P1-A1",
+        "dia": "LUNES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "SIS-372|A+TIC-323|A",
+        "pagina": 4,
+        "texto": "SIS-372 A / INF-318 A / TIC-323 A / TSS-261 A Ph.D. Jose Tapia",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "6aee40fc8426b09db10673655417e28b53d7c5ffeb839598"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "SIS-372|A",
+        "idAsignacion": "202",
+        "idDocente": "50",
+        "aula": "P1-A1",
+        "dia": "MIERCOLES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "SIS-372|A+TIC-323|A",
+        "pagina": 4,
+        "texto": "SIS-372 A / INF-318 A / TIC-323 A / TSS-261 A Ph.D. Jose Tapia",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "b05ed21a4c0b6d51780b643fa391071e1acbbe6d09ae9ebc"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "TIC-323|A",
+        "idAsignacion": "225",
+        "idDocente": "50",
+        "aula": "P1-A1",
+        "dia": "MIERCOLES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "SIS-372|A+TIC-323|A",
+        "pagina": 4,
+        "texto": "SIS-372 A / INF-318 A / TIC-323 A / TSS-261 A Ph.D. Jose Tapia",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "b05ed21a4c0b6d51780b643fa391071e1acbbe6d09ae9ebc"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-241|B",
+        "idAsignacion": "133",
+        "idDocente": "90",
+        "aula": "P1-A1",
+        "dia": "VIERNES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-241|B",
+        "pagina": 4,
+        "texto": "AUX INF - 241 B",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-116|J",
+        "idAsignacion": "79",
+        "idDocente": "63",
+        "aula": "P1-A2",
+        "dia": "JUEVES",
+        "horaInicio": "12:00",
+        "horaFin": "14:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-116|J",
+        "pagina": 4,
+        "texto": "AUX INF-116 J",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-112|B",
+        "idAsignacion": "12",
+        "idDocente": "46",
+        "aula": "P1-A2",
+        "dia": "MARTES",
+        "horaInicio": "12:00",
+        "horaFin": "14:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-112|B",
+        "pagina": 4,
+        "texto": "INF-112 B M.Sc. Ramiro Flores",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-112|B",
+        "idAsignacion": "12",
+        "idDocente": "46",
+        "aula": "P1-A2",
+        "dia": "VIERNES",
+        "horaInicio": "12:00",
+        "horaFin": "14:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-112|B",
+        "pagina": 4,
+        "texto": "INF-112 B M.Sc. Ramiro Flores",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-126|C",
+        "idAsignacion": "110",
+        "idDocente": "77",
+        "aula": "P1-A3",
+        "dia": "LUNES",
+        "horaInicio": "12:00",
+        "horaFin": "14:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-126|C",
+        "pagina": 5,
+        "texto": "AUX INF-126 C",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "TAW-251|A",
+        "idAsignacion": "230",
+        "idDocente": "1",
+        "aula": "P3-LAB1",
+        "dia": "JUEVES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "TAW-251|A",
+        "pagina": 6,
+        "texto": "AUX TAW - 251 A",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "CPU|SIN PARALELO",
+        "idDocente": "80",
+        "aula": "P3-LAB1",
+        "dia": "MIERCOLES",
+        "horaInicio": "16:00",
+        "horaFin": "18:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "CPU|SIN PARALELO",
+        "pagina": 6,
+        "texto": "C.P.U. Ph.D. Reynaldo Zeballos",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "2e5a91b52079f0c9db26ea11f96d04e42870add9aa2443b6"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-111|B",
+        "idAsignacion": "11",
+        "idDocente": "42",
+        "aula": "P3-LAB1",
+        "dia": "VIERNES",
+        "horaInicio": "12:00",
+        "horaFin": "16:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-111|B",
+        "pagina": 6,
+        "texto": "AUX INF - 111 B",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-121|D",
+        "idAsignacion": "95",
+        "idDocente": "1",
+        "aula": "P3-LAB1",
+        "dia": "VIERNES",
+        "horaInicio": "08:00",
+        "horaFin": "10:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-121|D",
+        "pagina": 6,
+        "texto": "AUX INF - 121 D",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-133|A",
+        "idAsignacion": "118",
+        "idDocente": "1",
+        "aula": "P3-LAB1",
+        "dia": "VIERNES",
+        "horaInicio": "10:00",
+        "horaFin": "12:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-133|A",
+        "pagina": 6,
+        "texto": "AUX INF - 133 A",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-245|A",
+        "idAsignacion": "148",
+        "idDocente": "72",
+        "aula": "P3-LAB1",
+        "dia": "VIERNES",
+        "horaInicio": "16:00",
+        "horaFin": "18:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-245|A",
+        "pagina": 6,
+        "texto": "AUX INF - 245 A",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-111|E",
+        "idAsignacion": "60",
+        "idDocente": "45",
+        "aula": "P3-LAB2",
+        "dia": "VIERNES",
+        "horaInicio": "12:00",
+        "horaFin": "14:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-111|E",
+        "pagina": 6,
+        "texto": "AUX INF - 111 E",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-113|A",
+        "idAsignacion": "63",
+        "idDocente": "50",
+        "aula": "P3-LAB2",
+        "dia": "VIERNES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-113|A",
+        "pagina": 6,
+        "texto": "AUX INF - 113 A",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-132|C",
+        "idAsignacion": "117",
+        "idDocente": "80",
+        "aula": "P3-LAB2",
+        "dia": "VIERNES",
+        "horaInicio": "10:00",
+        "horaFin": "12:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-132|C",
+        "pagina": 6,
+        "texto": "AUX INF - 132 C",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-111|D",
+        "idAsignacion": "59",
+        "idDocente": "44",
+        "aula": "P3-LAB3",
+        "dia": "JUEVES",
+        "horaInicio": "12:00",
+        "horaFin": "14:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-111|D",
+        "pagina": 7,
+        "texto": "AUX INF-111 D",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "SEG-252|A",
+        "idAsignacion": "162",
+        "idDocente": "91",
+        "aula": "P3-LAB3",
+        "dia": "JUEVES",
+        "horaInicio": "08:00",
+        "horaFin": "10:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "SEG-252|A+TIC-247|B",
+        "pagina": 7,
+        "texto": "TIC-247 B / SEG-252 A / INF-333 A Lic. Roberto Vargas",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "4c81df8e4cc5310756989334cebb20a116ddaa251ec71fd0"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "TIC-247|B",
+        "idAsignacion": "156",
+        "idDocente": "91",
+        "aula": "P3-LAB3",
+        "dia": "JUEVES",
+        "horaInicio": "08:00",
+        "horaFin": "10:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "SEG-252|A+TIC-247|B",
+        "pagina": 7,
+        "texto": "TIC-247 B / SEG-252 A / INF-333 A Lic. Roberto Vargas",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "4c81df8e4cc5310756989334cebb20a116ddaa251ec71fd0"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "SEG-252|A",
+        "idAsignacion": "162",
+        "idDocente": "91",
+        "aula": "P3-LAB3",
+        "dia": "MARTES",
+        "horaInicio": "08:00",
+        "horaFin": "10:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "SEG-252|A+TIC-247|B",
+        "pagina": 7,
+        "texto": "TIC-247 B / SEG-252 A / INF-333 A Lic. Roberto Vargas",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "ebcff7243fb4722d1a3eb8aea69fa549de8fcad0ddbc7aa9"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "TIC-247|B",
+        "idAsignacion": "156",
+        "idDocente": "91",
+        "aula": "P3-LAB3",
+        "dia": "MARTES",
+        "horaInicio": "08:00",
+        "horaFin": "10:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "SEG-252|A+TIC-247|B",
+        "pagina": 7,
+        "texto": "TIC-247 B / SEG-252 A / INF-333 A Lic. Roberto Vargas",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "ebcff7243fb4722d1a3eb8aea69fa549de8fcad0ddbc7aa9"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "CPU|SIN PARALELO",
+        "idDocente": "80",
+        "aula": "P3-LAB3",
+        "dia": "MIERCOLES",
+        "horaInicio": "16:00",
+        "horaFin": "18:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "CPU|SIN PARALELO",
+        "pagina": 7,
+        "texto": "C.P.U. Ph.D. Reynaldo Zeballos",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "2e5a91b52079f0c9db26ea11f96d04e42870add9aa2443b6"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-111|C",
+        "idAsignacion": "58",
+        "idDocente": "43",
+        "aula": "P3-LAB3",
+        "dia": "VIERNES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-111|C",
+        "pagina": 7,
+        "texto": "AUX INF - 111 C",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-121|C",
+        "idAsignacion": "94",
+        "idDocente": "44",
+        "aula": "P3-LAB3",
+        "dia": "VIERNES",
+        "horaInicio": "12:00",
+        "horaFin": "14:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-121|C",
+        "pagina": 7,
+        "texto": "AUX INF - 121 C",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "SIS-372|B",
+        "idAsignacion": "203",
+        "idDocente": "116",
+        "aula": "P4-A1",
+        "dia": "JUEVES",
+        "horaInicio": "18:00",
+        "horaFin": "20:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "SIS-372|B+TIC-323|B",
+        "pagina": 8,
+        "texto": "SIS-372 B INF-318 B / TIC-323 B / TSS-261 B M.Sc. Edgar Enriquez",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "6909ee8e1cd47b1760a831afb38291a14a02f8c1e5ff7779"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "TIC-323|B",
+        "idAsignacion": "226",
+        "idDocente": "116",
+        "aula": "P4-A1",
+        "dia": "JUEVES",
+        "horaInicio": "18:00",
+        "horaFin": "20:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "SIS-372|B+TIC-323|B",
+        "pagina": 8,
+        "texto": "SIS-372 B INF-318 B / TIC-323 B / TSS-261 B M.Sc. Edgar Enriquez",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "6909ee8e1cd47b1760a831afb38291a14a02f8c1e5ff7779"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "SIS-372|B",
+        "idAsignacion": "203",
+        "idDocente": "116",
+        "aula": "P4-A1",
+        "dia": "MARTES",
+        "horaInicio": "18:00",
+        "horaFin": "20:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "SIS-372|B+TIC-323|B",
+        "pagina": 8,
+        "texto": "SIS-372 B INF-318 B / TIC-323 B / TSS-261 B M.Sc. Edgar Enriquez",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "58c22b87c77bbd2a27219e1bf9c4d62e2539ff0906effa70"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "TIC-323|B",
+        "idAsignacion": "226",
+        "idDocente": "116",
+        "aula": "P4-A1",
+        "dia": "MARTES",
+        "horaInicio": "18:00",
+        "horaFin": "20:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "SIS-372|B+TIC-323|B",
+        "pagina": 8,
+        "texto": "SIS-372 B INF-318 B / TIC-323 B / TSS-261 B M.Sc. Edgar Enriquez",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "58c22b87c77bbd2a27219e1bf9c4d62e2539ff0906effa70"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-112|B",
+        "idAsignacion": "12",
+        "idDocente": "46",
+        "aula": "P4-A1",
+        "dia": "VIERNES",
+        "horaInicio": "08:00",
+        "horaFin": "10:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-112|B",
+        "pagina": 8,
+        "texto": "AUX INF - 112 B",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "71dbe9f6a32cdb19a60c59b487b0437388af5fe4ef410277"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-117|A",
+        "idAsignacion": "78",
+        "idDocente": "2",
+        "aula": "P4-A1",
+        "dia": "VIERNES",
+        "horaInicio": "12:00",
+        "horaFin": "14:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-117|A",
+        "pagina": 8,
+        "texto": "AUX INF - 117 A",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-116|I",
+        "idAsignacion": "91",
+        "idDocente": "71",
+        "aula": "P4-A2",
+        "dia": "JUEVES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-116|I",
+        "pagina": 8,
+        "texto": "AUX INF - 116 I",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-244|B",
+        "idAsignacion": "144",
+        "idDocente": "97",
+        "aula": "P4-A2",
+        "dia": "JUEVES",
+        "horaInicio": "18:00",
+        "horaFin": "20:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-244|B",
+        "pagina": 8,
+        "texto": "COM-322 B Lic. Celia Tarquino",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "DAT-254|A",
+        "idAsignacion": "170",
+        "idDocente": "105",
+        "aula": "P4-A2",
+        "dia": "LUNES",
+        "horaInicio": "12:00",
+        "horaFin": "14:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "DAT-254|A",
+        "pagina": 8,
+        "texto": "AUX DAT - 254 A",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-135|B",
+        "idAsignacion": "127",
+        "idDocente": "81",
+        "aula": "P4-A2",
+        "dia": "MARTES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-135|B",
+        "pagina": 8,
+        "texto": "AUX INF - 135 B",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "d5dd2ad1e4ae19e8d34ed4c35762fa6058c2a49e6457e370"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-244|B",
+        "idAsignacion": "144",
+        "idDocente": "97",
+        "aula": "P4-A2",
+        "dia": "MARTES",
+        "horaInicio": "18:00",
+        "horaFin": "20:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-244|B",
+        "pagina": 8,
+        "texto": "COM-322 B Lic. Celia Tarquino",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-242|C",
+        "idAsignacion": "137",
+        "idDocente": "42",
+        "aula": "P4-A2",
+        "dia": "VIERNES",
+        "horaInicio": "10:00",
+        "horaFin": "12:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-242|C",
+        "pagina": 8,
+        "texto": "AUX INF - 242 C",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-112|C",
+        "idAsignacion": "13",
+        "idDocente": "47",
+        "aula": "P4-A3",
+        "dia": "JUEVES",
+        "horaInicio": "16:00",
+        "horaFin": "18:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-112|C",
+        "pagina": 9,
+        "texto": "AUX INF-112 C",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "5aa1f75e1c6371175c0d763645bf4077bcdfe191a093583d"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-242|B",
+        "idAsignacion": "136",
+        "idDocente": "92",
+        "aula": "P4-A3",
+        "dia": "JUEVES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-242|B",
+        "pagina": 9,
+        "texto": "INF-242 B M.Sc. Franz Gallardo",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "cc80cb106e892220e054f965e64069d02f24d4687dcb2627"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-112|E",
+        "idAsignacion": "62",
+        "idDocente": "49",
+        "aula": "P4-A3",
+        "dia": "LUNES",
+        "horaInicio": "16:00",
+        "horaFin": "18:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-112|E",
+        "pagina": 9,
+        "texto": "AUX INF - 112 E",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-242|B",
+        "idAsignacion": "136",
+        "idDocente": "92",
+        "aula": "P4-A3",
+        "dia": "MARTES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-242|B",
+        "pagina": 9,
+        "texto": "INF-242 B M.Sc. Franz Gallardo",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "e43ffc1189ec77cf23ce68596774d5ca02fe36ff0c08cd54"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-121|A",
+        "idAsignacion": "92",
+        "idDocente": "72",
+        "aula": "P4-A3",
+        "dia": "MIERCOLES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-121|A",
+        "pagina": 9,
+        "texto": "AUX INF - 121 A",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-114|B",
+        "idAsignacion": "68",
+        "idDocente": "54",
+        "aula": "P4-A3",
+        "dia": "VIERNES",
+        "horaInicio": "10:00",
+        "horaFin": "12:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-114|B",
+        "pagina": 9,
+        "texto": "AUX INF-114 B",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-117|C",
+        "idAsignacion": "85",
+        "idDocente": "66",
+        "aula": "P4-A3",
+        "dia": "VIERNES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-117|C",
+        "pagina": 9,
+        "texto": "AUX INF - 117 C",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-135|C",
+        "idAsignacion": "128",
+        "idDocente": "2",
+        "aula": "P4-A3",
+        "dia": "VIERNES",
+        "horaInicio": "16:00",
+        "horaFin": "18:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-135|C",
+        "pagina": 9,
+        "texto": "AUX INF - 135 C",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-242|B",
+        "idAsignacion": "136",
+        "idDocente": "92",
+        "aula": "P4-A4",
+        "dia": "JUEVES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-242|B",
+        "pagina": 9,
+        "texto": "INF-242 B M.Sc. Franz Gallardo",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "cc80cb106e892220e054f965e64069d02f24d4687dcb2627"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-242|B",
+        "idAsignacion": "136",
+        "idDocente": "92",
+        "aula": "P4-A4",
+        "dia": "MARTES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-242|B",
+        "pagina": 9,
+        "texto": "INF-242 B M.Sc. Franz Gallardo",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "e43ffc1189ec77cf23ce68596774d5ca02fe36ff0c08cd54"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "COM-263|A",
+        "idAsignacion": "184",
+        "idDocente": "89",
+        "aula": "P4-LAB1",
+        "dia": "LUNES",
+        "horaInicio": "18:00",
+        "horaFin": "20:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "COM-263|A+DAT-241|A+SIS-371|A",
+        "pagina": 10,
+        "texto": "DAT-241 A / COM-263 A / SIS-371 A Ph.D. Moises Silva",
+        "periodoRotulo": "1/2026",
+        "sesionCompartida": "88611139cf12844ae68de4471d843b7205d40ea37e6ea428"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "DAT-241|A",
+        "idAsignacion": "132",
+        "idDocente": "89",
+        "aula": "P4-LAB1",
+        "dia": "LUNES",
+        "horaInicio": "18:00",
+        "horaFin": "20:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "COM-263|A+DAT-241|A+SIS-371|A",
+        "pagina": 10,
+        "texto": "DAT-241 A / COM-263 A / SIS-371 A Ph.D. Moises Silva",
+        "periodoRotulo": "1/2026",
+        "sesionCompartida": "88611139cf12844ae68de4471d843b7205d40ea37e6ea428"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "SIS-371|A",
+        "idAsignacion": "201",
+        "idDocente": "89",
+        "aula": "P4-LAB1",
+        "dia": "LUNES",
+        "horaInicio": "18:00",
+        "horaFin": "20:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "COM-263|A+DAT-241|A+SIS-371|A",
+        "pagina": 10,
+        "texto": "DAT-241 A / COM-263 A / SIS-371 A Ph.D. Moises Silva",
+        "periodoRotulo": "1/2026",
+        "sesionCompartida": "88611139cf12844ae68de4471d843b7205d40ea37e6ea428"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "COM-263|A",
+        "idAsignacion": "184",
+        "idDocente": "89",
+        "aula": "P4-LAB1",
+        "dia": "MIERCOLES",
+        "horaInicio": "18:00",
+        "horaFin": "20:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "COM-263|A+DAT-241|A+SIS-371|A",
+        "pagina": 10,
+        "texto": "DAT-241 A / COM-263 A / SIS-371 A Ph.D. Moises Silva",
+        "periodoRotulo": "1/2026",
+        "sesionCompartida": "30409a1b3f53ef5e47bdefbec2ce2e2a70f5e2cf2c843b0a"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "DAT-241|A",
+        "idAsignacion": "132",
+        "idDocente": "89",
+        "aula": "P4-LAB1",
+        "dia": "MIERCOLES",
+        "horaInicio": "18:00",
+        "horaFin": "20:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "COM-263|A+DAT-241|A+SIS-371|A",
+        "pagina": 10,
+        "texto": "DAT-241 A / COM-263 A / SIS-371 A Ph.D. Moises Silva",
+        "periodoRotulo": "1/2026",
+        "sesionCompartida": "30409a1b3f53ef5e47bdefbec2ce2e2a70f5e2cf2c843b0a"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "SIS-371|A",
+        "idAsignacion": "201",
+        "idDocente": "89",
+        "aula": "P4-LAB1",
+        "dia": "MIERCOLES",
+        "horaInicio": "18:00",
+        "horaFin": "20:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "COM-263|A+DAT-241|A+SIS-371|A",
+        "pagina": 10,
+        "texto": "DAT-241 A / COM-263 A / SIS-371 A Ph.D. Moises Silva",
+        "periodoRotulo": "1/2026",
+        "sesionCompartida": "30409a1b3f53ef5e47bdefbec2ce2e2a70f5e2cf2c843b0a"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-131|C",
+        "idAsignacion": "114",
+        "idDocente": "45",
+        "aula": "P4-LAB1",
+        "dia": "VIERNES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-131|C",
+        "pagina": 10,
+        "texto": "AUX INF- 131 C",
+        "periodoRotulo": "1/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-132|B",
+        "idAsignacion": "116",
+        "idDocente": "79",
+        "aula": "P4-LAB1",
+        "dia": "VIERNES",
+        "horaInicio": "16:00",
+        "horaFin": "18:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-132|B",
+        "pagina": 10,
+        "texto": "AUX INF- 132 B",
+        "periodoRotulo": "1/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "SEG-252|A",
+        "idAsignacion": "162",
+        "idDocente": "91",
+        "aula": "P4-LAB1",
+        "dia": "VIERNES",
+        "horaInicio": "10:00",
+        "horaFin": "12:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "SEG-252|A",
+        "pagina": 10,
+        "texto": "AUX SEG - 252, SIS - 251, INF - 333 A",
+        "periodoRotulo": "1/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "SEG-252|B",
+        "idAsignacion": "163",
+        "idDocente": "92",
+        "aula": "P4-LAB1",
+        "dia": "VIERNES",
+        "horaInicio": "12:00",
+        "horaFin": "14:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "SEG-252|B",
+        "pagina": 10,
+        "texto": "AUX SEG - 252, SIS - 251, INF - 333 B",
+        "periodoRotulo": "1/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "COM-323|A",
+        "idAsignacion": "224",
+        "idDocente": "49",
+        "aula": "P5-A2",
+        "dia": "LUNES",
+        "horaInicio": "10:00",
+        "horaFin": "12:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "COM-323|A+TIC-135|A",
+        "pagina": 11,
+        "texto": "TIC-135 A / COM-323 A M.Sc. Edgar Clavijo",
+        "periodoRotulo": "1/2026",
+        "sesionCompartida": "03f09aa09cd265010a6db176fa8019d156577f5f201caf01"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "TIC-135|A",
+        "idAsignacion": "124",
+        "idDocente": "49",
+        "aula": "P5-A2",
+        "dia": "LUNES",
+        "horaInicio": "10:00",
+        "horaFin": "12:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "COM-323|A+TIC-135|A",
+        "pagina": 11,
+        "texto": "TIC-135 A / COM-323 A M.Sc. Edgar Clavijo",
+        "periodoRotulo": "1/2026",
+        "sesionCompartida": "03f09aa09cd265010a6db176fa8019d156577f5f201caf01"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "COM-323|A",
+        "idAsignacion": "224",
+        "idDocente": "49",
+        "aula": "P5-A2",
+        "dia": "MIERCOLES",
+        "horaInicio": "10:00",
+        "horaFin": "12:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "COM-323|A+TIC-135|A",
+        "pagina": 11,
+        "texto": "TIC-135 A / COM-323 A M.Sc. Edgar Clavijo",
+        "periodoRotulo": "1/2026",
+        "sesionCompartida": "ede0eef1bac39b2466109b3744c043a5d997fa9565132765"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-133|B",
+        "idAsignacion": "119",
+        "idDocente": "72",
+        "aula": "P5-A2",
+        "dia": "MIERCOLES",
+        "horaInicio": "16:00",
+        "horaFin": "18:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-133|B",
+        "pagina": 11,
+        "texto": "AUX INF - 133 B",
+        "periodoRotulo": "1/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "TIC-135|A",
+        "idAsignacion": "124",
+        "idDocente": "49",
+        "aula": "P5-A2",
+        "dia": "MIERCOLES",
+        "horaInicio": "10:00",
+        "horaFin": "12:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "COM-323|A+TIC-135|A",
+        "pagina": 11,
+        "texto": "TIC-135 A / COM-323 A M.Sc. Edgar Clavijo",
+        "periodoRotulo": "1/2026",
+        "sesionCompartida": "ede0eef1bac39b2466109b3744c043a5d997fa9565132765"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-241|A",
+        "idAsignacion": "131",
+        "idDocente": "88",
+        "aula": "P5-A2",
+        "dia": "VIERNES",
+        "horaInicio": "12:00",
+        "horaFin": "14:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-241|A",
+        "pagina": 11,
+        "texto": "AUX INF - 241 A",
+        "periodoRotulo": "1/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "DAT-242|A",
+        "idAsignacion": "134",
+        "idDocente": "52",
+        "aula": "P5-A3",
+        "dia": "JUEVES",
+        "horaInicio": "10:00",
+        "horaFin": "12:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "DAT-242|A",
+        "pagina": 12,
+        "texto": "DAT-242 A Lic. Brigida Carvajal",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "DAT-242|A",
+        "idAsignacion": "134",
+        "idDocente": "52",
+        "aula": "P5-A3",
+        "dia": "MARTES",
+        "horaInicio": "10:00",
+        "horaFin": "12:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "DAT-242|A",
+        "pagina": 12,
+        "texto": "DAT-242 A Lic. Brigida Carvajal",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-242|A",
+        "idAsignacion": "135",
+        "idDocente": "91",
+        "aula": "P5-A3",
+        "dia": "VIERNES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-242|A",
+        "pagina": 12,
+        "texto": "AUX INF - 242 A",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-112|C",
+        "idAsignacion": "13",
+        "idDocente": "47",
+        "aula": "PB-A1",
+        "dia": "LUNES",
+        "horaInicio": "16:00",
+        "horaFin": "18:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-112|C",
+        "pagina": 3,
+        "texto": "INF-112 C Ph.D. Fatima Dolz",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-112|C",
+        "idAsignacion": "13",
+        "idDocente": "47",
+        "aula": "PB-A1",
+        "dia": "MIERCOLES",
+        "horaInicio": "16:00",
+        "horaFin": "18:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-112|C",
+        "pagina": 3,
+        "texto": "INF-112 C Ph.D. Fatima Dolz",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-112|B",
+        "idAsignacion": "12",
+        "idDocente": "46",
+        "aula": "PB-A1",
+        "dia": "VIERNES",
+        "horaInicio": "08:00",
+        "horaFin": "10:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-112|B",
+        "pagina": 3,
+        "texto": "AUX INF - 112 B",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "71dbe9f6a32cdb19a60c59b487b0437388af5fe4ef410277"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-116|D",
+        "idAsignacion": "86",
+        "idDocente": "67",
+        "aula": "PB-A1",
+        "dia": "VIERNES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-116|D+INF-116|F",
+        "pagina": 3,
+        "texto": "AUX INF - 116 D, F",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "f1cca57be131b48d0fa298c77fde5df0b3a48a0bb5d32f53"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-116|F",
+        "idAsignacion": "88",
+        "idDocente": "67",
+        "aula": "PB-A1",
+        "dia": "VIERNES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-116|D+INF-116|F",
+        "pagina": 3,
+        "texto": "AUX INF - 116 D, F",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "f1cca57be131b48d0fa298c77fde5df0b3a48a0bb5d32f53"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-242|B",
+        "idAsignacion": "136",
+        "idDocente": "92",
+        "aula": "PB-A1",
+        "dia": "VIERNES",
+        "horaInicio": "12:00",
+        "horaFin": "14:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-242|B",
+        "pagina": 3,
+        "texto": "AUX INF - 242 B",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-251|A",
+        "idAsignacion": "158",
+        "idDocente": "85",
+        "aula": "PB-A1",
+        "dia": "VIERNES",
+        "horaInicio": "10:00",
+        "horaFin": "12:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-251|A",
+        "pagina": 3,
+        "texto": "AUX INF - 251 A",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "SIS-253|A",
+        "idAsignacion": "166",
+        "idDocente": "103",
+        "aula": "PB-A2",
+        "dia": "LUNES",
+        "horaInicio": "18:00",
+        "horaFin": "20:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "SIS-253|A+TIC-253|A",
+        "pagina": 3,
+        "texto": "SIS-253 A / TIC-253 A / INF-315 A Lic. Vivian Sanchez",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "aceed171b399d0d0acba43b9beca07a76208eb2447378ca6"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "TIC-253|A",
+        "idAsignacion": "169",
+        "idDocente": "103",
+        "aula": "PB-A2",
+        "dia": "LUNES",
+        "horaInicio": "18:00",
+        "horaFin": "20:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "SIS-253|A+TIC-253|A",
+        "pagina": 3,
+        "texto": "SIS-253 A / TIC-253 A / INF-315 A Lic. Vivian Sanchez",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "aceed171b399d0d0acba43b9beca07a76208eb2447378ca6"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "SIS-253|A",
+        "idAsignacion": "166",
+        "idDocente": "103",
+        "aula": "PB-A2",
+        "dia": "MIERCOLES",
+        "horaInicio": "18:00",
+        "horaFin": "20:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "SIS-253|A+TIC-253|A",
+        "pagina": 3,
+        "texto": "SIS-253 A / TIC-253 A / INF-315 A Lic. Vivian Sanchez",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "bd3e5d470c2551fc561b83b5e7a004728bde1698d16817ec"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "TIC-253|A",
+        "idAsignacion": "169",
+        "idDocente": "103",
+        "aula": "PB-A2",
+        "dia": "MIERCOLES",
+        "horaInicio": "18:00",
+        "horaFin": "20:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "SIS-253|A+TIC-253|A",
+        "pagina": 3,
+        "texto": "SIS-253 A / TIC-253 A / INF-315 A Lic. Vivian Sanchez",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "bd3e5d470c2551fc561b83b5e7a004728bde1698d16817ec"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-116|B",
+        "idAsignacion": "82",
+        "idDocente": "65",
+        "aula": "PB-A2",
+        "dia": "VIERNES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-116|B+INF-116|C",
+        "pagina": 3,
+        "texto": "AUX INF-116 B, C",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "53ffc0c13a2ab3ad0c090c5ac54a34f7a8ae7e2e6660fcda"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-116|C",
+        "idAsignacion": "84",
+        "idDocente": "65",
+        "aula": "PB-A2",
+        "dia": "VIERNES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-116|B+INF-116|C",
+        "pagina": 3,
+        "texto": "AUX INF-116 B, C",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "53ffc0c13a2ab3ad0c090c5ac54a34f7a8ae7e2e6660fcda"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-125|D",
+        "idAsignacion": "107",
+        "idDocente": "59",
+        "aula": "PB-A2",
+        "dia": "VIERNES",
+        "horaInicio": "10:00",
+        "horaFin": "12:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-125|D",
+        "pagina": 3,
+        "texto": "AUX INF-125 D",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-126|B",
+        "idAsignacion": "109",
+        "idDocente": "4",
+        "aula": "PB-A2",
+        "dia": "VIERNES",
+        "horaInicio": "12:00",
+        "horaFin": "14:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-126|B",
+        "pagina": 3,
+        "texto": "AUX INF-126 B",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "TRA-256|C",
+        "idAsignacion": "177",
+        "idDocente": "48",
+        "aula": "SS-A1",
+        "dia": "JUEVES",
+        "horaInicio": "08:00",
+        "horaFin": "10:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "TRA-256|C",
+        "pagina": 1,
+        "texto": "TRA-256 C Ing. Cesar Beltran",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-111|B",
+        "idAsignacion": "11",
+        "idDocente": "42",
+        "aula": "SS-A1",
+        "dia": "MIERCOLES",
+        "horaInicio": "10:00",
+        "horaFin": "12:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-111|B",
+        "pagina": 1,
+        "texto": "INF-111 B M.Sc. Jorge Teran",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-115|A",
+        "idAsignacion": "72",
+        "idDocente": "57",
+        "aula": "SS-A1",
+        "dia": "VIERNES",
+        "horaInicio": "10:00",
+        "horaFin": "12:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-115|A",
+        "pagina": 1,
+        "texto": "AUX INF - 115 A",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-115|B",
+        "idAsignacion": "73",
+        "idDocente": "58",
+        "aula": "SS-A1",
+        "dia": "VIERNES",
+        "horaInicio": "16:00",
+        "horaFin": "18:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-115|B",
+        "pagina": 1,
+        "texto": "AUX INF - 115 B",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-115|C",
+        "idAsignacion": "74",
+        "idDocente": "59",
+        "aula": "SS-A1",
+        "dia": "VIERNES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-115|C",
+        "pagina": 1,
+        "texto": "AUX INF - 115 C",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-132|C",
+        "idAsignacion": "117",
+        "idDocente": "80",
+        "aula": "SS-A1",
+        "dia": "VIERNES",
+        "horaInicio": "12:00",
+        "horaFin": "14:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-132|C",
+        "pagina": 1,
+        "texto": "AUX INF - 132 C",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "3fc5e353a2249534e76a4d52d4b4ea415d9cfced8f2081da"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-131|A",
+        "idAsignacion": "112",
+        "idDocente": "72",
+        "aula": "SS-A2",
+        "dia": "JUEVES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-131|A",
+        "pagina": 1,
+        "texto": "AUX INF - 131 A",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-131|B",
+        "idAsignacion": "113",
+        "idDocente": "44",
+        "aula": "SS-A2",
+        "dia": "MARTES",
+        "horaInicio": "10:00",
+        "horaFin": "12:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-131|B",
+        "pagina": 1,
+        "texto": "INF-131 B Lic. Victoria Hurtado",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-135|B",
+        "idAsignacion": "127",
+        "idDocente": "81",
+        "aula": "SS-A2",
+        "dia": "MARTES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-135|B",
+        "pagina": 1,
+        "texto": "AUX INF - 135 B",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "d5dd2ad1e4ae19e8d34ed4c35762fa6058c2a49e6457e370"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-126|D",
+        "idAsignacion": "111",
+        "idDocente": "75",
+        "aula": "SS-A2",
+        "dia": "MIERCOLES",
+        "horaInicio": "10:00",
+        "horaFin": "12:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-126|D",
+        "pagina": 1,
+        "texto": "AUX INF - 126 D",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "DAT-135|B",
+        "idAsignacion": "126",
+        "idDocente": "86",
+        "aula": "SS-A2",
+        "dia": "VIERNES",
+        "horaInicio": "10:00",
+        "horaFin": "12:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "DAT-135|B",
+        "pagina": 1,
+        "texto": "AUX INF - 247 B",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-114|A",
+        "idAsignacion": "67",
+        "idDocente": "53",
+        "aula": "SS-A2",
+        "dia": "VIERNES",
+        "horaInicio": "12:00",
+        "horaFin": "14:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-114|A",
+        "pagina": 1,
+        "texto": "AUX INF - 114 A",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-115|A",
+        "idAsignacion": "72",
+        "idDocente": "57",
+        "aula": "SS-A3",
+        "dia": "LUNES",
+        "horaInicio": "12:00",
+        "horaFin": "14:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-115|A",
+        "pagina": 2,
+        "texto": "INF-115 A M.Sc. Hernan Laime",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-114|E",
+        "idAsignacion": "71",
+        "idDocente": "56",
+        "aula": "SS-A3",
+        "dia": "MARTES",
+        "horaInicio": "12:00",
+        "horaFin": "14:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-114|E",
+        "pagina": 2,
+        "texto": "AUX INF - 114 E",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-116|G",
+        "idAsignacion": "89",
+        "idDocente": "69",
+        "aula": "SS-A3",
+        "dia": "MARTES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-116|G+INF-116|H",
+        "pagina": 2,
+        "texto": "AUX INF - 116 G, H",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "ac03a436ef92dcd57c8c55f2279745feb0a95ef0edabdf58"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-116|H",
+        "idAsignacion": "90",
+        "idDocente": "70",
+        "aula": "SS-A3",
+        "dia": "MARTES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-116|G+INF-116|H",
+        "pagina": 2,
+        "texto": "AUX INF - 116 G, H",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "ac03a436ef92dcd57c8c55f2279745feb0a95ef0edabdf58"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-115|A",
+        "idAsignacion": "72",
+        "idDocente": "57",
+        "aula": "SS-A3",
+        "dia": "MIERCOLES",
+        "horaInicio": "12:00",
+        "horaFin": "14:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-115|A",
+        "pagina": 2,
+        "texto": "INF-115 A M.Sc. Hernan Laime",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-114|C",
+        "idAsignacion": "69",
+        "idDocente": "54",
+        "aula": "SS-A3",
+        "dia": "VIERNES",
+        "horaInicio": "12:00",
+        "horaFin": "14:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-114|C",
+        "pagina": 2,
+        "texto": "AUX INF - 114 C",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-126|A",
+        "idAsignacion": "108",
+        "idDocente": "76",
+        "aula": "SS-A3",
+        "dia": "VIERNES",
+        "horaInicio": "14:00",
+        "horaFin": "18:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-126|A",
+        "pagina": 2,
+        "texto": "AUX INF - 126 A",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-112|C",
+        "idAsignacion": "13",
+        "idDocente": "47",
+        "aula": "SS-A4",
+        "dia": "JUEVES",
+        "horaInicio": "16:00",
+        "horaFin": "18:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-112|C",
+        "pagina": 2,
+        "texto": "AUX INF -112 C",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "5aa1f75e1c6371175c0d763645bf4077bcdfe191a093583d"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "COM-311|A",
+        "idAsignacion": "218",
+        "idDocente": "110",
+        "aula": "SS-A4",
+        "dia": "LUNES",
+        "horaInicio": "12:00",
+        "horaFin": "14:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "COM-311|A+DAT-262|A",
+        "pagina": 2,
+        "texto": "DAT-262 A / COM-311 A Lic. Mario Miranda",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "b3c366dcb5cbdeb46754750c6d3db34385bead3df48458d0"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "DAT-262|A",
+        "idAsignacion": "187",
+        "idDocente": "110",
+        "aula": "SS-A4",
+        "dia": "LUNES",
+        "horaInicio": "12:00",
+        "horaFin": "14:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "COM-311|A+DAT-262|A",
+        "pagina": 2,
+        "texto": "DAT-262 A / COM-311 A Lic. Mario Miranda",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "b3c366dcb5cbdeb46754750c6d3db34385bead3df48458d0"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-114|D",
+        "idAsignacion": "70",
+        "idDocente": "55",
+        "aula": "SS-A4",
+        "dia": "MARTES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-114|D",
+        "pagina": 2,
+        "texto": "AUX INF-114 D",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "COM-311|A",
+        "idAsignacion": "218",
+        "idDocente": "110",
+        "aula": "SS-A4",
+        "dia": "MIERCOLES",
+        "horaInicio": "12:00",
+        "horaFin": "14:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "COM-311|A+DAT-262|A",
+        "pagina": 2,
+        "texto": "DAT-262 A / COM-311 A Lic. Mario Miranda",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "597b96d805a8196318ebad1a5134485d7da60a11b34c02ef"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "DAT-262|A",
+        "idAsignacion": "187",
+        "idDocente": "110",
+        "aula": "SS-A4",
+        "dia": "MIERCOLES",
+        "horaInicio": "12:00",
+        "horaFin": "14:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "COM-311|A+DAT-262|A",
+        "pagina": 2,
+        "texto": "DAT-262 A / COM-311 A Lic. Mario Miranda",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": "597b96d805a8196318ebad1a5134485d7da60a11b34c02ef"
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-115|D",
+        "idAsignacion": "75",
+        "idDocente": "60",
+        "aula": "SS-A4",
+        "dia": "MIERCOLES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-115|D",
+        "pagina": 2,
+        "texto": "AUX INF-115 D",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-114|A",
+        "idAsignacion": "67",
+        "idDocente": "53",
+        "aula": "SS-A4",
+        "dia": "VIERNES",
+        "horaInicio": "14:00",
+        "horaFin": "16:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-114|A",
+        "pagina": 2,
+        "texto": "AUX INF-114 A",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-115|E",
+        "idAsignacion": "76",
+        "idDocente": "61",
+        "aula": "SS-A4",
+        "dia": "VIERNES",
+        "horaInicio": "10:00",
+        "horaFin": "12:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-115|E",
+        "pagina": 2,
+        "texto": "AUX INF-115 E",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "alta",
+      "despues": {
+        "key": "INF-135|A",
+        "idAsignacion": "125",
+        "idDocente": "85",
+        "aula": "SS-A4",
+        "dia": "VIERNES",
+        "horaInicio": "12:00",
+        "horaFin": "14:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-135|A",
+        "pagina": 2,
+        "texto": "AUX INF - 135 A",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "cambio",
+      "id": "102",
+      "antes": {
+        "id": "102",
+        "idAsignacion": "59",
+        "key": "INF-111|D",
+        "idDocente": "44",
+        "aula": "P3-LAB1",
+        "dia": "MIERCOLES",
+        "horaInicio": "10:00",
+        "horaFin": "11:59",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "sesionCompartida": null,
+        "fecha": null,
+        "idPeriodo": "1"
+      },
+      "despues": {
+        "key": "INF-111|D",
+        "idAsignacion": "59",
+        "idDocente": "44",
+        "aula": "P3-LAB1",
+        "dia": "MIERCOLES",
+        "horaInicio": "10:00",
+        "horaFin": "12:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-111|D",
+        "pagina": 6,
+        "texto": "INF-111 D Lic. Victoria Hurtado",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "cambio",
+      "id": "3",
+      "antes": {
+        "id": "3",
+        "idAsignacion": "2",
+        "key": "INF-112|A",
+        "idDocente": "2",
+        "aula": "PB-A2",
+        "dia": "LUNES",
+        "horaInicio": "08:00",
+        "horaFin": "10:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "sesionCompartida": null,
+        "fecha": null,
+        "idPeriodo": "1"
+      },
+      "despues": {
+        "key": "INF-112|A",
+        "idAsignacion": "2",
+        "idDocente": "2",
+        "aula": "PB-A2",
+        "dia": "LUNES",
+        "horaInicio": "08:00",
+        "horaFin": "10:00",
+        "esAuxiliar": true,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-112|A",
+        "pagina": 3,
+        "texto": "AUX INF-112 A",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "cambio",
+      "id": "353",
+      "antes": {
+        "id": "353",
+        "idAsignacion": "211",
+        "key": "INF-382|A",
+        "idDocente": "116",
+        "aula": "SS-A3",
+        "dia": "JUEVES",
+        "horaInicio": "16:00",
+        "horaFin": "18:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "sesionCompartida": null,
+        "fecha": null,
+        "idPeriodo": "1"
+      },
+      "despues": {
+        "key": "INF-382|A",
+        "idAsignacion": "211",
+        "idDocente": "116",
+        "aula": "SS-A1",
+        "dia": "JUEVES",
+        "horaInicio": "16:00",
+        "horaFin": "18:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-382|A",
+        "pagina": 1,
+        "texto": "INF-382 A M.Sc. Edgar Enriquez",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "cambio",
+      "id": "19",
+      "antes": {
+        "id": "19",
+        "idAsignacion": "11",
+        "key": "INF-111|B",
+        "idDocente": "42",
+        "aula": "SS-A1",
+        "dia": "JUEVES",
+        "horaInicio": "08:00",
+        "horaFin": "10:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "sesionCompartida": null,
+        "fecha": null,
+        "idPeriodo": "1"
+      },
+      "despues": {
+        "key": "INF-111|B",
+        "idAsignacion": "11",
+        "idDocente": "42",
+        "aula": "SS-A1",
+        "dia": "LUNES",
+        "horaInicio": "10:00",
+        "horaFin": "12:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-111|B",
+        "pagina": 1,
+        "texto": "INF-111 B M.Sc. Jorge Teran",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "cambio",
+      "id": "354",
+      "antes": {
+        "id": "354",
+        "idAsignacion": "211",
+        "key": "INF-382|A",
+        "idDocente": "116",
+        "aula": "P4-A3",
+        "dia": "MARTES",
+        "horaInicio": "16:00",
+        "horaFin": "18:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "sesionCompartida": null,
+        "fecha": null,
+        "idPeriodo": "1"
+      },
+      "despues": {
+        "key": "INF-382|A",
+        "idAsignacion": "211",
+        "idDocente": "116",
+        "aula": "SS-A1",
+        "dia": "MARTES",
+        "horaInicio": "16:00",
+        "horaFin": "18:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "INF-382|A",
+        "pagina": 1,
+        "texto": "INF-382 A M.Sc. Edgar Enriquez",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    }
+  ],
+  "pendientes": [
+    {
+      "tipo": "identidad",
+      "motivo": "Falta identificar de forma única la materia, el paralelo o el responsable",
+      "pagina": 8,
+      "aula": "P4-A2",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-251",
+          "grupo": null
+        }
+      ],
+      "texto": "AUX INF - 251"
+    },
+    {
+      "tipo": "identidad",
+      "motivo": "Falta identificar de forma única la materia, el paralelo o el responsable",
+      "pagina": 9,
+      "aula": "P4-A4",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-111",
+          "grupo": null
+        }
+      ],
+      "texto": "AUX INF - 111"
+    },
+    {
+      "tipo": "anotacion",
+      "motivo": "No identifica una clase",
+      "pagina": 11,
+      "aula": "P5-A2",
+      "periodo": "1/2026",
+      "dia": "VIERNES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [],
+      "texto": "ojito"
+    },
+    {
+      "tipo": "cruce-pdf",
+      "motivo": "Dos clases distintas se superponen en el PDF manual",
+      "a": {
+        "key": "SEG-252|B",
+        "idAsignacion": "163",
+        "idDocente": "92",
+        "aula": "P3-LAB1",
+        "dia": "JUEVES",
+        "horaInicio": "16:00",
+        "horaFin": "18:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "SEG-252|B",
+        "pagina": 6,
+        "texto": "SEG-252 B / INF-333 B M.Sc. Franz Gallardo",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      },
+      "b": {
+        "key": "TIC-247|A",
+        "idAsignacion": "155",
+        "idDocente": "92",
+        "aula": "P3-LAB3",
+        "dia": "JUEVES",
+        "horaInicio": "16:00",
+        "horaFin": "18:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "TIC-247|A",
+        "pagina": 7,
+        "texto": "TIC-247 A M.Sc. Franz Gallardo",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "cruce-pdf",
+      "motivo": "Dos clases distintas se superponen en el PDF manual",
+      "a": {
+        "key": "SEG-252|B",
+        "idAsignacion": "163",
+        "idDocente": "92",
+        "aula": "P3-LAB1",
+        "dia": "MARTES",
+        "horaInicio": "16:00",
+        "horaFin": "18:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "SEG-252|B",
+        "pagina": 6,
+        "texto": "SEG-252 B / INF-333 B M.Sc. Franz Gallardo",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      },
+      "b": {
+        "key": "TIC-247|A",
+        "idAsignacion": "155",
+        "idDocente": "92",
+        "aula": "P3-LAB3",
+        "dia": "MARTES",
+        "horaInicio": "16:00",
+        "horaFin": "18:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "TIC-247|A",
+        "pagina": 7,
+        "texto": "TIC-247 A M.Sc. Franz Gallardo",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "cruce-pdf",
+      "motivo": "Dos clases distintas se superponen en el PDF manual",
+      "a": {
+        "key": "TIC-381|A",
+        "idAsignacion": "213",
+        "idDocente": "106",
+        "aula": "P4-A3",
+        "dia": "MIERCOLES",
+        "horaInicio": "18:00",
+        "horaFin": "20:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "TIC-381|A",
+        "pagina": 9,
+        "texto": "TIC-381 Lic. Boris Alfaro",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      },
+      "b": {
+        "key": "TIC-254|A",
+        "idAsignacion": "174",
+        "idDocente": "106",
+        "aula": "SS-A2",
+        "dia": "MIERCOLES",
+        "horaInicio": "18:00",
+        "horaFin": "20:00",
+        "esAuxiliar": false,
+        "idAuxiliar": null,
+        "grupoFuente": "TIC-254|A",
+        "pagina": 1,
+        "texto": "TIC-254 A / SEG-264 A Ing. Boris Alfaro",
+        "periodoRotulo": "2/2026",
+        "sesionCompartida": null
+      }
+    },
+    {
+      "tipo": "grado",
+      "motivo": "El PDF atribuye grados distintos al mismo docente",
+      "idDocente": "106",
+      "nombre": "BORIS FERNANDO ALFARO BAZAN",
+      "evidencia": [
+        {
+          "grado": "Ing.",
+          "pagina": 1,
+          "texto": "TIC-254 A/SEG-264 A Ing. Boris Alfaro"
+        },
+        {
+          "grado": "Ing.",
+          "pagina": 1,
+          "texto": "TIC-254 A / SEG-264 A Ing. Boris Alfaro"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 9,
+          "texto": "TIC-381 Lic. Boris Alfaro"
+        },
+        {
+          "grado": "Lic.",
+          "pagina": 9,
+          "texto": "TIC-381 Lic. Boris Alfaro"
+        }
+      ]
+    }
+  ],
+  "cpu": {
+    "key": "CPU|SIN PARALELO",
+    "codigoMateria": "CPU",
+    "materia": "Curso Preuniversitario",
+    "grupo": "SIN PARALELO",
+    "docente": "REYNALDO JAVIER ZEBALLOS DAZA",
+    "idDocente": "80",
+    "siglas": [
+      "C.P.U."
+    ],
+    "fuentes": [],
+    "sesiones": []
+  },
+  "resumen": {
+    "celdasPDF": 406,
+    "grados": 78,
+    "docentesCorregidos": 3,
+    "altas": 152,
+    "cambios": 5,
+    "altasAuxiliares": 69,
+    "pendientes": 7,
+    "lasin": 41
+  },
+  "verificacion": {
+    "idempotente": true,
+    "registrosPreviosConservados": true,
+    "horariosTotales": 451,
+    "auxiliarias": 71,
+    "lasin": {
+      "LASIN-1": 21,
+      "LASIN-2": 21,
+      "LASIN-3": 4
+    }
+  }
+}

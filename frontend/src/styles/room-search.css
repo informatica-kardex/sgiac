@@ -3,6 +3,11 @@
 .room-search-intro { margin-bottom: 20px; font-size: 13px; line-height: 1.6; color: #60736e; }
 .room-search-filters { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; padding: 18px; border: 1px solid #d9e9e3; border-radius: 12px; background: #f3f9f6; }
 .room-search-query { grid-column: span 2; min-width: 0; }
+.room-search-time { margin-top: 16px; padding: 14px 18px 18px; border: 1px solid #d9e9e3; border-radius: 12px; }
+.room-search-time legend { padding: 0 6px; font-size: 13px; font-weight: 650; }
+.room-search-time-fields { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.room-search-time-help { grid-column: span 2; align-self: center; font-size: 12px; line-height: 1.6; color: #60736e; }
+.room-search-time input { min-width: 0; }
 .room-search-options, .room-search-alternatives { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 24px; margin: 12px 0 20px; }
 .room-search-options { justify-content: space-between; }
 .room-search-options label, .room-search-alternatives label { display: flex; align-items: center; gap: 8px; font-size: 12px; cursor: pointer; }
@@ -25,16 +30,17 @@
 .room-search-fit { font-size: 11px; padding: 5px 8px; border-radius: 5px; background: #e7f3ec; color: #256b54; }
 .room-search-fit--smaller, .room-search-fit--unknown { background: #fbefd7; color: #805d24; }
 .room-search-location { color: #63776f; font-size: 12px; line-height: 1.5; }
-.room-search-equipment { margin-top: 2px; font-size: 11px; color: #6b7973; }
-.room-search-equipment > span { display: block; color: #38564a; font-weight: 600; margin-bottom: 6px; }
-.room-search-equipment ul { display: flex; flex-wrap: wrap; gap: 5px; }
-.room-search-equipment li { background: #edf3f0; padding: 4px 7px; border-radius: 5px; overflow-wrap: anywhere; }
-.room-search-equipment li strong { color: #426352; }
+.room-search-combination { min-width: 0; padding: 18px; border: 1px solid #cad9ef; border-top: 3px solid #5276b5; border-radius: 12px; background: linear-gradient(130deg, #f0f5ff, #fff 65%); display: flex; flex-direction: column; gap: 12px; }
+.room-search-combination h4 { font-size: 17px; font-weight: 750; }
+.room-search-combination ul { display: flex; flex-direction: column; gap: 10px; }
+.room-search-combination li { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; border-top: 1px solid #e1e7f0; padding-top: 10px; font-size: 13px; }
+.room-search-combination li div { min-width: 0; overflow-wrap: anywhere; }
+.room-search-combination li span { display: block; color: #63776f; font-size: 11px; margin-top: 3px; }
 .room-search-result-footer { margin-top: auto; padding-top: 7px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
 .room-search-state { color: #36816c; font-size: 11px; font-weight: 600; }
 .room-search-state--unavailable { color: #926123; }
 .room-search-empty { border: 1px dashed #d6e1db; background: #fafcfb; padding: 18px; border-radius: 10px; font-size: 13px; line-height: 1.6; color: #69776f; }
 @media (hover: hover) and (pointer: fine) { .room-search-result:hover { transform: translateY(-2px); box-shadow: 0 9px 20px -13px #31654d70; } }
-@media (max-width: 700px) { .room-search-filters { grid-template-columns: repeat(2, minmax(0, 1fr)); } .room-search-results { grid-template-columns: minmax(0, 1fr); } }
-@media (max-width: 480px) { .room-search-filters { grid-template-columns: minmax(0, 1fr); padding: 14px; } .room-search-query { grid-column: auto; } .room-search-result { padding: 14px; } }
+@media (max-width: 700px) { .room-search-filters, .room-search-time-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); } .room-search-results { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 480px) { .room-search-filters, .room-search-time-fields { grid-template-columns: minmax(0, 1fr); } .room-search-filters, .room-search-time { padding: 14px; } .room-search-query, .room-search-time-help { grid-column: auto; } .room-search-result, .room-search-combination { padding: 14px; } }
 @media (prefers-reduced-motion: reduce) { .room-search-result { transition: none; } .room-search-result:hover { transform: none; } }

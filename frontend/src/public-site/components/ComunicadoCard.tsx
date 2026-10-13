@@ -3,9 +3,12 @@ import { Comunicado } from "../../api/types";
 import { formatFecha } from "../../utils/formatters";
 import { useUserAuthStore } from "../../store/userAuthStore";
 import { comunicadoArchivoUrl } from "../../api/comunicados.api";
+import { ComunicadoDocumento, TextoConNegritas } from "../../components/ComunicadoDocumento";
+import { ComunicadoPdfPreview } from "../../components/ComunicadoPdfPreview";
 
 export function ComunicadoCard({ comunicado }: { comunicado: Comunicado }) {
   const authenticated = useUserAuthStore(s => s.isAuthenticated);
+  const adjunto = comunicado.adjuntos.find(archivo => comunicado.tipo === "pdf" ? archivo.tipo === "application/pdf" : archivo.tipo.startsWith("image/"));
   const fecha = new Date(comunicado.fechaPublicacion);
   const fechaValida = !Number.isNaN(fecha.getTime());
   const dia = fechaValida
@@ -45,10 +48,13 @@ export function ComunicadoCard({ comunicado }: { comunicado: Comunicado }) {
       <h3 className="mb-2 line-clamp-2 text-base font-bold text-slate-800">
         {comunicado.titulo}
       </h3>
-      {comunicado.tipo === "imagen" && comunicado.adjuntos[0] && <img src={comunicadoArchivoUrl(comunicado.adjuntos[0].url, true)} alt={comunicado.titulo} loading="lazy" className="mb-4 h-48 w-full rounded-lg bg-slate-50 object-contain" />}
-      {comunicado.tipo === "pdf" && <span className="mb-3 text-sm font-semibold text-red-700">Documento PDF · Ver documento</span>}
+      <div className="comunicado-card-preview">
+        {comunicado.tipo === "texto" && <ComunicadoDocumento comunicado={comunicado} miniatura />}
+        {comunicado.tipo === "imagen" && adjunto && <img src={comunicadoArchivoUrl(adjunto.url, true)} alt={comunicado.titulo} loading="lazy" className="h-full w-full object-contain" />}
+        {comunicado.tipo === "pdf" && <ComunicadoPdfPreview url={adjunto ? comunicadoArchivoUrl(adjunto.url, true) : undefined} titulo={comunicado.titulo} />}
+      </div>
       <p className="mb-4 line-clamp-3 flex-1 text-sm text-slate-500">
-        {comunicado.resumen}
+        <TextoConNegritas texto={comunicado.resumen} />
       </p>
       <span
         className="comunicado-card-cta"

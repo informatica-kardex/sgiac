@@ -1,24 +1,33 @@
 import { Prisma } from '@prisma/client';
 import { prisma } from '../../database/prisma';
 import { ApiError } from '../../utils/apiError';
-import { academicTransaction } from '../academico/academico.shared';
+import { academicTransaction, idSchema } from '../academico/academico.shared';
 import { ActualizarHorarioInput, CrearHorarioInput, crearHorarioSchema } from './horario.validation';
 import { compartenFecha, diaDeFecha } from './horario.fechas';
 import { nombreDocente } from '../academico/docente.nombre';
 const include = { auxiliar: true, bloque_horario: true, ambiente: true, paralelo: { include: { materia: { include: { siglas: true } }, docente: true, periodo_academico: true } } } as const;
 type Row = Prisma.horarioGetPayload<{ include: typeof include }>;
 export function mapHorario(h: Row) {
+  const esAuxiliar = Boolean(h.es_auxiliar || h.id_auxiliar);
+  const esCoordinacion = !esAuxiliar && h.paralelo.codigo_materia === 'CPU';
+  const responsable = esAuxiliar ? h.auxiliar?.nombre_completo ?? 'Auxiliar por designar' : `${esCoordinacion ? 'Coord. ' : ''}${nombreDocente(h.paralelo.docente)}`;
   return { idHorario: Number(h.id_horario), idAsignacion: String(h.id_paralelo), idDocente: String(h.paralelo.id_docente),
-    idAuxiliar: h.id_auxiliar ? String(h.id_auxiliar) : null, responsable: h.auxiliar?.nombre_completo ?? nombreDocente(h.paralelo.docente),
+    idAuxiliar: h.id_auxiliar ? String(h.id_auxiliar) : null, esAuxiliar, esCoordinacion, sesionCompartida: h.sesion_compartida, responsable,
     fecha: h.fecha?.toISOString().slice(0, 10) ?? null, motivo: h.motivo ?? '',
     codigoMateria: h.paralelo.codigo_materia, siglas: h.paralelo.materia.siglas.map(s => s.sigla),
-    materia: h.paralelo.materia.nombre, docente: h.auxiliar ? `${h.auxiliar.nombre_completo} (Auxiliar)` : nombreDocente(h.paralelo.docente), aula: h.codigo_ambiente,
+    materia: h.paralelo.materia.nombre, docente: esAuxiliar ? `${responsable}${h.auxiliar ? ' (Auxiliar)' : ''}` : responsable, aula: h.codigo_ambiente,
     dia: h.dia_semana, horaInicio: h.bloque_horario.hora_inicio.toISOString().slice(11, 16),
     horaFin: h.bloque_horario.hora_fin.toISOString().slice(11, 16), grupo: h.paralelo.nombre_paralelo,
     idPeriodo: String(h.paralelo.id_periodo), periodo: `${h.paralelo.periodo_academico.periodo}/${h.paralelo.periodo_academico.gestion}`,
     lugar: h.ambiente.lugar, piso: h.ambiente.piso };
 }
 export class HorarioRepository {
+  async findByDocente(id: string) {
+    const id_docente = BigInt(idSchema.parse(id));
+    if (!await prisma.docente.findUnique({ where: { id_docente } })) throw ApiError.notFound('Docente no encontrado');
+    const rows = await prisma.horario.findMany({ where: { paralelo: { id_docente } }, include });
+    return rows.map(h => ({ ...mapHorario(h), estado: h.estado }));
+  }
   async findAll(incluirTemporales = false) { return (await prisma.horario.findMany({ where: { estado: 'ASIGNADO', ...(!incluirTemporales ? { fecha: null } : {}), paralelo: { periodo_academico: { estado: 'ACTIVO' } } }, include })).map(mapHorario); }
   async findById(id: number) { const h = await prisma.horario.findUnique({ where: { id_horario: BigInt(id) }, include }); return h ? mapHorario(h) : undefined; }
   async create(input: CrearHorarioInput) { return academicTransaction(tx => this.save(tx, input)); }
@@ -34,6 +43,7 @@ export class HorarioRepository {
       const old = id ? await tx.horario.findUnique({ where: { id_horario: BigInt(id) }, include }) : null;
       if (id && !old) throw ApiError.notFound('Horario no encontrado');
       const p = crearHorarioSchema.parse({ ...(old ? mapHorario(old) : {}), ...input });
+      const esAuxiliar = Boolean(p.esAuxiliar || p.idAuxiliar);
       const asignacion = await tx.paralelo.findUnique({ where: { id_paralelo: BigInt(p.idAsignacion) }, include: { docente: true, materia: true, periodo_academico: true } });
       const aula = await tx.ambiente.findUnique({ where: { codigo_ambiente: p.aula } });
       if (!asignacion || !aula) throw ApiError.badRequest('Selecciona una asignación y un aula registradas.');
@@ -52,11 +62,22 @@ export class HorarioRepository {
         ...(id ? { id_horario: { not: BigInt(id) } } : {}), estado: 'ASIGNADO', dia_semana: p.dia,
         paralelo: { periodo_academico: { estado: 'ACTIVO' } },
         bloque_horario: { hora_inicio: { lt: fin }, hora_fin: { gt: inicio } },
-        OR: [{ codigo_ambiente: p.aula }, { id_paralelo: asignacion.id_paralelo }, p.idAuxiliar
-          ? { id_auxiliar: BigInt(p.idAuxiliar) }
-          : { id_auxiliar: null, paralelo: { id_docente: asignacion.id_docente } }],
+        OR: [{ codigo_ambiente: p.aula }, { id_paralelo: asignacion.id_paralelo }, ...(p.idAuxiliar || (!esAuxiliar && asignacion.codigo_materia !== 'CPU') ? [p.idAuxiliar
+            ? { id_auxiliar: BigInt(p.idAuxiliar) }
+            : { id_auxiliar: null, es_auxiliar: false, paralelo: { id_docente: asignacion.id_docente, codigo_materia: { not: 'CPU' } } }] : [])],
       }, include });
-      const conflicto = candidatos.find(h => compartenFecha(
+      // Only source-verified shared sessions may overlap. Changing the class,
+      // responsible person or time detaches this row from that shared session.
+      const compartida = old?.sesion_compartida && old.id_paralelo === asignacion.id_paralelo &&
+        Boolean(old.es_auxiliar || old.id_auxiliar) === esAuxiliar && (old.id_auxiliar?.toString() ?? null) === p.idAuxiliar &&
+        old.dia_semana === p.dia && old.fecha?.getTime() === fecha?.getTime() &&
+        old.bloque_horario.hora_inicio.getTime() === inicio.getTime() && old.bloque_horario.hora_fin.getTime() === fin.getTime()
+        ? old.sesion_compartida : null;
+      const conflicto = candidatos.find(h => !(compartida && h.sesion_compartida === compartida &&
+        h.paralelo.codigo_materia === asignacion.codigo_materia && Boolean(h.es_auxiliar || h.id_auxiliar) === esAuxiliar &&
+        (h.id_auxiliar?.toString() ?? null) === p.idAuxiliar && (esAuxiliar || h.paralelo.id_docente === asignacion.id_docente) &&
+        (h.codigo_ambiente !== p.aula || (old?.codigo_ambiente === p.aula && h.id_paralelo !== old.id_paralelo)) &&
+        h.dia_semana === p.dia && h.bloque_horario.hora_inicio.getTime() === inicio.getTime() && h.bloque_horario.hora_fin.getTime() === fin.getTime()) && compartenFecha(
         { fecha, inicio: asignacion.periodo_academico.fecha_inicio, fin: asignacion.periodo_academico.fecha_fin, dia: p.dia },
         { fecha: h.fecha, inicio: h.paralelo.periodo_academico.fecha_inicio, fin: h.paralelo.periodo_academico.fecha_fin, dia: h.dia_semana },
       ));
@@ -71,7 +92,7 @@ export class HorarioRepository {
         bloque = await tx.bloque_horario.create({ data: { id_bloque: (last._max.id_bloque ?? 0) + 1, hora_inicio: inicio, hora_fin: fin } });
       }
       const data = { id_paralelo: asignacion.id_paralelo, codigo_ambiente: p.aula, dia_semana: p.dia, id_bloque: bloque.id_bloque, publicado: true,
-        fecha, motivo: fecha ? p.motivo : null, id_auxiliar: p.idAuxiliar ? BigInt(p.idAuxiliar) : null };
+        fecha, motivo: fecha ? p.motivo : null, id_auxiliar: p.idAuxiliar ? BigInt(p.idAuxiliar) : null, es_auxiliar: esAuxiliar, sesion_compartida: compartida };
       return mapHorario(id ? await tx.horario.update({ where: { id_horario: BigInt(id) }, data, include }) : await tx.horario.create({ data, include }));
   }
   async delete(id: number) {

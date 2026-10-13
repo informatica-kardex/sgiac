@@ -27,6 +27,7 @@ export const academicoApi = {
   vincularAuxiliar: (id: string, idAsignacion: string) => axiosClient.post(`/academico/auxiliares/${id}/asignaciones`, { idAsignacion }),
   desvincularAuxiliar: (id: string, idAsignacion: string) => axiosClient.delete(`/academico/auxiliares/${id}/asignaciones/${idAsignacion}`),
   docentes: () => get<Docente[]>('docentes'), materias: () => get<Materia[]>('materias'), periodos: () => get<Periodo[]>('periodos'),
+  horariosDocente: (id: string) => get<(HorarioAcademico & { estado: string })[]>(`docentes/${encodeURIComponent(id)}/horarios`),
   asignaciones: () => get<Asignacion[]>('asignaciones'), aulas: () => get<Aula[]>('aulas'),
   guardarDocente: (p: DocenteInput, id?: string) => id ? axiosClient.put(`/academico/docentes/${id}`, p) : axiosClient.post('/academico/docentes', p),
   guardarMateria: (p: Materia, codigo?: string) => codigo ? axiosClient.put(`/academico/materias/${encodeURIComponent(codigo)}`, p) : axiosClient.post('/academico/materias', p),

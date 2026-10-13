@@ -14,6 +14,7 @@ router.use(requireAuth);
 // Los selectores del calendario necesitan leer los catálogos relacionados.
 router.use((req, _res, next) => (['docentes', 'materias', 'aulas', 'horarios'] as const).some(m => tienePermiso(req.user, m)) ? next() : next(ApiError.forbidden()));
 router.get('/docentes', asyncHandler(async (_req, res) => sendSuccess(res, await s.docentes())));
+router.get('/docentes/:id/horarios', requirePermission('docentes'), asyncHandler(async (req, res) => sendSuccess(res, await new HorarioRepository().findByDocente(req.params.id))));
 router.get('/horarios', asyncHandler(async (_req, res) => sendSuccess(res, await new HorarioRepository().findAll(true))));
 router.get('/auxiliares', asyncHandler(async (_req, res) => sendSuccess(res, await auxiliarService.listar())));
 router.post('/auxiliares', requirePermission('docentes'), asyncHandler(async (req, res) => sendSuccess(res, await auxiliarService.guardar(req.body), 'Auxiliar creado', 201)));

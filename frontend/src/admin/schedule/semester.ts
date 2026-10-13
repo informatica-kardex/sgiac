@@ -44,16 +44,35 @@ export function semesterLayout(sessions: HorarioAcademico[], editable = false) {
 export const scheduleColors = ['#ceff47', '#5ce9ff', '#ff8be1', '#fff14a', '#c5a0ff', '#66ffb8', '#ffb264', '#86b8ff',
   '#ff9292', '#80ffe9', '#a9f867', '#ffc285', '#dda3ff', '#9aedff', '#ffb2e8', '#8bea91',
   '#f6a8c3', '#b9b1ff', '#e2ff74', '#91efdc', '#a8ceff', '#ffd978', '#b4ffd0', '#edb5ff'];
-export const sessionKey = (h: HorarioAcademico) => `${h.codigoMateria}:${h.grupo}:${h.idDocente}:${h.idAuxiliar ?? ''}`;
+export const isAssistantSession = (h: Pick<HorarioAcademico, 'idAuxiliar' | 'esAuxiliar'>) => Boolean(h.esAuxiliar || h.idAuxiliar);
+export const assistantColor = '#c0c0c0';
+export const preuniversityColor = '#d9e5ff';
+export const sessionKey = (h: HorarioAcademico) => `${h.codigoMateria}:${h.grupo}:${h.idDocente}:${h.idAuxiliar ?? (h.esAuxiliar ? 'auxiliar-pendiente' : '')}`;
 const colorHash = (key: string) => [...key].reduce((n, char) => (n * 31 + char.charCodeAt(0)) >>> 0, 0);
 export function sessionColor(h: HorarioAcademico) {
+  if (isAssistantSession(h)) return assistantColor;
+  if (h.codigoMateria === 'CPU') return preuniversityColor;
   return scheduleColors[colorHash(sessionKey(h)) % scheduleColors.length];
 }
-// Allocate across the whole period, so classrooms, days and printed pages agree.
-// Resolve palette collisions before reusing a shade; additional classes get unique hues.
+// Color together the classes that actually share a classroom. This keeps the
+// same class consistent across rooms while avoiding duplicate colors in each
+// timetable, without consuming the vivid palette on unrelated classrooms.
 export function semesterColors(horarios: HorarioAcademico[]) {
-  const colors = new Map<string, string>(), used = new Set<string>();
-  for (const key of [...new Set(horarios.map(sessionKey))].sort()) {
+  const colors = new Map<string, string>();
+  const regular = horarios.filter(h => !isAssistantSession(h) && h.codigoMateria !== 'CPU');
+  const keys = [...new Set(regular.map(sessionKey))].sort();
+  const neighbors = new Map(keys.map(key => [key, new Set<string>()]));
+  for (const room of new Set(regular.map(h => h.aula))) {
+    const together = [...new Set(regular.filter(h => h.aula === room).map(sessionKey))];
+    for (const key of together) for (const other of together) if (other !== key) neighbors.get(key)!.add(other);
+  }
+  const remaining = new Set(keys);
+  const saturation = new Map(keys.map(key => [key, new Set<string>()]));
+  while (remaining.size) {
+    let key = remaining.values().next().value!;
+    for (const candidate of remaining) if (saturation.get(candidate)!.size > saturation.get(key)!.size ||
+      (saturation.get(candidate)!.size === saturation.get(key)!.size && neighbors.get(candidate)!.size > neighbors.get(key)!.size)) key = candidate;
+    const used = new Set([...saturation.get(key)!, assistantColor, preuniversityColor]);
     const hash = colorHash(key);
     let color = '';
     for (let offset = 0; offset < scheduleColors.length; offset++) {
@@ -67,7 +86,10 @@ export function semesterColors(horarios: HorarioAcademico[]) {
         color = `hsl(${hue.toFixed(2)} 88% ${lightness}%)`; hue = (hue + 137.508) % 360;
       } while (used.has(color));
     }
-    used.add(color); colors.set(key, color);
+    colors.set(key, color); remaining.delete(key);
+    for (const neighbor of neighbors.get(key)!) saturation.get(neighbor)!.add(color);
   }
+  for (const h of horarios.filter(isAssistantSession)) colors.set(sessionKey(h), assistantColor);
+  for (const h of horarios.filter(h => h.codigoMateria === 'CPU' && !isAssistantSession(h))) colors.set(sessionKey(h), preuniversityColor);
   return colors;
 }

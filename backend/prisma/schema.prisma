@@ -339,6 +339,8 @@ model horario {
   fecha           DateTime?      @db.Date
   motivo          String?        @db.VarChar(200)
   id_auxiliar     BigInt?
+  es_auxiliar     Boolean        @default(false)
+  sesion_compartida String?      @db.VarChar(64)
   auxiliar        auxiliar?      @relation(fields: [id_auxiliar], references: [id_auxiliar], onDelete: Restrict, onUpdate: NoAction)
   dia_semana      String         @db.VarChar(20)
   estado          String         @default("ASIGNADO") @db.VarChar(20)

@@ -38,7 +38,7 @@ export default function AulasPage() {
     setLugar(a.lugar ?? ''); setPiso(String(a.piso)); setQuery(a.codigo);
     requestAnimationFrame(() => results.current?.scrollIntoView({ block: 'start', behavior: 'instant' }));
   }
-  return <div className="space-y-6"><AcademicHeader title="Aulas" description="Elige un lugar o busca un ambiente por capacidad, tipo y equipamiento."><RoomSearch aulas={c.aulas} disabled={c.loading || Boolean(c.error)} onSelect={selectSearchResult} actionLabel="Ver aula" /><button className="btn-primary" onClick={() => edit()}>+ Nueva aula</button></AcademicHeader>
+  return <div className="space-y-6"><AcademicHeader title="Aulas" description="Elige un lugar o busca aulas por capacidad, tipo y disponibilidad."><RoomSearch aulas={c.aulas} horarios={c.horarios} periodos={c.periodos} disabled={c.loading || Boolean(c.error)} error={c.error} refresh={c.cargar} onSelect={selectSearchResult} actionLabel="Ver aula" /><button className="btn-primary" onClick={() => edit()}>+ Nueva aula</button></AcademicHeader>
     <ErrorNotice message={c.error} retry={() => void c.cargar()} />{!open && <ErrorNotice message={error} />}
     <PlaceCards aulas={c.aulas} value={lugar} includeAll loading={c.loading} onChange={place => { setLugar(place); setPiso(''); }} />
     {lugar === 'INFORMATICA' && !c.loading && <section className="space-y-3" aria-label="Pisos de Informática"><p className="place-step">Filtrar aulas por piso</p><FloorCards aulas={inPlace} value={piso} onChange={setPiso} /></section>}

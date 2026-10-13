@@ -1,7 +1,7 @@
 import { axiosClient } from "./axiosClient";
 import { ApiEnvelope, HorarioAcademico as Horario } from "./types";
 
-export type CrearHorarioPayload = Pick<Horario, "idAsignacion" | "aula" | "dia" | "horaInicio" | "horaFin"> & Partial<Pick<Horario, 'idAuxiliar' | 'fecha' | 'motivo'>>;
+export type CrearHorarioPayload = Pick<Horario, "idAsignacion" | "aula" | "dia" | "horaInicio" | "horaFin"> & Partial<Pick<Horario, 'idAuxiliar' | 'esAuxiliar' | 'fecha' | 'motivo'>>;
 export type ActualizarHorarioPayload = Partial<CrearHorarioPayload>;
 
 export const horariosApi = {

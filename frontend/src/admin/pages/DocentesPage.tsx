@@ -4,7 +4,7 @@ import { academicoApi, Asignacion, Docente, DocenteInput, GRADOS_DOCENTES, docen
 import { AcademicHeader, Empty, ErrorNotice, Field, SaveActions, errorAcademico, useAcademico } from '../components/AcademicoUI';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { Modal } from '../components/Modal';
-import { ConfirmDialog } from '../components/ConfirmDialog';
+import { TeacherSchedule, RemoveTeacherAssignment } from '../components/TeacherSchedule';
 import { AuxiliaresPanel } from '../components/AuxiliaresPanel';
 import { SearchableSelect } from '../components/SearchableSelect';
 import { filterSubjects } from '../schedule/subjects';
@@ -17,6 +17,7 @@ export default function DocentesPage() {
   const [form, setForm] = useState(blank), [error, setError] = useState(''), [busy, setBusy] = useState(false);
   const [assignTo, setAssignTo] = useState<Docente | null>(null), [remove, setRemove] = useState<Asignacion | null>(null);
   const [assignment, setAssignment] = useState({ codigoMateria: '', idPeriodo: '' });
+  const [viewTeacher, setViewTeacher] = useState<Docente | null>(null);
   function edit(d?: Docente) { setEditing(d ?? null); setForm(d ? { ...d, gradoAcademico: d.gradoAcademico ?? '' } : blank); setOtherDegree(Boolean(d?.gradoAcademico && !GRADOS_DOCENTES.includes(d.gradoAcademico))); setError(''); setOpen(true); }
   async function save(e: FormEvent) {
     e.preventDefault(); setBusy(true); setError('');
@@ -27,11 +28,6 @@ export default function DocentesPage() {
     e.preventDefault(); if (!assignTo) return; setBusy(true); setError('');
     try { await academicoApi.asignar({ ...assignment, idDocente: assignTo.idDocente }); setAssignTo(null); await c.cargar(); }
     catch (e) { setError(errorAcademico(e)); } finally { setBusy(false); }
-  }
-  async function unassign() {
-    if (!remove) return; setBusy(true); setError('');
-    try { await academicoApi.quitarAsignacion(remove.idAsignacion); setRemove(null); await c.cargar(); }
-    catch (e) { setRemove(null); setError(errorAcademico(e)); } finally { setBusy(false); }
   }
   const subjects = filterSubjects(c.materias, '', '');
   const subjectTeachers = c.docentes.filter(d => !subjectFilter || (subjectFilter === '__unassigned__' ? !d.asignaciones.length : d.asignaciones.some(a => a.codigoMateria === subjectFilter)));
@@ -50,9 +46,9 @@ export default function DocentesPage() {
     {c.loading ? <LoadingSpinner /> : !filtered.length ? <Empty>{subjectFilter || teacherFilter ? 'No hay docentes que coincidan con estos filtros.' : 'No hay docentes para mostrar. Registra el primero para asignarle materias.'}</Empty> : <div className="card overflow-x-auto"><table className="academic-table"><thead><tr><th>DOCENTE</th><th>CONTACTO</th><th>MATERIAS Y PARALELOS</th><th>ESTADO</th><th>ACCIONES</th></tr></thead><tbody>{filtered.map(d => <tr key={d.idDocente}>
       <td><p className="font-semibold text-slate-800">{docenteLabel(d)}</p>{!d.gradoAcademico && <p className="mt-1 text-xs text-slate-400">Grado por confirmar</p>}<p className="mt-1 text-xs text-slate-500">{d.especialidad || 'Sin especialidad registrada'}</p></td>
       <td className="text-slate-500"><p>{d.correo || 'Sin correo'}</p><p className="mt-1">{d.telefono || 'Sin teléfono'}</p></td>
-      <td className="min-w-[260px]">{!d.asignaciones.length ? <span className="text-slate-400">Sin materias asignadas</span> : d.asignaciones.map(a => <div key={a.idAsignacion} className="mb-2"><span className="academic-tag">{a.siglas.join(" / ")} · {a.grupo}</span><span className="text-xs text-slate-400">{a.periodo}</span><p className="text-xs text-slate-600">{a.materia} <button aria-label={`Quitar ${a.materia} (${a.siglas.join(' / ')}) paralelo ${a.grupo} de ${d.nombreCompleto}`} className="ml-1 text-red-600 underline" onClick={() => setRemove(a)}>Quitar</button></p></div>)}</td>
+      <td className="min-w-[260px]">{!d.asignaciones.length ? <span className="text-slate-400">Sin materias asignadas</span> : d.asignaciones.map(a => <div key={a.idAsignacion} className="teacher-assignment"><div><span className="academic-tag">{a.siglas.join(' / ')} · {a.grupo}</span><span className="text-xs text-slate-500">{a.periodo}</span><p className="text-xs text-slate-600">{a.materia}</p></div><button type="button" aria-label={`Quitar ${a.materia} (${a.siglas.join(' / ')}) paralelo ${a.grupo} de ${d.nombreCompleto}`} className="teacher-remove" onClick={() => { setError(''); setRemove(a); }}><svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7M14 10v7" strokeLinecap="round" strokeLinejoin="round" /></svg>Quitar materia</button></div>)}</td>
       <td><span className={`badge ${d.estado === 'ACTIVO' ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-500'}`}>{d.estado === 'ACTIVO' ? 'Activo' : 'Inactivo'}</span></td>
-      <td><button className="btn-ghost" onClick={() => edit(d)}>Editar</button><button className="btn-ghost" disabled={d.estado !== 'ACTIVO'} onClick={() => { setError(''); setAssignment({ codigoMateria: '', idPeriodo: c.periodos.find(p => p.estado === 'ACTIVO')?.idPeriodo ?? '' }); setAssignTo(d); }}>Asignar materia</button></td>
+      <td><div className="flex flex-wrap gap-2"><button className="btn-ghost" onClick={() => edit(d)}>Editar</button><button className="btn-ghost" disabled={d.estado !== 'ACTIVO'} onClick={() => { setError(''); setAssignment({ codigoMateria: '', idPeriodo: c.periodos.find(p => p.estado === 'ACTIVO')?.idPeriodo ?? '' }); setAssignTo(d); }}>Asignar materia</button><button type="button" className="btn-secondary" aria-label={`Ver horarios y materias de ${d.nombreCompleto}`} onClick={() => setViewTeacher(d)}>Ver horarios y materias</button></div></td>
     </tr>)}</tbody></table></div>}
     <Modal open={open} title={editing ? 'Editar docente' : 'Nuevo docente'} onClose={() => !busy && setOpen(false)}><form className="space-y-4" onSubmit={save}><ErrorNotice message={error} />
       <Field label="Nombre completo"><input autoFocus required minLength={3} maxLength={150} className="input-field" value={form.nombreCompleto} onChange={e => setForm({ ...form, nombreCompleto: e.target.value })} /></Field>
@@ -69,7 +65,8 @@ export default function DocentesPage() {
       <Field label="Materia"><select required className="select-field" value={assignment.codigoMateria} onChange={e => setAssignment({ ...assignment, codigoMateria: e.target.value })}><option value="">Selecciona una materia</option>{c.materias.filter(m => m.estado === 'ACTIVO').map(m => <option key={m.codigo} value={m.codigo}>{m.siglas.join(' / ')} · {m.nombre}</option>)}</select></Field>
       <p className="rounded-lg bg-emerald-50 p-3 text-sm text-emerald-800">El paralelo se asigna automáticamente: A, B, C… según las asignaciones de esta materia en el periodo.</p>
       <p className="text-xs text-slate-500">La materia aparecerá en la ficha del docente y estará disponible para programar sus clases.</p><SaveActions busy={busy} close={() => setAssignTo(null)} /></form></Modal>
-    <ConfirmDialog open={Boolean(remove)} title="Quitar asignación" message={`¿Quitar ${remove?.materia}, paralelo ${remove?.grupo}? Solo es posible si no tiene horarios.`} onCancel={() => setRemove(null)} onConfirm={unassign} loading={busy} />
+    {viewTeacher && <TeacherSchedule key={viewTeacher.idDocente} docente={viewTeacher} periodos={c.periodos} close={() => setViewTeacher(null)} />}
+    {remove && <RemoveTeacherAssignment key={remove.idAsignacion} assignment={remove} periodos={c.periodos} close={() => setRemove(null)} removed={async () => { setRemove(null); await c.cargar(); }} viewTeacher={() => { setViewTeacher(c.docentes.find(d => d.idDocente === remove.idDocente) ?? null); setRemove(null); }} />}
   </div>;
 }
 

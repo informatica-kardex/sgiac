@@ -31,6 +31,8 @@ datasets.auxiliares.push({idAuxiliar:'1',nombreCompleto:'Aux. Julia Pérez',esta
   {idAuxiliar:'2',nombreCompleto:'Auxiliar de otra materia',estado:'ACTIVO',asignaciones:[otherSubject]},
   {idAuxiliar:'3',nombreCompleto:'Auxiliar sin vinculaciones',estado:'ACTIVO',asignaciones:[]});
 const writes=[], auxiliaryLinks=[], teacherWrites=[], roomWrites=[];
+const assignmentDeletes=[];
+let failTeacherRead=false, failAssignmentDelete=false, failScheduleWrite=false, limitedPermissions=false;
 const server=http.createServer((req,res)=>{const pathname=new URL(req.url,'http://localhost').pathname;const file=path.join(root,pathname.startsWith('/assets/')||pathname.startsWith('/images/')?pathname:'index.html');res.setHeader('Content-Type',file.endsWith('.js')?'text/javascript':file.endsWith('.css')?'text/css':file.endsWith('.png')?'image/png':'text/html');if(!fs.existsSync(file)){res.writeHead(404);return res.end();}res.end(fs.readFileSync(file));});
 let chrome,ws;
 (async()=>{
@@ -44,11 +46,20 @@ let chrome,ws;
     if(m.method==='Runtime.exceptionThrown')errors.push(m.params.exceptionDetails.exception?.description||m.params.exceptionDetails.text);
     if(m.method!=='Fetch.requestPaused')return;
     try{const {requestId,request}=m.params;const pathname=new URL(request.url).pathname;
-      let data=[];
+      let data=[], responseCode=200, message='';
       if(request.method!=='OPTIONS'){
         if(pathname.endsWith('/auth/refresh'))data={accessToken:'preview'};
-        else if(pathname.endsWith('/auth/me'))data={idUsuario:'preview-admin',nombreCompleto:'Administrador de prueba',correo:'preview@example.test',roles:['ADMINISTRADOR'],correoVerificado:true,debeCambiarPassword:false};
-        else if(request.method==='POST'&&pathname.endsWith('/horarios/lote')){writes.push(JSON.parse(request.postData));data=[];}
+        else if(pathname.endsWith('/auth/me'))data={idUsuario:'preview-admin',nombreCompleto:'Administrador de prueba',correo:'preview@example.test',roles:limitedPermissions?['SUBADMINISTRADOR']:['ADMINISTRADOR'],permisos:limitedPermissions?[{modulo:'docentes',desde:null,hasta:null}]:[],correoVerificado:true,debeCambiarPassword:false};
+        else if(request.method==='GET'&&/\/academico\/docentes\/\d+\/horarios$/.test(pathname)) {
+          if(failTeacherRead){responseCode=503;message='No se pudieron consultar los horarios.';}
+          else data=schedules.filter(h=>h.idDocente===pathname.split('/').at(-2)).map(h=>({...h,estado:'ASIGNADO'}));
+        }
+        else if(request.method==='DELETE'&&/\/academico\/asignaciones\/\d+$/.test(pathname)) {
+          const id=pathname.split('/').at(-1);assignmentDeletes.push(id);
+          if(failAssignmentDelete){responseCode=409;message='Primero elimina los horarios de esta asignación.';}
+          else { datasets.asignaciones=datasets.asignaciones.filter(a=>a.idAsignacion!==id);datasets.docentes.forEach(d=>d.asignaciones=d.asignaciones.filter(a=>a.idAsignacion!==id));data=null; }
+        }
+        else if(request.method==='POST'&&pathname.endsWith('/horarios/lote')){if(failScheduleWrite){responseCode=409;message='El docente ya tiene otra clase. No se guardó ningún cambio.';}else writes.push(JSON.parse(request.postData));data=[];}
         else if(request.method==='PUT'&&/\/aulas\/\d+$/.test(pathname)) {
           const id=pathname.split('/').at(-1),payload=JSON.parse(request.postData);
           roomWrites.push({id,...payload});Object.assign(rooms.find(a=>a.idAula===id),payload);data=rooms.find(a=>a.idAula===id);
@@ -69,17 +80,23 @@ let chrome,ws;
         }
         else data=datasets[pathname.split('/').at(-1)]??[];
       }
-      await send('Fetch.fulfillRequest',{requestId,responseCode:200,responseHeaders:[{name:'Content-Type',value:'application/json'},{name:'Access-Control-Allow-Origin',value:'http://127.0.0.1:5198'},{name:'Access-Control-Allow-Credentials',value:'true'},{name:'Access-Control-Allow-Headers',value:'authorization,content-type'},{name:'Access-Control-Allow-Methods',value:'GET,POST,PUT,OPTIONS'}],body:Buffer.from(JSON.stringify({success:true,data})).toString('base64')});
+      await send('Fetch.fulfillRequest',{requestId,responseCode,responseHeaders:[{name:'Content-Type',value:'application/json'},{name:'Access-Control-Allow-Origin',value:'http://127.0.0.1:5198'},{name:'Access-Control-Allow-Credentials',value:'true'},{name:'Access-Control-Allow-Headers',value:'authorization,content-type'},{name:'Access-Control-Allow-Methods',value:'GET,POST,PUT,DELETE,OPTIONS'}],body:Buffer.from(JSON.stringify({success:responseCode===200,data,message})).toString('base64')});
     }catch(e){errors.push(String(e));}
   });
-  const evaluate=async expression=>{const r=await send('Runtime.evaluate',{expression,returnByValue:true});if(r.exceptionDetails)throw Error(r.exceptionDetails.exception?.description||r.exceptionDetails.text);return r.result.value;};
+  const evaluate=async expression=>{const r=await send('Runtime.evaluate',{expression,returnByValue:true,awaitPromise:true});if(r.exceptionDetails)throw Error(r.exceptionDetails.exception?.description||r.exceptionDetails.text);return r.result.value;};
   const wait=async expr=>{for(let n=0;n<90;n++){if(await evaluate(expr))return;await delay(100);}throw Error('Timeout '+expr+'\n'+await evaluate('document.body.innerText'));};
   const field=async(label,value)=>{await evaluate(`(()=>{const l=[...document.querySelectorAll('label')].find(l=>l.querySelector('span')?.textContent===${JSON.stringify(label)});if(!l)throw Error('Missing label '+${JSON.stringify(label)});const e=l.querySelector('input,select');Object.getOwnPropertyDescriptor(e.tagName==='SELECT'?HTMLSelectElement.prototype:HTMLInputElement.prototype,'value').set.call(e,${JSON.stringify(value)});e.dispatchEvent(new Event('input',{bubbles:true}));e.dispatchEvent(new Event('change',{bubbles:true}));})()`);await delay(90);};
   const navigate=async route=>{await send('Page.navigate',{url:'http://127.0.0.1:5198'+route});await wait('document.querySelector("main h1")!==null');};
   const screenshot=async name=>{const r=await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});fs.writeFileSync(path.join(output,name+'.png'),Buffer.from(r.data,'base64'));};
   const click=async text=>{await evaluate(`[...document.querySelectorAll('button')].find(b=>b.textContent===${JSON.stringify(text)}).click()`);await delay(100);};
   const choose=async label=>{await evaluate(`document.querySelector(${JSON.stringify('[aria-label="'+label+'"]')}).click()`);await delay(100);};
-  const printButton=async text=>{await evaluate('window.print=()=>{window.__printRequested=true;}');await click(text);assert.equal(await evaluate('window.__printRequested'),true);};
+  const printButton=async text=>{
+    await evaluate('window.__printRequested=false; window.print=()=>{window.__printRequested=true;}');
+    await click(text);await wait('document.querySelector("dialog.schedule-preview[open] iframe")!==null');
+    assert.equal(await evaluate('window.__printRequested'),false,'Primero muestra el PDF sin abrir la impresión');
+    assert.ok(await evaluate('document.querySelector(".schedule-preview a[download]").download.endsWith(".pdf")'));
+    assert.equal(await evaluate('document.querySelector(".schedule-preview a[target=_blank]").rel'),'noopener noreferrer');
+  };
   await send('Runtime.enable');await send('Page.enable');await send('Fetch.enable',{patterns:[{urlPattern:'*://*/api/*'}]});
   await send('Emulation.setDeviceMetricsOverride',{width:1440,height:1080,deviceScaleFactor:1,mobile:false});
   await send('Page.addScriptToEvaluateOnNewDocument',{source:`const ActualDate=Date;window.__now=ActualDate.parse('2026-10-02T16:00:00Z');window.Date=class extends ActualDate {constructor(...args){super(...(args.length?args:[window.__now]));}static now(){return window.__now;}};`});
@@ -152,15 +169,22 @@ let chrome,ws;
   await screenshot('horarios-semestre');
   const {getDocument}=await import('../../.preview-academico/node_modules/pdfjs-dist/legacy/build/pdf.mjs');
   const print=async(name,expected)=>{
-    const r=await send('Page.printToPDF',{preferCSSPageSize:true,printBackground:true,displayHeaderFooter:false});
-    fs.writeFileSync(path.join(output,name+'.pdf'),Buffer.from(r.data,'base64'));
-    const pdf=await getDocument({data:new Uint8Array(Buffer.from(r.data,'base64')),useSystemFonts:true}).promise;
+    const encoded=await evaluate(`(async()=>{const response=await fetch(document.querySelector('.schedule-preview a[download]').href);const blob=await response.blob();if(blob.type!=='application/pdf')throw Error('Tipo incorrecto');return new Promise(resolve=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result.split(',')[1]);reader.readAsDataURL(blob);});})()`);
+    fs.writeFileSync(path.join(output,name+'.pdf'),Buffer.from(encoded,'base64'));
+    const pdf=await getDocument({data:new Uint8Array(Buffer.from(encoded,'base64')),useSystemFonts:true}).promise;
     assert.equal(pdf.numPages,expected);
     const texts=[];
     for(let n=1;n<=pdf.numPages;n++){const page=await pdf.getPage(n);const v=page.getViewport({scale:1});assert.equal(Math.round(v.width),612);assert.equal(Math.round(v.height),792);const t=(await page.getTextContent()).items.map(i=>i.str).join(' ');assert.equal(/Capacidad|Equipamiento|Modificar horario|Cerrar sesión/.test(t),false);texts.push(t);}
+    await choose('Cerrar vista previa');await wait('document.querySelector("dialog.schedule-preview")===null');
     return {pdf,texts};
   };
   await printButton('Imprimir / PDF · 5 aulas');
+  await delay(2000); // El visor nativo carga el PDF después de montar el iframe.
+  await screenshot('vista-previa-pdf');
+  await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
+  assert.ok(await evaluate('document.querySelector(".schedule-preview").scrollWidth<=document.querySelector(".schedule-preview").clientWidth+1'),'El visor cabe en móvil');
+  await screenshot('vista-previa-pdf-movil');
+  await send('Emulation.setDeviceMetricsOverride',{width:1440,height:1080,deviceScaleFactor:1,mobile:false});
   const all=await print('todas-las-aulas-carta',3);
   assert.deepEqual(all.texts.map(t=>(t.match(/PERIODO/g)||[]).length),[2,2,1]);
   assert.ok(all.texts[0].includes('SÁBADO'));assert.ok(all.texts[0].includes('07:00'));assert.ok(all.texts[0].includes('22:00'));
@@ -172,9 +196,25 @@ let chrome,ws;
   const place=await print('aulas-informatica-carta',2);assert.deepEqual(place.texts.map(t=>(t.match(/PERIODO/g)||[]).length),[2,2]);assert.equal(place.texts.join(' ').includes('LASIN-1'),false);
   await choose('Primer piso');await printButton('Imprimir / PDF · 1 aula');
   const floor=await print('primer-piso-carta',1);assert.ok(floor.texts[0].includes('P1-A1'));assert.equal(floor.texts[0].includes('SS-A1'),false);
+  // Un fallo permite reintentar; Escape cierra el visor y libera su PDF.
+  await evaluate(`window.__createObjectURL=URL.createObjectURL;window.__revokeObjectURL=URL.revokeObjectURL;window.__revoked=[];window.__failPdf=true;
+    URL.createObjectURL=function(blob){if(window.__failPdf){window.__failPdf=false;throw Error('Fallo simulado');}return window.__createObjectURL(blob);};
+    URL.revokeObjectURL=function(url){window.__revoked.push(url);window.__revokeObjectURL(url);};
+    [...document.querySelectorAll('button')].find(b=>b.textContent==='Imprimir / PDF · 1 aula').focus();`);
+  await click('Imprimir / PDF · 1 aula');await wait('document.querySelector(".schedule-preview [role=alert]")!==null');
+  assert.equal(await evaluate('window.__printRequested'),false);
+  await click('Reintentar');await wait('document.querySelector(".schedule-preview iframe")!==null');
+  const previewUrl=await evaluate('document.querySelector(".schedule-preview a[download]").href');
+  await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Escape',code:'Escape',windowsVirtualKeyCode:27});
+  await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Escape',code:'Escape',windowsVirtualKeyCode:27});
+  await wait('document.querySelector("dialog.schedule-preview")===null');
+  assert.ok((await evaluate('window.__revoked')).includes(previewUrl),'Cerrar libera el PDF generado');
+  assert.equal(await evaluate('document.activeElement.textContent'),'Imprimir / PDF · 1 aula','Restablece el foco al botón');
+  assert.equal(await evaluate('document.body.style.overflow'),'');
   // Dense reservations and long names must still fit in a half-sheet.
   for(let n=0;n<8;n++)schedules.push(lesson(30+n,{fecha:new Date(Date.UTC(2026,9,19+n*7)).toISOString().slice(0,10),horaInicio:'14:00',horaFin:'16:00',responsable:'Lic. Responsable de prueba con nombre y apellidos extensos'}));
   await navigate('/admin/ver-horarios');await wait('document.querySelector(".place-cards button:not(:disabled)")!==null');await choose('Todos los lugares');await wait('document.querySelectorAll(".horarios-print-root .room-session").length>15');
+  await printButton('Imprimir / PDF · 5 aulas');
   const dense=await print('reservas-varias-fechas-carta',3);
   assert.ok(dense.texts[0].includes('07/12/2026'));
   await send('Emulation.setEmulatedMedia',{media:'print'});
@@ -182,6 +222,11 @@ let chrome,ws;
   assert.ok(await evaluate('[...document.querySelectorAll(".horarios-print-root .room-schedule")].every(r=>r.querySelector("table").getBoundingClientRect().bottom<=r.getBoundingClientRect().bottom+2)'), 'Cada tabla completa cabe en media hoja');
   assert.ok(await evaluate('[...document.querySelectorAll(".horarios-print-root .room-schedule")].every(r=>[...r.querySelectorAll("td,th,caption")].every(c=>c.getBoundingClientRect().right<=r.getBoundingClientRect().right+2))'), 'Ninguna columna sale del ancho imprimible');
   await send('Emulation.setEmulatedMedia',{media:''});
+  if(process.argv.includes('--pdf-preview')) {
+    assert.deepEqual(errors,[]);
+    console.log('OK: vista previa sin impresión automática, PDF carta con dos aulas por hoja, filtros, reservas densas, móvil, reintento, Escape, foco y limpieza.');
+    await send('Browser.close');return;
+  }
   schedules.splice(11);
   await navigate('/admin/ver-horarios');await wait('document.querySelector(".place-cards button:not(:disabled)")!==null');await choose('Todos los lugares');await choose('Abrir horario de SS-A1');
   await evaluate(`window.__now=Date.parse('2026-10-03T04:00:01Z');window.dispatchEvent(new Event('focus'));`);
@@ -212,7 +257,7 @@ let chrome,ws;
   await field('Docente','1');assert.ok(await evaluate('document.querySelector("[role=dialog]").innerText.includes("Paralelo A")'));
   await field('Materia','1');assert.equal(await evaluate(`${dialogField('Docente')}.value`),'');assert.deepEqual(await options('Docente'),['3']);
   await field('Materia','2');assert.deepEqual(await options('Docente'),[]);assert.ok(await evaluate('document.querySelector("[role=dialog]").innerText.includes("no tiene docentes asignados")'));
-  await field('Materia','0');await field('A cargo de','auxiliar');assert.deepEqual(await options('Auxiliar'),['1']);
+  await field('Materia','0');await field('A cargo de','auxiliar');assert.deepEqual(await options('Auxiliar'),['pendiente','1']);
   await field('Auxiliar','1');assert.deepEqual(await options('Paralelo'),['1','2']);await field('Paralelo','2');
   await field('A cargo de','docente');assert.equal(await evaluate(`${dialogField('Docente')}.value`),'');await field('Docente','2');
   await field('Aula · sesión 2','SS-A2');await field('Inicio · sesión 2','15:00');await field('Fin · sesión 2','16:30');
@@ -301,14 +346,26 @@ let chrome,ws;
   await screenshot('buscar-aula-capacidad');
   await field('Cantidad de estudiantes','0');assert.equal(await evaluate('document.querySelectorAll(".room-search-result").length'),0);
   assert.ok(await evaluate('document.querySelector("[role=dialog] [role=alert]").textContent.includes("entre 1 y 2000")'));
-  await field('Cantidad de estudiantes','30');await field('Tipo de ambiente','LABORATORIO');await field('Equipamiento necesario','proyector');await field('Lugar de búsqueda','LASIN');
-  await field('Nombre, código o equipamiento','programacion');assert.deepEqual(await results('adequate'),['LASIN-1']);
-  assert.ok(await evaluate('document.querySelector(".room-search-result").innerText.includes("Computadoras")&&document.querySelector(".room-search-result").innerText.includes("× 30")'));
-  await screenshot('buscar-laboratorio-equipamiento');
+  await field('Cantidad de estudiantes','30');await field('Tipo de ambiente','LABORATORIO');await field('Lugar de búsqueda','LASIN');
+  await field('Nombre o código del aula','programacion');assert.deepEqual(await results('adequate'),['LASIN-1']);
+  assert.equal(await evaluate('document.querySelector("[role=dialog]").innerText.includes("Equipamiento necesario")'),false);
+  assert.equal(await evaluate('document.querySelector(".room-search-equipment")!==null'),false);
+  await screenshot('buscar-laboratorio');
   await choose('Ver aula LASIN-1');await wait('document.querySelector("[role=dialog]")===null&&document.querySelectorAll("tbody tr").length===1');
   assert.ok(await evaluate('document.querySelector("tbody tr").innerText.includes("LASIN-1")&&document.querySelector("tbody tr").innerText.includes("Computadoras (30)")'));
   await click('Buscar aula');await click('Limpiar búsqueda');assert.equal(await evaluate(`${dialogField('Cantidad de estudiantes')}.value`),'');
-  await field('Nombre, código o equipamiento','no existe este ambiente');assert.equal(await evaluate('document.querySelectorAll(".room-search-result").length'),0);
+  await field('Cantidad de estudiantes','30');await field('Día de búsqueda','LUNES');
+  assert.ok(await evaluate('document.querySelector("[role=dialog] [role=alert]").textContent.includes("Completa")'));
+  await field('Hora de inicio','09:00');await field('Hora de fin','10:00');
+  assert.equal((await results('adequate')).includes('SS-A1'),false,'El aula con clase no aparece como libre');
+  await field('Hora de inicio','14:00');await field('Hora de fin','16:00');
+  assert.equal((await results('adequate')).includes('SS-A1'),false,'Sin fecha considera las reservas del semestre');
+  await field('Fecha del examen (opcional)','2026-10-19');
+  assert.ok((await results('adequate')).includes('SS-A1'),'Una reserva de otra semana no bloquea la fecha del examen');
+  assert.equal(await evaluate(`${dialogField('Día de búsqueda')}.value`),'LUNES');
+  await field('Fecha del examen (opcional)','2026-10-05');assert.equal((await results('adequate')).includes('SS-A1'),false);
+  await screenshot('buscar-aula-disponibilidad');
+  await click('Limpiar búsqueda');await field('Nombre o código del aula','no existe este ambiente');assert.equal(await evaluate('document.querySelectorAll(".room-search-result").length'),0);
   await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Escape',code:'Escape',windowsVirtualKeyCode:27});
   await wait('document.querySelector("[role=dialog]")===null');assert.ok(await evaluate('document.activeElement.classList.contains("room-search-trigger")'));
   await navigate('/admin/ver-horarios');await wait('document.querySelector(".room-search-trigger:not(:disabled)")!==null');
@@ -317,15 +374,15 @@ let chrome,ws;
   assert.ok(await evaluate('document.querySelector("article").textContent.includes("LASIN-1")'));
   await printButton('Imprimir aula LASIN-1');const searched=await print('aula-desde-buscador-carta',1);assert.ok(searched.texts[0].includes('LASIN-1'));
   assert.equal((searched.texts[0].match(/PERIODO/g)||[]).length,1);
-  await click('Buscar aula');await click('Limpiar búsqueda');await field('Nombre, código o equipamiento','SIN-LUGAR');await choose('Ver horario SIN-LUGAR');
+  await click('Buscar aula');await click('Limpiar búsqueda');await field('Nombre o código del aula','SIN-LUGAR');await choose('Ver horario SIN-LUGAR');
   assert.ok(await evaluate('document.querySelector("article").textContent.includes("SIN-LUGAR")'));
   await navigate('/admin/horarios');await wait('document.querySelector(".room-search-trigger:not(:disabled)")!==null');
   await click('Buscar aula');await field('Cantidad de estudiantes','30');await choose('Ver horario P1-A1');
   await wait('document.querySelector(\'[aria-label="Horario del aula P1-A1"]\')!==null');assert.equal(await evaluate('window.scrollY'),0);
   assert.ok(await evaluate('document.querySelector(\'[aria-label="Horario del aula P1-A1"]\').textContent.includes("32 personas")'));
-  await click('Buscar aula');await field('Nombre, código o equipamiento','SIN-LUGAR');await choose('Ver horario SIN-LUGAR');
+  await click('Buscar aula');await field('Nombre o código del aula','SIN-LUGAR');await choose('Ver horario SIN-LUGAR');
   await wait('document.querySelector(\'[aria-label="Horario del aula SIN-LUGAR"]\')!==null');
-  await click('Buscar aula');await click('Limpiar búsqueda');await checkbox('Solo ambientes habilitados');await field('Nombre, código o equipamiento','CERRADA');await choose('Ver horario CERRADA');
+  await click('Buscar aula');await click('Limpiar búsqueda');await checkbox('Solo ambientes habilitados');await field('Nombre o código del aula','CERRADA');await choose('Ver horario CERRADA');
   await wait('document.querySelector(\'[aria-label="Horario del aula CERRADA"]\')!==null');
   assert.ok(await evaluate('[...document.querySelectorAll("button")].find(b=>b.textContent==="+ Asignar horario").disabled'),'Un aula en mantenimiento no permite asignar');
   await click('Buscar aula');await click('Limpiar búsqueda');await field('Cantidad de estudiantes','30');
@@ -335,6 +392,27 @@ let chrome,ws;
   assert.ok(await evaluate('[...document.querySelectorAll(".room-search-result")].every(r=>r.scrollWidth<=r.clientWidth+1)'));
   await choose('Ver horario LASIN-1');await wait('document.querySelector(\'[aria-label="Horario del aula LASIN-1"]\')!==null');
   await send('Emulation.setDeviceMetricsOverride',{width:1440,height:1080,deviceScaleFactor:1,mobile:false});
+  // Sugerencias automáticas: tres aulas del mismo piso antes que dos en pisos contiguos.
+  rooms.push(...[['P1-B',25,1],['P1-C',20,1],['P2-A',45,2]].map(([codigo,capacidad,piso],i)=>({...rooms[3],idAula:String(8+i),codigo,nombre:codigo,capacidad,piso})));
+  for(const route of ['/admin/aulas','/admin/ver-horarios','/admin/horarios']) {
+    await navigate(route);await wait('document.querySelector(".room-search-trigger:not(:disabled)")!==null');await click('Buscar aula');
+    await field('Cantidad de estudiantes','75');await field('Día de búsqueda','LUNES');await field('Hora de inicio','12:00');await field('Hora de fin','13:00');
+    await wait('document.querySelectorAll(".room-search-combination").length===2');
+    assert.deepEqual(await evaluate('[...document.querySelectorAll(".room-search-combination")].map(c=>c.dataset.roomCodes)'),['P1-A1|P1-B|P1-C','P1-A1|P2-A']);
+    assert.ok(await evaluate('[...document.querySelectorAll(".room-search-combination")].every(c=>c.innerText.includes("Todas libres"))'));
+    if(route==='/admin/aulas') {
+      await evaluate('document.querySelector(".room-search-combination").scrollIntoView({block:"start"})');await screenshot('buscar-aulas-examen');
+      await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
+      await evaluate('document.querySelector(".room-search-combination").scrollIntoView({block:"start"})');
+      await screenshot('buscar-aulas-examen-movil');
+      assert.ok(await evaluate('document.querySelector("[role=dialog]").scrollWidth<=document.querySelector("[role=dialog]").clientWidth+1'));
+      assert.ok(await evaluate('[...document.querySelectorAll(".room-search-combination")].every(r=>r.scrollWidth<=r.clientWidth+1)'));
+      await send('Emulation.setDeviceMetricsOverride',{width:1440,height:1080,deviceScaleFactor:1,mobile:false});
+    }
+    await choose(route==='/admin/aulas'?'Ver aula P1-A1':'Ver horario P1-A1');await wait('document.querySelector("[role=dialog]")===null');
+    if(route==='/admin/aulas')assert.equal(await evaluate('document.querySelectorAll("tbody tr").length'),1);
+    else assert.ok(await evaluate('document.querySelector(".room-schedule").innerText.includes("P1-A1")'));
+  }
   // Grados editables y dos desplegables con búsqueda independiente.
   Object.assign(datasets.docentes[0],{nombreCompleto:'Ana Mendoza',gradoAcademico:'',nombreConGrado:'Ana Mendoza'});
   await navigate('/admin/docentes');await wait('document.querySelectorAll("tbody tr").length===6');
@@ -367,9 +445,75 @@ let chrome,ws;
   await navigate('/admin/ver-horarios');await wait('document.querySelector(".place-cards button:not(:disabled)")!==null');await choose('Todos los lugares');await choose('Abrir horario de SS-A1');
   assert.ok(await evaluate('document.querySelector("article").textContent.includes("Ph.D. Ana Mendoza")'));
   await screenshot('horarios-colores-vivos');await printButton('Imprimir aula SS-A1');const degreePdf=await print('horario-grado-academico-carta',1);assert.ok(degreePdf.texts[0].includes('Ph.D. Ana Mendoza'));
+  // Buscar -> asignar conserva aula, periodo, día, minutos y reserva en las tres entradas.
+  for(const route of ['/admin/aulas','/admin/ver-horarios','/admin/horarios']) {
+    await navigate(route);await wait('document.querySelector(".room-search-trigger:not(:disabled)")!==null');await click('Buscar aula');
+    await field('Nombre o código del aula','P1-A1');await field('Día de búsqueda','LUNES');await field('Hora de inicio','12:30');await field('Hora de fin','13:15');await field('Fecha del examen (opcional)','2026-10-12');
+    await choose('Asignar aula P1-A1');await wait('document.querySelector(".room-assignment-plan")!==null&&document.querySelector(".room-overview h2")?.textContent==="P1-A1"');
+    assert.equal(await evaluate('location.pathname'),'/admin/horarios');
+    assert.ok(await evaluate('document.querySelector(".room-overview").textContent.includes("32 personas")'));
+    await click('Asignar en esta aula');await wait('document.querySelector("[role=dialog]")!==null');
+    assert.equal(await evaluate('document.querySelectorAll("[role=dialog] fieldset").length'),1);
+    for(const [label,value] of [['Frecuencia','temporal'],['Aula · sesión 1','P1-A1'],['Fecha · sesión 1','2026-10-12'],['Inicio · sesión 1','12:30'],['Fin · sesión 1','13:15']]) assert.equal(await evaluate(`${dialogField(label)}.value`),value);
+    await click('Cancelar');
+    assert.ok(await evaluate('document.querySelector(".room-assignment-plan").textContent.includes("0 de 1")'),'Cancelar no marca aulas guardadas');
+  }
+  await click('Buscar aula');await click('Limpiar búsqueda');await field('Cantidad de estudiantes','75');await field('Día de búsqueda','LUNES');await field('Hora de inicio','12:30');await field('Hora de fin','13:15');
+  await choose('Asignar aulas P1-A1, P2-A');await wait('document.querySelector(".room-assignment-plan")?.textContent.includes("0 de 2")');
+  await screenshot('asignar-dos-aulas');
+  await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
+  assert.ok(await evaluate('document.documentElement.scrollWidth<=window.innerWidth+1'));
+  await screenshot('asignar-dos-aulas-movil');
+  await send('Emulation.setDeviceMetricsOverride',{width:1440,height:1080,deviceScaleFactor:1,mobile:false});
+  await click('Asignar en esta aula');await field('Materia','0');await field('Docente','2');await click('Guardar');
+  await wait('document.querySelector("[role=dialog]")===null&&document.querySelector(".room-overview h2")?.textContent==="P2-A"');
+  assert.ok(await evaluate('document.querySelector(".room-assignment-plan").textContent.includes("1 de 2")'));
+  assert.equal(writes.at(-1).sesiones.length,1);assert.equal(writes.at(-1).sesiones[0].aula,'P1-A1');assert.equal(writes.at(-1).sesiones[0].horaInicio,'12:30');assert.equal(writes.at(-1).sesiones[0].horaFin,'13:15');
+  await click('Asignar en esta aula');assert.equal(await evaluate(`${dialogField('Aula · sesión 1')}.value`),'P2-A');
+  assert.equal(await evaluate(`${dialogField('Día · sesión 1')}.value`),'LUNES');assert.equal(await evaluate(`${dialogField('Inicio · sesión 1')}.value`),'12:30');
+  await field('Materia','0');await field('Docente','2');failScheduleWrite=true;const beforeConflict=writes.length;await click('Guardar');
+  await wait('document.querySelector("[role=dialog] [role=alert]")?.textContent.includes("otra clase")');
+  assert.equal(writes.length,beforeConflict);assert.ok(await evaluate('document.querySelector(".room-assignment-plan").textContent.includes("1 de 2")'));
+  failScheduleWrite=false;await field('Docente','1');await click('Guardar');await wait('document.querySelector("[role=dialog]")===null&&document.querySelector(".room-assignment-plan")?.textContent.includes("todas las aulas")');
+  assert.equal(writes.at(-1).sesiones[0].aula,'P2-A');assert.equal(writes.at(-1).sesiones[0].idAsignacion,'1');
+  // Materias sin horario, historial de periodos inactivos, auxiliares y filtros del docente.
+  const historical={...assignment,idAsignacion:'9',idPeriodo:'9',periodo:'I/2025',materia:'Materia histórica'};
+  datasets.periodos.push({...period,idPeriodo:'9',gestion:2025,periodo:'I',fechaInicio:'2025-01-01',fechaFin:'2025-06-30',estado:'INACTIVO'});
+  datasets.asignaciones.push(historical);datasets.docentes[0].asignaciones.push(historical);
+  schedules.push(lesson(99,{idAsignacion:'9',idPeriodo:'9',periodo:'I/2025',materia:'Materia histórica',fecha:'2025-05-12',motivo:'Examen anterior'}));
+  datasets.docentes.push({idDocente:'20',nombreCompleto:'Docente sin materias',gradoAcademico:'',estado:'ACTIVO',especialidad:'',correo:'',telefono:'',asignaciones:[]});
+  await navigate('/admin/docentes');await wait('document.querySelectorAll("main tbody tr").length===7');
+  await choose('Ver horarios y materias de Ana Mendoza');await wait('document.querySelectorAll(".teacher-sessions tbody tr").length===12');
+  assert.ok(await evaluate('document.querySelector("[role=dialog]").textContent.includes("Materia histórica")'));
+  assert.ok(await evaluate('document.querySelector("[role=dialog]").textContent.includes("Auxiliar vinculado")'));
+  assert.ok(await evaluate('document.querySelector("[role=dialog]").textContent.includes("Finalizada")'));
+  await screenshot('docente-horarios-materias');await field('Periodo del docente','9');assert.equal(await evaluate('document.querySelectorAll(".teacher-sessions tbody tr").length'),1);
+  assert.equal(await evaluate('document.querySelectorAll(".teacher-sessions a").length'),0,'No ofrece edición de un periodo inactivo');
+  await field('Periodo del docente','');
+  await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
+  assert.ok(await evaluate('document.querySelector("[role=dialog]").scrollWidth<=document.querySelector("[role=dialog]").clientWidth+1'));
+  await screenshot('docente-horarios-materias-movil');await send('Emulation.setDeviceMetricsOverride',{width:1440,height:1080,deviceScaleFactor:1,mobile:false});await click('Cerrar consulta');
+  await choose('Ver horarios y materias de Lic. Beatriz Flores');await wait('document.querySelector("[role=dialog]")?.textContent.includes("sin horarios registrados")');await click('Cerrar consulta');
+  await choose('Ver horarios y materias de Docente sin materias');await wait('document.querySelector("[role=dialog]")?.textContent.includes("No hay materias asignadas")');await click('Cerrar consulta');
+  // Quitar: bloqueos con detalle, fallos de lectura, cancelación y conflicto concurrente.
+  const clickDialog=async text=>{await evaluate(`[...document.querySelectorAll('[role=dialog] button')].find(b=>b.textContent===${JSON.stringify(text)}).click()`);await delay(100);};
+  const removeDisabled=()=>evaluate('[...document.querySelectorAll("[role=dialog] button")].find(b=>b.textContent==="Quitar materia").disabled');
+  await choose('Quitar Programación I (INF-111) paralelo A de Ana Mendoza');await wait('document.querySelector("[role=dialog]")?.textContent.includes("horarios vinculados")');assert.equal(await removeDisabled(),true);assert.equal(assignmentDeletes.length,0);
+  await screenshot('quitar-materia-con-horarios');await clickDialog('Cancelar');
+  failTeacherRead=true;await choose('Quitar Programación I (INF-111) paralelo B de Lic. Beatriz Flores');await wait('document.querySelector("[role=dialog] [role=alert]")!==null');assert.equal(await removeDisabled(),true);
+  failTeacherRead=false;await clickDialog('Reintentar');await wait('document.querySelector("[role=dialog]")?.textContent.includes("¿Quieres quitar")');await clickDialog('Cancelar');assert.equal(assignmentDeletes.length,0);
+  await choose('Quitar Programación I (INF-111) paralelo B de Lic. Beatriz Flores');await wait('document.querySelector("[role=dialog]")?.textContent.includes("¿Quieres quitar")');failAssignmentDelete=true;await clickDialog('Quitar materia');
+  await wait('document.querySelector("[role=dialog] [role=alert]")?.textContent.includes("Primero elimina")');assert.ok(datasets.docentes[1].asignaciones.length);
+  failAssignmentDelete=false;await wait('!document.querySelector("[role=dialog] .animate-spin")');await clickDialog('Quitar materia');await wait('document.querySelector("[role=dialog]")===null');assert.equal(datasets.docentes[1].asignaciones.length,0);
+  // Un subadministrador que solo gestiona docentes puede consultar, pero no asignar aulas.
+  limitedPermissions=true;await navigate('/admin/ver-horarios');await wait('document.querySelector(".room-search-trigger:not(:disabled)")!==null');await click('Buscar aula');
+  assert.equal(await evaluate('[...document.querySelectorAll("button")].filter(b=>b.getAttribute("aria-label")?.startsWith("Asignar aula")).length'),0);await choose('Cerrar');
+  await navigate('/admin/docentes');await wait('document.querySelectorAll("main tbody tr").length===7');await choose('Ver horarios y materias de Ana Mendoza');await wait('document.querySelectorAll(".teacher-sessions tbody tr").length===12');
+  assert.equal(await evaluate('document.querySelectorAll(".teacher-sessions a").length'),0);await click('Cerrar consulta');
+  console.log('OK: asignación desde tres páginas con filtros conservados, recorrido de dos aulas, conflictos sin avance, materias/horarios históricos del docente, cancelación y retirada segura, errores/reintento, permisos y móvil.');
   assert.deepEqual(errors,[]);
   console.log('OK: desplegables independientes por materia/docente, búsqueda sin tildes y teclado, guardado/reapertura de grados estándar y personalizados, grado en horario y PDF, vista móvil.');
-  console.log('OK: búsqueda global por capacidad, laboratorio/aula, lugar y equipamiento; menores y desconocidas separadas, inválidos y vacíos, selección en las tres páginas, apertura directa/PDF, mantenimiento, aulas sin lugar y móvil.');
+  console.log('OK: búsqueda sin equipamiento; día, intervalo y fecha opcional excluyen clases/reservas; combinaciones de 2 y 3 aulas del mismo piso o contiguos, selección en las tres páginas, apertura/PDF y móvil.');
   console.log('OK: horario en vista propia sin bajar, regreso con piso conservado, tarjetas por piso, Todos los lugares con horarios completos, PDF por lugar/piso/aula; auxiliares filtrados por materia, vinculación materia primero, asignaciones vigentes y sin duplicados. Regresiones de menciones, reservas, edición, varios días y móvil correctas.');
   await send('Browser.close');
 })().catch(e=>{console.error(e);process.exitCode=1;}).finally(()=>{ws?.close();chrome?.kill();server.close();});

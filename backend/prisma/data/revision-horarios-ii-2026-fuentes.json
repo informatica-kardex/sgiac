@@ -1,0 +1,7017 @@
+{
+  "fuentes": [
+    {
+      "archivo": "HORARIOS PASANTES PRACTICA PARA COLAR.pdf",
+      "sha256": "a26159f709e3a9692f6f097254b4615510e79f49b8d31b8822bb47d1bb618b07"
+    },
+    {
+      "archivo": "horarios 2-2026.pdf",
+      "sha256": "1ae1af489eb434e49afb158efb8e6c5e79752515c83de7fdcbb6033bfae36c3b"
+    }
+  ],
+  "celdas": [
+    {
+      "pagina": 1,
+      "aula": "SS-A1",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-114",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-114 A Lic. Helder Lopez"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A1",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "TRA-256",
+          "grupo": "C"
+        }
+      ],
+      "texto": "TRA-256 C Ing. Cesar Beltran"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A1",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-114",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-114 A Lic. Helder Lopez"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A1",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "TRA-256",
+          "grupo": "C"
+        }
+      ],
+      "texto": "TRA-256 C Ing. Cesar Beltran"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A1",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-111",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-111 B M.Sc. Jorge Teran"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A1",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SIS-373",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SIS-373 A Lic. Salomon Mendoza"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A1",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-111",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-111 B M.Sc. Jorge Teran"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A1",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SIS-373",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SIS-373 A Lic. Salomon Mendoza"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A1",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-115",
+          "grupo": "A"
+        }
+      ],
+      "texto": "AUX INF - 115 A"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A1",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-114",
+          "grupo": "D"
+        }
+      ],
+      "texto": "INF-114 D Lic. Erik Mamani"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A1",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-116",
+          "grupo": "H"
+        }
+      ],
+      "texto": "INF-116 H Lic. Isaac Poma"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A1",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-114",
+          "grupo": "D"
+        }
+      ],
+      "texto": "INF-114 D Lic. Erik Mamani"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A1",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-116",
+          "grupo": "H"
+        }
+      ],
+      "texto": "INF-116 H Lic. Isaac Poma"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A1",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-132",
+          "grupo": "C"
+        }
+      ],
+      "texto": "AUX INF - 132 C"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A1",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-114",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-114 C Lic. Ronnald Silva"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A1",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-126",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-126 A Ph.D. Paola Patzi"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A1",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-114",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-114 C Lic. Ronnald Silva"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A1",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-126",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-126 A Ph.D. Paola Patzi"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A1",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-115",
+          "grupo": "C"
+        }
+      ],
+      "texto": "AUX INF - 115 C"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A1",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-114",
+          "grupo": "E"
+        }
+      ],
+      "texto": "INF-114 E Ph.D. Nelson Mamani"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A1",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-382",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-382 A M.Sc. Edgar Enriquez"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A1",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-114",
+          "grupo": "E"
+        }
+      ],
+      "texto": "INF-114 E Ph.D. Nelson Mamani"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A1",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-382",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-382 A M.Sc. Edgar Enriquez"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A1",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-115",
+          "grupo": "B"
+        }
+      ],
+      "texto": "AUX INF - 115 B"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A1",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "18:00",
+      "horaFin": "20:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SEG-381",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SEG-381 A Ph.D. Henry Mamani"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A1",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "18:00",
+      "horaFin": "20:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "TSS-251",
+          "grupo": "A"
+        }
+      ],
+      "texto": "TSS-251 A Lic. Patricio Ilaluque"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A1",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "18:00",
+      "horaFin": "20:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SEG-381",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SEG-381 A Ph.D. Henry Mamani"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A1",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "18:00",
+      "horaFin": "20:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "TSS-251",
+          "grupo": "A"
+        }
+      ],
+      "texto": "TSS-251 A Lic. Patricio Ilaluque"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A1",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "20:00",
+      "horaFin": "22:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SEG-383",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SEG-383 A M.Sc. Cesar Cuenca"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A1",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "20:00",
+      "horaFin": "22:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SEG-383",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SEG-383 A M.Sc. Cesar Cuenca"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A2",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-131",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-131 B Lic. Victoria Hurtado"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A2",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-126",
+          "grupo": "D"
+        }
+      ],
+      "texto": "AUX INF - 126 D"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A2",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-247",
+          "grupo": "B"
+        }
+      ],
+      "texto": "AUX INF - 247 B"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A2",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-111",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-111 C Ph.D. Marisol Tellez"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A2",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-116",
+          "grupo": "L"
+        }
+      ],
+      "texto": "INF-116 L Lic. Carlos Cruz"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A2",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-253",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-253 A M.Sc. Madelina Loza"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A2",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-114",
+          "grupo": "A"
+        }
+      ],
+      "texto": "AUX INF - 114 A"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A2",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-125",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-125 C Lic. Ramiro Choque"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A2",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-135",
+          "grupo": "B"
+        }
+      ],
+      "texto": "AUX INF - 135 B"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A2",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-125",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-125 C Lic. Ramiro Choque"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A2",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-131",
+          "grupo": "A"
+        }
+      ],
+      "texto": "AUX INF - 131 A"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A2",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-116",
+          "grupo": "L"
+        }
+      ],
+      "texto": "INF-116 L Lic. Carlos Cruz"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A2",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-131",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-131 C Lic. Carmen Huanca"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A2",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-126",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-126 C Lic. Miriam Cusi"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A2",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-126",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-126 C Lic. Miriam Cusi"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A2",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "18:00",
+      "horaFin": "20:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "TIC-254",
+          "grupo": "A"
+        },
+        {
+          "sigla": "SEG-264",
+          "grupo": "A"
+        }
+      ],
+      "texto": "TIC-254 A/SEG-264 A Ing. Boris Alfaro"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A2",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "18:00",
+      "horaFin": "20:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-116",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-116 C Lic. Elba Colque"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A2",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "18:00",
+      "horaFin": "20:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "TIC-254",
+          "grupo": "A"
+        },
+        {
+          "sigla": "SEG-264",
+          "grupo": "A"
+        }
+      ],
+      "texto": "TIC-254 A / SEG-264 A Ing. Boris Alfaro"
+    },
+    {
+      "pagina": 1,
+      "aula": "SS-A2",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "18:00",
+      "horaFin": "20:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-116",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-116 C Lic. Elba Colque"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A3",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-123",
+          "grupo": "E"
+        }
+      ],
+      "texto": "INF-123 E M.Sc. Daniela Blanco"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A3",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-123",
+          "grupo": "E"
+        }
+      ],
+      "texto": "INF-123 E M.Sc. Daniela Blanco"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A3",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-115",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-115 B Lic. Marco Colque"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A3",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-126",
+          "grupo": "D"
+        }
+      ],
+      "texto": "INF-126 D Lic. Ramiro Choque"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A3",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-115",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-115 B Lic. Marco Colque"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A3",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-126",
+          "grupo": "D"
+        }
+      ],
+      "texto": "INF-126 D Lic. Ramiro Choque"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A3",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-115",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-115 A M.Sc. Hernan Laime"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A3",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-114",
+          "grupo": "E"
+        }
+      ],
+      "texto": "AUX INF - 114 E"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A3",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-115",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-115 A M.Sc. Hernan Laime"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A3",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-114",
+          "grupo": "C"
+        }
+      ],
+      "texto": "AUX INF - 114 C"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A3",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-116",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-116 A Lic. Monica Pozadas"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A3",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-116",
+          "grupo": "G"
+        }
+      ],
+      "texto": "AUX INF - 116 G, H"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A3",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-116",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-116 A Lic. Monica Pozadas"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A3",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-126",
+          "grupo": "A"
+        }
+      ],
+      "texto": "AUX INF - 126 A"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A3",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-123",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-123 B Lic. Monica Pozadas"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A3",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-111",
+          "grupo": "E"
+        }
+      ],
+      "texto": "INF-111 E Lic. Carmen Huanca"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A3",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-123",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-123 B Lic. Monica Pozadas"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A3",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-126",
+          "grupo": "A"
+        }
+      ],
+      "texto": "AUX INF - 126 A"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A3",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "18:00",
+      "horaFin": "20:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-123",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-123 C M.Sc. Daniela Blanco"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A3",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "18:00",
+      "horaFin": "20:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-123",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-123 C M.Sc. Daniela Blanco"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A4",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-111",
+          "grupo": "D"
+        }
+      ],
+      "texto": "INF-111 D Lic. Victoria Hurtado"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A4",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-384",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-384 C M.Sc. Rosa Flores"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A4",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-121",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-121 C Lic. Victoria Hurtado"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A4",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-384",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-384 C M.Sc. Rosa Flores"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A4",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-115",
+          "grupo": "E"
+        }
+      ],
+      "texto": "INF-115 E Lic. Raul Borda"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A4",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-112",
+          "grupo": "E"
+        }
+      ],
+      "texto": "INF-112 E M.Sc. Edgar Clavijo"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A4",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-115",
+          "grupo": "E"
+        }
+      ],
+      "texto": "INF-115 E Lic. Raul Borda"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A4",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-112",
+          "grupo": "E"
+        }
+      ],
+      "texto": "INF-112 E M.Sc. Edgar Clavijo"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A4",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-115",
+          "grupo": "E"
+        }
+      ],
+      "texto": "AUX INF-115 E"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A4",
+      "periodo": "2/2026",
+      "dia": "SABADO",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SIS-263",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SIS-263 A M.Sc. Hermenegildo Nogales"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A4",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "DAT-262",
+          "grupo": "A"
+        },
+        {
+          "sigla": "COM-311",
+          "grupo": "A"
+        }
+      ],
+      "texto": "DAT-262 A / COM-311 A Lic. Mario Miranda"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A4",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SIS-263",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SIS-263 A M.Sc. Hermenegildo Nogales"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A4",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "DAT-262",
+          "grupo": "A"
+        },
+        {
+          "sigla": "COM-311",
+          "grupo": "A"
+        }
+      ],
+      "texto": "DAT-262 A / COM-311 A Lic. Mario Miranda"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A4",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-135",
+          "grupo": "A"
+        }
+      ],
+      "texto": "AUX INF - 135 A"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A4",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-121",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-121 B Lic. Carmen Huanca"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A4",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-114",
+          "grupo": "D"
+        }
+      ],
+      "texto": "AUX INF-114 D"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A4",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-115",
+          "grupo": "D"
+        }
+      ],
+      "texto": "AUX INF-115 D"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A4",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-114",
+          "grupo": "A"
+        }
+      ],
+      "texto": "AUX INF-114 A"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A4",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-123",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-123 A M.Sc. Rene Torrez"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A4",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-112",
+          "grupo": "C"
+        }
+      ],
+      "texto": "AUX INF -112 C"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A4",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "18:00",
+      "horaFin": "20:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-123",
+          "grupo": "D"
+        }
+      ],
+      "texto": "INF-123 D Lic. Elba Colque"
+    },
+    {
+      "pagina": 2,
+      "aula": "SS-A4",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "20:00",
+      "horaFin": "22:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-123",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-123 A M.Sc. Rene Torrez"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A1",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-116",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-116 B Lic. Elba Colque"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A1",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-116",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-116 B Lic. Elba Colque"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A1",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-112",
+          "grupo": "B"
+        }
+      ],
+      "texto": "AUX INF - 112 B"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A1",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-126",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-126 B Lic. Zenon Condori"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A1",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-116",
+          "grupo": "J"
+        }
+      ],
+      "texto": "INF-116 J Lic. Carlos Cruz"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A1",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-126",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-126 B Lic. Zenon Condori"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A1",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-116",
+          "grupo": "J"
+        }
+      ],
+      "texto": "INF-116 J Lic. Carlos Cruz"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A1",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-251",
+          "grupo": "A"
+        }
+      ],
+      "texto": "AUX INF - 251 A"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A1",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SIS-246",
+          "grupo": "A"
+        },
+        {
+          "sigla": "TIC-322",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SIS-246 A / TIC-322 A Ph.D. Jose Tapia"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A1",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SIS-246",
+          "grupo": "A"
+        },
+        {
+          "sigla": "TIC-322",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SIS-246 A / TIC-322 A Ph.D. Jose Tapia"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A1",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-242",
+          "grupo": "B"
+        }
+      ],
+      "texto": "AUX INF - 242 B"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A1",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-134",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-134 B Lic. Marisol Paredes"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A1",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-266",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-266 C M.Sc. Grover Rodriguez"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A1",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-134",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-134 B Lic. Marisol Paredes"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A1",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-266",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-266 C M.Sc. Grover Rodriguez"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A1",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-116",
+          "grupo": "D"
+        }
+      ],
+      "texto": "AUX INF - 116 D, F"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A1",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-112",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-112 C Ph.D. Fatima Dolz"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A1",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SEG-373",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-316",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SEG-373 A / INF-316 A Ph.D. Rogelio Mamani"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A1",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-112",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-112 C Ph.D. Fatima Dolz"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A1",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SEG-373",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-316",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SEG-373 A / INF-316 A Ph.D. Rogelio Mamani"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A1",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "18:00",
+      "horaFin": "20:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-123",
+          "grupo": "D"
+        }
+      ],
+      "texto": "INF-123 D Lic. Elba Colque"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A1",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "20:00",
+      "horaFin": "22:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-264",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-337",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-264 A / INF-337 A M.Sc. Juan Cayoja"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A1",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "20:00",
+      "horaFin": "22:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-264",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-337",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-264 A / INF-337 A M.Sc. Juan Cayoja"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A2",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-112",
+          "grupo": "A"
+        }
+      ],
+      "texto": "AUX INF-112 A"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A2",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SIS-262",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SIS-262 A M.Sc. Grover Rodriguez"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A2",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SIS-262",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SIS-262 A M.Sc. Grover Rodriguez"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A2",
+      "periodo": "2/2026",
+      "dia": "SABADO",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "TRA-374",
+          "grupo": "A"
+        }
+      ],
+      "texto": "TRA-374 A M.Sc. Juan Cayoja"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A2",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-135",
+          "grupo": "B"
+        },
+        {
+          "sigla": "TIC-246",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-135 B / TIC-246 B Lic. Ruben Alcon"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A2",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SEG-263",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SEG-263 A P.Ph.D Yohoni Cuenca"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A2",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-135",
+          "grupo": "B"
+        },
+        {
+          "sigla": "TIC-246",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-135 B / TIC-246 B Lic. Ruben Alcon"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A2",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SEG-263",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SEG-263 A P.Ph.D Yohoni Cuenca"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A2",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-125",
+          "grupo": "D"
+        }
+      ],
+      "texto": "AUX INF-125 D"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A2",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "TRA-136",
+          "grupo": "A"
+        }
+      ],
+      "texto": "TRA-136 A Ph.D. Mauro Costantino"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A2",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SIS-255",
+          "grupo": "A"
+        },
+        {
+          "sigla": "DAT-313",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SIS-255 A / DAT-313 A M.Sc. Carlos Mullisaca"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A2",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "TRA-136",
+          "grupo": "A"
+        }
+      ],
+      "texto": "TRA-136 A Ph.D. Mauro Costantino"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A2",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SIS-255",
+          "grupo": "A"
+        },
+        {
+          "sigla": "DAT-313",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SIS-255 A / DAT-313 A M.Sc. Carlos Mullisaca"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A2",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-126",
+          "grupo": "B"
+        }
+      ],
+      "texto": "AUX INF-126 B"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A2",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-251",
+          "grupo": "B"
+        },
+        {
+          "sigla": "IID-264",
+          "grupo": "B"
+        },
+        {
+          "sigla": "TIC-371",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-251 B / IID-264 B / TIC-371 B Lic. Juan Contreras"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A2",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-251",
+          "grupo": "B"
+        },
+        {
+          "sigla": "IID-264",
+          "grupo": "B"
+        },
+        {
+          "sigla": "TIC-371",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-251 B / IID-264 B / TIC-371 B Lic. Juan Contreras"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A2",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-116",
+          "grupo": "B"
+        }
+      ],
+      "texto": "AUX INF-116 B, C"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A2",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SEG-262",
+          "grupo": "A"
+        },
+        {
+          "sigla": "TIC-372",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SEG-262 A / TIC-372 A M.Sc. German Huanca"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A2",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SEG-254",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SEG-254 A M.Sc. German Huanca"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A2",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SEG-262",
+          "grupo": "A"
+        },
+        {
+          "sigla": "TIC-372",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SEG-262 A / TIC-372 A M.Sc. German Huanca"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A2",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SEG-254",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SEG-254 A M.Sc. German Huanca"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A2",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "18:00",
+      "horaFin": "20:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SIS-253",
+          "grupo": "A"
+        },
+        {
+          "sigla": "TIC-253",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-315",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SIS-253 A / TIC-253 A / INF-315 A Lic. Vivian Sanchez"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A2",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "18:00",
+      "horaFin": "20:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-261",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-261 A M.Sc. German Huanca"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A2",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "18:00",
+      "horaFin": "20:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SIS-253",
+          "grupo": "A"
+        },
+        {
+          "sigla": "TIC-253",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-315",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SIS-253 A / TIC-253 A / INF-315 A Lic. Vivian Sanchez"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A2",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "18:00",
+      "horaFin": "20:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-261",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-261 A M.Sc. German Huanca"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A2",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "18:00",
+      "horaFin": "20:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SIS-325",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SIS-325 A Lic. Salomon Mendoza"
+    },
+    {
+      "pagina": 3,
+      "aula": "PB-A2",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "20:00",
+      "horaFin": "22:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SIS-325",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SIS-325 A Lic. Salomon Mendoza"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A1",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SIS-262",
+          "grupo": "B"
+        }
+      ],
+      "texto": "SIS-262 B Lic. Ruben Alcon"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A1",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-117",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-117 B M.Sc. Edgar Clavijo"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A1",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-117",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-117 B M.Sc. Edgar Clavijo"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A1",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SIS-262",
+          "grupo": "B"
+        }
+      ],
+      "texto": "SIS-262 B Lic. Ruben Alcon"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A1",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-241",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-241 B M.Sc. Patricia Trino"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A1",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "IID-261",
+          "grupo": "B"
+        },
+        {
+          "sigla": "COM-371",
+          "grupo": "B"
+        },
+        {
+          "sigla": "INF-381",
+          "grupo": "B"
+        },
+        {
+          "sigla": "DAT-318",
+          "grupo": "B"
+        }
+      ],
+      "texto": "IID-261 B / COM-371 B / INF-381 B / DAT-318 B M.Sc. Grover Rodriguez"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A1",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-241",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-241 B M.Sc. Patricia Trino"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A1",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "IID-261",
+          "grupo": "B"
+        },
+        {
+          "sigla": "COM-371",
+          "grupo": "B"
+        },
+        {
+          "sigla": "INF-381",
+          "grupo": "B"
+        },
+        {
+          "sigla": "DAT-318",
+          "grupo": "B"
+        }
+      ],
+      "texto": "IID-261 B / COM-371 B / INF-381 B / DAT-318 B M.Sc. Grover Rodriguez"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A1",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-116",
+          "grupo": "G"
+        }
+      ],
+      "texto": "INF-116 G Lic. Juan Calle"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A1",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-116",
+          "grupo": "G"
+        }
+      ],
+      "texto": "INF-116 G Lic. Juan Calle"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A1",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SIS-372",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-318",
+          "grupo": "A"
+        },
+        {
+          "sigla": "TIC-323",
+          "grupo": "A"
+        },
+        {
+          "sigla": "TSS-261",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SIS-372 A / INF-318 A / TIC-323 A / TSS-261 A Ph.D. Jose Tapia"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A1",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-116",
+          "grupo": "K"
+        }
+      ],
+      "texto": "INF-116 K M.Sc. Veronica Subieta"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A1",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SIS-372",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-318",
+          "grupo": "A"
+        },
+        {
+          "sigla": "TIC-323",
+          "grupo": "A"
+        },
+        {
+          "sigla": "TSS-261",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SIS-372 A / INF-318 A / TIC-323 A / TSS-261 A Ph.D. Jose Tapia"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A1",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-116",
+          "grupo": "K"
+        }
+      ],
+      "texto": "INF-116 K M.Sc. Veronica Subieta"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A1",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-241",
+          "grupo": "B"
+        }
+      ],
+      "texto": "AUX INF - 241 B"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A1",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "DAT-135",
+          "grupo": "B"
+        },
+        {
+          "sigla": "INF-247",
+          "grupo": "B"
+        },
+        {
+          "sigla": "INF-321",
+          "grupo": "B"
+        }
+      ],
+      "texto": "DAT-135 B / INF-247 B / INF-321 B M.Sc. Hugo Paredes"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A1",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-132",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-132 C Ph.D. Reynaldo Zeballos"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A1",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "DAT-135",
+          "grupo": "B"
+        },
+        {
+          "sigla": "INF-247",
+          "grupo": "B"
+        },
+        {
+          "sigla": "INF-321",
+          "grupo": "B"
+        }
+      ],
+      "texto": "DAT-135 B / INF-247 B / INF-321 B M.Sc. Hugo Paredes"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A1",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-132",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-132 C Ph.D. Reynaldo Zeballos"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A1",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "20:00",
+      "horaFin": "22:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "TRA-374",
+          "grupo": "A"
+        }
+      ],
+      "texto": "TRA-374 A M.Sc. Juan Cayoja"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A2",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-112",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-112 A Lic. Nancy Orihuela"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A2",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-131",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-131 A Lic. Marcelo Aruquipa"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A2",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-112",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-112 A Lic. Nancy Orihuela"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A2",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "TRA-256",
+          "grupo": "A"
+        }
+      ],
+      "texto": "TRA-256 A Ph.D. Fatima Dolz"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A2",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-112",
+          "grupo": "D"
+        }
+      ],
+      "texto": "INF-112 D Ing. Cesar Beltran"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A2",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "TRA-256",
+          "grupo": "A"
+        }
+      ],
+      "texto": "TRA-256 A Ph.D. Fatima Dolz"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A2",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-112",
+          "grupo": "D"
+        }
+      ],
+      "texto": "INF-112 D Ing. Cesar Beltran"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A2",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-253",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-253 A M.Sc. Madelina Loza"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A2",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-112",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-112 B M.Sc. Ramiro Flores"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A2",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-116",
+          "grupo": "E"
+        }
+      ],
+      "texto": "INF-116 E M.Sc. Rene Torrez"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A2",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-116",
+          "grupo": "J"
+        }
+      ],
+      "texto": "AUX INF-116 J"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A2",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-112",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-112 B M.Sc. Ramiro Flores"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A2",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-135",
+          "grupo": "C"
+        },
+        {
+          "sigla": "TIC-246",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-135 C / TIC-246 C Lic. Nancy Orihuela"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A2",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-116",
+          "grupo": "D"
+        }
+      ],
+      "texto": "INF-116 D MGr. Iver Winkelmann"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A2",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-135",
+          "grupo": "C"
+        },
+        {
+          "sigla": "TIC-246",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-135 C / TIC-246 C Lic. Nancy Orihuela"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A2",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-116",
+          "grupo": "D"
+        }
+      ],
+      "texto": "INF-116 D MGr. Iver Winkelmann"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A2",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-116",
+          "grupo": "E"
+        }
+      ],
+      "texto": "INF-116 E M.Sc. Rene Torrez"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A2",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-116",
+          "grupo": "I"
+        }
+      ],
+      "texto": "INF-116 I M.Sc. Daniela Blanco"
+    },
+    {
+      "pagina": 4,
+      "aula": "P1-A2",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SEG-253",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SEG-253 A Ph.D. Willy Apaza"
+    },
+    {
+      "pagina": 5,
+      "aula": "P1-A3",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-251",
+          "grupo": "A"
+        },
+        {
+          "sigla": "TIC-371",
+          "grupo": "A"
+        },
+        {
+          "sigla": "IID-264",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-251 A / TIC-371 A / IID-264 A Ph.D. Luisa Velasquez"
+    },
+    {
+      "pagina": 5,
+      "aula": "P1-A3",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-251",
+          "grupo": "A"
+        },
+        {
+          "sigla": "TIC-371",
+          "grupo": "A"
+        },
+        {
+          "sigla": "IID-264",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-251 A / TIC-371 A / IID-264 A Ph.D. Luisa Velasquez"
+    },
+    {
+      "pagina": 5,
+      "aula": "P1-A3",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "IID-261",
+          "grupo": "A"
+        },
+        {
+          "sigla": "COM-371",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-381",
+          "grupo": "A"
+        },
+        {
+          "sigla": "DAT-318",
+          "grupo": "A"
+        }
+      ],
+      "texto": "IID-261 A / COM-371 A / INF-381 A / DAT-318 A M.Sc. Rosa Flores"
+    },
+    {
+      "pagina": 5,
+      "aula": "P1-A3",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-135",
+          "grupo": "A"
+        },
+        {
+          "sigla": "TIC-246",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-135 A / TIC-246 A Ph.D. Luisa Velasquez"
+    },
+    {
+      "pagina": 5,
+      "aula": "P1-A3",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "IID-261",
+          "grupo": "A"
+        },
+        {
+          "sigla": "COM-371",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-381",
+          "grupo": "A"
+        },
+        {
+          "sigla": "DAT-318",
+          "grupo": "A"
+        }
+      ],
+      "texto": "IID-261 A / COM-371 A / INF-381 A / DAT-318 A M.Sc. Rosa Flores"
+    },
+    {
+      "pagina": 5,
+      "aula": "P1-A3",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-135",
+          "grupo": "A"
+        },
+        {
+          "sigla": "TIC-246",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-135 A / TIC-246 A Ph.D. Luisa Velasquez"
+    },
+    {
+      "pagina": 5,
+      "aula": "P1-A3",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-126",
+          "grupo": "C"
+        }
+      ],
+      "texto": "AUX INF-126 C"
+    },
+    {
+      "pagina": 5,
+      "aula": "P1-A3",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-115",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-115 C Ph.D. Elvis Valero"
+    },
+    {
+      "pagina": 5,
+      "aula": "P1-A3",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SIS-315",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SIS-315 A Ph.D. Javier Reyes"
+    },
+    {
+      "pagina": 5,
+      "aula": "P1-A3",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-115",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-115 C Ph.D. Elvis Valero"
+    },
+    {
+      "pagina": 5,
+      "aula": "P1-A3",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SIS-315",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SIS-315 A Ph.D. Javier Reyes"
+    },
+    {
+      "pagina": 5,
+      "aula": "P1-A3",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SEG-244",
+          "grupo": "B"
+        },
+        {
+          "sigla": "INF-265",
+          "grupo": "B"
+        },
+        {
+          "sigla": "INF-371",
+          "grupo": "B"
+        },
+        {
+          "sigla": "DAT-321",
+          "grupo": "B"
+        }
+      ],
+      "texto": "SEG-244 B / INF-265 B / INF-371 B / DAT-321 B Ph.D. Luisa Velasquez"
+    },
+    {
+      "pagina": 5,
+      "aula": "P1-A3",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-114",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-114 B Lic. Ronnald Silva"
+    },
+    {
+      "pagina": 5,
+      "aula": "P1-A3",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SEG-244",
+          "grupo": "B"
+        },
+        {
+          "sigla": "INF-265",
+          "grupo": "B"
+        },
+        {
+          "sigla": "INF-371",
+          "grupo": "B"
+        },
+        {
+          "sigla": "DAT-321",
+          "grupo": "B"
+        }
+      ],
+      "texto": "SEG-244 B / INF-265 B / INF-371 B / DAT-321 B Ph.D. Luisa Velasquez"
+    },
+    {
+      "pagina": 5,
+      "aula": "P1-A3",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-114",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-114 B Lic. Ronnald Silva"
+    },
+    {
+      "pagina": 5,
+      "aula": "P1-A3",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "DAT-251",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-262",
+          "grupo": "A"
+        }
+      ],
+      "texto": "DAT-251 A / INF-262 A Lic. Celia Tarquino"
+    },
+    {
+      "pagina": 5,
+      "aula": "P1-A3",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "TRA-374",
+          "grupo": "B"
+        }
+      ],
+      "texto": "TRA-374 B M.Sc. Grover Rodriguez"
+    },
+    {
+      "pagina": 5,
+      "aula": "P1-A3",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "TRA-374",
+          "grupo": "B"
+        }
+      ],
+      "texto": "TRA-374 B M.Sc. Grover Rodriguez"
+    },
+    {
+      "pagina": 5,
+      "aula": "P1-A3",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-116",
+          "grupo": "I"
+        }
+      ],
+      "texto": "INF-116 I M.Sc. Daniela Blanco"
+    },
+    {
+      "pagina": 5,
+      "aula": "P1-A3",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "18:00",
+      "horaFin": "20:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "DAT-245",
+          "grupo": "B"
+        },
+        {
+          "sigla": "COM-252",
+          "grupo": "B"
+        },
+        {
+          "sigla": "INF-372",
+          "grupo": "B"
+        },
+        {
+          "sigla": "INF-335",
+          "grupo": "B"
+        }
+      ],
+      "texto": "DAT-245 B / COM-252 B / INF-372 B / INF-335 B Lic. Freddy Toledo"
+    },
+    {
+      "pagina": 5,
+      "aula": "P1-A3",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "18:00",
+      "horaFin": "20:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "DAT-245",
+          "grupo": "B"
+        },
+        {
+          "sigla": "COM-252",
+          "grupo": "B"
+        },
+        {
+          "sigla": "INF-372",
+          "grupo": "B"
+        },
+        {
+          "sigla": "INF-335",
+          "grupo": "B"
+        }
+      ],
+      "texto": "DAT-245 B / COM-252 B / INF-372 B / INF-335 B Lic. Freddy Toledo"
+    },
+    {
+      "pagina": 5,
+      "aula": "P1-A3",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "20:00",
+      "horaFin": "22:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-384",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-384 A Lic. Freddy Toledo"
+    },
+    {
+      "pagina": 5,
+      "aula": "P1-A3",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "20:00",
+      "horaFin": "22:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-384",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-384 A Lic. Freddy Toledo"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB1",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-121",
+          "grupo": "D"
+        }
+      ],
+      "texto": "INF-121 D Lic. Jhonny Felipez"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB1",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-121",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-121 A Lic. Marcelo Aruquipa"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB1",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-121",
+          "grupo": "D"
+        }
+      ],
+      "texto": "INF-121 D Lic. Jhonny Felipez"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB1",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-121",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-121 A Lic. Marcelo Aruquipa"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB1",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-121",
+          "grupo": "D"
+        }
+      ],
+      "texto": "AUX INF - 121 D"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB1",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-121",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-121 C Lic. Victoria Hurtado"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB1",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-244",
+          "grupo": "C"
+        },
+        {
+          "sigla": "INF-252",
+          "grupo": "C"
+        },
+        {
+          "sigla": "COM-322",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-244 C / INF-252 C / COM-322 C Lic. Jose Zeballos"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB1",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-111",
+          "grupo": "D"
+        }
+      ],
+      "texto": "INF-111 D Lic. Victoria Hurtado"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB1",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-244",
+          "grupo": "C"
+        },
+        {
+          "sigla": "INF-252",
+          "grupo": "C"
+        },
+        {
+          "sigla": "COM-322",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-244 C / INF-252 C / COM-322 C Lic. Jose Zeballos"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB1",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-133",
+          "grupo": "A"
+        }
+      ],
+      "texto": "AUX INF - 133 A"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB1",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-133",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-133 A Lic. Jhonny Felipez"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB1",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-266",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-266 A Lic. Brigida Carvajal"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB1",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-133",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-133 A Lic. Jhonny Felipez"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB1",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-266",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-266 A Lic. Brigida Carvajal"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB1",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-111",
+          "grupo": "B"
+        }
+      ],
+      "texto": "AUX INF - 111 B"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB1",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-254",
+          "grupo": "A"
+        },
+        {
+          "sigla": "IID-311",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-254 A / IID-311 A Ph.D. Juan Miranda"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB1",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-254",
+          "grupo": "A"
+        },
+        {
+          "sigla": "IID-311",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-254 A / IID-311 A Ph.D. Juan Miranda"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB1",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "TAW-251",
+          "grupo": "A"
+        }
+      ],
+      "texto": "AUX TAW - 251 A"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB1",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-111",
+          "grupo": "B"
+        }
+      ],
+      "texto": "AUX INF - 111 B"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB1",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SEG-253",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SEG-253 A Ph.D. Willy Apaza"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB1",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SEG-252",
+          "grupo": "B"
+        },
+        {
+          "sigla": "INF-333",
+          "grupo": "B"
+        }
+      ],
+      "texto": "SEG-252 B / INF-333 B M.Sc. Franz Gallardo"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB1",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [],
+      "texto": "C.P.U. Ph.D. Reynaldo Zeballos"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB1",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SEG-252",
+          "grupo": "B"
+        },
+        {
+          "sigla": "INF-333",
+          "grupo": "B"
+        }
+      ],
+      "texto": "SEG-252 B / INF-333 B M.Sc. Franz Gallardo"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB1",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-245",
+          "grupo": "A"
+        }
+      ],
+      "texto": "AUX INF - 245 A"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB1",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "18:00",
+      "horaFin": "20:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SEG-372",
+          "grupo": "A"
+        },
+        {
+          "sigla": "TIC-382",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SEG-372 A / TIC-382 A Lic. Edson Vallejos"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB1",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "18:00",
+      "horaFin": "20:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SEG-372",
+          "grupo": "A"
+        },
+        {
+          "sigla": "TIC-382",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SEG-372 A / TIC-382 A Lic. Edson Vallejos"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB2",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-122",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-122 C Ph.D. Bhylenia Rios"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB2",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-266",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-266 B Lic. Jose Zeballos"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB2",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-113",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-113 A Ph.D. Jose Tapia"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB2",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-266",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-266 B Lic. Jose Zeballos"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB2",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-113",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-113 A Ph.D. Jose Tapia"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB2",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-132",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-132 A Lic. Jose Zeballos"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB2",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-245",
+          "grupo": "A"
+        },
+        {
+          "sigla": "DAT-319",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-245 A / DAT-319 A Lic. Marcelo Aruquipa"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB2",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-132",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-132 A Lic. Jose Zeballos"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB2",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-245",
+          "grupo": "A"
+        },
+        {
+          "sigla": "DAT-319",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-245 A / DAT-319 A Lic. Marcelo Aruquipa"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB2",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-132",
+          "grupo": "C"
+        }
+      ],
+      "texto": "AUX INF - 132 C"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB2",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-111",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-111 C Ph.D. Marisol Tellez"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB2",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-111",
+          "grupo": "E"
+        }
+      ],
+      "texto": "AUX INF - 111 E"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB2",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-113",
+          "grupo": "D"
+        }
+      ],
+      "texto": "INF-113 D Ph.D. Marisol Tellez"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB2",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-122",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-122 A Ph.D. Marisol Tellez"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB2",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-113",
+          "grupo": "D"
+        }
+      ],
+      "texto": "INF-113 D Ph.D. Marisol Tellez"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB2",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-122",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-122 A Ph.D. Marisol Tellez"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB2",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-113",
+          "grupo": "A"
+        }
+      ],
+      "texto": "AUX INF - 113 A"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB2",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-122",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-122 B Lic. Victor Pozo"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB2",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-244",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-244 A P.Ph.D Yohoni Cuenca"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB2",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "DAT-251",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-262",
+          "grupo": "A"
+        }
+      ],
+      "texto": "DAT-251 A / INF-262 A Lic. Celia Tarquino"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB2",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-244",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-244 A P.Ph.D Yohoni Cuenca"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB2",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-122",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-122 B Lic. Victor Pozo"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB2",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "18:00",
+      "horaFin": "20:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-244",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-252",
+          "grupo": "A"
+        },
+        {
+          "sigla": "COM-322",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-244 A / INF-252 A / COM-322 A Ph.D. Jose Tapia"
+    },
+    {
+      "pagina": 6,
+      "aula": "P3-LAB2",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "18:00",
+      "horaFin": "20:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-244",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-252",
+          "grupo": "A"
+        },
+        {
+          "sigla": "COM-322",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-244 A / INF-252 A / COM-322 A Ph.D. Jose Tapia"
+    },
+    {
+      "pagina": 7,
+      "aula": "P3-LAB3",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "TIC-247",
+          "grupo": "B"
+        },
+        {
+          "sigla": "SEG-252",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-333",
+          "grupo": "A"
+        }
+      ],
+      "texto": "TIC-247 B / SEG-252 A / INF-333 A Lic. Roberto Vargas"
+    },
+    {
+      "pagina": 7,
+      "aula": "P3-LAB3",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "TIC-247",
+          "grupo": "B"
+        },
+        {
+          "sigla": "SEG-252",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-333",
+          "grupo": "A"
+        }
+      ],
+      "texto": "TIC-247 B / SEG-252 A / INF-333 A Lic. Roberto Vargas"
+    },
+    {
+      "pagina": 7,
+      "aula": "P3-LAB3",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "DAT-253",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-311",
+          "grupo": "A"
+        }
+      ],
+      "texto": "DAT-253 A / INF-311 A M.Sc. Menfy Morales"
+    },
+    {
+      "pagina": 7,
+      "aula": "P3-LAB3",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "DAT-253",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-311",
+          "grupo": "A"
+        }
+      ],
+      "texto": "DAT-253 A / INF-311 A M.Sc. Menfy Morales"
+    },
+    {
+      "pagina": 7,
+      "aula": "P3-LAB3",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-111",
+          "grupo": "D"
+        }
+      ],
+      "texto": "AUX INF-111 D"
+    },
+    {
+      "pagina": 7,
+      "aula": "P3-LAB3",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-121",
+          "grupo": "C"
+        }
+      ],
+      "texto": "AUX INF - 121 C"
+    },
+    {
+      "pagina": 7,
+      "aula": "P3-LAB3",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-133",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-133 C Lic. Ruben Alcon"
+    },
+    {
+      "pagina": 7,
+      "aula": "P3-LAB3",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-133",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-133 C Lic. Ruben Alcon"
+    },
+    {
+      "pagina": 7,
+      "aula": "P3-LAB3",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-111",
+          "grupo": "C"
+        }
+      ],
+      "texto": "AUX INF - 111 C"
+    },
+    {
+      "pagina": 7,
+      "aula": "P3-LAB3",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SEG-371",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SEG-371 A M.Sc. Cesar Sanchez"
+    },
+    {
+      "pagina": 7,
+      "aula": "P3-LAB3",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "TIC-247",
+          "grupo": "A"
+        }
+      ],
+      "texto": "TIC-247 A M.Sc. Franz Gallardo"
+    },
+    {
+      "pagina": 7,
+      "aula": "P3-LAB3",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [],
+      "texto": "C.P.U. Ph.D. Reynaldo Zeballos"
+    },
+    {
+      "pagina": 7,
+      "aula": "P3-LAB3",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "TIC-247",
+          "grupo": "A"
+        }
+      ],
+      "texto": "TIC-247 A M.Sc. Franz Gallardo"
+    },
+    {
+      "pagina": 8,
+      "aula": "P4-A1",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-242",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-242 C M.Sc. Jorge Teran"
+    },
+    {
+      "pagina": 8,
+      "aula": "P4-A1",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-242",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-242 C M.Sc. Jorge Teran"
+    },
+    {
+      "pagina": 8,
+      "aula": "P4-A1",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-112",
+          "grupo": "B"
+        }
+      ],
+      "texto": "AUX INF - 112 B"
+    },
+    {
+      "pagina": 8,
+      "aula": "P4-A1",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-384",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-384 B M.Sc. Grover Rodriguez"
+    },
+    {
+      "pagina": 8,
+      "aula": "P4-A1",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "TRA-256",
+          "grupo": "B"
+        }
+      ],
+      "texto": "TRA-256 B Lic. Eufren Llanque"
+    },
+    {
+      "pagina": 8,
+      "aula": "P4-A1",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-384",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-384 B M.Sc. Grover Rodriguez"
+    },
+    {
+      "pagina": 8,
+      "aula": "P4-A1",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "TRA-256",
+          "grupo": "B"
+        }
+      ],
+      "texto": "TRA-256 B Lic. Eufren Llanque"
+    },
+    {
+      "pagina": 8,
+      "aula": "P4-A1",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SIS-382",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-320",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SIS-382 A / INF-320 A M.Sc. Miguel Cotaña"
+    },
+    {
+      "pagina": 8,
+      "aula": "P4-A1",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SIS-382",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-320",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SIS-382 A / INF-320 A M.Sc. Miguel Cotaña"
+    },
+    {
+      "pagina": 8,
+      "aula": "P4-A1",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-117",
+          "grupo": "A"
+        }
+      ],
+      "texto": "AUX INF - 117 A"
+    },
+    {
+      "pagina": 8,
+      "aula": "P4-A1",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "DAT-382",
+          "grupo": "A"
+        }
+      ],
+      "texto": "DAT-382 A M.Sc. Elizabeth Pommier"
+    },
+    {
+      "pagina": 8,
+      "aula": "P4-A1",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-241",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-241 A M.Sc. Miguel Cotaña"
+    },
+    {
+      "pagina": 8,
+      "aula": "P4-A1",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-241",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-241 A M.Sc. Miguel Cotaña"
+    },
+    {
+      "pagina": 8,
+      "aula": "P4-A1",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "DAT-382",
+          "grupo": "A"
+        }
+      ],
+      "texto": "DAT-382 A M.Sc. Elizabeth Pommier"
+    },
+    {
+      "pagina": 8,
+      "aula": "P4-A1",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-242",
+          "grupo": "D"
+        }
+      ],
+      "texto": "INF-242 D M.Sc. Jorge Teran"
+    },
+    {
+      "pagina": 8,
+      "aula": "P4-A1",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-242",
+          "grupo": "D"
+        }
+      ],
+      "texto": "INF-242 D M.Sc. Jorge Teran"
+    },
+    {
+      "pagina": 8,
+      "aula": "P4-A1",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "18:00",
+      "horaFin": "20:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SIS-372",
+          "grupo": "B"
+        },
+        {
+          "sigla": "INF-318",
+          "grupo": "B"
+        },
+        {
+          "sigla": "TIC-323",
+          "grupo": "B"
+        },
+        {
+          "sigla": "TSS-261",
+          "grupo": "B"
+        }
+      ],
+      "texto": "SIS-372 B INF-318 B / TIC-323 B / TSS-261 B M.Sc. Edgar Enriquez"
+    },
+    {
+      "pagina": 8,
+      "aula": "P4-A1",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "18:00",
+      "horaFin": "20:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SIS-372",
+          "grupo": "B"
+        },
+        {
+          "sigla": "INF-318",
+          "grupo": "B"
+        },
+        {
+          "sigla": "TIC-323",
+          "grupo": "B"
+        },
+        {
+          "sigla": "TSS-261",
+          "grupo": "B"
+        }
+      ],
+      "texto": "SIS-372 B INF-318 B / TIC-323 B / TSS-261 B M.Sc. Edgar Enriquez"
+    },
+    {
+      "pagina": 8,
+      "aula": "P4-A2",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "COM-372",
+          "grupo": "A"
+        }
+      ],
+      "texto": "COM-372 A Lic. Juan Contreras"
+    },
+    {
+      "pagina": 8,
+      "aula": "P4-A2",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "COM-372",
+          "grupo": "A"
+        }
+      ],
+      "texto": "COM-372 A Lic. Juan Contreras"
+    },
+    {
+      "pagina": 8,
+      "aula": "P4-A2",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-242",
+          "grupo": "C"
+        }
+      ],
+      "texto": "AUX INF - 242 C"
+    },
+    {
+      "pagina": 8,
+      "aula": "P4-A2",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "DAT-254",
+          "grupo": "A"
+        }
+      ],
+      "texto": "AUX DAT - 254 A"
+    },
+    {
+      "pagina": 8,
+      "aula": "P4-A2",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-135",
+          "grupo": "B"
+        }
+      ],
+      "texto": "AUX INF - 135 B"
+    },
+    {
+      "pagina": 8,
+      "aula": "P4-A2",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-116",
+          "grupo": "I"
+        }
+      ],
+      "texto": "AUX INF - 116 I"
+    },
+    {
+      "pagina": 8,
+      "aula": "P4-A2",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-251",
+          "grupo": null
+        }
+      ],
+      "texto": "AUX INF - 251"
+    },
+    {
+      "pagina": 8,
+      "aula": "P4-A2",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-116",
+          "grupo": "F"
+        }
+      ],
+      "texto": "INF-116 F MGr. Iver Winkelmann"
+    },
+    {
+      "pagina": 8,
+      "aula": "P4-A2",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-116",
+          "grupo": "F"
+        }
+      ],
+      "texto": "INF-116 F MGr. Iver Winkelmann"
+    },
+    {
+      "pagina": 8,
+      "aula": "P4-A2",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "18:00",
+      "horaFin": "20:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "COM-322",
+          "grupo": "B"
+        }
+      ],
+      "texto": "COM-322 B Lic. Celia Tarquino"
+    },
+    {
+      "pagina": 8,
+      "aula": "P4-A2",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "18:00",
+      "horaFin": "20:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "COM-322",
+          "grupo": "B"
+        }
+      ],
+      "texto": "COM-322 B Lic. Celia Tarquino"
+    },
+    {
+      "pagina": 9,
+      "aula": "P4-A3",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "DAT-261",
+          "grupo": "A"
+        }
+      ],
+      "texto": "DAT-261 A M.Sc. Rosa Flores"
+    },
+    {
+      "pagina": 9,
+      "aula": "P4-A3",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SIS-245",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SIS-245 A Ph.D. Javier Reyes"
+    },
+    {
+      "pagina": 9,
+      "aula": "P4-A3",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "DAT-261",
+          "grupo": "A"
+        }
+      ],
+      "texto": "DAT-261 A M.Sc. Rosa Flores"
+    },
+    {
+      "pagina": 9,
+      "aula": "P4-A3",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SIS-245",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SIS-245 A Ph.D. Javier Reyes"
+    },
+    {
+      "pagina": 9,
+      "aula": "P4-A3",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "TRC-251",
+          "grupo": "A"
+        }
+      ],
+      "texto": "TRC-251 A Lic. Lucio Torrico"
+    },
+    {
+      "pagina": 9,
+      "aula": "P4-A3",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "TRC-251",
+          "grupo": "A"
+        }
+      ],
+      "texto": "TRC-251 A Lic. Lucio Torrico"
+    },
+    {
+      "pagina": 9,
+      "aula": "P4-A3",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-114",
+          "grupo": "B"
+        }
+      ],
+      "texto": "AUX INF-114 B"
+    },
+    {
+      "pagina": 9,
+      "aula": "P4-A3",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-242",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-242 B M.Sc. Franz Gallardo"
+    },
+    {
+      "pagina": 9,
+      "aula": "P4-A3",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-121",
+          "grupo": "A"
+        }
+      ],
+      "texto": "AUX INF - 121 A"
+    },
+    {
+      "pagina": 9,
+      "aula": "P4-A3",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-242",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-242 B M.Sc. Franz Gallardo"
+    },
+    {
+      "pagina": 9,
+      "aula": "P4-A3",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-117",
+          "grupo": "C"
+        }
+      ],
+      "texto": "AUX INF - 117 C"
+    },
+    {
+      "pagina": 9,
+      "aula": "P4-A3",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-112",
+          "grupo": "E"
+        }
+      ],
+      "texto": "AUX INF - 112 E"
+    },
+    {
+      "pagina": 9,
+      "aula": "P4-A3",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-112",
+          "grupo": "C"
+        }
+      ],
+      "texto": "AUX INF-112 C"
+    },
+    {
+      "pagina": 9,
+      "aula": "P4-A3",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-135",
+          "grupo": "C"
+        }
+      ],
+      "texto": "AUX INF - 135 C"
+    },
+    {
+      "pagina": 9,
+      "aula": "P4-A3",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "18:00",
+      "horaFin": "20:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "TIC-381",
+          "grupo": "L"
+        }
+      ],
+      "texto": "TIC-381 Lic. Boris Alfaro"
+    },
+    {
+      "pagina": 9,
+      "aula": "P4-A3",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "18:00",
+      "horaFin": "20:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "TIC-381",
+          "grupo": "L"
+        }
+      ],
+      "texto": "TIC-381 Lic. Boris Alfaro"
+    },
+    {
+      "pagina": 9,
+      "aula": "P4-A4",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-117",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-117 C Ph.D. Franz Cuevas"
+    },
+    {
+      "pagina": 9,
+      "aula": "P4-A4",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-117",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-117 C Ph.D. Franz Cuevas"
+    },
+    {
+      "pagina": 9,
+      "aula": "P4-A4",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-242",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-242 A Lic. Roberto Vargas"
+    },
+    {
+      "pagina": 9,
+      "aula": "P4-A4",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-117",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-117 A Lic. Nancy Orihuela"
+    },
+    {
+      "pagina": 9,
+      "aula": "P4-A4",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-242",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-242 A Lic. Roberto Vargas"
+    },
+    {
+      "pagina": 9,
+      "aula": "P4-A4",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-117",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-117 A Lic. Nancy Orihuela"
+    },
+    {
+      "pagina": 9,
+      "aula": "P4-A4",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-111",
+          "grupo": null
+        }
+      ],
+      "texto": "AUX INF - 111"
+    },
+    {
+      "pagina": 9,
+      "aula": "P4-A4",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-242",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-242 B M.Sc. Franz Gallardo"
+    },
+    {
+      "pagina": 9,
+      "aula": "P4-A4",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "TIC-373",
+          "grupo": "A"
+        },
+        {
+          "sigla": "SEG-312",
+          "grupo": "A"
+        }
+      ],
+      "texto": "TIC-373 A / SEG-312 A Ph.D. Javier Reyes"
+    },
+    {
+      "pagina": 9,
+      "aula": "P4-A4",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-242",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-242 B M.Sc. Franz Gallardo"
+    },
+    {
+      "pagina": 9,
+      "aula": "P4-A4",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "TIC-373",
+          "grupo": "A"
+        },
+        {
+          "sigla": "SEG-312",
+          "grupo": "A"
+        }
+      ],
+      "texto": "TIC-373 A / SEG-312 A Ph.D. Javier Reyes"
+    },
+    {
+      "pagina": 9,
+      "aula": "P4-A4",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "20:00",
+      "horaFin": "22:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SEG-244",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-265",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-371",
+          "grupo": "A"
+        },
+        {
+          "sigla": "DAT-321",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SEG-244 A / INF-265 A / INF-371 A / DAT-321 A M.Sc. Carlos Mullisaca"
+    },
+    {
+      "pagina": 9,
+      "aula": "P4-A4",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "20:00",
+      "horaFin": "22:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SEG-244",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-265",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-371",
+          "grupo": "A"
+        },
+        {
+          "sigla": "DAT-321",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SEG-244 A / INF-265 A / INF-371 A / DAT-321 A M.Sc. Carlos Mullisaca"
+    },
+    {
+      "pagina": 10,
+      "aula": "P4-LAB1",
+      "periodo": "1/2026",
+      "dia": "LUNES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-131",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-131 A Lic. Marcelo Aruquipa"
+    },
+    {
+      "pagina": 10,
+      "aula": "P4-LAB1",
+      "periodo": "1/2026",
+      "dia": "VIERNES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-122",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-122 C Ph.D. Bhylenia Rios"
+    },
+    {
+      "pagina": 10,
+      "aula": "P4-LAB1",
+      "periodo": "1/2026",
+      "dia": "LUNES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-133",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-133 B Lic. Marcelo Aruquipa"
+    },
+    {
+      "pagina": 10,
+      "aula": "P4-LAB1",
+      "periodo": "1/2026",
+      "dia": "MARTES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-111",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-111 A Lic. Jhonny Felipez"
+    },
+    {
+      "pagina": 10,
+      "aula": "P4-LAB1",
+      "periodo": "1/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-133",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-133 B Lic. Marcelo Aruquipa"
+    },
+    {
+      "pagina": 10,
+      "aula": "P4-LAB1",
+      "periodo": "1/2026",
+      "dia": "JUEVES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-111",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-111 A Lic. Jhonny Felipez"
+    },
+    {
+      "pagina": 10,
+      "aula": "P4-LAB1",
+      "periodo": "1/2026",
+      "dia": "VIERNES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "SEG-252",
+          "grupo": null
+        },
+        {
+          "sigla": "SIS-251",
+          "grupo": null
+        },
+        {
+          "sigla": "INF-333",
+          "grupo": "A"
+        }
+      ],
+      "texto": "AUX SEG - 252, SIS - 251, INF - 333 A"
+    },
+    {
+      "pagina": 10,
+      "aula": "P4-LAB1",
+      "periodo": "1/2026",
+      "dia": "MARTES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "TAW-251",
+          "grupo": "A"
+        }
+      ],
+      "texto": "TAW-251 A Lic. Jhonny Felipez"
+    },
+    {
+      "pagina": 10,
+      "aula": "P4-LAB1",
+      "periodo": "1/2026",
+      "dia": "JUEVES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "TAW-251",
+          "grupo": "A"
+        }
+      ],
+      "texto": "TAW-251 A Lic. Jhonny Felipez"
+    },
+    {
+      "pagina": 10,
+      "aula": "P4-LAB1",
+      "periodo": "1/2026",
+      "dia": "VIERNES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "SEG-252",
+          "grupo": null
+        },
+        {
+          "sigla": "SIS-251",
+          "grupo": null
+        },
+        {
+          "sigla": "INF-333",
+          "grupo": "B"
+        }
+      ],
+      "texto": "AUX SEG - 252, SIS - 251, INF - 333 B"
+    },
+    {
+      "pagina": 10,
+      "aula": "P4-LAB1",
+      "periodo": "1/2026",
+      "dia": "LUNES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "DAT-264",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-324",
+          "grupo": "A"
+        }
+      ],
+      "texto": "DAT-264 A / INF-324 A Ph.D. Moises Silva"
+    },
+    {
+      "pagina": 10,
+      "aula": "P4-LAB1",
+      "periodo": "1/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "DAT-264",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-324",
+          "grupo": "A"
+        }
+      ],
+      "texto": "DAT-264 A / INF-324 A Ph.D. Moises Silva"
+    },
+    {
+      "pagina": 10,
+      "aula": "P4-LAB1",
+      "periodo": "1/2026",
+      "dia": "VIERNES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-131",
+          "grupo": "C"
+        }
+      ],
+      "texto": "AUX INF- 131 C"
+    },
+    {
+      "pagina": 10,
+      "aula": "P4-LAB1",
+      "periodo": "1/2026",
+      "dia": "LUNES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "DAT-245",
+          "grupo": "A"
+        },
+        {
+          "sigla": "COM-252",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-372",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-335",
+          "grupo": "A"
+        }
+      ],
+      "texto": "DAT-245 A / COM-252 A / INF-372 A / INF-335 A Ph.D. Moises Silva"
+    },
+    {
+      "pagina": 10,
+      "aula": "P4-LAB1",
+      "periodo": "1/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "DAT-245",
+          "grupo": "A"
+        },
+        {
+          "sigla": "COM-252",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-372",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-335",
+          "grupo": "A"
+        }
+      ],
+      "texto": "DAT-245 A / COM-252 A / INF-372 A / INF-335 A Ph.D. Moises Silva"
+    },
+    {
+      "pagina": 10,
+      "aula": "P4-LAB1",
+      "periodo": "1/2026",
+      "dia": "VIERNES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-132",
+          "grupo": "B"
+        }
+      ],
+      "texto": "AUX INF- 132 B"
+    },
+    {
+      "pagina": 10,
+      "aula": "P4-LAB1",
+      "periodo": "1/2026",
+      "dia": "LUNES",
+      "horaInicio": "18:00",
+      "horaFin": "20:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "DAT-241",
+          "grupo": "A"
+        },
+        {
+          "sigla": "COM-263",
+          "grupo": "A"
+        },
+        {
+          "sigla": "SIS-371",
+          "grupo": "A"
+        }
+      ],
+      "texto": "DAT-241 A / COM-263 A / SIS-371 A Ph.D. Moises Silva"
+    },
+    {
+      "pagina": 10,
+      "aula": "P4-LAB1",
+      "periodo": "1/2026",
+      "dia": "MARTES",
+      "horaInicio": "18:00",
+      "horaFin": "20:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SEG-261",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-332",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SEG-261 A / INF-332 A Ph.D. Henry Mamani"
+    },
+    {
+      "pagina": 10,
+      "aula": "P4-LAB1",
+      "periodo": "1/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "18:00",
+      "horaFin": "20:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "DAT-241",
+          "grupo": "A"
+        },
+        {
+          "sigla": "COM-263",
+          "grupo": "A"
+        },
+        {
+          "sigla": "SIS-371",
+          "grupo": "A"
+        }
+      ],
+      "texto": "DAT-241 A / COM-263 A / SIS-371 A Ph.D. Moises Silva"
+    },
+    {
+      "pagina": 10,
+      "aula": "P4-LAB1",
+      "periodo": "1/2026",
+      "dia": "JUEVES",
+      "horaInicio": "18:00",
+      "horaFin": "20:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SEG-261",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-332",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SEG-261 A / INF-332 A Ph.D. Henry Mamani"
+    },
+    {
+      "pagina": 11,
+      "aula": "LASIN-3",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-131",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-131 B Lic. Victoria Hurtado"
+    },
+    {
+      "pagina": 11,
+      "aula": "LASIN-3",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-131",
+          "grupo": "B"
+        }
+      ],
+      "texto": "AUX INF-131 B"
+    },
+    {
+      "pagina": 11,
+      "aula": "LASIN-3",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-131",
+          "grupo": "B"
+        }
+      ],
+      "texto": "AUX INF-131 B"
+    },
+    {
+      "pagina": 11,
+      "aula": "LASIN-3",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "DAT-242",
+          "grupo": "A"
+        }
+      ],
+      "texto": "DAT-242 A Lic. Brigida Carvajal"
+    },
+    {
+      "pagina": 11,
+      "aula": "LASIN-3",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "SEG-371",
+          "grupo": "A"
+        }
+      ],
+      "texto": "SEG-371 A M.Sc. Cesar Sanchez"
+    },
+    {
+      "pagina": 11,
+      "aula": "P5-A2",
+      "periodo": "1/2026",
+      "dia": "LUNES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "TRA-136",
+          "grupo": "B"
+        }
+      ],
+      "texto": "TRA-136 B Ing. Cesar Beltran"
+    },
+    {
+      "pagina": 11,
+      "aula": "P5-A2",
+      "periodo": "1/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "TRA-136",
+          "grupo": "B"
+        }
+      ],
+      "texto": "TRA-136 B Ing. Cesar Beltran"
+    },
+    {
+      "pagina": 11,
+      "aula": "P5-A2",
+      "periodo": "1/2026",
+      "dia": "LUNES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "TIC-135",
+          "grupo": "A"
+        },
+        {
+          "sigla": "COM-323",
+          "grupo": "A"
+        }
+      ],
+      "texto": "TIC-135 A / COM-323 A M.Sc. Edgar Clavijo"
+    },
+    {
+      "pagina": 11,
+      "aula": "P5-A2",
+      "periodo": "1/2026",
+      "dia": "MARTES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "DAT-263",
+          "grupo": "A"
+        }
+      ],
+      "texto": "DAT-263 A M.Sc. Madelina Loza"
+    },
+    {
+      "pagina": 11,
+      "aula": "P5-A2",
+      "periodo": "1/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "TIC-135",
+          "grupo": "A"
+        },
+        {
+          "sigla": "COM-323",
+          "grupo": "A"
+        }
+      ],
+      "texto": "TIC-135 A / COM-323 A M.Sc. Edgar Clavijo"
+    },
+    {
+      "pagina": 11,
+      "aula": "P5-A2",
+      "periodo": "1/2026",
+      "dia": "JUEVES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "DAT-263",
+          "grupo": "A"
+        }
+      ],
+      "texto": "DAT-263 A M.Sc. Madelina Loza"
+    },
+    {
+      "pagina": 11,
+      "aula": "P5-A2",
+      "periodo": "1/2026",
+      "dia": "VIERNES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [],
+      "texto": "ojito"
+    },
+    {
+      "pagina": 11,
+      "aula": "P5-A2",
+      "periodo": "1/2026",
+      "dia": "VIERNES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-241",
+          "grupo": "A"
+        }
+      ],
+      "texto": "AUX INF - 241 A"
+    },
+    {
+      "pagina": 11,
+      "aula": "P5-A2",
+      "periodo": "1/2026",
+      "dia": "MARTES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "DAT-371",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-327",
+          "grupo": "A"
+        }
+      ],
+      "texto": "DAT-371 A / INF-327 A Lic. Celia Tarquino"
+    },
+    {
+      "pagina": 11,
+      "aula": "P5-A2",
+      "periodo": "1/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-133",
+          "grupo": "B"
+        }
+      ],
+      "texto": "AUX INF - 133 B"
+    },
+    {
+      "pagina": 11,
+      "aula": "P5-A2",
+      "periodo": "1/2026",
+      "dia": "JUEVES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "DAT-371",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-327",
+          "grupo": "A"
+        }
+      ],
+      "texto": "DAT-371 A / INF-327 A Lic. Celia Tarquino"
+    },
+    {
+      "pagina": 12,
+      "aula": "P5-A3",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-314",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-314 B Ph.D. Fernando Espinoza"
+    },
+    {
+      "pagina": 12,
+      "aula": "P5-A3",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-312",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-312 A Lic. Lucio Torrico"
+    },
+    {
+      "pagina": 12,
+      "aula": "P5-A3",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-314",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-314 B Ph.D. Fernando Espinoza"
+    },
+    {
+      "pagina": 12,
+      "aula": "P5-A3",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-312",
+          "grupo": "A"
+        }
+      ],
+      "texto": "INF-312 A Lic. Lucio Torrico"
+    },
+    {
+      "pagina": 12,
+      "aula": "P5-A3",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "DAT-242",
+          "grupo": "A"
+        }
+      ],
+      "texto": "DAT-242 A Lic. Brigida Carvajal"
+    },
+    {
+      "pagina": 12,
+      "aula": "P5-A3",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "DAT-242",
+          "grupo": "A"
+        }
+      ],
+      "texto": "DAT-242 A Lic. Brigida Carvajal"
+    },
+    {
+      "pagina": 12,
+      "aula": "P5-A3",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-242",
+          "grupo": "A"
+        }
+      ],
+      "texto": "AUX INF - 242 A"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-1",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "DAT-255",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-323",
+          "grupo": "A"
+        }
+      ],
+      "texto": "DAT-255 A / INF-323 A M.Sc. Menfy Morales"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-1",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "DAT-255",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-323",
+          "grupo": "A"
+        }
+      ],
+      "texto": "DAT-255 A / INF-323 A M.Sc. Menfy Morales"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-1",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [],
+      "texto": "C.P.U. Ph.D. Reynaldo Zeballos"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-1",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-132",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-132 B M.Sc. Menfy Morales"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-1",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [],
+      "texto": "C.P.U. Ph.D. Reynaldo Zeballos"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-1",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-132",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-132 B M.Sc. Menfy Morales"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-1",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-113",
+          "grupo": "B"
+        }
+      ],
+      "texto": "AUX INF - 113 B"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-1",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-113",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-113 C Lic. Brigida Carvajal"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-1",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-113",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-113 C Lic. Brigida Carvajal"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-1",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-133",
+          "grupo": "C"
+        }
+      ],
+      "texto": "AUX INF - 133 C"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-1",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "DAT-242",
+          "grupo": "A"
+        }
+      ],
+      "texto": "DAT-242 A Lic. Brigida Carvajal"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-1",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "DAT-381",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-322",
+          "grupo": "A"
+        }
+      ],
+      "texto": "DAT-381 A / INF-322 A Ph.D. Moises Silva"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-1",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-121",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-121 B Lic. Carmen Huanca"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-1",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "DAT-381",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-322",
+          "grupo": "A"
+        }
+      ],
+      "texto": "DAT-381 A / INF-322 A Ph.D. Moises Silva"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-1",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-122",
+          "grupo": "B"
+        }
+      ],
+      "texto": "AUX INF - 122 B"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-1",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [],
+      "texto": "C.P.U. Ph.D. Reynaldo Zeballos"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-1",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-113",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-113 B Lic. Victor Pozo"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-1",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-131",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-131 C Lic. Carmen Huanca"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-1",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-113",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-113 B Lic. Victor Pozo"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-1",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-111",
+          "grupo": "E"
+        }
+      ],
+      "texto": "INF-111 E Lic. Carmen Huanca"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-2",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "DAT-255",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-323",
+          "grupo": "A"
+        }
+      ],
+      "texto": "DAT-255 A / INF-323 A M.Sc. Menfy Morales"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-2",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "08:00",
+      "horaFin": "10:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "DAT-255",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-323",
+          "grupo": "A"
+        }
+      ],
+      "texto": "DAT-255 A / INF-323 A M.Sc. Menfy Morales"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-2",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [],
+      "texto": "C.P.U. Ph.D. Reynaldo Zeballos"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-2",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "TIC-251",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-263",
+          "grupo": "A"
+        }
+      ],
+      "texto": "TIC-251 A / INF-263 A Ph.D. Moises Silva"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-2",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [],
+      "texto": "C.P.U. Ph.D. Reynaldo Zeballos"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-2",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "TIC-251",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-263",
+          "grupo": "A"
+        }
+      ],
+      "texto": "TIC-251 A / INF-263 A Ph.D. Moises Silva"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-2",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-113",
+          "grupo": "C"
+        }
+      ],
+      "texto": "AUX INF - 113 C"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-2",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-113",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-113 C Lic. Brigida Carvajal"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-2",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-113",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-113 C Lic. Brigida Carvajal"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-2",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "12:00",
+      "horaFin": "14:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-132",
+          "grupo": "C"
+        }
+      ],
+      "texto": "AUX INF-132 C"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-2",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "DAT-381",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-322",
+          "grupo": "A"
+        }
+      ],
+      "texto": "DAT-381 A / INF-322 A Ph.D. Moises Silva"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-2",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-121",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-121 B Lic. Carmen Huanca"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-2",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "DAT-381",
+          "grupo": "A"
+        },
+        {
+          "sigla": "INF-322",
+          "grupo": "A"
+        }
+      ],
+      "texto": "DAT-381 A / INF-322 A Ph.D. Moises Silva"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-2",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "14:00",
+      "horaFin": "16:00",
+      "auxiliar": true,
+      "refs": [
+        {
+          "sigla": "INF-131",
+          "grupo": "A"
+        }
+      ],
+      "texto": "AUX INF - 131 A"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-2",
+      "periodo": "2/2026",
+      "dia": "LUNES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [],
+      "texto": "C.P.U. Ph.D. Reynaldo Zeballos"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-2",
+      "periodo": "2/2026",
+      "dia": "MARTES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-113",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-113 B Lic. Victor Pozo"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-2",
+      "periodo": "2/2026",
+      "dia": "MIERCOLES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-131",
+          "grupo": "C"
+        }
+      ],
+      "texto": "INF-131 C Lic. Carmen Huanca"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-2",
+      "periodo": "2/2026",
+      "dia": "JUEVES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-113",
+          "grupo": "B"
+        }
+      ],
+      "texto": "INF-113 B Lic. Victor Pozo"
+    },
+    {
+      "pagina": 13,
+      "aula": "LASIN-2",
+      "periodo": "2/2026",
+      "dia": "VIERNES",
+      "horaInicio": "16:00",
+      "horaFin": "18:00",
+      "auxiliar": false,
+      "refs": [
+        {
+          "sigla": "INF-111",
+          "grupo": "E"
+        }
+      ],
+      "texto": "INF-111 E Lic. Carmen Huanca"
+    }
+  ]
+}
