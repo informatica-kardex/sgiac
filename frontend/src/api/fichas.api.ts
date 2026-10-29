@@ -2,8 +2,9 @@ import { axiosClient } from "./axiosClient";
 import { ApiEnvelope } from "./types";
 import { FichaEstudiante, JornadaEstudiante } from "./estudiantes.api";
 
-export interface Tramite { idTramite: string; nombre: string; descripcion: string }
-export type JornadaPayload = Pick<JornadaEstudiante, "idTramite" | "fecha" | "horaInicio" | "horaFin" | "modoCupo" | "cupoTotal" | "minutosPorEstudiante" | "puesto" | "estado">;
+export interface Tramite { idTramite: string; nombre: string; descripcion: string; identificador: string | null }
+export interface TramitePayload { nombre: string; descripcion: string; identificador: string }
+export type JornadaPayload = Pick<JornadaEstudiante, "idTramite" | "identificador" | "fecha" | "horaInicio" | "horaFin" | "modoCupo" | "cupoTotal" | "minutosPorEstudiante" | "puesto" | "estado">;
 export interface TurnoPublico extends JornadaEstudiante {
   actual: { codigo: string; numero: number; evento: string | null; llamadaEn: string | null } | null;
   siguientes: string[];
@@ -34,7 +35,7 @@ export const fichasApi = {
   panel: (fecha: string) => axiosClient.get<ApiEnvelope<{ jornadas: JornadaEstudiante[]; fichas: FichaEstudiante[]; tramites: Tramite[] }>>("/fichas/panel", { params: { fecha } }),
   listar: (fecha: string) => axiosClient.get<ApiEnvelope<FichaEstudiante[]>>("/fichas", { params: { fecha } }),
   tramites: () => axiosClient.get<ApiEnvelope<Tramite[]>>("/fichas/tramites"),
-  guardarTramite: (data: { nombre: string; descripcion: string }, id?: string) => id
+  guardarTramite: (data: TramitePayload, id?: string) => id
     ? axiosClient.put(`/fichas/tramites/${id}`, data) : axiosClient.post("/fichas/tramites", data),
   borrarTramite: (id: string) => axiosClient.delete(`/fichas/tramites/${id}`),
   jornadas: (fecha: string) => axiosClient.get<ApiEnvelope<JornadaEstudiante[]>>("/fichas/jornadas", { params: { fecha } }),

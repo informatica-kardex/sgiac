@@ -17,7 +17,7 @@ export function errorMiddleware(
   if (err instanceof MulterError) {
     return res.status(err.code === "LIMIT_FILE_SIZE" ? 413 : 400).json({
       success: false,
-      message: err.code === "LIMIT_FILE_SIZE" ? "El archivo no puede superar 10 MB" : "Adjunta un solo archivo JPG, PNG, WebP o PDF y revisa el formulario",
+      message: err.code === "LIMIT_FILE_SIZE" ? "Cada archivo puede pesar hasta 10 MB" : "Revisa los archivos: se permiten hasta 10 imágenes JPG, PNG o WebP, o un solo PDF",
     });
   }
   if (err instanceof ZodError) {

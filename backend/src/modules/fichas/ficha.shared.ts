@@ -26,6 +26,7 @@ export function jornadaDTO(j: Jornada) {
   const ocupadas = j.ficha_atencion.filter(f => f.estado_actual !== "CANCELADA").length;
   return {
     idJornada: String(j.id_jornada), idTramite: j.id_tramite?.toString() ?? null,
+    identificador: j.identificador ?? `J${j.id_jornada}`, emitidas: j.ficha_atencion.length,
     tramite: j.tramite?.nombre ?? "Atención general", fecha: j.fecha.toISOString().slice(0, 10),
     horaInicio: j.hora_inicio.toISOString().slice(11, 16), horaFin: j.hora_fin.toISOString().slice(11, 16),
     cupoTotal: j.cupo_total, ocupadas, disponibles: Math.max(0, j.cupo_total - ocupadas),
@@ -34,13 +35,15 @@ export function jornadaDTO(j: Jornada) {
     atendidas: j.ficha_atencion.filter(f => f.estado_actual === "ATENDIDA").length,
   };
 }
-export function codigoFicha(idJornada: bigint, numero: number) { return `J${idJornada}-${String(numero).padStart(3, "0")}`; }
+export function codigoFicha(jornada: Pick<Jornada, "id_jornada" | "identificador">, numero: number) {
+  return `${jornada.identificador ?? `J${jornada.id_jornada}`}-${String(numero).padStart(3, "0")}`;
+}
 export function fichaDTO(f: Ficha) {
   const jornada = jornadaDTO(f.jornada_atencion);
   const delante = ESPERA.includes(f.estado_actual) ? f.jornada_atencion.ficha_atencion.filter(other =>
     other.estado_actual === "LLAMADA" || (other.numero_ficha < f.numero_ficha && ESPERA.includes(other.estado_actual))).length : 0;
   return {
-    idFicha: String(f.id_ficha), numero: f.numero_ficha, codigo: codigoFicha(f.id_jornada, f.numero_ficha),
+    idFicha: String(f.id_ficha), numero: f.numero_ficha, codigo: codigoFicha(f.jornada_atencion, f.numero_ficha),
     solicitante: f.estudiante.usuario?.nombreCompleto ?? `${f.estudiante.nombres} ${f.estudiante.apellidos}`,
     correo: f.estudiante.correo_institucional, ru: f.estudiante.ru,
     motivo: f.motivo_atencion, estado: f.estado_actual,

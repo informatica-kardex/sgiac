@@ -1,5 +1,14 @@
-export type AdminIconName = "ver-horarios" | "docentes" | "materias" | "auditoria" | "dashboard" | "aulas" | "horarios" | "comunicados" | "faq" | "fichas" | "reportes" | "usuarios" | "subadministradores" | "estudiantes" | "roles" | "configuracion" | "logout" | "book" | "menu" | "close" | "arrow" | "clock";
+export type AdminIconName = "view" | "edit" | "trash" | "plus" | "check" | "refresh" | "solicitudes-aulas" | "auxiliares" | "documentos" | "ver-horarios" | "docentes" | "materias" | "auditoria" | "dashboard" | "aulas" | "horarios" | "comunicados" | "faq" | "fichas" | "reportes" | "usuarios" | "subadministradores" | "estudiantes" | "roles" | "configuracion" | "logout" | "book" | "menu" | "close" | "arrow" | "clock";
 const paths: Record<AdminIconName, string> = {
+  view: "M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7 M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0",
+  edit: "M15 5l4 4 M4 20l4-1L20 7a2.8 2.8 0 0 0-4-4L4 15z",
+  trash: "M3 6h18 M9 6V3h6v3 M5 6l1 15h12l1-15 M10 10v7 M14 10v7",
+  plus: "M12 5v14 M5 12h14",
+  check: "M4 12l5 5L20 6",
+  refresh: "M20 7v5h-5 M4 17v-5h5 M6 6a8 8 0 0 1 14 6 M18 18A8 8 0 0 1 4 12",
+  'solicitudes-aulas': "M5 3h14v18H5z M8 7h8 M8 11h8 M8 15l2 2 5-5",
+  auxiliares: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M13 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0 M17 11l2 2 4-5",
+  documentos: "M5 3h9l5 5v13H5z M14 3v6h5 M8 13h8 M8 17h4",
   "ver-horarios": "M3 3h18v18H3z M3 8h18 M8 8v13 M12 12h5 M12 16h5",
   docentes: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M13 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0 M17 4h5v10h-5",
   materias: "M12 5v16 M12 5C9 3 5 3 2 4v15c3-1 7-1 10 2 3-3 7-3 10-2V4c-3-1-7-1-10 1",

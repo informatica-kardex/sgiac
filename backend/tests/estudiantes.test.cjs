@@ -1,4 +1,4 @@
-// node -r ts-node/register/transpile-only --test tests/estudiantes.test.cjs
+﻿// node -r ts-node/register/transpile-only --test tests/estudiantes.test.cjs
 const { test, beforeEach } = require('node:test');
 const assert = require('node:assert/strict');
 process.env.DATABASE_URL = 'postgresql://test:test@localhost:5432/test';

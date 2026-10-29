@@ -1,0 +1,23 @@
+.comunicado-galeria { min-width: 0; }
+.comunicado-carrusel { overflow: hidden; border: 1px solid #d5e7e3; border-radius: 12px; background: #f1f6f5; }
+.comunicado-carrusel-ventana { position: relative; height: clamp(280px, 65vh, 720px); overflow: hidden; }
+.comunicado-carrusel-pista { display: flex; height: 100%; transition: transform .45s ease; }
+.comunicado-carrusel-diapositiva { flex: 0 0 100%; min-width: 0; height: 100%; }
+.comunicado-carrusel-diapositiva img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.comunicado-carrusel-flecha { position: absolute; top: 50%; display: grid; place-items: center; width: 44px; height: 44px; transform: translateY(-50%); border: 1px solid #d5e7e3; border-radius: 50%; background: #ffffffed; color: #14554e; font-size: 2rem; line-height: 1; box-shadow: 0 2px 8px #153b361a; }
+.comunicado-carrusel-anterior { left: 8px; }
+.comunicado-carrusel-siguiente { right: 8px; }
+.comunicado-carrusel-controles { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .25rem; min-height: 44px; padding: 0 .5rem; background: #fff; color: #14554e; }
+.comunicado-carrusel-contador { min-width: 2.5rem; font-size: .75rem; font-weight: 600; }
+.comunicado-carrusel-puntos { display: flex; flex-wrap: wrap; justify-content: center; }
+.comunicado-carrusel-puntos button { display: grid; place-items: center; width: 24px; height: 44px; }
+.comunicado-carrusel-puntos span { width: 7px; height: 7px; border-radius: 50%; background: #bdcdc9; }
+.comunicado-carrusel-puntos button[aria-pressed="true"] span { background: #187766; }
+.comunicado-carrusel-pausa { width: 44px; height: 44px; font-size: .8rem; font-weight: 700; }
+.comunicado-carrusel button:focus-visible { outline: 2px solid #187766; outline-offset: -2px; }
+.comunicado-carrusel button:hover { background-color: #e4f4ee; }
+.comunicado-galeria--compacta, .comunicado-galeria--compacta .comunicado-carrusel { height: 100%; }
+.comunicado-galeria--compacta .comunicado-carrusel { display: flex; flex-direction: column; border: 0; border-radius: 0; }
+.comunicado-galeria--compacta .comunicado-carrusel-ventana { flex: 1; min-height: 0; height: auto; }
+.comunicado-galeria--compacta .comunicado-carrusel-controles { flex-shrink: 0; }
+@media (prefers-reduced-motion: reduce) { .comunicado-carrusel-pista { transition: none; } }

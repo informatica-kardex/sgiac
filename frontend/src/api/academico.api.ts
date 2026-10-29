@@ -11,8 +11,9 @@ export function docenteLabel(d: Pick<Docente, 'nombreCompleto'> & Partial<Pick<D
   const normal = (s: string) => s.toLowerCase().replace(/[.\s]/g, '');
   return !grado || normal(nombre.split(/\s+/)[0]) === normal(grado) ? nombre : `${grado} ${nombre}`;
 }
-export interface Auxiliar { idAuxiliar: string; nombreCompleto: string; correo: string; telefono: string; estado: string; asignaciones: Asignacion[] }
-export type AuxiliarInput = Omit<Auxiliar, 'idAuxiliar' | 'asignaciones'>;
+export interface Auxiliar { idAuxiliar: string; idEstudiante: string | null; idUsuario: string | null; nombreCompleto: string; correo: string; telefono: string; ru: string; estado: string; cuentaActiva: boolean; asignaciones: Asignacion[] }
+export interface EstudianteAuxiliar { idEstudiante: string; idUsuario: string | null; nombreCompleto: string; correo: string; ci: string; ru: string; idAuxiliar: string | null; motivoNoDisponible: string }
+export interface AuxiliarInput { idEstudiante: string; idAsignacion: string }
 export interface Mencion { id: string; nombre: string }
 export interface MateriaPlan { mencion: string; semestre: number | null; orden: number }
 export interface Materia { codigo: string; siglaPrincipal?: string; nombre: string; siglas: string[]; estado: string; planes?: MateriaPlan[]; semestrePromedio?: number | null; ordenPromedio?: number | null }
@@ -23,6 +24,8 @@ const get = async <T,>(ruta: string) => (await axiosClient.get<ApiEnvelope<T>>(`
 export const academicoApi = {
   menciones: () => get<Mencion[]>('menciones'),
   auxiliares: () => get<Auxiliar[]>('auxiliares'), horarios: () => get<HorarioAcademico[]>('horarios'),
+  estudiantesAuxiliares: () => get<EstudianteAuxiliar[]>('auxiliares/estudiantes'),
+  quitarAuxiliar: (id?: string) => axiosClient.delete(id ? `/academico/auxiliares/${id}` : '/academico/auxiliares'),
   guardarAuxiliar: (p: AuxiliarInput, id?: string) => id ? axiosClient.put(`/academico/auxiliares/${id}`, p) : axiosClient.post('/academico/auxiliares', p),
   vincularAuxiliar: (id: string, idAsignacion: string) => axiosClient.post(`/academico/auxiliares/${id}/asignaciones`, { idAsignacion }),
   desvincularAuxiliar: (id: string, idAsignacion: string) => axiosClient.delete(`/academico/auxiliares/${id}/asignaciones/${idAsignacion}`),

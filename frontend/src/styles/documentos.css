@@ -1,0 +1,9 @@
+.documentos-hero { background: linear-gradient(120deg, #064e3b, #0f766e); }
+.document-ticket-print { display: none; }
+@media print {
+  body:has(.document-ticket-print) > :not(.document-ticket-print) { display: none !important; }
+  .document-ticket-print { display: block; padding: 12mm; background: white; color: black; font-size: 11pt; }
+  .document-ticket-print h1 { font-size: 18pt; margin-bottom: 8mm; }
+  .document-ticket-print h2 { font-size: 24pt; font-weight: bold; margin-bottom: 5mm; }
+  .document-ticket-print > p { margin: 5mm 0; }
+}

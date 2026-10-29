@@ -4,10 +4,15 @@ export function esRolAdministrativo(roles: string[]): boolean {
   return roles.some(rol => (ROLES_ADMINISTRATIVOS as readonly string[]).includes(rol));
 }
 export const FUNCIONES_SUBADMIN: Record<string, string> = {
+  auxiliares: "Gestionar auxiliares",
+  documentos: "Gestionar solicitudes de documentos",
   docentes: "Gestionar docentes", materias: "Gestionar materias", aulas: "Gestionar aulas", horarios: "Gestionar horarios", comunicados: "Gestionar comunicados",
   faq: "Gestionar preguntas frecuentes", fichas: "Gestionar atención Kardex", reportes: "Consultar reportes",
 };
 export const MODULOS_ADMIN: Record<string, { label: string }> = {
+  'solicitudes-aulas': { label: 'Solicitudes de aulas' },
+  auxiliares: { label: "Auxiliares" },
+  documentos: { label: "Solicitudes de documentos" },
   'ver-horarios': { label: 'Ver Horarios' },
   docentes: { label: "Docentes" }, materias: { label: "Materias" },
   dashboard: { label: "Dashboard" }, aulas: { label: "Aulas" }, horarios: { label: "Horarios" },

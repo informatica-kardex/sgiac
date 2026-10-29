@@ -52,6 +52,7 @@ export default function FichasPage() {
 
   return <div className="container-public space-y-8 py-10">
     <Link to="/usuario/dashboard" className="text-sm font-semibold text-emerald-700">← Volver a mi inicio</Link>
+    <p className="rounded-xl bg-emerald-50 p-4 text-sm text-emerald-900">¿Necesitas tu récord o historial académico? <Link to="/usuario/documentos" className="font-semibold underline">Solicita el documento para recogerlo después</Link>.</p>
     <div className="flex flex-wrap items-center justify-between gap-4"><div><h1 className="text-3xl font-bold text-slate-800">Mis fichas de atención</h1><p className="mt-2 text-slate-500">Reserva tu trámite y sigue el avance de tu turno.</p></div><button className="btn-primary" onClick={() => setParams(solicitar ? {} : { solicitar: "1" })}>{solicitar ? "Ver mis fichas" : "Solicitar nueva ficha"}</button></div>
     {success && <p role="status" className="rounded-xl bg-emerald-50 p-4 text-emerald-900">{success}</p>}
     {error && <p role="alert" className="rounded-xl bg-red-50 p-4 text-red-700">{error}</p>}

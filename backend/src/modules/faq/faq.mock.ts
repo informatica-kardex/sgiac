@@ -1,4 +1,4 @@
-import { Faq } from "./faq.types";
+﻿import { Faq } from "./faq.types";
 
 export let faqMock: Faq[] = [
   { idFaq: 1, categoria: "Matriculación", pregunta: "¿Cómo me matriculo en el nuevo semestre?", respuesta: "Ingresa a la plataforma institucional con tu usuario y sigue el asistente de matriculación en línea disponible desde la fecha publicada en el cronograma académico.", estado: "publicada" },

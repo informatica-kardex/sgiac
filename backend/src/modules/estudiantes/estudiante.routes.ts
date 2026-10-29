@@ -17,6 +17,7 @@ router.get("/atencion", atencionPollingLimiter, asyncHandler(async (req, res) =>
   return sendSuccess(res, { fichas, jornadas });
 }));
 router.get("/perfil", asyncHandler(async (req, res) => sendSuccess(res, await service.perfil(req.user!.idUsuario))));
+router.get("/catalogo-horario", asyncHandler(async (req, res) => sendSuccess(res, await service.catalogoHorario(req.user!.idUsuario))));
 router.get("/jornadas", asyncHandler(async (req, res) => sendSuccess(res, await service.jornadas(req.user!.idUsuario))));
 router.get("/fichas", asyncHandler(async (req, res) => sendSuccess(res, await service.fichas(req.user!.idUsuario))));
 router.post("/fichas/:id/cancelar", asyncHandler(async (req, res) => sendSuccess(res, await service.cancelar(req.user!.idUsuario, idSchema.parse(req.params.id)), "Ficha cancelada")));

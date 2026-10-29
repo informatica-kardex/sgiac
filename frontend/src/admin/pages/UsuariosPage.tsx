@@ -1,5 +1,10 @@
 ﻿import { FormEvent, useEffect, useState } from "react";
 import { AxiosError } from "axios";
+import { Link, useSearchParams } from "react-router-dom";
+import { academicoApi, EstudianteAuxiliar } from "../../api/academico.api";
+import { CrearEstudianteModal } from "../components/CrearEstudianteModal";
+import { HabilitarAuxiliarModal } from "../components/HabilitarAuxiliarModal";
+import { ConfirmDialog } from "../components/ConfirmDialog";
 import { usersApi } from "../../api/users.api";
 import { PermisosChecklist } from "../components/PermisosChecklist";
 import { FUNCIONES_SUBADMIN, permisoVigente } from "../../utils/roles";
@@ -23,6 +28,18 @@ function mensajeError(error: unknown) {
 export default function UsuariosPage({ tipo }: { tipo: "subadministradores" | "estudiantes" }) {
   const esSubadministradores = tipo === "subadministradores";
   const [usuarios, setUsuarios] = useState<UsuarioAdmin[]>([]);
+  const [estudiantes, setEstudiantes] = useState<EstudianteAuxiliar[]>([]);
+  const [params, setParams] = useSearchParams();
+  const [crearEstudiante, setCrearEstudiante] = useState(!esSubadministradores && params.get('crear') === '1');
+  const [habilitarEstudiante, setHabilitarEstudiante] = useState<string | null>(null);
+  const [quitarAuxiliar, setQuitarAuxiliar] = useState<EstudianteAuxiliar | null>(null);
+  const [busqueda, setBusqueda] = useState('');
+  useEffect(() => {
+    if (!esSubadministradores && params.get('crear') === '1') {
+      setHabilitarEstudiante(null);
+      setCrearEstudiante(true);
+    }
+  }, [esSubadministradores, params]);
 
   const [cargando, setCargando] = useState(true);
   const [seleccionado, setSeleccionado] = useState<UsuarioAdmin | null>(null);
@@ -53,8 +70,9 @@ export default function UsuariosPage({ tipo }: { tipo: "subadministradores" | "e
     setCargando(true);
     setError("");
     try {
-      const u = await usersApi.listar();
+      const [u, e] = await Promise.all([usersApi.listar(), esSubadministradores ? Promise.resolve([]) : academicoApi.estudiantesAuxiliares()]);
       setUsuarios(u.data.data);
+      setEstudiantes(e);
 
     } catch (e) { setError(mensajeError(e)); }
     finally { setCargando(false); }
@@ -93,37 +111,52 @@ export default function UsuariosPage({ tipo }: { tipo: "subadministradores" | "e
     setCreando(false); setSeleccionado(null); setForm(nuevoFormulario); setErrorModal("");
   };
   const usuariosVisibles = usuarios.filter(usuario => {
+    const estudiante = estudiantes.find(e => e.idUsuario === usuario.idUsuario);
+    const normal = (s: string) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+    if (!normal(`${usuario.nombreCompleto} ${usuario.correo} ${estudiante?.ci ?? ''} ${estudiante?.ru ?? ''}`).includes(normal(busqueda.trim()))) return false;
     if (usuario.roles.includes("ADMINISTRADOR")) return false;
     const esSubadmin = usuario.roles.some(rol => subroles.includes(rol));
     // CONSULTA_INTERNA es el rol asignado al registrarse en el portal estudiantil.
-    return esSubadministradores ? esSubadmin : !esSubadmin && usuario.roles.includes("CONSULTA_INTERNA");
+    return esSubadministradores ? esSubadmin : !esSubadmin && (Boolean(estudiante) || usuario.roles.includes("CONSULTA_INTERNA"));
   });
 
   return <div className="space-y-6">
     <div className="flex flex-wrap items-center justify-between gap-4">
       <div><h1 className="text-xl font-bold text-slate-800">{esSubadministradores ? "Subadministradores" : "Estudiantes"}</h1><p className="text-sm text-slate-500">{esSubadministradores ? "Asigna funciones a cada subadministrador, sin límite de tiempo o con un periodo de acceso." : "Gestiona las cuentas registradas en el portal estudiantil, su estado y el restablecimiento de contraseñas."}</p></div>
       {esSubadministradores && <button className="btn-primary" disabled={cargando || actualizando} onClick={() => { setCreando(true); setPermisos([]); setForm(nuevoFormulario); setErrorModal(""); }}>Añadir subadministrador</button>}
+      {!esSubadministradores && <button className="btn-primary" disabled={actualizando} onClick={() => setCrearEstudiante(true)}>+ Nuevo estudiante</button>}
     </div>
+    <label className="block text-sm font-medium">Buscar {esSubadministradores ? 'subadministrador' : 'estudiante'}<input type="search" className="input-field mt-1" placeholder={esSubadministradores ? 'Nombre o correo' : 'Nombre, correo, CI o RU'} value={busqueda} onChange={e => setBusqueda(e.target.value)} /></label>
     {error && <div className="space-y-2"><AlertMessage type="error" message={error} /><button className="btn-ghost" onClick={() => void cargar()}>Reintentar</button></div>}
     {exito && <AlertMessage type="success" message={exito} />}
     {cargando ? <LoadingSpinner /> : <div className="card overflow-x-auto">
       <table className="w-full text-left text-sm">
         <thead className="border-b border-slate-100 bg-slate-50 text-slate-500"><tr>{["Nombre", "Correo", ...(esSubadministradores ? ["Funciones"] : []), "Registro", "Estado", "Acciones"].map(t => <th key={t} className="px-4 py-3 font-semibold">{t}</th>)}</tr></thead>
-        <tbody className="divide-y divide-slate-100">{usuariosVisibles.map(u => <tr key={u.idUsuario}>
-          <td className="px-4 py-3 font-medium text-slate-700">{u.nombreCompleto}{u.debeCambiarPassword && <span className="mt-1 block text-xs text-amber-700">Cambio de contraseña pendiente</span>}</td>
+        <tbody className="divide-y divide-slate-100">{usuariosVisibles.map(u => { const estudiante = estudiantes.find(e => e.idUsuario === u.idUsuario); return <tr key={u.idUsuario}>
+          <td className="px-4 py-3 font-medium text-slate-700">{u.nombreCompleto}{estudiante?.idAuxiliar && <span className="ml-2 academic-tag">Auxiliar</span>}{estudiante && <span className="block text-xs text-slate-500">RU: {estudiante.ru} · CI: {estudiante.ci}</span>}{u.debeCambiarPassword && <span className="mt-1 block text-xs text-amber-700">Cambio de contraseña pendiente</span>}</td>
           <td className="px-4 py-3 text-slate-500">{u.correo}</td>
           {esSubadministradores && <td className="px-4 py-3 text-slate-500">{u.permisos?.length ? <ul className="space-y-2">{u.permisos.map(p => <li key={p.modulo}><span className="font-medium">{FUNCIONES_SUBADMIN[p.modulo] ?? p.modulo}</span><span className="block text-xs">{p.desde && p.hasta ? `${new Date(p.desde).toLocaleString()} — ${new Date(p.hasta).toLocaleString()} (${permisoVigente(p) ? "Vigente" : Date.parse(p.hasta) <= Date.now() ? "Vencido" : "Programado"})` : "Sin límite de tiempo"}</span></li>)}</ul> : "Sin funciones asignadas"}</td>}
           <td className="px-4 py-3 text-slate-500">{formatFecha(u.fechaCreacion)}</td>
           <td className="px-4 py-3"><EstadoBadge estado={u.estado} /></td>
-          <td className="px-4 py-3"><div className="flex gap-2">
+          <td className="px-4 py-3"><div className="flex flex-wrap gap-2">
+            {!esSubadministradores && estudiante && (estudiante.idAuxiliar ? <><Link className="btn-ghost" to="/admin/auxiliares">Ver auxiliar</Link><button className="btn-ghost text-red-600" disabled={actualizando} onClick={() => setQuitarAuxiliar(estudiante)}>Quitar auxiliar</button></> :
+              <button className="btn-ghost" disabled={actualizando || Boolean(estudiante.motivoNoDisponible)} title={estudiante.motivoNoDisponible || undefined} onClick={() => setHabilitarEstudiante(estudiante.idEstudiante)}>Habilitar como auxiliar</button>)}
             {esSubadministradores && <button className="btn-ghost" disabled={actualizando} onClick={() => { setSeleccionado(u); setPermisos(u.permisos ?? []); setErrorModal(""); }}>Asignar funciones</button>}
             <button className="btn-ghost" disabled={actualizando} onClick={() => void cambiarEstado(u)}>{u.estado === "activo" ? "Desactivar" : "Activar"}</button>
             <button className="btn-ghost" disabled={actualizando} onClick={() => { setReseteando(u); setCiReset(""); setErrorModal(""); }}>Restablecer contraseña</button>
           </div></td>
-        </tr>)}</tbody>
+        </tr>; })}</tbody>
       </table>
       {!usuariosVisibles.length && !error && <p className="p-6 text-sm text-slate-500">{esSubadministradores ? "No hay subadministradores registrados." : "No hay estudiantes registrados."}</p>}
     </div>}
+    {crearEstudiante && <CrearEstudianteModal onClose={() => { setCrearEstudiante(false); if (params.has('crear')) setParams({}, { replace: true }); }} onSaved={async () => { setExito('Cuenta de estudiante creada. Puede ingresar con su correo institucional y CI como contraseña temporal; deberá verificar su correo y cambiarla. Ya puedes habilitarlo como auxiliar.'); await cargar(); }} />}
+    {habilitarEstudiante && <HabilitarAuxiliarModal idEstudiante={habilitarEstudiante} onClose={() => setHabilitarEstudiante(null)} onSaved={async () => { setExito('Estudiante habilitado como auxiliar y vinculado a su docente y materia.'); await cargar(); }} />}
+    <ConfirmDialog open={Boolean(quitarAuxiliar)} title="Quitar auxiliar" message={`Se quitará la habilitación de ${quitarAuxiliar?.nombreCompleto ?? ''}. Su cuenta de estudiante se conservará. Primero deben retirarse sus horarios vigentes.`} confirmLabel="Quitar" loading={actualizando} onCancel={() => setQuitarAuxiliar(null)} onConfirm={async () => {
+      if (!quitarAuxiliar?.idAuxiliar) return;
+      setActualizando(true); setError(''); setExito('');
+      try { await academicoApi.quitarAuxiliar(quitarAuxiliar.idAuxiliar); setExito('Habilitación de auxiliar retirada. Su cuenta de estudiante se conserva.'); await cargar(); }
+      catch (e) { setError(mensajeError(e)); } finally { setQuitarAuxiliar(null); setActualizando(false); }
+    }} />
     <Modal title="Restablecer contraseña al CI" open={Boolean(reseteando)} onClose={() => { if (!actualizando) setReseteando(null); }}>
       <form className="space-y-4" onSubmit={resetearPassword}>
         {errorModal && <AlertMessage type="error" message={errorModal} />}

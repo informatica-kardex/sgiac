@@ -1,5 +1,13 @@
 /* Visual language shared by public and student portals. Every rule is scoped to
    .public-portal so the administrative workspace keeps its own UI. */
+.public-portal .portal-telegram-card { display: flex; align-items: center; gap: 1.25rem; padding: 1.5rem; border: 1px solid #bae2f0; border-radius: 18px; background: linear-gradient(115deg, #eef9ff, #f5fcfa); color: #164b63; }
+.public-portal .portal-telegram-icon { display: grid; place-items: center; flex-shrink: 0; width: 3.5rem; height: 3.5rem; border-radius: 16px; background: #d9f1fc; color: #0874a5; }
+.public-portal .portal-telegram-eyebrow { margin-bottom: .25rem; font-size: .65rem; font-weight: 800; letter-spacing: .14em; color: #076c96; }
+.public-portal .portal-telegram-button { display: inline-flex; justify-content: center; align-items: center; gap: .65rem; flex-shrink: 0; min-height: 44px; padding: .8rem 1.1rem; border-radius: 12px; background: #087bab; color: #fff; font-size: .875rem; font-weight: 700; text-decoration: none; transition: background .15s; }
+.public-portal .portal-telegram-button:hover { background: #05638c; }
+.public-portal .portal-telegram-button:focus-visible { outline: 3px solid #087bab; outline-offset: 4px; }
+.public-portal .portal-telegram-button:disabled { background: #e1eaf0; color: #486575; cursor: not-allowed; }
+@media (max-width: 767px) { .public-portal .portal-telegram-card { flex-wrap: wrap; align-items: flex-start; gap: 1rem; padding: 1.25rem; } .public-portal .portal-telegram-card > .portal-telegram-button { width: 100%; } }
 .student-profile-link { display: inline-flex; align-items: center; gap: .6rem; padding: .65rem .9rem; border: 1px solid #b9e5da; border-radius: 999px; background: #edf9f6; color: #17665c; font-size: .85rem; font-weight: 600; }
 .student-profile-link:hover { background: #d3f7eb; }
 .student-hero-grid { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); align-items: center; gap: 3rem; padding-top: 3.5rem; padding-bottom: 3.5rem; }

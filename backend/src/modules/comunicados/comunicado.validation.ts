@@ -8,7 +8,15 @@ export const crearComunicadoSchema = z.object({
   estado: z.enum(["publicado", "borrador", "archivado"]).default("borrador"),
 });
 
-export const actualizarComunicadoSchema = crearComunicadoSchema.partial();
+const adjuntosEliminarSchema = z.preprocess(value => {
+  if (typeof value !== "string") return value;
+  try { return JSON.parse(value); } catch { return value; }
+}, z.array(z.string().regex(/^[1-9]\d*$/, "Identificador de imagen inválido")).max(10)
+  .refine(ids => new Set(ids).size === ids.length, "No repitas los archivos a retirar"));
+
+export const actualizarComunicadoSchema = crearComunicadoSchema.partial().extend({
+  adjuntosEliminar: adjuntosEliminarSchema.optional(),
+});
 
 export type CrearComunicadoInput = z.infer<typeof crearComunicadoSchema>;
 export type ActualizarComunicadoInput = z.infer<typeof actualizarComunicadoSchema>;

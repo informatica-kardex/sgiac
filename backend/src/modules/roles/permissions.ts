@@ -1,4 +1,4 @@
-export const FUNCIONES_SUBADMIN = ["docentes", "materias", "aulas", "horarios", "comunicados", "faq", "fichas", "reportes"] as const;
+export const FUNCIONES_SUBADMIN = ["docentes", "auxiliares", "materias", "aulas", "horarios", "comunicados", "faq", "fichas", "documentos", "reportes"] as const;
 export type FuncionSubadmin = typeof FUNCIONES_SUBADMIN[number];
 export interface Permiso {
   modulo: string;

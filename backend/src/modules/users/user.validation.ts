@@ -23,3 +23,14 @@ export const crearSubadminSchema = z.object({
 
 export const resetearPasswordSchema = z.object({ ci: crearSubadminSchema.shape.ci.optional() });
 export type CrearSubadminInput = z.infer<typeof crearSubadminSchema>;
+
+export const crearEstudianteSchema = z.object({
+  nombres: z.string().trim().min(1).max(120),
+  apellidos: z.string().trim().min(1).max(120),
+  ci: z.string().trim().min(1).max(30),
+  ru: z.string().trim().min(1).max(30),
+  mencion: z.string().trim().min(1).max(150),
+  correo: z.string().trim().toLowerCase().email().max(150)
+    .regex(/@(fcpn\.edu\.bo|umsa\.bo)$/, 'Usa un correo institucional @fcpn.edu.bo o @umsa.bo'),
+}).strict().refine(p => `${p.nombres} ${p.apellidos}`.length <= 150, 'El nombre completo no puede superar 150 caracteres');
+export type CrearEstudianteInput = z.infer<typeof crearEstudianteSchema>;

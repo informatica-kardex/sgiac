@@ -1,14 +1,17 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import { Faq } from "../../api/types";
 
 export function FaqAccordionItem({ faq }: { faq: Faq }) {
   const [open, setOpen] = useState(false);
+  const answerId = useId();
 
   return (
     <div className="card overflow-hidden">
       <button
         className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
         onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        aria-controls={answerId}
       >
         <span className="text-sm font-semibold text-slate-800">{faq.pregunta}</span>
         <svg
@@ -22,7 +25,7 @@ export function FaqAccordionItem({ faq }: { faq: Faq }) {
         </svg>
       </button>
       {open && (
-        <div className="border-t border-slate-100 px-5 py-4 text-sm text-slate-600">
+        <div id={answerId} className="border-t border-slate-100 px-5 py-4 text-sm text-slate-600">
           {faq.respuesta}
         </div>
       )}

@@ -31,6 +31,8 @@ export class HorarioRepository {
   async findAll(incluirTemporales = false) { return (await prisma.horario.findMany({ where: { estado: 'ASIGNADO', ...(!incluirTemporales ? { fecha: null } : {}), paralelo: { periodo_academico: { estado: 'ACTIVO' } } }, include })).map(mapHorario); }
   async findById(id: number) { const h = await prisma.horario.findUnique({ where: { id_horario: BigInt(id) }, include }); return h ? mapHorario(h) : undefined; }
   async create(input: CrearHorarioInput) { return academicTransaction(tx => this.save(tx, input)); }
+  // La aprobación de una solicitud y sus horarios comparten la transacción académica.
+  async createInTransaction(tx: Prisma.TransactionClient, input: CrearHorarioInput) { return this.save(tx, input); }
   async createMany(inputs: CrearHorarioInput[]) {
     return academicTransaction(async tx => {
       const creados = [];
@@ -42,6 +44,7 @@ export class HorarioRepository {
   private async save(tx: Prisma.TransactionClient, input: ActualizarHorarioInput, id?: number) {
       const old = id ? await tx.horario.findUnique({ where: { id_horario: BigInt(id) }, include }) : null;
       if (id && !old) throw ApiError.notFound('Horario no encontrado');
+      if (old?.id_solicitud_aula) throw ApiError.conflict('Esta reserva pertenece a una solicitud. Cancélala en Solicitudes de aulas antes de modificarla.');
       const p = crearHorarioSchema.parse({ ...(old ? mapHorario(old) : {}), ...input });
       const esAuxiliar = Boolean(p.esAuxiliar || p.idAuxiliar);
       const asignacion = await tx.paralelo.findUnique({ where: { id_paralelo: BigInt(p.idAsignacion) }, include: { docente: true, materia: true, periodo_academico: true } });
@@ -54,8 +57,9 @@ export class HorarioRepository {
       if (fecha && (fecha < asignacion.periodo_academico.fecha_inicio || fecha > asignacion.periodo_academico.fecha_fin)) throw ApiError.badRequest('La reserva debe estar dentro de las fechas del periodo académico.');
       if (fecha && !p.motivo) throw ApiError.badRequest('Indica el motivo de la reserva temporal.');
       if (p.idAuxiliar) {
-        const vinculo = await tx.auxiliar_asignacion.findUnique({ where: { id_auxiliar_id_paralelo: { id_auxiliar: BigInt(p.idAuxiliar), id_paralelo: asignacion.id_paralelo } }, include: { auxiliar: true } });
+        const vinculo = await tx.auxiliar_asignacion.findUnique({ where: { id_auxiliar_id_paralelo: { id_auxiliar: BigInt(p.idAuxiliar), id_paralelo: asignacion.id_paralelo } }, include: { auxiliar: { include: { estudiante: { include: { usuario: { select: { estado: true } } } } } } } });
         if (!vinculo || vinculo.auxiliar.estado !== 'ACTIVO') throw ApiError.badRequest('Selecciona un auxiliar activo vinculado a esta materia, docente y paralelo.');
+        if (vinculo.auxiliar.id_estudiante && vinculo.auxiliar.estudiante?.usuario?.estado !== 'ACTIVO') throw ApiError.conflict('La cuenta institucional del auxiliar está inactiva o no está disponible.');
       }
       const inicio = new Date(`1970-01-01T${p.horaInicio}:00.000Z`), fin = new Date(`1970-01-01T${p.horaFin}:00.000Z`);
       const candidatos = await tx.horario.findMany({ where: {
@@ -97,7 +101,9 @@ export class HorarioRepository {
   }
   async delete(id: number) {
     return academicTransaction(async tx => {
-      if (!await tx.horario.findUnique({ where: { id_horario: BigInt(id) } })) throw ApiError.notFound('Horario no encontrado');
+      const horario = await tx.horario.findUnique({ where: { id_horario: BigInt(id) } });
+      if (!horario) throw ApiError.notFound('Horario no encontrado');
+      if (horario.id_solicitud_aula) throw ApiError.conflict('Cancela la reserva desde Solicitudes de aulas para avisar al auxiliar y liberar sus horarios.');
       await tx.horario.delete({ where: { id_horario: BigInt(id) } });
     });
   }

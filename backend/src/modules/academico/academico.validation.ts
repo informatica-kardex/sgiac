@@ -18,7 +18,7 @@ export const materiaSchema = z.object({
 export const asignacionSchema = z.object({
   idDocente: idSchema, codigoMateria: codigoSchema, idPeriodo: idSchema,
 });
-export const auxiliarSchema = docenteSchema.omit({ especialidad: true, gradoAcademico: true });
+export const auxiliarSchema = z.object({ idEstudiante: idSchema, idAsignacion: idSchema }).strict();
 export const vincularAuxiliarSchema = z.object({ idAsignacion: idSchema });
 export const periodoSchema = z.object({
   gestion: z.number().int().min(2000).max(2100), periodo: z.enum(['I', 'II', 'ANUAL', 'VERANO']),

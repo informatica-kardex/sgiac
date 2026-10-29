@@ -5,7 +5,7 @@ const { auxiliarService: aux } = require('../dist/modules/academico/auxiliar.ser
 const { HorarioRepository } = require('../dist/modules/horarios/horario.repository');
 const { crearLoteHorarioSchema } = require('../dist/modules/horarios/horario.validation');
 const { diaDeFecha, compartenFecha } = require('../dist/modules/horarios/horario.fechas');
-const prefix=`RES-${Date.now()}`, docentes=[], materias=[], aulas=[], periodos=[], auxiliares=[];
+const prefix=`RES-${Date.now()}`, docentes=[], materias=[], aulas=[], periodos=[], auxiliares=[], usuarios=[];
 const repository = new HorarioRepository();
 const fails = async (promise, status) => assert.rejects(promise,e=>e.statusCode===status);
 (async()=>{
@@ -43,8 +43,8 @@ const fails = async (promise, status) => assert.rejects(promise,e=>e.statusCode=
  assert.equal(await prisma.horario.count({where:{paralelo:{id_periodo:period.id_periodo}}}),count,'Rollback del lote completo');
  const batch=await repository.createMany([{...base,dia:'MARTES'},{...base,dia:'JUEVES',aula:aulas[1],horaInicio:'10:00',horaFin:'11:00'}]);assert.equal(batch.length,2);
  await fails(repository.create({...base,dia:'MARTES',fecha:iso(new Date(+monday+86400000)),motivo:'Examen sobre clase semanal'}),409);
- const a=await aux.guardar({nombreCompleto:`${prefix} Auxiliar`});auxiliares.push(a.idAuxiliar);
- await aux.vincular(a.idAuxiliar,{idAsignacion:first.idAsignacion});
+ const cuenta=await prisma.usuario.create({data:{nombreCompleto:`${prefix} Auxiliar`,correo:`${prefix}@umsa.bo`,estudiante:{create:{nombres:prefix,apellidos:'Auxiliar',ci:prefix,ru:prefix,correo_institucional:`${prefix}@umsa.bo`}}},include:{estudiante:true}});usuarios.push(cuenta.idUsuario);
+ const a=await aux.guardar({idEstudiante:String(cuenta.estudiante.id_estudiante),idAsignacion:first.idAsignacion});auxiliares.push(a.idAuxiliar);
  await aux.vincular(a.idAuxiliar,{idAsignacion:siguientes[0].idAsignacion});
  assert.equal((await aux.listar()).find(x=>x.idAuxiliar===a.idAuxiliar).asignaciones.length,2);
  const auxClass=await repository.create({...base,idAuxiliar:a.idAuxiliar,dia:'MIERCOLES'});assert.equal(auxClass.responsable,`${prefix} Auxiliar`);
@@ -52,7 +52,7 @@ const fails = async (promise, status) => assert.rejects(promise,e=>e.statusCode=
  await fails(repository.create({...base,idAsignacion:siguientes[0].idAsignacion,idAuxiliar:a.idAuxiliar,dia:'MIERCOLES',aula:aulas[1]}),409);
  await fails(repository.create({...base,idAsignacion:siguientes[1].idAsignacion,idAuxiliar:a.idAuxiliar,dia:'VIERNES'}),400,'Auxiliar no vinculado');
  await fails(aux.desvincular(a.idAuxiliar,first.idAsignacion),409);
- await fails(aux.guardar({nombreCompleto:`${prefix} Auxiliar`,estado:'INACTIVO'},a.idAuxiliar),409);
+ await fails(aux.quitar(a.idAuxiliar),409);
  const publicRows=await repository.findAll();assert.ok(!publicRows.some(h=>h.idHorario===temporal.idHorario),'Las reservas no se presentan como clases semanales en el portal');
  assert.ok((await repository.findAll(true)).some(h=>h.idHorario===temporal.idHorario));
  await repository.update(temporal.idHorario,{fecha:iso(new Date(+monday+14*86400000))});
@@ -63,6 +63,8 @@ const fails = async (promise, status) => assert.rejects(promise,e=>e.statusCode=
  await prisma.horario.deleteMany({where:{paralelo:{id_periodo:{in:periodos}}}});
  await prisma.paralelo.deleteMany({where:{id_periodo:{in:periodos}}});
  await prisma.auxiliar.deleteMany({where:{id_auxiliar:{in:auxiliares.map(BigInt)}}});
+ await prisma.estudiante.deleteMany({where:{id_usuario:{in:usuarios}}});
+ await prisma.usuario.deleteMany({where:{idUsuario:{in:usuarios}}});
  await prisma.periodo_academico.deleteMany({where:{id_periodo:{in:periodos}}});
  await prisma.docente.deleteMany({where:{id_docente:{in:docentes.map(BigInt)}}});
  await prisma.materia.deleteMany({where:{codigo_materia:{in:materias}}});

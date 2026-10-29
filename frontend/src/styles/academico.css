@@ -7,6 +7,19 @@
 .academic-table td { border-top:1px solid #edf1f3; padding:18px; vertical-align:top; }
 .academic-table tr:hover td { background:#fbfdfc; }
 .academic-tag { display:inline-block; border:1px solid #d7e9e3; background:#f1faf6; color:#226c5f; border-radius:5px; padding:3px 7px; font-size:11px; margin:2px 4px 2px 0; }
+.academic-action { display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:40px; padding:9px 13px; border:1px solid #cbd5e1; border-radius:8px; background:#fff; color:#334155; font-size:13px; font-weight:600; line-height:1.4; transition:background .15s, border-color .15s, box-shadow .15s; }
+.academic-action:hover:not(:disabled) { background:#f0f7f4; border-color:#7bbbab; box-shadow:0 2px 5px #153b3612; }
+.academic-action.primary { background:#238878; border-color:#238878; color:#fff; }
+.academic-action.primary:hover:not(:disabled) { background:#1b6f65; }
+.academic-action.danger { background:#fff5f5; border-color:#efc4c4; color:#b42323; }
+.academic-action.danger:hover:not(:disabled) { background:#fee2e2; border-color:#da8a8a; }
+.academic-action:disabled { opacity:.5; cursor:not-allowed; }
+.academic-action[aria-pressed="true"] { outline:2px solid currentColor; outline-offset:2px; }
+.academic-surface { border:1px solid #d7e7e0; border-radius:12px; background:#fff; box-shadow:0 2px 8px #153b3608; }
+.academic-stat { display:flex; align-items:center; gap:12px; padding:16px; text-align:left; border:1px solid #d7e7e0; border-radius:10px; background:#fff; transition:background .15s, border-color .15s; }
+.academic-stat:hover, .academic-stat[aria-pressed="true"] { border-color:#238878; background:#edf8f2; }
+.academic-stat strong { display:block; font-size:23px; line-height:1.2; color:#153b36; }
+.academic-stat span { font-size:12px; color:#526e64; }
 .academic-week { display:grid; grid-template-columns:64px repeat(6,minmax(140px,1fr)); min-width:920px; }
 .academic-day { height:50px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:#334155; background:#f8fafc; border-bottom:1px solid #dce5e2; }
 .academic-time { height:80px; color:#64748b; font-size:11px; text-align:center; padding-top:5px; border-top:1px solid #edf1f3; }

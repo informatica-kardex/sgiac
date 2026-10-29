@@ -1,8 +1,13 @@
-import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
+import { ButtonHTMLAttributes, ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import { isAxiosError } from 'axios';
 import { academicoApi, Asignacion, Auxiliar, Docente, Materia, Mencion, Periodo } from '../../api/academico.api';
 import { Aula, HorarioAcademico as Horario } from '../../api/types';
 import '../../styles/academico.css';
+import { AdminIcon, AdminIconName } from './AdminIcon';
+
+export function AcademicAction({ icon, tone = 'secondary', children, className = '', ...props }: ButtonHTMLAttributes<HTMLButtonElement> & { icon: AdminIconName; tone?: 'primary' | 'secondary' | 'danger' }) {
+  return <button type="button" {...props} className={`academic-action ${tone} ${className}`}><AdminIcon name={icon} size={17} /><span>{children}</span></button>;
+}
 
 export function errorAcademico(e: unknown) {
   if (isAxiosError(e)) return e.response?.data?.details?.map?.((d: { mensaje: string }) => d.mensaje).join('. ') || e.response?.data?.message || 'No se pudo conectar con el servidor.';

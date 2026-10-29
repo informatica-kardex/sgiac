@@ -1,108 +1,102 @@
-import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { useEffect, useId, useRef, useState } from "react";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import { solicitudesAulasApi } from "../../api/solicitudes-aulas.api";
+import "../../styles/portal-navigation.css";
 
 const NAV_LINKS = [
-  { to: "/", label: "Inicio", end: true },
-  { to: "/comunicados", label: "Comunicados" },
-  { to: "/horarios", label: "Horarios" },
-  { to: "/faq", label: "Preguntas frecuentes" },
-  { to: "/atencion", label: "Atención Kardex" },
-  { to: "/informacion", label: "Información" },
+  { to: "/", label: "Inicio", detail: "El punto de partida", end: true },
+  { to: "/comunicados", label: "Comunicados", detail: "Novedades de la carrera" },
+  { to: "/horarios", label: "Horarios", detail: "Materias, aulas y clases" },
+  { to: "/faq", label: "Preguntas frecuentes", detail: "Resuelve tus dudas" },
+  { to: "/atencion", label: "Atención Kardex", detail: "Solicita tu atención" },
+  { to: "/informacion", label: "Información", detail: "Conoce nuestro servicio" },
+];
+const STUDENT_LINKS = [
+  { to: "/usuario/dashboard", label: "Mi inicio", detail: "Tu espacio universitario", end: true },
+  { to: "/usuario/fichas", label: "Mis fichas", detail: "Solicitudes y turnos" },
+  { to: "/usuario/documentos", label: "Mis documentos", detail: "Solicita y recoge en Kardex" },
+  { to: "/usuario/horarios", label: "Horarios", detail: "Consulta tus clases" },
+  { to: "/usuario/arma-tu-horario", label: "Arma tu horario", detail: "Organiza tu semestre" },
+  { to: "/usuario/comunicados", label: "Comunicados", detail: "Novedades de la carrera" },
+  { to: "/usuario/faq", label: "Ayuda", detail: "Encuentra una respuesta" },
 ];
 
 export function Header({ portal = false }: { portal?: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { isAuthenticated } = useAuth();
-  const links = isAuthenticated ? [
-    { to: "/usuario/dashboard", label: "Mi inicio", end: true },
-    { to: "/usuario/fichas", label: "Mis fichas" },
-    { to: "/usuario/horarios", label: "Horarios" },
-    { to: "/usuario/arma-tu-horario", label: "Arma tu horario" },
-    { to: "/usuario/comunicados", label: "Comunicados" },
-    { to: "/usuario/faq", label: "Ayuda" },
-  ] : NAV_LINKS;
+  const { isAuthenticated, usuario } = useAuth();
+  const [esAuxiliar, setEsAuxiliar] = useState(false);
+  const { pathname } = useLocation();
+  const headerRef = useRef<HTMLElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLElement>(null);
+  const menuId = useId();
+  const links = isAuthenticated ? [...STUDENT_LINKS, ...(esAuxiliar ? [{ to: '/usuario/solicitudes-aulas', label: 'Solicitar aula', detail: 'Auxiliarías y seguimiento', end: false }] : [])] : NAV_LINKS;
+  const accountPath = isAuthenticated ? "/usuario/perfil" : "/login";
+  const accountLabel = isAuthenticated ? "Mi perfil" : "Ingresar";
 
-  return (
-    <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/95 backdrop-blur">
-      <div className="container-public flex h-16 items-center justify-between">
-        <Link to={isAuthenticated ? "/usuario/dashboard" : "/"} aria-label="Kardex — Inicio" className="flex shrink-0 items-center gap-2.5">
-          <img src="/images/kardex.png" alt="" width={640} height={640} className="h-14 w-14 shrink-0 object-contain" />
-          <div className="leading-tight">
-            <p className="text-sm font-bold text-slate-800">Kardex</p>
-            <p className={`${portal ? "" : "hidden sm:block "}text-[10px] text-slate-500`}>
-              {isAuthenticated ? "Portal del estudiante" : "Carrera de Informática"}
-            </p>
-          </div>
+  useEffect(() => { setMenuOpen(false); }, [pathname, isAuthenticated]);
+  useEffect(() => {
+    let active = true;
+    if (!isAuthenticated || !usuario?.correoVerificado || usuario.debeCambiarPassword) { setEsAuxiliar(false); return; }
+    solicitudesAulasApi.perfil().then(p => { if (active) setEsAuxiliar(p.habilitado); }).catch(() => { if (active) setEsAuxiliar(false); });
+    return () => { active = false; };
+  }, [isAuthenticated, usuario?.idUsuario, usuario?.correoVerificado, usuario?.debeCambiarPassword, pathname]);
+  useEffect(() => {
+    if (!menuOpen) return;
+    const close = () => { setMenuOpen(false); toggleRef.current?.focus(); };
+    const onKey = (event: KeyboardEvent) => { if (event.key === "Escape") { event.preventDefault(); close(); } };
+    const onPointer = (event: PointerEvent) => {
+      if (!headerRef.current?.contains(event.target as Node)) setMenuOpen(false);
+    };
+    const desktop = window.matchMedia("(min-width: 1180px)");
+    const onResize = () => { if (desktop.matches) setMenuOpen(false); };
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("pointerdown", onPointer);
+    desktop.addEventListener("change", onResize);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("pointerdown", onPointer);
+      desktop.removeEventListener("change", onResize);
+    };
+  }, [menuOpen]);
+
+  return <header ref={headerRef} className={`kardex-header${menuOpen ? " is-open" : ""}`}
+    onBlur={event => { if (event.relatedTarget && !event.currentTarget.contains(event.relatedTarget as Node)) setMenuOpen(false); }}>
+    <div className="container-public kardex-header-row">
+      <Link to={isAuthenticated ? "/usuario/dashboard" : "/"} aria-label="Kardex — Inicio" className="kardex-brand" onClick={() => setMenuOpen(false)}>
+        <img src="/images/kardex.png" alt="" width="56" height="56" />
+        <div><strong>Kardex</strong><span className={portal ? "" : "kardex-brand-subtitle"}>{isAuthenticated ? "Portal del estudiante" : "Carrera de Informática"}</span></div>
+      </Link>
+
+      <nav className="kardex-desktop-nav" aria-label="Navegación principal">
+        {links.map(link => <NavLink key={link.to} to={link.to} end={link.end} className={({ isActive }) => `kardex-nav-link${isActive ? " is-active" : ""}`}>
+          <span>{link.label}</span>
+        </NavLink>)}
+      </nav>
+
+      <div className="kardex-header-actions">
+        <Link to={accountPath} className={`kardex-account${isAuthenticated ? " is-student" : ""}`} aria-label={isAuthenticated ? "Ver mi perfil" : "Ingresar"} onClick={() => setMenuOpen(false)}>
+          <span>{accountLabel}</span>
         </Link>
-
-        <nav className="hidden items-center gap-1 lg:flex">
-          {links.map((link) => (
-            <NavLink
-              key={link.to}
-              to={link.to}
-              end={link.end}
-              className={({ isActive }) =>
-                `rounded-lg px-3 py-2 text-sm font-medium transition ${
-                  isActive
-                    ? "bg-primary-50 text-primary-800"
-                    : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
-                }`
-              }
-            >
-              {link.label}
-            </NavLink>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-2">
-          {isAuthenticated ? <Link to="/usuario/perfil" aria-label="Ver mi perfil" title="Mi perfil" className="student-profile-link">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path d="M4 21v-2a8 8 0 0 1 16 0v2" /></svg>
-            <span className="hidden sm:inline">Mi perfil</span>
-          </Link> : <Link to="/login" className="btn-secondary hidden sm:inline-flex">
-            Ingresar
-          </Link>}
-          <button
-            className="rounded-lg p-2 text-slate-600 hover:bg-slate-100 lg:hidden"
-            onClick={() => setMenuOpen((v) => !v)}
-            aria-label="Abrir menú"
-            aria-expanded={menuOpen}
-          >
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M4 6h16M4 12h16M4 18h16" strokeLinecap="round" />
-            </svg>
-          </button>
-        </div>
+        <button ref={toggleRef} type="button" className="kardex-menu-toggle" aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"} aria-controls={menuId} aria-expanded={menuOpen}
+          onClick={() => setMenuOpen(open => !open)} onKeyDown={event => {
+            if (event.key === "ArrowDown") { event.preventDefault(); setMenuOpen(true); requestAnimationFrame(() => menuRef.current?.querySelector<HTMLAnchorElement>("a")?.focus()); }
+          }}>
+          <span>{menuOpen ? "Cerrar" : "Menú"}</span>
+        </button>
       </div>
+    </div>
 
-      {menuOpen && (
-        <nav className="border-t border-slate-200 bg-white px-4 py-3 lg:hidden">
-          <div className="flex flex-col gap-1">
-            {links.map((link) => (
-              <NavLink
-                key={link.to}
-                to={link.to}
-                end={link.end}
-                onClick={() => setMenuOpen(false)}
-                className={({ isActive }) =>
-                  `rounded-lg px-3 py-2.5 text-sm font-medium ${
-                    isActive ? "bg-primary-50 text-primary-800" : "text-slate-600"
-                  }`
-                }
-              >
-                {link.label}
-              </NavLink>
-            ))}
-            <Link
-              to={isAuthenticated ? "/usuario/perfil" : "/login"}
-              onClick={() => setMenuOpen(false)}
-              className="btn-secondary mt-2 justify-center"
-            >
-              {isAuthenticated ? "Mi perfil" : "Ingresar"}
-            </Link>
-          </div>
-        </nav>
-      )}
-    </header>
-  );
+    {menuOpen && <>
+      <button type="button" className="kardex-menu-scrim" tabIndex={-1} aria-label="Cerrar menú de navegación" onClick={() => { setMenuOpen(false); toggleRef.current?.focus(); }}/>
+      <nav ref={menuRef} id={menuId} className="kardex-mobile-nav" aria-label="Navegación principal móvil">
+        <p className="kardex-menu-caption">{isAuthenticated ? "TU PORTAL, A MANO" : "EXPLORA KARDEX"}</p>
+        <div className="kardex-mobile-links">{links.map(link => <NavLink key={link.to} to={link.to} end={link.end} onClick={() => setMenuOpen(false)} className={({ isActive }) => `kardex-mobile-link${isActive ? " is-active" : ""}`}>
+          <span><strong>{link.label}</strong><small>{link.detail}</small></span>
+        </NavLink>)}</div>
+        <Link className="kardex-menu-account" to={accountPath} onClick={() => setMenuOpen(false)}>{accountLabel}</Link>
+      </nav>
+    </>}
+  </header>;
 }

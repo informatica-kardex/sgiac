@@ -5,13 +5,11 @@ import { AcademicHeader, Empty, ErrorNotice, Field, SaveActions, errorAcademico,
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { Modal } from '../components/Modal';
 import { TeacherSchedule, RemoveTeacherAssignment } from '../components/TeacherSchedule';
-import { AuxiliaresPanel } from '../components/AuxiliaresPanel';
 import { SearchableSelect } from '../components/SearchableSelect';
 import { filterSubjects } from '../schedule/subjects';
 const blank: DocenteInput = { nombreCompleto: '', gradoAcademico: '', especialidad: '', correo: '', telefono: '', estado: 'ACTIVO' };
 export default function DocentesPage() {
   const c = useAcademico();
-  const [tab, setTab] = useState<'docentes' | 'auxiliares'>('docentes');
   const [subjectFilter, setSubjectFilter] = useState(''), [teacherFilter, setTeacherFilter] = useState('');
   const [open, setOpen] = useState(false), [editing, setEditing] = useState<Docente | null>(null), [otherDegree, setOtherDegree] = useState(false);
   const [form, setForm] = useState(blank), [error, setError] = useState(''), [busy, setBusy] = useState(false);
@@ -32,10 +30,7 @@ export default function DocentesPage() {
   const subjects = filterSubjects(c.materias, '', '');
   const subjectTeachers = c.docentes.filter(d => !subjectFilter || (subjectFilter === '__unassigned__' ? !d.asignaciones.length : d.asignaciones.some(a => a.codigoMateria === subjectFilter)));
   const filtered = subjectTeachers.filter(d => !teacherFilter || d.idDocente === teacherFilter);
-  const tabs = <div className="flex gap-2 border-b border-slate-200 pb-3"><button className={tab === 'docentes' ? 'btn-primary' : 'btn-secondary'} onClick={() => setTab('docentes')}>Docentes</button><button className={tab === 'auxiliares' ? 'btn-primary' : 'btn-secondary'} onClick={() => setTab('auxiliares')}>Auxiliares</button></div>;
-  if (tab === 'auxiliares') return <div className="space-y-6">{tabs}<AuxiliaresPanel catalogo={c} /></div>;
   return <div className="space-y-6">
-    {tabs}
     <AcademicHeader title="Docentes" description="Información y materias asignadas a cada docente, organizadas por periodo y paralelo."><button className="btn-primary" onClick={() => edit()}>+ Nuevo docente</button></AcademicHeader>
     <ErrorNotice message={c.error} retry={() => void c.cargar()} />{!open && !assignTo && <ErrorNotice message={error} />}
     <div className="grid items-end gap-3 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto]">

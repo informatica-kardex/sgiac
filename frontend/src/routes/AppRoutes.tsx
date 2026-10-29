@@ -19,7 +19,11 @@ import RecoverPasswordPage from "../user/pages/RecoverPasswordPage";
 import UserDashboardPage from "../user/pages/DashboardPage";
 import ProfilePage from "../user/pages/ProfilePage";
 import StudentFichasPage from "../user/pages/FichasPage";
+import StudentDocumentosPage from "../user/pages/DocumentosPage";
+import AdminDocumentosPage from "../admin/pages/DocumentosPage";
 import SchedulePlannerPage from "../user/pages/SchedulePlannerPage";
+import SolicitudesAulasPage from "../user/pages/SolicitudesAulasPage";
+import SolicitudesAulasAdminPage from "../admin/pages/SolicitudesAulasPage";
 import { UserGuestRoute, UserProtectedRoute } from "../auth/UserProtectedRoute";
 
 // Panel administrativo
@@ -29,6 +33,7 @@ import AdminLoginPage from "../admin/pages/AdminLoginPage";
 import ChangePasswordForcedPage from "../admin/pages/ChangePasswordForcedPage";
 import DashboardPage from "../admin/pages/DashboardPage";
 import DocentesPage from "../admin/pages/DocentesPage";
+import AuxiliaresPage from "../admin/pages/AuxiliaresPage";
 import MateriasPage from "../admin/pages/MateriasPage";
 import AulasPage from "../admin/pages/AulasPage";
 import AdminHorariosPage from "../admin/pages/HorariosPage";
@@ -82,6 +87,8 @@ export function AppRoutes() {
           <Route path="/usuario/dashboard" element={<UserDashboardPage />} />
           <Route path="/usuario/perfil" element={<ProfilePage />} />
           <Route path="/usuario/fichas" element={<StudentFichasPage />} />
+          <Route path="/usuario/documentos" element={<StudentDocumentosPage />} />
+          <Route path="/usuario/solicitudes-aulas" element={<SolicitudesAulasPage />} />
           <Route path="/usuario/horarios" element={<HorariosPage />} />
           <Route path="/usuario/arma-tu-horario" element={<SchedulePlannerPage />} />
           <Route path="/usuario/comunicados" element={<ComunicadosPage />} />
@@ -114,6 +121,8 @@ export function AppRoutes() {
         <Route element={<AdminLayout />}>
           <Route path="/admin/dashboard" element={<DashboardPage />} />
           <Route path="/admin/docentes" element={<DocentesPage />} />
+          <Route path="/admin/auxiliares" element={<AuxiliaresPage />} />
+          <Route path="/admin/solicitudes-aulas" element={<SolicitudesAulasAdminPage />} />
           <Route path="/admin/materias" element={<MateriasPage />} />
           <Route path="/admin/aulas" element={<AulasPage />} />
           <Route path="/admin/horarios" element={<AdminHorariosPage />} />
@@ -121,6 +130,7 @@ export function AppRoutes() {
           <Route path="/admin/comunicados" element={<AdminComunicadosPage />} />
           <Route path="/admin/faq" element={<AdminFaqPage />} />
           <Route path="/admin/fichas" element={<FichasPage />} />
+          <Route path="/admin/documentos" element={<AdminDocumentosPage />} />
           <Route path="/admin/reportes" element={<ReportesPage />} />
           <Route path="/admin/usuarios" element={<Navigate to="/admin/subadministradores" replace />} />
           <Route path="/admin/subadministradores" element={<UsuariosPage key="subadministradores" tipo="subadministradores" />} />

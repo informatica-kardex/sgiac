@@ -4,6 +4,7 @@ import { comunicadosApi, comunicadoArchivoUrl } from "../../api/comunicados.api"
 import { ComunicadoArchivo } from "../../components/ComunicadoArchivo";
 import { ComunicadoDocumento } from "../../components/ComunicadoDocumento";
 import { ComunicadoDescarga } from "../../components/ComunicadoDescarga";
+import { ComunicadoGaleria } from "../../components/ComunicadoGaleria";
 import { Comunicado } from "../../api/types";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 import { formatFecha } from "../../utils/formatters";
@@ -41,9 +42,7 @@ export default function ComunicadoDetallePage() {
 
   return (
     <article className={`container-public ${comunicado.tipo === "texto" ? "max-w-4xl" : "max-w-3xl"} py-8 sm:py-14`}>
-      <Link to={authenticated ? "/usuario/comunicados" : "/comunicados"} className="text-sm text-primary-700 hover:underline">
-        ← Volver a comunicados
-      </Link>
+      <Link to={authenticated ? "/usuario/comunicados" : "/comunicados"} className="text-sm text-primary-700 hover:underline">← Volver a comunicados</Link>
 
       {comunicado.tipo === "texto" ? (
         <>
@@ -65,7 +64,11 @@ export default function ComunicadoDetallePage() {
         </>
       )}
 
-      {comunicado.adjuntos.length > 0 && (
+      {comunicado.tipo === "imagen" ? (
+        <div className="mt-8">
+          <ComunicadoGaleria imagenes={comunicado.adjuntos.filter(adj => adj.tipo.startsWith("image/"))} titulo={comunicado.titulo} descargar />
+        </div>
+      ) : comunicado.adjuntos.length > 0 && (
         <div className="mt-8 space-y-6">
             {comunicado.adjuntos.map((adj) => (
               <section key={adj.idAdjunto} className="space-y-3">

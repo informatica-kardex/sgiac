@@ -7,15 +7,20 @@ import { ahoraBolivia, codigoFicha, ESPERA, PENDIENTES, fichaDTO, fichaInclude, 
 export class FichaRepository {
   async tramites() {
     return (await prisma.tramite_atencion.findMany({ where: { activo: true }, orderBy: { nombre: "asc" } }))
-      .map(t => ({ idTramite: String(t.id_tramite), nombre: t.nombre, descripcion: t.descripcion }));
+      .map(t => ({ idTramite: String(t.id_tramite), nombre: t.nombre, descripcion: t.descripcion, identificador: t.identificador }));
   }
 
   async guardarTramite(input: TramiteInput, id?: string) {
     try {
       const t = id ? await prisma.tramite_atencion.update({ where: { id_tramite: BigInt(id), activo: true }, data: input })
         : await prisma.tramite_atencion.create({ data: input });
-      return { idTramite: String(t.id_tramite), nombre: t.nombre, descripcion: t.descripcion };
-    } catch (e) { return this.errorDB(e); }
+      return { idTramite: String(t.id_tramite), nombre: t.nombre, descripcion: t.descripcion, identificador: t.identificador };
+    } catch (e) {
+      if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2002" && /identificador/i.test(String(e.meta?.target ?? ""))) {
+        throw ApiError.conflict("Otro trámite activo ya utiliza ese identificador. Elige uno diferente.");
+      }
+      return this.errorDB(e);
+    }
   }
 
   async borrarTramite(id: string) {
@@ -52,11 +57,13 @@ export class FichaRepository {
     try {
       return await prisma.$transaction(async tx => {
         // Mantener el orden de bloqueos: trámite y luego jornada.
+        let identificador = input.identificador;
         if (input.idTramite) {
           const idTramite = BigInt(input.idTramite);
           await tx.$queryRaw`SELECT id_tramite FROM tramite_atencion WHERE id_tramite = ${idTramite} FOR UPDATE`;
           const tramite = await tx.tramite_atencion.findUnique({ where: { id_tramite: idTramite } });
           if (!tramite || (!tramite.activo && (!id || input.estado === "ACTIVO"))) throw ApiError.conflict("El trámite ya no está disponible.");
+          if (!id) identificador ??= tramite.identificador ?? undefined;
         } else if (!id) throw ApiError.badRequest("Selecciona un trámite.");
         if (id) {
           const idJornada = BigInt(id);
@@ -64,16 +71,21 @@ export class FichaRepository {
           const actual = await tx.jornada_atencion.findUnique({ where: { id_jornada: idJornada }, include: jornadaInclude });
           if (!actual) throw ApiError.notFound("Jornada no encontrada");
           const dto = jornadaDTO(actual);
+          identificador ??= dto.identificador;
+          if (actual.ficha_atencion.length && dto.identificador !== identificador) {
+            throw ApiError.conflict("El identificador no se puede cambiar porque esta jornada ya tiene fichas emitidas, incluso si fueron canceladas.");
+          }
           if (actual.ficha_atencion.length && (dto.fecha !== input.fecha || dto.idTramite !== input.idTramite || dto.horaInicio !== input.horaInicio || dto.horaFin !== input.horaFin || dto.puesto !== input.puesto)) {
             throw ApiError.conflict("Una jornada con fichas emitidas conserva su trámite, fecha, horario y puesto. Puedes cambiar el cupo, duración o pausar la jornada.");
           }
           if (cupo < dto.ocupadas) throw ApiError.conflict(`El cupo no puede ser menor que las ${dto.ocupadas} fichas vigentes.`);
         }
+        if (!identificador) throw ApiError.badRequest("Configura el identificador del trámite o indica uno para esta jornada.");
         const data = {
           id_tramite: input.idTramite ? BigInt(input.idTramite) : null, fecha: new Date(input.fecha),
           hora_inicio: new Date(`1970-01-01T${input.horaInicio}:00Z`), hora_fin: new Date(`1970-01-01T${input.horaFin}:00Z`),
           cupo_total: cupo, modo_cupo: input.modoCupo, minutos_por_estudiante: input.minutosPorEstudiante,
-          puesto: input.puesto, estado: input.estado,
+          puesto: input.puesto, estado: input.estado, identificador,
         };
         const j = id ? await tx.jornada_atencion.update({ where: { id_jornada: BigInt(id) }, data, include: jornadaInclude })
           : await tx.jornada_atencion.create({ data: { ...data, id_usuario: BigInt(idUsuario) }, include: jornadaInclude });
@@ -101,7 +113,7 @@ export class FichaRepository {
     const ultimosLlamados = jornadas.flatMap(j => j.ficha_atencion.flatMap(f => {
       const evento = f.historial_ficha[0];
       return evento ? [{
-        evento: evento.id_historial_ficha.toString(), codigo: codigoFicha(j.id_jornada, f.numero_ficha),
+        evento: evento.id_historial_ficha.toString(), codigo: codigoFicha(j, f.numero_ficha),
         numero: f.numero_ficha, puesto: j.puesto, tramite: j.tramite?.nombre ?? "Atención general",
         estado: f.estado_actual, llamadaEn: evento.fecha_hora.toISOString(),
       }] : [];
@@ -111,9 +123,9 @@ export class FichaRepository {
       const evento = llamada?.historial_ficha[0];
       return {
         ...jornadaDTO(j),
-        actual: llamada ? { codigo: codigoFicha(j.id_jornada, llamada.numero_ficha), numero: llamada.numero_ficha,
+        actual: llamada ? { codigo: codigoFicha(j, llamada.numero_ficha), numero: llamada.numero_ficha,
           evento: evento?.id_historial_ficha.toString() ?? null, llamadaEn: evento?.fecha_hora.toISOString() ?? null } : null,
-        siguientes: j.ficha_atencion.filter(f => ESPERA.includes(f.estado_actual)).slice(0, 5).map(f => codigoFicha(j.id_jornada, f.numero_ficha)),
+        siguientes: j.ficha_atencion.filter(f => ESPERA.includes(f.estado_actual)).slice(0, 5).map(f => codigoFicha(j, f.numero_ficha)),
       };
     }) };
   }
@@ -157,7 +169,11 @@ export class FichaRepository {
 
   private errorDB(e: unknown): never {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
-      if (e.code === "P2002") throw ApiError.conflict("Ya existe ese nombre de trámite o una jornada para ese trámite y fecha.");
+      if (e.code === "P2002") {
+        const target = String(e.meta?.target ?? "");
+        if (/identificador|coalesce/i.test(target)) throw ApiError.conflict("Ese identificador ya está en uso en otra jornada de la misma fecha. Elige uno diferente.");
+        throw ApiError.conflict("Ya existe ese nombre de trámite o una jornada con ese trámite o identificador para la misma fecha.");
+      }
       if (e.code === "P2025") throw ApiError.notFound("Registro no encontrado");
     }
     throw e;

@@ -13,7 +13,7 @@ export function Modal({ title, open, onClose, children, size = 'default' }: Moda
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4">
+    <div className="fixed inset-0 z-50 !m-0 flex items-center justify-center bg-slate-900/50 p-4">
       <div role="dialog" aria-modal="true" aria-labelledby={titleId} className={`max-h-[90vh] w-full ${size === 'wide' ? 'max-w-4xl' : 'max-w-lg'} overflow-y-auto rounded-2xl bg-white shadow-xl`}>
         <div className="flex items-center justify-between border-b border-slate-100 px-6 py-4">
           <h3 id={titleId} className="text-lg font-bold text-slate-800">{title}</h3>

@@ -1,0 +1,11 @@
+BEGIN;
+ALTER TABLE tipo_documento ADD COLUMN IF NOT EXISTS identificador VARCHAR(20);
+UPDATE tipo_documento SET identificador = 'DOC' || id::text WHERE identificador IS NULL;
+CREATE UNIQUE INDEX IF NOT EXISTS tipo_documento_identificador_key ON tipo_documento(identificador);
+ALTER TABLE tipo_documento DROP CONSTRAINT IF EXISTS tipo_documento_identificador_formato;
+ALTER TABLE tipo_documento ADD CONSTRAINT tipo_documento_identificador_formato CHECK (identificador IS NULL OR identificador ~ '^[A-Z][A-Z0-9]{0,19}$');
+ALTER TABLE solicitud_documento ALTER COLUMN codigo TYPE VARCHAR(50);
+ALTER TABLE solicitud_documento ALTER COLUMN hojas DROP NOT NULL;
+ALTER TABLE solicitud_documento DROP CONSTRAINT IF EXISTS solicitud_documento_hojas_listo;
+ALTER TABLE solicitud_documento ADD CONSTRAINT solicitud_documento_hojas_listo CHECK (estado NOT IN ('LISTA','ENTREGADA') OR hojas IS NOT NULL);
+COMMIT;

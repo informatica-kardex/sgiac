@@ -2,7 +2,7 @@ import { z } from "zod";
 import { asyncHandler } from "../../utils/asyncHandler";
 import { sendSuccess } from "../../utils/apiResponse";
 import { UserService } from "./user.service";
-import { asignarPermisosSchema, crearSubadminSchema, idSchema, resetearPasswordSchema } from "./user.validation";
+import { asignarPermisosSchema, crearSubadminSchema, crearEstudianteSchema, idSchema, resetearPasswordSchema } from "./user.validation";
 
 const userService = new UserService();
 
@@ -11,6 +11,9 @@ const estadoSchema = z.object({
 });
 
 export const userController = {
+  crearEstudiante: asyncHandler(async (req, res) => {
+    return sendSuccess(res, await userService.crearEstudiante(crearEstudianteSchema.parse(req.body), BigInt(req.user!.idUsuario)), 'Cuenta de estudiante creada', 201);
+  }),
   resetearPassword: asyncHandler(async (req, res) => {
     const resultado = await userService.resetearPassword(idSchema.parse(req.params.id),
       resetearPasswordSchema.parse(req.body).ci, BigInt(req.user!.idUsuario));

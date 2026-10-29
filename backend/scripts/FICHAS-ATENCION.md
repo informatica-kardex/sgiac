@@ -4,14 +4,14 @@ Implementado en `backend/` y `frontend/` (la copia `sistema/` no se utiliza).
 
 ## Uso
 
-1. En **Administrador → Fichas y atención → Tipos de trámite**, crear, editar o eliminar los motivos de atención. Inicialmente existen historial/récord, adición/retiro y choque de horarios.
-2. En **Atención y cupos**, elegir la fecha y **Programar jornada**. Se permite una jornada por trámite y fecha, con horario y puesto de atención.
+1. En **Administrador → Fichas y atención → Tipos de trámite → Nuevo/Editar trámite**, debajo de **Nombre** aparece **Identificador de las fichas**. Se propone según el nombre (`ARM` para «Adición o retiro de materias»); se puede editar o recuperar con **Usar sugerencia**. Al guardar, el identificador queda asociado al trámite y se muestra en su tarjeta. Se normaliza a mayúsculas y no puede repetirse entre trámites activos. Cambiar el nombre conserva un identificador que el admin haya escrito o guardado. Inicialmente existen historial/récord, adición/retiro y choque de horarios.
+2. En **Atención y cupos**, elegir la fecha y **Programar jornada**. Al elegir el trámite se completa el identificador guardado; para trámites anteriores sin identificador se propone uno por nombre. Se puede ajustar para esa jornada antes de emitir fichas. La propuesta evita identificadores ocupados en las jornadas cargadas, agregando un sufijo si hace falta; el servidor valida siempre la disponibilidad al guardar. El identificador admite de 1 a 20 letras o números, comienza con una letra y se guarda en mayúsculas. No puede repetirse en otra jornada de la misma fecha. Completar horario y puesto de atención. Se permite una jornada por trámite y fecha. Cambiar el identificador del trámite solo afecta a las jornadas nuevas; las existentes conservan sus códigos.
 3. Elegir **Calcular según tiempo** (duración del horario / minutos por estudiante, redondeando hacia abajo) o **Límite manual**. Por ejemplo, 08:00–12:00 a 10 minutos produce 24 fichas. El límite es por trámite y día; los resúmenes muestran la suma de todos los trámites del día.
 4. El estudiante abre **Mis fichas → Solicitar nueva ficha**, selecciona trámite y jornada y pulsa **Generar mi ficha**. No introduce nombre ni correo: se obtienen de su cuenta autenticada. El detalle es opcional.
 5. El administrador selecciona la jornada y pulsa **Llamar siguiente**. Atiende siempre al menor número pendiente. **Volver a llamar** repite el anuncio; **Finalizar atención** y **No se presentó** concluyen el turno. Después se llama al siguiente.
 6. `/atencion` y las fichas del estudiante muestran únicamente el turno actual por trámite. Se actualizan cada cinco segundos, sin botones para presentar en TV, multimedia ni controles de voz.
 
-El código `J<jornada>-<número>` distingue las colas. El tablero público muestra código, trámite y puesto; nunca nombre, correo, RU o detalle. En su ficha privada, el estudiante ve su nombre, estado, personas delante y espera aproximada. Las estimaciones son orientativas, desde el inicio de la jornada o el turno actual; no constituyen citas a una hora exacta.
+El código combina el identificador elegido por el admin y el número automático: `KAR-001`, `KAR-002`, etc. Cada jornada comienza en 001; los números cancelados no se reutilizan y pueden superar los tres dígitos. El identificador se puede editar mientras no se hayan emitido fichas; después se conserva, incluso si todas fueron canceladas. Las jornadas anteriores conservan sus códigos `J<jornada>-<número>`. El tablero público y la TV muestran código, trámite y puesto; nunca nombre, correo, RU o detalle. En su ficha privada, el estudiante ve su nombre, estado, personas delante y espera aproximada. Las estimaciones son orientativas, desde el inicio de la jornada o el turno actual; no constituyen citas a una hora exacta.
 
 La fecha y el horario utilizan Bolivia (UTC−4), independientemente de la zona horaria del servidor. Los llamados se habilitan el día de la jornada desde la hora inicial. Se puede terminar la cola después del cierre del horario; no se aceptan nuevas reservas después de la hora final. No se atienden fichas futuras.
 
@@ -41,7 +41,7 @@ Los archivos públicos de TV permiten su visualización desde el origen del port
 - Una ficha vigente por estudiante y jornada, incluso cuando ya fue atendida o no se presentó. Para otro trámite puede solicitar otra ficha.
 - El estudiante puede cancelar una ficha pendiente de hoy o futura. Libera el cupo; el número no se reutiliza. Si solicita de nuevo queda al final de la cola.
 - Las atendidas y no presentadas consumen cupo diario. No se permite reducir el cupo por debajo de las fichas vigentes.
-- Con fichas emitidas no se cambia la fecha, horario, trámite ni puesto de la jornada. Sí se puede ajustar cupo/duración o pausar.
+- Con fichas emitidas no se cambia el identificador, fecha, horario, trámite ni puesto de la jornada. Sí se puede ajustar cupo/duración o pausar.
 - Pausar detiene reservas y nuevos llamados; permite finalizar la atención actual y conserva la cola.
 - Eliminar un trámite lo archiva, pausa sus jornadas actuales/futuras y conserva las fichas. Se impide eliminarlo si tiene turnos pendientes actuales/futuros. Su nombre queda reservado en el catálogo histórico.
 - Cada generación, cancelación, llamado, rellamado y conclusión se registra en `historial_ficha` con el usuario autenticado. El cliente no elige el responsable.
@@ -50,6 +50,17 @@ Los archivos públicos de TV permiten su visualización desde el origen del port
 - Las actualizaciones automáticas usan límites de frecuencia separados del resto de la navegación, con control por cuenta en las consultas privadas.
 
 ## Cambios de BD
+
+Para habilitar el identificador editable, el script aplica `prisma/migrations/20261022000000_identificador_fichas/migration.sql` y `prisma/migrations/20261022010000_identificador_tramite/migration.sql`, desde `backend/`:
+
+```powershell
+node scripts/migrate-identificador-fichas.cjs --check
+node scripts/migrate-identificador-fichas.cjs --apply
+npm run prisma:generate
+npm run build
+```
+
+Agrega columnas opcionales en `jornada_atencion` y `tramite_atencion`, un índice único por fecha e identificador efectivo y otro único para identificadores de trámites activos. Los índices de expresión y parcial están definidos en SQL. No renumera ni modifica las fichas existentes. Regenerar Prisma y reiniciar el backend después de aplicarlas; desplegar el frontend junto con el backend. Nuevo/Editar trámite requiere el identificador; si una nueva jornada lo omite, el servidor usa el del trámite. Una edición de jornada sin identificador conserva el que ya tenía.
 
 Migración: `prisma/migrations/20260929000000_fichas_atencion/migration.sql`.
 

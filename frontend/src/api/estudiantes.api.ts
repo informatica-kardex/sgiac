@@ -9,8 +9,15 @@ export interface PerfilEstudiante {
   correo: string;
   mencion: string | null;
 }
+export interface CatalogoHorario {
+  menciones: { id: string; nombre: string }[];
+  materias: { nombre: string; siglas: string[]; planes: { mencion: string; semestre: number | null; orden: number }[] }[];
+  periodos: { id: string; nombre: string; desde: string; hasta: string }[];
+}
 export interface JornadaEstudiante {
   idJornada: string;
+  identificador: string;
+  emitidas: number;
   fecha: string;
   horaInicio: string;
   horaFin: string;
@@ -42,6 +49,7 @@ export interface FichaEstudiante {
   jornada: JornadaEstudiante;
 }
 export const estudiantesApi = {
+  catalogoHorario: () => axiosClient.get<ApiEnvelope<CatalogoHorario>>("/estudiantes/catalogo-horario"),
   atencion: () => axiosClient.get<ApiEnvelope<{ fichas: FichaEstudiante[]; jornadas: JornadaEstudiante[] }>>("/estudiantes/atencion"),
   perfil: () => axiosClient.get<ApiEnvelope<PerfilEstudiante>>("/estudiantes/perfil"),
   jornadas: () => axiosClient.get<ApiEnvelope<JornadaEstudiante[]>>("/estudiantes/jornadas"),

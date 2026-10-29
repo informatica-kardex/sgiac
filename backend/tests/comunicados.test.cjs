@@ -13,12 +13,12 @@ const { crearComunicadoSchema } = require('../src/modules/comunicados/comunicado
 const service = new ComunicadoService();
 const PNG = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9Wl6dV8AAAAASUVORK5CYII=', 'base64');
 const PDF = Buffer.from('%PDF-1.4\n1 0 obj\n<< /Type /Catalog >>\nendobj\ntrailer\n<< /Root 1 0 R >>\n%%EOF\n');
-let rows, attachments, categories, histories, directory, server, base, failSave;
+let rows, attachments, categories, histories, directory, server, base, failSave, nextAttachment;
 function expanded(row) { return row ? { ...row, adjunto_comunicado: attachments.filter(a => a.id_comunicado === row.id_comunicado), categoria_comunicado: categories.find(c => c.id_categoria_comunicado === row.id_categoria_comunicado) } : null; }
 function file(buffer, name = 'imagen.png', mime = 'image/png') { return { buffer, originalname: name, mimetype: mime, size: buffer.length }; }
 const input = (extra = {}) => crearComunicadoSchema.parse({ titulo: 'Comunicado de prueba', categoria: 'Academico', contenido: 'Texto de prueba', tipo: 'texto', estado: 'publicado', ...extra });
 beforeEach(async () => {
-  rows = []; attachments = []; categories = []; histories = []; failSave = false;
+  rows = []; attachments = []; categories = []; histories = []; failSave = false; nextAttachment = 1n;
   directory = await fs.mkdtemp(path.join(__dirname, '.tmp-comunicados-'));
   process.env.COMUNICADOS_UPLOAD_DIR = directory;
   prisma.usuario.findUnique = async ({ where }) => ({ idUsuario: BigInt(where.idUsuario), correo: 'test@example.test', estado: 'ACTIVO', correoVerificado: true, debeCambiarPassword: false,
@@ -37,8 +37,8 @@ beforeEach(async () => {
   };
   prisma.comunicado.update = async ({ where, data }) => Object.assign(rows.find(r => r.id_comunicado === where.id_comunicado), data);
   prisma.comunicado.delete = async ({ where }) => { rows = rows.filter(r => r.id_comunicado !== where.id_comunicado); attachments = attachments.filter(a => a.id_comunicado !== where.id_comunicado); };
-  prisma.adjunto_comunicado.create = async ({ data }) => { const a = { ...data, id_adjunto: BigInt(attachments.length + 1) }; attachments.push(a); return a; };
-  prisma.adjunto_comunicado.deleteMany = async ({ where }) => { attachments = attachments.filter(a => a.id_comunicado !== where.id_comunicado); };
+  prisma.adjunto_comunicado.create = async ({ data }) => { const a = { ...data, id_adjunto: nextAttachment++ }; attachments.push(a); return a; };
+  prisma.adjunto_comunicado.deleteMany = async ({ where }) => { attachments = attachments.filter(a => a.id_comunicado !== where.id_comunicado || (where.id_adjunto && !where.id_adjunto.in.includes(a.id_adjunto))); };
   prisma.adjunto_comunicado.findFirst = async ({ where }) => {
     const a = attachments.find(a => a.id_adjunto === where.id_adjunto && a.id_comunicado === where.id_comunicado);
     return a ? { ...a, comunicado: rows.find(r => r.id_comunicado === a.id_comunicado) } : null;
@@ -134,7 +134,7 @@ test('rechaza archivos falsos, tipo incorrecto, SVG, vacios y publicaciones sin 
   await assert.rejects(service.guardar(input({ contenido: '' }), 1n), { statusCode: 400 });
   assert.equal(rows.length, 0); assert.deepEqual(await fs.readdir(directory), []);
 });
-test('limita cargas a 10 MB y un archivo sin escribir residuos', async () => {
+test('limita cada carga a 10 MB y los comunicados PDF a un archivo sin residuos', async () => {
   const large = await request('', { actor: 1, method: 'POST', body: multipart(input({ tipo: 'pdf' }), Buffer.alloc(10 * 1024 * 1024 + 1)) });
   assert.equal(large.status, 413);
   const form = multipart(input({ tipo: 'pdf' }), PDF); form.append('archivo', new Blob([PDF]), 'otro.pdf');
@@ -171,4 +171,101 @@ test('publico no ve comunicados vencidos o programados', async () => {
   await assert.rejects(service.obtener(1n, true), { statusCode: 404 });
   rows[0].fecha_vencimiento = null; rows[0].fecha_publicacion = new Date(Date.now() + 100000);
   assert.equal((await service.listarPublicados()).length, 0);
+});
+
+test('crea varias imágenes por multipart y devuelve todos los adjuntos en orden', async () => {
+  const form = multipart(input({ tipo: 'imagen', contenido: '' }));
+  for (const name of ['primera.png', 'segunda.png', 'tercera.png']) form.append('archivo', new Blob([PNG], { type: 'image/png' }), name);
+  const response = await request('', { actor: 1, method: 'POST', body: form });
+  assert.equal(response.status, 201);
+  const c = (await response.json()).data;
+  assert.deepEqual(c.adjuntos.map(a => a.nombre), ['primera.png', 'segunda.png', 'tercera.png']);
+  assert.equal((await fs.readdir(directory)).length, 3);
+  const saved = await new ComunicadoService().obtener(BigInt(c.idComunicado));
+  assert.deepEqual(saved.adjuntos, c.adjuntos);
+  for (const adj of c.adjuntos) assert.equal((await fetch(base + adj.url)).status, 200);
+});
+
+test('editar añade nuevas imágenes y retira solo las indicadas; conserva archivos e identificadores restantes', async () => {
+  const c = await service.guardar(input({ tipo: 'imagen' }), 1n, undefined, [file(PNG, 'primera.png'), file(PNG, 'segunda.png')]);
+  const oldKeys = attachments.map(a => a.url_archivo);
+  const form = multipart({ adjuntosEliminar: JSON.stringify([c.adjuntos[0].idAdjunto]) }, PNG, 'tercera.png', 'image/png');
+  const result = await request('/1', { actor: 2, method: 'PUT', body: form });
+  assert.equal(result.status, 200);
+  const updated = (await result.json()).data;
+  assert.deepEqual(updated.adjuntos.map(a => a.nombre), ['segunda.png', 'tercera.png']);
+  assert.equal(updated.adjuntos[0].idAdjunto, c.adjuntos[1].idAdjunto);
+  await assert.rejects(fs.access(rutaArchivo(oldKeys[0])), { code: 'ENOENT' });
+  await fs.access(rutaArchivo(oldKeys[1]));
+  assert.equal((await fetch(base + c.adjuntos[0].url)).status, 404);
+  assert.equal((await fetch(base + c.adjuntos[1].url)).status, 200);
+  assert.equal((await fs.readdir(directory)).length, 2);
+});
+
+test('permite retirar imágenes sin añadir otras, pero exige conservar al menos una', async () => {
+  const c = await service.guardar(input({ tipo: 'imagen' }), 1n, undefined, [file(PNG), file(PNG)]);
+  const response = await request('/1', { actor: 1, method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ adjuntosEliminar: [c.adjuntos[0].idAdjunto] }) });
+  assert.equal(response.status, 200);
+  assert.equal((await response.json()).data.adjuntos.length, 1);
+  const last = await request('/1', { actor: 1, method: 'PUT', body: multipart({ adjuntosEliminar: JSON.stringify([c.adjuntos[1].idAdjunto]) }) });
+  assert.equal(last.status, 400);
+  assert.equal(attachments.length, 1);
+  assert.equal((await fs.readdir(directory)).length, 1);
+});
+
+test('rechaza retirar adjuntos de otros comunicados, datos inválidos y selecciones obsoletas', async () => {
+  const first = await service.guardar(input({ tipo: 'imagen' }), 1n, undefined, file(PNG));
+  const second = await service.guardar(input({ tipo: 'imagen' }), 1n, undefined, file(PNG));
+  for (const value of [JSON.stringify([second.adjuntos[0].idAdjunto]), JSON.stringify(['9999']), '[invalid', JSON.stringify(['../archivo']), JSON.stringify([first.adjuntos[0].idAdjunto, first.adjuntos[0].idAdjunto])]) {
+    const response = await request('/1', { actor: 1, method: 'PUT', body: multipart({ adjuntosEliminar: value }, PNG, 'nueva.png', 'image/png') });
+    assert.equal(response.status, 400);
+  }
+  assert.equal(attachments.length, 2);
+  assert.equal((await fs.readdir(directory)).length, 2);
+  assert.equal((await fetch(base + second.adjuntos[0].url)).status, 200);
+});
+
+test('la carga inicial y las ediciones respetan el máximo total de 10 imágenes', async () => {
+  const form = multipart(input({ tipo: 'imagen' }));
+  for (let i = 0; i < 11; i++) form.append('archivo', new Blob([PNG], { type: 'image/png' }), `imagen-${i}.png`);
+  assert.equal((await request('', { actor: 1, method: 'POST', body: form })).status, 400);
+  assert.equal(rows.length, 0);
+  assert.deepEqual(await fs.readdir(directory), []);
+  await service.guardar(input({ tipo: 'imagen' }), 1n, undefined, Array.from({ length: 9 }, () => file(PNG)));
+  await assert.rejects(service.guardar({}, 1n, 1n, [file(PNG), file(PNG)]), { statusCode: 400 });
+  assert.equal(attachments.length, 9);
+  assert.equal((await fs.readdir(directory)).length, 9);
+  const added = await service.guardar({}, 1n, 1n, file(PNG));
+  assert.equal(added.adjuntos.length, 10);
+});
+
+test('un archivo inválido en un lote limpia los anteriores sin tocar las imágenes guardadas', async () => {
+  await service.guardar(input({ tipo: 'imagen' }), 1n, undefined, file(PNG));
+  const before = attachments[0].url_archivo;
+  await assert.rejects(service.guardar({}, 1n, 1n, [file(PNG), file(Buffer.from('no es una imagen'))]), { statusCode: 400 });
+  assert.deepEqual(await fs.readdir(directory), [before]);
+  assert.equal(attachments.length, 1);
+});
+
+test('si falla la transacción, recupera las imágenes retiradas y limpia todo el lote nuevo', async t => {
+  const original = await service.guardar(input({ tipo: 'imagen' }), 1n, undefined, [file(PNG), file(PNG)]);
+  const originalKeys = attachments.map(a => a.url_archivo).sort();
+  const create = prisma.adjunto_comunicado.create;
+  let added = 0;
+  t.mock.method(prisma.adjunto_comunicado, 'create', async args => {
+    if (++added === 2) throw Error('attachment failure');
+    return create(args);
+  });
+  await assert.rejects(service.guardar({ adjuntosEliminar: [original.adjuntos[0].idAdjunto] }, 1n, 1n, [file(PNG), file(PNG)]), /attachment failure/);
+  assert.deepEqual((await fs.readdir(directory)).sort(), originalKeys);
+  assert.deepEqual((await service.obtener(1n)).adjuntos, original.adjuntos);
+});
+
+test('ediciones simultáneas no exceden el límite ni reemplazan imágenes conservadas', async () => {
+  await service.guardar(input({ tipo: 'imagen' }), 1n, undefined, Array.from({ length: 9 }, () => file(PNG)));
+  const results = await Promise.allSettled([service.guardar({}, 1n, 1n, file(PNG)), service.guardar({}, 2n, 1n, file(PNG))]);
+  assert.equal(results.filter(r => r.status === 'fulfilled').length, 1);
+  assert.equal(results.filter(r => r.status === 'rejected').length, 1);
+  assert.equal(attachments.length, 10);
+  assert.equal((await fs.readdir(directory)).length, 10);
 });

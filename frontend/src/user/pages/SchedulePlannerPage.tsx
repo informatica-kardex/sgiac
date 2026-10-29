@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import type { DiaSemana, Horario } from "../../api/types";
 import { useUserAuthStore } from "../../store/userAuthStore";
 import { DIAS_SEMANA_LABEL } from "../../utils/formatters";
-import { MAX_VERSIONS, Planner, emptyPlanner, findConflicts, groupCourses, hoursPerWeek, newVersion, readPlanner, savePlanner, storageKey } from "../schedule/planner";
+import { MAX_VERSIONS, Planner, emptyPlanner, findConflicts, groupCourses, hoursPerWeek, newVersion, readPlanner, savePlanner, storageKey, chooseSemesterSchedule } from "../schedule/planner";
+import { CatalogoHorario, estudiantesApi } from "../../api/estudiantes.api";
 import { LessonEditor, ManualSchedule } from "../components/ManualSchedule";
 import { SubjectsPanel } from "../components/SubjectsPanel";
 import "../../styles/schedule-planner.css";
@@ -28,6 +29,17 @@ function PlannerWorkspace({ userId }: { userId: string }) {
   const [name, setName] = useState("");
   const [selectedSubject, setSelectedSubject] = useState("");
   const [duration, setDuration] = useState(1);
+  const [selectedDay, setSelectedDay] = useState(() => window.matchMedia("(max-width: 639px)").matches ? "LUNES" : "");
+  const [catalog, setCatalog] = useState<CatalogoHorario | null>(null);
+  const [catalogLoading, setCatalogLoading] = useState(true);
+  const [catalogError, setCatalogError] = useState(false);
+  const [catalogAttempt, setCatalogAttempt] = useState(0);
+  useEffect(() => {
+    let active = true; setCatalogLoading(true); setCatalogError(false);
+    estudiantesApi.catalogoHorario().then(({ data }) => { if (active) setCatalog(data.data); })
+      .catch(() => { if (active) setCatalogError(true); }).finally(() => { if (active) setCatalogLoading(false); });
+    return () => { active = false; };
+  }, [catalogAttempt]);
 
   // Other tabs follow saved changes; unsaved work is never replaced silently.
   useEffect(() => {
@@ -47,9 +59,13 @@ function PlannerWorkspace({ userId }: { userId: string }) {
   const selectedCourses = groupCourses(version.lessons);
   const conflicts = findConflicts(version.lessons);
   const activeSubject = version.subjects.includes(selectedSubject) ? selectedSubject : version.subjects[0] ?? "";
+  const preferredHint = !version.lessons.length ? "Añade al menos una clase para elegir este horario." : !version.context?.period ? "Selecciona el periodo académico en tu plan de estudios." : conflicts.length ? "Resuelve los cruces de horario antes de elegir esta versión." : "";
 
   function commit(next: Planner) {
-    setPlanner(next); setNotice("");
+    const preferred = next.versions.find(v => v.id === next.preferredId);
+    const invalidated = !!preferred && (!preferred.lessons.length || !preferred.context?.period || findConflicts(preferred.lessons).length > 0);
+    if (invalidated) next = { ...next, preferredId: undefined };
+    setPlanner(next); setNotice(invalidated ? "Tu horario elegido cambió y necesita revisión. Cuando esté listo, vuelve a marcarlo como horario del semestre." : "");
     try { savePlanner(window.localStorage, userId, next); setSaveError(false); setSaved(true); }
     catch { setSaveError(true); setSaved(false); }
   }
@@ -61,18 +77,20 @@ function PlannerWorkspace({ userId }: { userId: string }) {
   function addVersion(duplicate: boolean) {
     if (planner.versions.length >= MAX_VERSIONS) return;
     const next = newVersion(duplicate ? `${version.name.slice(0, 52)} (copia)` : `Opción ${planner.versions.length + 1}`, duplicate ? version.lessons : [], duplicate ? version.subjects : []);
+    if (version.context) next.context = { ...version.context };
     commit({ ...planner, activeId: next.id, versions: [...planner.versions, next] }); setEditingName(false);
   }
-  function createLesson(day: DiaSemana = "LUNES", time = "07:00", manual = false) {
+  function createLesson(day: DiaSemana = "LUNES", time = "07:00", openEditor = false) {
+    if (!activeSubject) { setNotice("Primero elige una materia del catálogo. Después pulsa Añadir clase para elegir el día y la hora."); return; }
     if (version.lessons.length >= 100) { setNotice("Esta versión admite hasta 100 clases. Crea otra versión para seguir planificando."); return; }
-    const endHour = Number(time.slice(0, 2)) + (activeSubject && !manual ? duration : 1);
+    const endHour = Number(time.slice(0, 2)) + duration;
     if (endHour > 22) { setNotice("La clase terminaría después de las 22:00. Reduce su duración o elige una hora más temprana."); return; }
     const lesson: Horario = {
       idHorario: Math.max(0, ...version.lessons.map(h => h.idHorario)) + 1,
-      materia: manual ? "" : activeSubject, docente: "", aula: "", grupo: "", dia: day,
+      materia: activeSubject, docente: "", aula: "", grupo: "", dia: day,
       horaInicio: time, horaFin: `${String(endHour).padStart(2, "0")}:00`,
     };
-    if (activeSubject && !manual) {
+    if (!openEditor) {
       if (version.lessons.some(h => h.materia === lesson.materia && h.dia === day && h.horaInicio === time && h.horaFin === lesson.horaFin)) return;
       updateLessons([...version.lessons, lesson]);
     } else setEditor({ existing: false, lesson });
@@ -96,22 +114,23 @@ function PlannerWorkspace({ userId }: { userId: string }) {
         <div className="mt-5 flex flex-wrap items-end justify-between gap-6">
           <div className="max-w-2xl"><p className="text-xs font-semibold uppercase tracking-[.18em] text-teal-200">Prepárate para la inscripción</p>
             <h1 className="mt-2 text-3xl font-extrabold sm:text-4xl">Arma tu horario</h1>
-            <p className="mt-3 leading-7 text-teal-100">Escribe tus materias, elige sus horas y organiza tu semana. Guarda distintas opciones antes de inscribirte.</p></div>
+            <p className="mt-3 leading-7 text-teal-100">Elige tus materias, indica cuándo tienes clases y guarda tu horario del semestre.</p></div>
           <div className="planner-local-badge"><span aria-hidden="true">◉</span> Tu planificación personal</div>
         </div>
       </div>
     </section>
     <div className="container-public space-y-6 py-7">
-      <div className="planner-note">Tus versiones se guardan automáticamente en este navegador y se conservan al cerrar sesión. No se sincronizan con otros dispositivos; borrar los datos del navegador las elimina. <strong>Armar un horario no reserva cupos ni realiza tu inscripción.</strong></div>
+      <p className="planner-note">Guardado automático en este navegador, incluso al cerrar sesión. No se sincroniza entre dispositivos; borrar los datos del navegador elimina tus horarios. <strong>Es una planificación personal, no una inscripción oficial.</strong></p>
       {saveError && <div role="alert" className="rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900">No se pudieron guardar los últimos cambios. Se mantienen en esta pestaña, pero podrían perderse al cerrarla. <button className="ml-2 font-bold underline" onClick={() => commit(planner)}>Reintentar guardado</button></div>}
       <section className="card p-5" aria-label="Versiones de mi horario">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <div><h2 className="text-lg font-bold text-slate-800">Mis versiones <span className="ml-1 text-sm font-normal text-slate-500">{planner.versions.length}/{MAX_VERSIONS}</span></h2>
+          <div><h2 className="text-lg font-bold text-slate-800">{version.name}</h2>
             <p role="status" className="mt-1 text-xs text-slate-500">{saveError ? "Cambios sin guardar" : saved ? "✓ Guardado en este navegador" : "Guardado automático al hacer cambios"}</p></div>
-          <button className="btn-primary" disabled={planner.versions.length >= MAX_VERSIONS} onClick={() => addVersion(false)}>+ Nueva versión</button>
         </div>
+        <details className="mt-3"><summary className="cursor-pointer text-sm font-semibold text-primary-700">Otras versiones y opciones ({planner.versions.length}/{MAX_VERSIONS})</summary>
         <div className="mt-4 flex flex-wrap gap-2" aria-label="Elegir versión">{planner.versions.map(v => <button key={v.id} aria-pressed={v.id === version.id} className="planner-version" onClick={() => { commit({ ...planner, activeId: v.id }); setEditingName(false); }}>{v.name}<span>{v.subjects.length} materias</span></button>)}</div>
         <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-slate-100 pt-4">
+          <button className="btn-secondary" disabled={planner.versions.length >= MAX_VERSIONS} onClick={() => addVersion(false)}>+ Nueva versión</button>
           {editingName ? <form className="flex w-full flex-wrap gap-2 sm:w-auto" onSubmit={e => {
             e.preventDefault(); if (!name.trim()) return;
             commit({ ...planner, versions: planner.versions.map(v => v.id === version.id ? { ...v, name: name.trim() } : v) }); setEditingName(false);
@@ -120,13 +139,13 @@ function PlannerWorkspace({ userId }: { userId: string }) {
           <button className="btn-ghost !text-red-700" onClick={() => {
             if (!window.confirm(`¿Eliminar la versión «${version.name}»? Esta acción no se puede deshacer.`)) return;
             const remaining = planner.versions.filter(v => v.id !== version.id);
-            commit(remaining.length ? { ...planner, activeId: remaining[0].id, versions: remaining } : emptyPlanner()); setEditingName(false);
+            commit(remaining.length ? { ...planner, activeId: remaining[0].id, versions: remaining, preferredId: planner.preferredId === version.id ? undefined : planner.preferredId } : emptyPlanner()); setEditingName(false);
           }}>Eliminar versión</button>
-        </div>
+        </div></details>
       </section>
       {notice && <p role="status" className="planner-note">{notice}</p>}
       <div className="planner-workspace">
-      <SubjectsPanel key={version.id} subjects={version.subjects} lessons={version.lessons} selected={activeSubject} duration={duration} onSelect={setSelectedSubject} onDuration={setDuration} onAdd={subject => {
+      <SubjectsPanel onSchedule={() => createLesson((selectedDay || "LUNES") as DiaSemana, "07:00", true)} key={version.id} catalog={catalog} loading={catalogLoading} error={catalogError} retry={() => setCatalogAttempt(a => a + 1)} context={version.context ?? { mention: "", semester: "" }} onContext={context => commit({ ...planner, versions: planner.versions.map(v => v.id === version.id ? { ...v, context } : v) })} subjects={version.subjects} lessons={version.lessons} selected={activeSubject} duration={duration} onSelect={setSelectedSubject} onDuration={setDuration} onAdd={subject => {
         if (version.subjects.length >= 100) return;
         commit({ ...planner, versions: planner.versions.map(v => v.id === version.id ? { ...v, subjects: [...v.subjects, subject] } : v) }); setSelectedSubject(subject);
       }} onRemove={subject => {
@@ -138,16 +157,21 @@ function PlannerWorkspace({ userId }: { userId: string }) {
         <div className="planner-stats"><div><strong>{selectedCourses.length}</strong><span>Materias en horario</span></div><div><strong>{hoursPerWeek(version.lessons).toLocaleString("es", { maximumFractionDigits: 1 })}</strong><span>Horas por semana</span></div><div><strong>{conflicts.length}</strong><span>Cruces de horario</span></div></div>
         {conflicts.length > 0 && <div role="status" className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800"><strong>Hay clases que coinciden</strong><ul className="mt-2 space-y-1">{conflicts.map(({ a, b }) => <li key={`${a.idHorario}-${b.idHorario}`}>{DIAS_SEMANA_LABEL[a.dia]}: {a.materia} ({a.horaInicio}–{a.horaFin}) y {b.materia} ({b.horaInicio}–{b.horaFin}).</li>)}</ul><p className="mt-2">Pulsa una materia para cambiar su hora o eliminar esa clase.</p></div>}
         <div className="card min-w-0 p-3 sm:p-5">
-          <div className="mb-4 flex flex-wrap items-center justify-between gap-3"><div><h2 className="break-words text-xl font-bold text-slate-800">{version.name}</h2><p className="mt-1 text-sm text-slate-500">Selecciona una materia de tu lista y pulsa una hora. Pulsa una clase para editarla.</p></div><button className="btn-secondary" onClick={() => createLesson("LUNES", "07:00", true)}>+ Clase manual</button></div>
-          {activeSubject && <p role="status" className="planner-placement-note mb-4"><strong>{activeSubject}</strong><span>Lista para colocar · {duration} {duration === 1 ? "hora" : "horas"} · Pulsa una casilla libre</span></p>}
-          <p className="mb-4 text-xs text-slate-500">Lunes a sábado · 07:00 a 22:00 · Intervalos de una hora. En el celular, desliza la cuadrícula para ver todos los días.</p>
-          <ManualSchedule lessons={version.lessons} onCreate={createLesson} onEdit={lesson => setEditor({ lesson, existing: true })} />
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-3"><div><p className="planner-step">2 · Organiza tu semana</p><h2 className="mt-2 break-words text-xl font-bold text-slate-800">Mis clases</h2><p className="mt-1 text-sm text-slate-500">Añade una clase eligiendo su día y hora. Pulsa un bloque para editarlo.</p></div><button className="btn-primary" disabled={!activeSubject} onClick={() => createLesson((selectedDay || "LUNES") as DiaSemana, "07:00", true)}>+ Añadir clase</button></div>
+          {activeSubject ? <p role="status" className="planner-placement-note mb-4"><strong>{activeSubject}</strong><span>Pulsa Añadir clase o una casilla de la semana · {duration} {duration === 1 ? "hora" : "horas"}</span></p> : <p className="planner-subject-empty mb-4">Comienza eligiendo tu mención, semestre y una materia del catálogo.</p>}
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-3"><label className="text-xs font-semibold text-slate-600" htmlFor="planner-view-day">Ver día <select id="planner-view-day" className="select-field ml-2 !w-auto" value={selectedDay} onChange={e => setSelectedDay(e.target.value)}><option value="">Semana completa</option>{["LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO"].map(d => <option key={d} value={d}>{DIAS_SEMANA_LABEL[d]}</option>)}</select></label><Link to="/usuario/horarios" className="planner-text-link">Consultar horarios publicados ↗</Link></div>
+          <p className="mb-4 text-xs text-slate-500">07:00 a 22:00 · Elige un día para trabajar con más espacio o explora la semana completa.</p>
+          <ManualSchedule lessons={version.lessons} selectedDay={selectedDay} onCreate={createLesson} onEdit={lesson => setEditor({ lesson, existing: true })} />
           {version.lessons.some(h => h.horaInicio < "07:00" || h.horaFin > "22:00") && <div className="mt-4 text-sm text-amber-800"><p>Estas clases guardadas incluyen horas fuera de la cuadrícula. Puedes editarlas para ajustarlas:</p>{version.lessons.filter(h => h.horaInicio < "07:00" || h.horaFin > "22:00").map(h => <button key={h.idHorario} className="btn-ghost" onClick={() => setEditor({ existing: true, lesson: { ...h, horaInicio: "07:00", horaFin: "08:00" } })}>{h.materia} · {h.horaInicio}–{h.horaFin}</button>)}</div>}
         </div>
       </section>
       </div>
+      <section className={`planner-preferred${planner.preferredId === version.id ? " is-chosen" : ""}`} aria-label="Horario elegido para el semestre"><div><p className="planner-step">3 · Elige tu horario del semestre</p><h2>{planner.preferredId === version.id ? "✓ Este es tu horario del semestre" : "¿Ya elegiste tu mejor opción?"}</h2><p>{planner.preferredId === version.id ? `${version.context?.period?.nombre ?? ""} · Lo verás al entrar a tu inicio en este navegador.` : "Márcala para ver tus clases al entrar al portal. Puedes cambiarla cuando necesites."}</p><small>Es tu planificación personal; no confirma una inscripción oficial.</small>{preferredHint && <p>{preferredHint}</p>}</div><button className="btn-primary" disabled={saveError || (!!preferredHint && planner.preferredId !== version.id)} onClick={() => {
+        if (planner.preferredId === version.id) { commit({ ...planner, preferredId: undefined }); return; }
+        try { commit(chooseSemesterSchedule(planner, version.id)); } catch (e) { setNotice((e as Error).message); }
+      }}>{planner.preferredId === version.id ? "Dejar de usar como mi horario" : "Usar como mi horario del semestre"}</button></section>
     </div>
-    {editor && <LessonEditor initial={editor.lesson} existing={editor.existing} onClose={() => setEditor(null)} onSave={lesson => {
+    {editor && <LessonEditor initial={editor.lesson} subjects={version.subjects} existing={editor.existing} onClose={() => setEditor(null)} onSave={lesson => {
       updateLessons(editor.existing ? version.lessons.map(h => h.idHorario === lesson.idHorario ? lesson : h) : [...version.lessons, lesson]); setEditor(null);
     }} onDelete={() => {
       if (!window.confirm(`¿Eliminar la clase de ${editor.lesson.materia} del ${DIAS_SEMANA_LABEL[editor.lesson.dia]}?`)) return;

@@ -1,10 +1,20 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "../../database/prisma";
 import { ApiError } from "../../utils/apiError";
+import planesEstudio from "../academico/data/planes-estudio.json";
 import { ahoraBolivia, fichaDTO, fichaInclude, jornadaDTO, jornadaInclude, jornadaVigente, ESPERA } from "../fichas/ficha.shared";
 export { ahoraBolivia } from "../fichas/ficha.shared";
 
 export class EstudianteService {
+  async catalogoHorario(idUsuario: string) {
+    await this.estudiante(idUsuario);
+    const periodos = await prisma.periodo_academico.findMany({ where: { estado: "ACTIVO" }, orderBy: [{ gestion: "desc" }, { periodo: "desc" }] });
+    return {
+      menciones: planesEstudio.menciones,
+      materias: planesEstudio.materias.map(m => ({ nombre: m.nombre, siglas: m.siglas, planes: m.planes.map(p => ({ mencion: p.mencion, semestre: p.semestre, orden: p.orden })) })),
+      periodos: periodos.map(p => ({ id: String(p.id_periodo), nombre: `${p.periodo}/${p.gestion}`, desde: p.fecha_inicio.toISOString().slice(0, 10), hasta: p.fecha_fin.toISOString().slice(0, 10) })),
+    };
+  }
   private async estudiante(idUsuario: string) {
     const estudiante = await prisma.estudiante.findUnique({ where: { id_usuario: BigInt(idUsuario) }, include: { usuario: true } });
     if (!estudiante || estudiante.usuario?.estado !== "ACTIVO") throw ApiError.forbidden("Tu cuenta no tiene un perfil de estudiante activo. Contacta a Kardex.");

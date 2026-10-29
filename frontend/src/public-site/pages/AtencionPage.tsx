@@ -10,9 +10,7 @@ export default function AtencionPage() {
     <div className="container-public py-14">
       <div className="mb-10 max-w-2xl">
         <h1 className="text-3xl font-extrabold text-slate-800">Atención Kardex</h1>
-        <p className="mt-2 text-slate-500">
-          Genera tu ficha de atención para realizar tus trámites académicos.
-        </p>
+        <p className="mt-2 text-slate-500">Genera tu ficha de atención para realizar tus trámites académicos.</p>
       </div>
 
       <div className="mb-10"><TableroAtencion /></div>

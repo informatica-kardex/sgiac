@@ -5,10 +5,11 @@ import { mkdir, writeFile, unlink } from "node:fs/promises";
 import { ApiError } from "../../utils/apiError";
 
 export const MAX_COMUNICADO_FILE_SIZE = 10 * 1024 * 1024;
+export const MAX_COMUNICADO_IMAGENES = 10;
 export const uploadComunicado = multer({
   storage: multer.memoryStorage(),
-  limits: { files: 1, fileSize: MAX_COMUNICADO_FILE_SIZE, fields: 8, fieldSize: 100000, parts: 9 },
-}).single("archivo");
+  limits: { files: MAX_COMUNICADO_IMAGENES, fileSize: MAX_COMUNICADO_FILE_SIZE, fields: 8, fieldSize: 100000, parts: 18 },
+}).array("archivo", MAX_COMUNICADO_IMAGENES);
 
 export interface ArchivoGuardado { nombre: string; mime: string; clave: string; }
 const directorio = () => path.resolve(process.env.COMUNICADOS_UPLOAD_DIR || path.join(__dirname, "../../../uploads/comunicados"));

@@ -1,4 +1,6 @@
 import { Router } from "express";
+import documentoRoutes from "../modules/documentos/documento.routes";
+import solicitudAulaRoutes from "../modules/solicitudes-aulas/solicitud-aula.routes";
 import academicoRoutes from "../modules/academico/academico.routes";
 import authRoutes from "../modules/auth/auth.routes";
 import userRoutes from "../modules/users/user.routes";
@@ -10,6 +12,7 @@ import faqRoutes from "../modules/faq/faq.routes";
 import fichaRoutes from "../modules/fichas/ficha.routes";
 import reporteRoutes from "../modules/reportes/reporte.routes";
 import estudianteRoutes from "../modules/estudiantes/estudiante.routes";
+import telegramRoutes from "../modules/telegram/telegram.routes";
 
 const router = Router();
 
@@ -18,6 +21,8 @@ const router = Router();
 // ------------------------------------------------------------
 
 router.use("/auth", authRoutes);
+router.use("/documentos", documentoRoutes);
+router.use("/solicitudes-aulas", solicitudAulaRoutes);
 router.use("/users", userRoutes);
 router.use("/roles", roleRoutes);
 router.use("/aulas", aulaRoutes);
@@ -25,6 +30,7 @@ router.use("/academico", academicoRoutes);
 router.use("/horarios", horarioRoutes);
 router.use("/comunicados", comunicadoRoutes);
 router.use("/faq", faqRoutes);
+router.use("/telegram", telegramRoutes);
 router.use("/fichas", fichaRoutes);
 router.use("/reportes", reporteRoutes);
 router.use("/estudiantes", estudianteRoutes);

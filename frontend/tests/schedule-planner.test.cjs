@@ -65,3 +65,29 @@ test('conserva materias pendientes, copia la lista y recupera materias de versio
   storage.setItem(storageKey('student'), JSON.stringify(data));
   assert.deepEqual(readPlanner(storage, 'student').versions[0].subjects, ['Programación I']);
 });
+
+test('marca una versión por periodo y restaura la preferencia sin cambiar de cuenta', () => {
+  const { chooseSemesterSchedule } = compiled.exports;
+  const data = emptyPlanner();
+  const v = data.versions[0];
+  v.lessons = [lesson()];
+  v.context = { mention: 'SOFTWARE', semester: '1', period: { id: '7', nombre: 'II/2026', desde: '2026-07-01', hasta: '2026-12-31' } };
+  const chosen = chooseSemesterSchedule(data, v.id);
+  assert.equal(chosen.preferredId, v.id);
+  const values = new Map();
+  const storage = { getItem: key => values.get(key) ?? null, setItem: (key, value) => values.set(key, value) };
+  savePlanner(storage, 'a', chosen);
+  assert.equal(readPlanner(storage, 'a').preferredId, v.id);
+  assert.deepEqual(readPlanner(storage, 'a').versions[0].context, v.context);
+  assert.equal(readPlanner(storage, 'b').preferredId, undefined);
+});
+test('no elige como horario una versión vacía, sin periodo o con cruces', () => {
+  const { chooseSemesterSchedule } = compiled.exports;
+  const data = emptyPlanner(), v = data.versions[0];
+  assert.throws(() => chooseSemesterSchedule(data, v.id), /al menos una clase/);
+  v.lessons = [lesson()];
+  assert.throws(() => chooseSemesterSchedule(data, v.id), /periodo/);
+  v.context = { mention: 'SOFTWARE', semester: '1', period: { id: '1', nombre: 'II/2026', desde: '2026-07-01', hasta: '2026-12-31' } };
+  v.lessons.push(lesson({ idHorario: 2, materia: 'Álgebra' }));
+  assert.throws(() => chooseSemesterSchedule(data, v.id), /cruces/);
+});

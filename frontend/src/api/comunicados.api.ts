@@ -5,12 +5,12 @@ export type CrearComunicadoPayload = Pick<
   Comunicado,
   "titulo" | "tipo" | "contenido" | "categoria" | "estado"
 >;
-export type ActualizarComunicadoPayload = Partial<CrearComunicadoPayload>;
+export type ActualizarComunicadoPayload = Partial<CrearComunicadoPayload> & { adjuntosEliminar?: string[] };
 
-function formulario(payload: ActualizarComunicadoPayload, archivo?: File | null) {
+function formulario(payload: ActualizarComunicadoPayload, archivos?: File | File[] | null) {
   const form = new FormData();
-  Object.entries(payload).forEach(([key, value]) => { if (value !== undefined) form.append(key, value); });
-  if (archivo) form.append("archivo", archivo);
+  Object.entries(payload).forEach(([key, value]) => { if (value !== undefined) form.append(key, Array.isArray(value) ? JSON.stringify(value) : value); });
+  if (archivos) (Array.isArray(archivos) ? archivos : [archivos]).forEach(archivo => form.append("archivo", archivo));
   return form;
 }
 
@@ -26,9 +26,9 @@ export const comunicadosApi = {
   listar: (publico = false) => axiosClient.get<ApiEnvelope<Comunicado[]>>("/comunicados", { params: publico ? { publico: "1" } : {} }),
   obtener: (id: string, publico = false) =>
     axiosClient.get<ApiEnvelope<Comunicado>>(`/comunicados/${id}`, { params: publico ? { publico: "1" } : {} }),
-  crear: (payload: CrearComunicadoPayload, archivo?: File | null) =>
+  crear: (payload: CrearComunicadoPayload, archivo?: File | File[] | null) =>
     axiosClient.post<ApiEnvelope<Comunicado>>("/comunicados", formulario(payload, archivo)),
-  actualizar: (id: string, payload: ActualizarComunicadoPayload, archivo?: File | null) =>
+  actualizar: (id: string, payload: ActualizarComunicadoPayload, archivo?: File | File[] | null) =>
     axiosClient.put<ApiEnvelope<Comunicado>>(`/comunicados/${id}`, formulario(payload, archivo)),
   eliminar: (id: string) =>
     axiosClient.delete<ApiEnvelope<null>>(`/comunicados/${id}`),

@@ -32,9 +32,9 @@ export const comunicadoController = {
     });
   }),
   crear: asyncHandler(async (req, res) => sendSuccess(res,
-    await service.guardar(crearComunicadoSchema.parse(req.body), BigInt(req.user!.idUsuario), undefined, req.file), "Comunicado creado", 201)),
+    await service.guardar(crearComunicadoSchema.parse(req.body), BigInt(req.user!.idUsuario), undefined, req.files as Express.Multer.File[]), "Comunicado creado", 201)),
   actualizar: asyncHandler(async (req, res) => sendSuccess(res,
-    await service.guardar(actualizarComunicadoSchema.parse(req.body), BigInt(req.user!.idUsuario), idSchema.parse(req.params.id), req.file), "Comunicado actualizado")),
+    await service.guardar(actualizarComunicadoSchema.parse(req.body), BigInt(req.user!.idUsuario), idSchema.parse(req.params.id), req.files as Express.Multer.File[]), "Comunicado actualizado")),
   eliminar: asyncHandler(async (req, res) => {
     await service.eliminar(idSchema.parse(req.params.id), BigInt(req.user!.idUsuario));
     return sendSuccess(res, null, "Comunicado eliminado");

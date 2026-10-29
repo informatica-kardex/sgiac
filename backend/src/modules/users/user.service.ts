@@ -3,7 +3,8 @@ import { ApiError } from "../../utils/apiError";
 import { hashPassword } from "../../utils/password";
 import { UserRepository } from "./user.repository";
 import { RoleRepository, ROLES_SUBADMIN, rolesActivos } from "../roles/role.repository";
-import { CrearSubadminInput } from "./user.validation";
+import { CrearSubadminInput, CrearEstudianteInput } from "./user.validation";
+import { Prisma } from "@prisma/client";
 
 type UsuarioConRoles = NonNullable<Awaited<ReturnType<UserRepository["findByIdWithRoles"]>>>;
 function perfil(usuario: UsuarioConRoles) {
@@ -20,6 +21,36 @@ function perfil(usuario: UsuarioConRoles) {
 export class UserService {
   private repository = new UserRepository();
   private roleRepository = new RoleRepository();
+
+  async crearEstudiante(input: CrearEstudianteInput, actor: bigint) {
+    const contrasenaHash = await hashPassword(input.ci);
+    try {
+      return await prisma.$transaction(async tx => {
+        const rol = await tx.rol.findUnique({ where: { nombre: 'CONSULTA_INTERNA' } });
+        if (!rol || rol.estado !== 'ACTIVO') throw ApiError.conflict('El rol de estudiante no está disponible.');
+        const existente = await tx.estudiante.findFirst({ where: { OR: [{ ci: input.ci }, { ru: input.ru }, { correo_institucional: input.correo }] } });
+        if (existente && (existente.id_usuario || existente.ci !== input.ci || existente.ru !== input.ru || existente.correo_institucional !== input.correo)) {
+          throw ApiError.conflict('Ya existe un estudiante con ese CI, RU o correo. Revisa sus datos antes de crear la cuenta.');
+        }
+        const usuario = await tx.usuario.create({ data: {
+          nombreCompleto: `${input.nombres} ${input.apellidos}`, correo: input.correo, contrasenaHash,
+          estado: 'ACTIVO', debeCambiarPassword: true, correoVerificado: false,
+          roles: { create: { idRol: rol.idRol } },
+        } });
+        const data = { nombres: input.nombres, apellidos: input.apellidos, ci: input.ci, ru: input.ru,
+          correo_institucional: input.correo, carrera: input.mencion, id_usuario: usuario.idUsuario };
+        const estudiante = existente
+          ? await tx.estudiante.update({ where: { id_estudiante: existente.id_estudiante }, data })
+          : await tx.estudiante.create({ data });
+        await tx.bitacora.create({ data: { accion: 'ESTUDIANTE_CREADO', entidadAfectada: 'usuario',
+          idRegistroAfectado: String(usuario.idUsuario), detalle: 'Cuenta institucional creada por el administrador; contraseña temporal y verificación de correo pendientes', idUsuario: actor } });
+        return { idUsuario: String(usuario.idUsuario), idEstudiante: String(estudiante.id_estudiante) };
+      });
+    } catch (e) {
+      if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2002') throw ApiError.conflict('Ya existe una cuenta o estudiante con ese correo, CI o RU.');
+      throw e;
+    }
+  }
 
   async resetearPassword(idUsuario: bigint, ci: string | undefined, actor: bigint) {
     if (idUsuario === actor) throw ApiError.forbidden("No puedes restablecer tu propia contraseña desde esta opción");

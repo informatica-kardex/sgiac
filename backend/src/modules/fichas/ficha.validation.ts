@@ -6,12 +6,15 @@ export const fechaSchema = z.string().regex(/^\d{4}-\d{2}-\d{2}$/).refine(v => {
   return !isNaN(date.getTime()) && date.toISOString().slice(0, 10) === v;
 }, "Fecha inválida");
 const horaSchema = z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/);
+const identificadorSchema = z.string().trim().toUpperCase().regex(/^[A-Z][A-Z0-9]{0,19}$/, "El identificador debe tener de 1 a 20 letras o números, comenzar con una letra y no incluir espacios ni símbolos.");
 export const tramiteSchema = z.object({
   nombre: z.string().trim().min(3).max(150),
   descripcion: z.string().trim().max(500).default(""),
+  identificador: identificadorSchema,
 });
 export const jornadaSchema = z.object({
   idTramite: idSchema.nullable(), fecha: fechaSchema,
+  identificador: identificadorSchema.optional(),
   horaInicio: horaSchema, horaFin: horaSchema,
   modoCupo: z.enum(["MANUAL", "TIEMPO"]),
   cupoTotal: z.number().int().min(1).max(10000),

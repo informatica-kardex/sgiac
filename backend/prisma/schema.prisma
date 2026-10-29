@@ -2,6 +2,97 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model TipoDocumento {
+  id BigInt @id @default(autoincrement())
+  nombre String @unique @db.VarChar(120)
+  identificador String? @unique @db.VarChar(20)
+  descripcion String @default("")
+  habilitado Boolean @default(false)
+  desde DateTime? @db.Timestamptz(6)
+  hasta DateTime? @db.Timestamptz(6)
+  plazoHoras Int @default(48) @map("plazo_horas")
+  demoraRecojoMinutos Int @default(60) @map("demora_recojo_minutos")
+  // Columna histórica, conservada por compatibilidad; las hojas se indican al marcar listo.
+  hojas Int @default(1) @ignore
+  cupoDiario Int @default(50) @map("cupo_diario")
+  lugar String @default("Kardex") @db.VarChar(200)
+  requisitos String @default("")
+  correoHabilitado Boolean @default(true) @map("correo_habilitado")
+  horaInicio String @default("08:00") @map("hora_inicio") @db.VarChar(5)
+  horaFin String @default("16:00") @map("hora_fin") @db.VarChar(5)
+  diasAtencion Int[] @default([1, 2, 3, 4, 5]) @map("dias_atencion")
+  version Int @default(1)
+  solicitudes SolicitudDocumento[]
+  @@map("tipo_documento")
+}
+
+model SolicitudDocumento {
+  id BigInt @id @default(autoincrement())
+  codigo String? @unique @db.VarChar(50)
+  idTipo BigInt @map("id_tipo")
+  idEstudiante BigInt @map("id_estudiante")
+  idResponsable BigInt? @map("id_responsable")
+  documento String @db.VarChar(120)
+  motivo String @db.VarChar(500)
+  detalle String @default("")
+  estado String @default("SOLICITADA") @db.VarChar(30)
+  creadaEn DateTime @default(now()) @map("creada_en") @db.Timestamptz(6)
+  estimadaEn DateTime @map("estimada_en") @db.Timestamptz(6)
+  fechaRecojo DateTime? @map("fecha_recojo") @db.Timestamptz(6)
+  hojas Int?
+  lugar String @db.VarChar(200)
+  requisitos String @default("")
+  correoHabilitado Boolean @map("correo_habilitado")
+  version Int @default(1)
+  tipo TipoDocumento @relation(fields: [idTipo], references: [id], onDelete: Restrict)
+  estudiante estudiante @relation(fields: [idEstudiante], references: [id_estudiante], onDelete: Restrict)
+  responsable Usuario? @relation(fields: [idResponsable], references: [idUsuario], onDelete: Restrict)
+  eventos EventoDocumento[]
+  correos CorreoDocumento[]
+  @@index([idEstudiante, creadaEn])
+  @@index([estado, creadaEn])
+  @@index([idTipo, creadaEn])
+  @@map("solicitud_documento")
+}
+
+model EventoDocumento {
+  id BigInt @id @default(autoincrement())
+  idSolicitud BigInt @map("id_solicitud")
+  idUsuario BigInt @map("id_usuario")
+  estado String @db.VarChar(30)
+  descripcion String
+  fecha DateTime @default(now()) @db.Timestamptz(6)
+  solicitud SolicitudDocumento @relation(fields: [idSolicitud], references: [id], onDelete: Restrict)
+  usuario Usuario @relation(fields: [idUsuario], references: [idUsuario], onDelete: Restrict)
+  @@index([idSolicitud, id])
+  @@map("evento_documento")
+}
+
+model CorreoDocumento {
+  id BigInt @id @default(autoincrement())
+  idSolicitud BigInt @map("id_solicitud")
+  version Int
+  canal String @default("CORREO") @db.VarChar(10)
+  estado String @default("PENDIENTE") @db.VarChar(20)
+  intentos Int @default(0)
+  proximoIntento DateTime @default(now()) @map("proximo_intento") @db.Timestamptz(6)
+  enviadoEn DateTime? @map("enviado_en") @db.Timestamptz(6)
+  solicitud SolicitudDocumento @relation(fields: [idSolicitud], references: [id], onDelete: Restrict)
+  @@unique([idSolicitud, version, canal])
+  @@index([estado, proximoIntento])
+  @@map("correo_documento")
+}
+
+model VinculoTelegram {
+  idUsuario BigInt @id @map("id_usuario")
+  chatId BigInt? @unique @map("chat_id")
+  tokenHash String? @unique @map("token_hash") @db.VarChar(64)
+  expiraEn DateTime? @map("expira_en") @db.Timestamptz(6)
+  vinculadoEn DateTime? @map("vinculado_en") @db.Timestamptz(6)
+  usuario Usuario @relation(fields: [idUsuario], references: [idUsuario], onDelete: Cascade)
+  @@map("vinculo_telegram")
+}
+
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
@@ -33,6 +124,10 @@ model Usuario {
   refreshTokens           RefreshToken[]
   roles                   UsuarioRol[]
   permisos                PermisoUsuario[]
+  documentosAsignados     SolicitudDocumento[]
+  eventosDocumento        EventoDocumento[]
+  vinculoTelegram         VinculoTelegram?
+  solicitudesAula         SolicitudAula[]
 
   @@map("usuario")
 }
@@ -280,6 +375,8 @@ model estudiante {
   gestion              Int?
   usuario              Usuario?         @relation(fields: [id_usuario], references: [idUsuario], onUpdate: NoAction, map: "fk_estudiante_usuario")
   ficha_atencion       ficha_atencion[]
+  solicitudesDocumento SolicitudDocumento[]
+  auxiliar             auxiliar?
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
@@ -336,6 +433,8 @@ model historial_ficha {
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model horario {
   id_horario      BigInt         @id @default(autoincrement())
+  id_solicitud_aula BigInt?
+  solicitudAula   SolicitudAula? @relation(fields: [id_solicitud_aula], references: [id], onDelete: Restrict)
   fecha           DateTime?      @db.Date
   motivo          String?        @db.VarChar(200)
   id_auxiliar     BigInt?
@@ -357,6 +456,7 @@ model horario {
   @@index([id_paralelo], map: "idx_horario_paralelo")
   @@index([fecha])
   @@index([id_auxiliar])
+  @@index([id_solicitud_aula])
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
@@ -373,6 +473,7 @@ model jornada_atencion {
   modo_cupo      String            @default("MANUAL") @db.VarChar(10)
   minutos_por_estudiante Int       @default(10)
   puesto         String            @default("Kardex") @db.VarChar(80)
+  identificador  String?           @db.VarChar(20)
   tramite        tramite_atencion? @relation(fields: [id_tramite], references: [id_tramite], onDelete: Restrict)
   ficha_atencion  ficha_atencion[]
   historial_ficha historial_ficha[]
@@ -386,6 +487,7 @@ model tramite_atencion {
   id_tramite BigInt @id @default(autoincrement())
   nombre String @unique @db.VarChar(150)
   descripcion String @default("") @db.VarChar(500)
+  identificador String? @db.VarChar(20)
   activo Boolean @default(true)
   jornada_atencion jornada_atencion[]
 }
@@ -421,6 +523,7 @@ model paralelo {
   id_periodo         BigInt
   horario            horario[]
   auxiliares         auxiliar_asignacion[]
+  solicitudesAula    SolicitudAula[]
   docente            docente           @relation(fields: [id_docente], references: [id_docente], onUpdate: NoAction, map: "fk_paralelo_docente")
   materia            materia           @relation(fields: [codigo_materia], references: [codigo_materia], onUpdate: NoAction, map: "fk_paralelo_materia")
   periodo_academico  periodo_academico @relation(fields: [id_periodo], references: [id_periodo], onUpdate: NoAction, map: "fk_paralelo_periodo")
@@ -432,12 +535,44 @@ model paralelo {
 
 model auxiliar {
   id_auxiliar     BigInt @id @default(autoincrement())
+  id_estudiante   BigInt? @unique
+  estudiante      estudiante? @relation(fields: [id_estudiante], references: [id_estudiante], onDelete: Restrict, onUpdate: NoAction)
   nombre_completo String @db.VarChar(150)
   correo          String? @db.VarChar(150)
   telefono        String? @db.VarChar(30)
   estado          String @default("ACTIVO") @db.VarChar(20)
   asignaciones    auxiliar_asignacion[]
   horarios        horario[]
+  solicitudesAula SolicitudAula[]
+}
+
+model SolicitudAula {
+  id BigInt @id @default(autoincrement())
+  idSolicitante BigInt @map("id_solicitante")
+  idAuxiliar BigInt @map("id_auxiliar")
+  idParalelo BigInt @map("id_paralelo")
+  nombre String @db.VarChar(150)
+  ci String @db.VarChar(30)
+  ru String @db.VarChar(30)
+  correo String @db.VarChar(150)
+  celular String @db.VarChar(30)
+  numeroEstudiantes Int @map("numero_estudiantes")
+  actividad String @db.VarChar(40)
+  detalle String @db.VarChar(1000)
+  reserva Json
+  propuesta Json?
+  estado String @default("PENDIENTE") @db.VarChar(30)
+  version Int @default(1)
+  historial Json @default("[]")
+  creadaEn DateTime @default(now()) @map("creada_en") @db.Timestamptz(6)
+  actualizadaEn DateTime @default(now()) @updatedAt @map("actualizada_en") @db.Timestamptz(6)
+  solicitante Usuario @relation(fields: [idSolicitante], references: [idUsuario], onDelete: Restrict)
+  auxiliar auxiliar @relation(fields: [idAuxiliar], references: [id_auxiliar], onDelete: Restrict)
+  paralelo paralelo @relation(fields: [idParalelo], references: [id_paralelo], onDelete: Restrict)
+  horarios horario[]
+  @@index([idSolicitante, creadaEn])
+  @@index([estado, creadaEn])
+  @@map("solicitud_aula")
 }
 
 model auxiliar_asignacion {

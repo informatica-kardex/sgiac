@@ -5,8 +5,8 @@ import { AdminIcon, AdminIconName } from "./AdminIcon";
 
 const groups: { title: string; items: { key: AdminIconName; label: string }[] }[] = [
   { title: "", items: [{ key: "dashboard", label: "Dashboard" }] },
-  { title: "Gestión académica", items: [{ key: "docentes", label: "Docentes" }, { key: "materias", label: "Materias" }, { key: "aulas", label: "Aulas" }, { key: "ver-horarios", label: "Ver Horarios" }, { key: "horarios", label: "Horarios" }] },
-  { title: "Comunicación", items: [{ key: "comunicados", label: "Comunicados" }, { key: "faq", label: "Preguntas frecuentes" }, { key: "fichas", label: "Atención" }] },
+  { title: "Gestión académica", items: [{ key: "docentes", label: "Docentes" }, { key: "auxiliares", label: "Auxiliares" }, { key: "solicitudes-aulas", label: "Solicitudes de aulas" }, { key: "materias", label: "Materias" }, { key: "aulas", label: "Aulas" }, { key: "ver-horarios", label: "Ver Horarios" }, { key: "horarios", label: "Horarios" }] },
+  { title: "Comunicación", items: [{ key: "comunicados", label: "Comunicados" }, { key: "faq", label: "Preguntas frecuentes" }, { key: "fichas", label: "Atención" }, { key: "documentos", label: "Solicitudes de documentos" }] },
   { title: "Administración", items: [{ key: "reportes", label: "Reportes" }, { key: "subadministradores", label: "Subadministradores" }, { key: "estudiantes", label: "Estudiantes" }, { key: "roles", label: "Roles y permisos" }, { key: "auditoria", label: "Auditoría" }, { key: "configuracion", label: "Configuración" }] },
 ];
 export function AdminSidebar({ open, onClose }: { open: boolean; onClose: () => void }) {

@@ -7,7 +7,7 @@ export const globalRateLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
   // Estas lecturas automáticas tienen límites propios para no consumir el de navegación.
-  skip: req => req.method === "GET" && ["/api/fichas/tablero", "/api/fichas/panel", "/api/estudiantes/atencion", "/api/fichas/tv/config"].includes(req.path),
+  skip: req => req.method === "GET" && ["/api/fichas/tablero", "/api/fichas/panel", "/api/estudiantes/atencion", "/api/fichas/tv/config", "/api/documentos/mis-solicitudes", "/api/documentos/bandeja", "/api/telegram/vinculo"].includes(req.path),
   message: {
     success: false,
     message: "Demasiadas solicitudes. Intenta nuevamente mas tarde.",
@@ -19,6 +19,14 @@ export const atencionPollingLimiter = rateLimit({
   keyGenerator: req => `usuario:${req.user!.idUsuario}`,
   standardHeaders: true, legacyHeaders: false,
   message: { success: false, message: "Demasiadas actualizaciones. Espera un minuto." },
+});
+
+// Trámites autenticados: no compartir el cupo de login entre estudiantes de una misma red.
+export const documentosMutationLimiter = rateLimit({
+  windowMs: 60000, limit: 20,
+  keyGenerator: req => `documentos:${req.user!.idUsuario}`,
+  standardHeaders: true, legacyHeaders: false,
+  message: { success: false, message: "Demasiadas operaciones. Espera un minuto antes de continuar." },
 });
 export const tableroPollingLimiter = rateLimit({
   windowMs: 60000, limit: 600,

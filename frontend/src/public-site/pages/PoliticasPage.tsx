@@ -36,6 +36,14 @@ const POLITICAS: Record<Politica, {
         ],
       },
       {
+        titulo: "Solicitudes de documentos y avisos voluntarios",
+        contenido: [
+          "Al solicitar un documento académico se registra el tipo, motivo, ficha de recojo, fechas, requisitos, cantidad de hojas y seguimiento del trámite. El estudiante consulta sus propias solicitudes y el personal autorizado gestiona la preparación y entrega. El sistema puede enviar el aviso de recojo al correo verificado de la cuenta.",
+          "El bot público de Telegram permite consultar preguntas sin vincular una cuenta. Dentro de tu sesión puedes elegir vincular Telegram para recibir avisos personales y consultar tus solicitudes. Al confirmar el enlace se asocia el identificador de tu chat privado con tu cuenta. Telegram recibe los mensajes de aviso, que incluyen ficha, documento, fecha, lugar y hojas a traer; no se envían tus notas académicas.",
+          "Puedes desvincular Telegram desde Mis documentos o con /desvincular en el bot. Se elimina la asociación con el chat y se detienen los próximos avisos personales por ese canal. Esto no elimina mensajes ya recibidos en Telegram ni el historial de tus trámites en SGIAC.",
+        ],
+      },
+      {
         titulo: "Conservación y solicitudes sobre tus datos",
         contenido: [
           "Cerrar sesión o borrar las cookies no elimina tu cuenta ni los registros de actividad. La información de la cuenta permanece almacenada; no se establece aquí un plazo de eliminación automática. Consulta con el personal responsable los plazos de conservación de tu información académica y de atención.",

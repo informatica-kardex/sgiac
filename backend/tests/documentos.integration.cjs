@@ -1,0 +1,167 @@
+// Usa la BD configurada y revierte TODOS los datos de prueba en una única transacción.
+// No envía correos ni mensajes reales. Ejecutar después de migrate-documentos.cjs --apply.
+require('dotenv').config();
+const assert = require('node:assert/strict');
+const crypto = require('node:crypto');
+const { PrismaClient } = require('@prisma/client');
+const db = new PrismaClient();
+const dbModule = require('../src/database/prisma');
+const originalDb = dbModule.prisma;
+const mail = require('../src/utils/mail');
+const { TelegramClient } = require('../src/modules/telegram/telegram.client');
+const originalMail = mail.sendMail, originalTelegram = TelegramClient.prototype.call;
+const sent = [], telegramSent = [];
+mail.sendMail = async m => { sent.push(m); };
+TelegramClient.prototype.call = async function(method, payload) { telegramSent.push({ method, payload }); return true; };
+const { env } = require('../src/config/env');
+env.telegramBotToken = 'test-only-never-used-on-network';
+const { DocumentoService } = require('../src/modules/documentos/documento.service');
+const { configuracionDocumentoSchema } = require('../src/modules/documentos/documento.validation');
+const { telegramVinculo, responderTelegramPersonal } = require('../src/modules/telegram/telegram.vinculo');
+const { procesarCorreosDocumentos } = require('../src/modules/documentos/documento.mail');
+const service = new DocumentoService();
+const rollback = new Error('ROLLBACK_DOCUMENTOS_TEST');
+const tag = `doc-test-${crypto.randomBytes(5).toString('hex')}`;
+let assertions = 0;
+const ok = (value, message) => { assert.ok(value, message); assertions++; };
+(async () => {
+  try {
+    await db.$transaction(async tx => {
+      let studentId;
+      // Reutiliza esta transacción para los servicios sin confirmar nada en la BD.
+      const adapter = new Proxy(tx, { get(target, prop) {
+        if (prop === '$transaction') return arg => typeof arg === 'function' ? arg(adapter) : Promise.all(arg);
+        if (prop === 'correoDocumento') return new Proxy(target.correoDocumento, { get(delegate, method) {
+          if (method === 'findMany') return (args = {}) => delegate.findMany({ ...args, where: { AND: [args.where || {}, { solicitud: { idEstudiante: studentId } }] } });
+          return delegate[method];
+        } });
+        return target[prop];
+      } });
+      dbModule.prisma = adapter;
+      const makeUser = (n, student = true) => tx.usuario.create({ data: { nombreCompleto: `Prueba documentos ${n}`, correo: `${tag}-${n}@example.invalid`, correoVerificado: true,
+        ...(student ? { estudiante: { create: { nombres: 'Prueba', apellidos: `Documentos ${n}`, ru: `${tag}-${n}`, ci: `${tag}-${n}`, correo_institucional: `${tag}-${n}@example.invalid` } } } : {}) }, include: { estudiante: true } });
+      const u1 = await makeUser(1), u2 = await makeUser(2), admin = await makeUser(3, false);
+      studentId = u1.estudiante.id_estudiante;
+      const uid = String(u1.idUsuario), uid2 = String(u2.idUsuario), aid = String(admin.idUsuario);
+      const rol = await tx.rol.findUniqueOrThrow({ where: { nombre: 'ADMINISTRADOR' } });
+      await tx.usuarioRol.create({ data: { idUsuario: admin.idUsuario, idRol: rol.idRol } });
+      // Verificación HTTP con JWT reales: sin sesión, estudiante, subadministrador y administrador.
+      const express = require('express');
+      const { signAccessToken, credentialVersion } = require('../src/utils/jwt');
+      const { errorMiddleware } = require('../src/middlewares/error.middleware');
+      const routes = require('../src/modules/documentos/documento.routes').default;
+      const telegramRoutes = require('../src/modules/telegram/telegram.routes').default;
+      const sub = await makeUser(4, false);
+      const subRol = await tx.rol.findUniqueOrThrow({ where: { nombre: 'SUBADMINISTRADOR' } });
+      await tx.usuarioRol.create({ data: { idUsuario: sub.idUsuario, idRol: subRol.idRol } });
+      const tokenFor = u => signAccessToken({ idUsuario: String(u.idUsuario), correo: u.correo, roles: [], credentialVersion: credentialVersion(null) });
+      const app = express(); app.use(express.json()); app.use('/api/documentos', routes); app.use('/api/telegram', telegramRoutes); app.use(errorMiddleware);
+      const server = app.listen(0, '127.0.0.1'); await new Promise(resolve => server.once('listening', resolve));
+      const request = (path, u, method = 'GET', body) => fetch(`http://127.0.0.1:${server.address().port}/api${path}`, { method, headers: { ...(u ? { Authorization: `Bearer ${tokenFor(u)}` } : {}), 'Content-Type': 'application/json' }, ...(body ? { body: JSON.stringify(body) } : {}) });
+      try {
+        ok((await request('/documentos/bandeja')).status === 401, 'Bandeja privada');
+        ok((await request('/documentos/bandeja', u1)).status === 403, 'Estudiante no accede a bandeja');
+        ok((await request('/documentos/bandeja', sub)).status === 403, 'Subadministrador sin función no accede');
+        await tx.permisoUsuario.create({ data: { idUsuario: sub.idUsuario, modulo: 'documentos' } });
+        ok((await request('/documentos/bandeja', sub)).status === 200, 'Subadministrador con función sí accede');
+        ok((await request('/documentos/tipos', sub, 'POST', {})).status === 403, 'Solo administrador configura');
+        ok((await request('/documentos/tipos', admin)).status === 200, 'Administrador accede');
+        ok((await request('/documentos/mis-solicitudes/abc/cancelar', u1, 'POST')).status === 400, 'ID inválido produce 400');
+        ok((await request('/telegram/vinculo', u1, 'POST', { consentimiento: false })).status === 400, 'Vinculación requiere consentimiento afirmativo');
+        ok((await request('/telegram/vinculo')).status === 401, 'Vinculación requiere sesión');
+        const publicBot = await request('/telegram'); ok(publicBot.status === 200, 'Bot público no exige sesión');
+      } finally { await new Promise(resolve => server.close(resolve)); }
+      const identificador = 'T' + crypto.randomBytes(5).toString('hex').toUpperCase();
+      const config = configuracionDocumentoSchema.parse({ nombre: tag, identificador, descripcion: '', desde: null, hasta: null, habilitado: true, cupoDiario: 1, plazoHoras: 48, requisitos: 'Traer identificación', lugar: 'Kardex', correoHabilitado: true, demoraRecojoMinutos: 30, diasAtencion: [0,1,2,3,4,5,6], horaInicio: '00:00', horaFin: '23:59' });
+      const creada = await service.guardarTipo(null, config, aid);
+      const tipo = await tx.tipoDocumento.findUniqueOrThrow({ where: { id: BigInt(creada.id) } });
+      ok(tipo.identificador === identificador && !('hojas' in (await service.tipos()).find(t => t.id === creada.id)), 'Configura identificador sin solicitar hojas');
+      await assert.rejects(service.guardarTipo(null, { ...config, nombre: tag + ' duplicado' }, aid), { statusCode: 409 }); assertions++;
+      const input = { idTipo: String(tipo.id), motivo: 'Beca Comedor', detalle: 'Periodo II' };
+      const s = await service.solicitar(uid, input);
+      ok(s.codigo.startsWith(identificador + '-') && s.hojas === null && s.estado === 'SOLICITADA', 'Ficha con identificador y hojas pendientes');
+      ok(s.nombres === u1.estudiante.nombres && s.apellidos === u1.estudiante.apellidos && s.ci === u1.estudiante.ci, 'Detalle expone nombre, apellidos y CI sin deducirlos de texto');
+      ok((await tx.solicitudDocumento.findUniqueOrThrow({ where: { id: BigInt(s.id) } })).hojas === null, 'Hojas pendientes también en PostgreSQL');
+      await service.guardarTipo(String(tipo.id), { ...config, identificador: identificador + 'A', version: 1 }, aid);
+      ok((await service.portal(uid)).solicitudes.find(x => x.id === s.id).codigo === s.codigo, 'Cambiar identificador conserva fichas emitidas');
+      await assert.rejects(service.solicitar(uid, input), { statusCode: 409 }); assertions++;
+      await assert.rejects(service.solicitar(uid2, input), { statusCode: 409 }); assertions++;
+      await assert.rejects(service.cancelar(uid2, s.id), { statusCode: 404 }); assertions++;
+      ok(!(await service.portal(uid2)).solicitudes.some(x => x.id === s.id), 'No expone solicitudes de otro estudiante');
+      await assert.rejects(service.accion(s.id, { accion: 'ENTREGAR', version: 1, observacion: '' }, aid), { statusCode: 409 }); assertions++;
+      const preparada = await service.accion(s.id, { accion: 'PREPARAR', version: 1, observacion: '' }, aid);
+      ok(preparada.responsable.id === aid && preparada.version === 2, 'Preparación y responsable');
+      await assert.rejects(service.accion(s.id, { accion: 'LISTA', version: 2, lugar: 'Kardex', requisitos: '', observacion: '' }, aid), { statusCode: 400 }); assertions++;
+      ok(await tx.correoDocumento.count({ where: { idSolicitud: BigInt(s.id) } }) === 0, 'No hay aviso sin confirmar hojas');
+      await assert.rejects(service.cancelar(uid, s.id), { statusCode: 409 }); assertions++;
+      await assert.rejects(service.accion(s.id, { accion: 'LISTA', version: 1, hojas: 3, lugar: 'Kardex', requisitos: '', observacion: '' }, aid), { statusCode: 409 }); assertions++;
+      // Vinculación: solo hash en BD, token de un uso, un chat por cuenta, vencimiento y renovación.
+      const link = await telegramVinculo.crear(uid, 'https://t.me/test_bot?start=faq');
+      const token = new URL(link.url).searchParams.get('start').slice(6);
+      const stored = await tx.vinculoTelegram.findUniqueOrThrow({ where: { idUsuario: u1.idUsuario } });
+      ok(stored.tokenHash !== token && stored.tokenHash.length === 64, 'Token protegido con SHA-256');
+      const chat = 700000000000 + crypto.randomInt(1000000);
+      ok(await telegramVinculo.consumir(token, chat), 'Vinculación de un solo uso');
+      ok(!await telegramVinculo.consumir(token, chat + 1), 'Impide reutilizar enlace');
+      const link2 = await telegramVinculo.crear(uid2, 'https://t.me/test_bot?start=faq');
+      const token2 = new URL(link2.url).searchParams.get('start').slice(6);
+      ok(!await telegramVinculo.consumir(token2, chat), 'Impide compartir chat entre dos cuentas');
+      await tx.vinculoTelegram.update({ where: { idUsuario: u2.idUsuario }, data: { expiraEn: new Date(0) } });
+      ok(!await telegramVinculo.consumir(token2, chat + 1), 'Impide enlaces vencidos');
+      ok((await responderTelegramPersonal(chat + 1, '/misdocumentos')).text.includes('vincula'), 'No revela datos a chat desconocido');
+      const lista = await service.accion(s.id, { accion: 'LISTA', version: 2, hojas: 3, lugar: 'Ventanilla 2', requisitos: 'Papel carta', observacion: '' }, aid);
+      ok(lista.hojas === 3 && lista.estado === 'LISTA' && Date.parse(lista.fechaRecojo) >= Date.now() + 29 * 60000, 'Recojo calculado automáticamente al imprimir');
+      ok(lista.correo.estado === 'PENDIENTE' && lista.telegram.estado === 'PENDIENTE', 'Dos avisos durables en la misma transacción');
+      mail.sendMail = async () => { throw new Error('Proveedor temporalmente caído'); };
+      await procesarCorreosDocumentos();
+      let row = await tx.correoDocumento.findFirstOrThrow({ where: { idSolicitud: BigInt(s.id), canal: 'CORREO' } });
+      ok(row.estado === 'PENDIENTE' && row.intentos === 1, 'Correo fallido conserva reintento');
+      ok(telegramSent.length === 1, 'Falla de correo no impide Telegram');
+      ok((await service.portal(uid)).solicitudes[0].estado === 'LISTA', 'El portal confirma listo aunque falle correo');
+      await tx.correoDocumento.update({ where: { id: row.id }, data: { intentos: 4, proximoIntento: new Date(0) } });
+      await procesarCorreosDocumentos();
+      row = await tx.correoDocumento.findUniqueOrThrow({ where: { id: row.id } });
+      ok(row.estado === 'ERROR' && row.intentos === 5, 'Cinco fallos quedan visibles para el administrativo');
+      await service.reintentarCorreo(s.id, aid);
+      row = await tx.correoDocumento.findUniqueOrThrow({ where: { id: row.id } });
+      ok(row.estado === 'PENDIENTE' && row.intentos === 0, 'Reintento manual recupera la cola');
+      mail.sendMail = async m => sent.push(m);
+      await tx.correoDocumento.update({ where: { id: row.id }, data: { proximoIntento: new Date(0) } });
+      await procesarCorreosDocumentos();
+      ok(sent.length === 1 && sent[0].to === u1.correo && sent[0].text.includes('Hojas en blanco que debes traer: 3'), 'Envío a cuenta verificada con hojas definitivas');
+      await procesarCorreosDocumentos();
+      ok(sent.length === 1 && telegramSent.length === 1, 'No duplica avisos completados');
+      const r = await service.accion(s.id, { accion: 'LISTA', version: 3, hojas: 4, lugar: 'Kardex', requisitos: 'Carta', observacion: 'Cambio de hora' }, aid);
+      const r2 = await service.accion(s.id, { accion: 'LISTA', version: r.version, hojas: 5, lugar: 'Kardex', requisitos: 'Carta', observacion: '' }, aid);
+      const viejos = await tx.correoDocumento.findMany({ where: { idSolicitud: BigInt(s.id), version: r.version } });
+      ok(viejos.every(a => a.estado === 'OMITIDO'), 'Reprogramación invalida avisos obsoletos');
+      await telegramVinculo.desvincular(uid);
+      await procesarCorreosDocumentos();
+      ok(telegramSent.length === 1 && !(await telegramVinculo.estado(uid)).vinculado, 'Desvinculación impide avisos pendientes');
+      ok(sent.length === 2 && sent[1].text.includes('Hojas en blanco que debes traer: 5'), 'Solo envía la programación actual');
+      const entregada = await service.accion(s.id, { accion: 'ENTREGAR', version: r2.version, observacion: 'Identidad verificada' }, aid);
+      ok(entregada.estado === 'ENTREGADA' && entregada.eventos.some(e => e.descripcion.includes('Entrega registrada')), 'Entrega con historial');
+      await assert.rejects(service.accion(s.id, { accion: 'LISTA', version: entregada.version, hojas: 1, lugar: 'Kardex', requisitos: '', observacion: '' }, aid), { statusCode: 409 }); assertions++;
+      await tx.tipoDocumento.update({ where: { id: tipo.id }, data: { cupoDiario: 3 } });
+      const cancelable = await service.solicitar(uid, input);
+      ok(cancelable.codigo.startsWith(identificador + 'A-') && cancelable.hojas === null, 'Solo nuevas fichas toman el nuevo identificador');
+      await service.cancelar(uid, cancelable.id);
+      ok((await service.portal(uid)).solicitudes.find(x => x.id === cancelable.id).estado === 'CANCELADA', 'Cancelación antes de preparar');
+      await tx.estudiante.update({ where: { id_estudiante: u1.estudiante.id_estudiante }, data: { apellidos: 'Zeta ' + tag } });
+      await tx.estudiante.update({ where: { id_estudiante: u2.estudiante.id_estudiante }, data: { apellidos: 'Alba ' + tag } });
+      const otro = await service.solicitar(uid2, input);
+      const bandeja = await service.bandeja({ q: tag, pagina: 1 });
+      ok(bandeja.solicitudes[0].id === otro.id, 'Bandeja ordenada por apellidos desde el servidor');
+      await tx.tipoDocumento.update({ where: { id: tipo.id }, data: { habilitado: false } });
+      await assert.rejects(service.solicitar(uid, input), { statusCode: 409 }); assertions++;
+      const rls = await tx.$queryRaw`SELECT relname, relrowsecurity FROM pg_class WHERE relname IN ('tipo_documento','solicitud_documento','evento_documento','correo_documento','vinculo_telegram')`;
+      ok(rls.length === 5 && rls.every(t => t.relrowsecurity), 'Tablas sin acceso público directo');
+      throw rollback;
+    }, { timeout: 120000 });
+  } catch (error) { if (error !== rollback) throw error; }
+  assert.equal(await db.usuario.count({ where: { correo: { startsWith: tag } } }), 0);
+  console.log(`DOCUMENTOS_INTEGRATION_OK: ${assertions} verificaciones; datos revertidos; ningún aviso real enviado.`);
+})().catch(e => { console.error(e.message); process.exitCode = 1; }).finally(async () => {
+  dbModule.prisma = originalDb; mail.sendMail = originalMail; TelegramClient.prototype.call = originalTelegram;
+  await db.$disconnect(); await originalDb.$disconnect();
+});

@@ -1,0 +1,23 @@
+import { Router } from "express";
+import { z } from "zod";
+import { requireAuth, requirePermission, requireAdmin } from "../../middlewares/auth.middleware";
+import { documentosMutationLimiter, atencionPollingLimiter } from "../../middlewares/rateLimit.middleware";
+import { asyncHandler } from "../../utils/asyncHandler";
+import { sendSuccess } from "../../utils/apiResponse";
+import { documentoService as s } from "./documento.service";
+import { accionDocumentoSchema, configuracionDocumentoSchema, documentoId, filtroDocumentoSchema, solicitarDocumentoSchema } from "./documento.validation";
+
+const router = Router();
+router.use(requireAuth, (_req, res, next) => { res.setHeader("Cache-Control", "no-store"); next(); });
+router.get("/mis-solicitudes", atencionPollingLimiter, asyncHandler(async (req, res) => sendSuccess(res, await s.portal(req.user!.idUsuario))));
+router.post("/mis-solicitudes", documentosMutationLimiter, asyncHandler(async (req, res) => sendSuccess(res, await s.solicitar(req.user!.idUsuario, solicitarDocumentoSchema.parse(req.body)), "Solicitud registrada", 201)));
+router.post("/mis-solicitudes/:id/cancelar", asyncHandler(async (req, res) => sendSuccess(res, await s.cancelar(req.user!.idUsuario, documentoId.parse(req.params.id)))));
+router.use(requirePermission("documentos"));
+router.get("/bandeja", atencionPollingLimiter, asyncHandler(async (req, res) => sendSuccess(res, await s.bandeja(filtroDocumentoSchema.parse(req.query)))));
+router.get("/tipos", asyncHandler(async (_req, res) => sendSuccess(res, await s.tipos())));
+router.get("/responsables", asyncHandler(async (_req, res) => sendSuccess(res, await s.responsables())));
+router.post("/tipos", requireAdmin("ADMINISTRADOR"), asyncHandler(async (req, res) => sendSuccess(res, await s.guardarTipo(null, configuracionDocumentoSchema.parse(req.body), req.user!.idUsuario), "Documento creado", 201)));
+router.put("/tipos/:id", requireAdmin("ADMINISTRADOR"), asyncHandler(async (req, res) => sendSuccess(res, await s.guardarTipo(documentoId.parse(req.params.id), configuracionDocumentoSchema.parse(req.body), req.user!.idUsuario))));
+router.post("/:id/accion", asyncHandler(async (req, res) => sendSuccess(res, await s.accion(documentoId.parse(req.params.id), accionDocumentoSchema.parse(req.body), req.user!.idUsuario))));
+router.post("/:id/reintentar-correo", documentosMutationLimiter, asyncHandler(async (req, res) => sendSuccess(res, await s.reintentarCorreo(documentoId.parse(req.params.id), req.user!.idUsuario, z.enum(["CORREO", "TELEGRAM"]).default("CORREO").parse(req.body?.canal)))));
+export default router;
