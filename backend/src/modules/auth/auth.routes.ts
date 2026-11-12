@@ -2,8 +2,18 @@ import { Router } from "express";
 import { authController } from "./auth.controller";
 import { requireAuth } from "./auth.middleware";
 import { authRateLimiter, emailVerificationLimiter } from "../../middlewares/rateLimit.middleware";
+import { env } from "../../config/env";
+import { ApiError } from "../../utils/apiError";
 
 const router = Router();
+
+router.use((req, res, next) => {
+  res.setHeader("Cache-Control", "no-store");
+  if (req.method !== "GET" && req.headers.origin && req.headers.origin !== new URL(env.frontendUrl).origin) {
+    return next(ApiError.forbidden("Origen de solicitud no permitido"));
+  }
+  next();
+});
 
 // ------------------ Portal publico ------------------
 router.post("/register", authRateLimiter, authController.register);
@@ -17,14 +27,16 @@ router.post("/forgot-password", authRateLimiter, authController.forgotPassword);
 router.post("/reset-password", authRateLimiter, emailVerificationLimiter, authController.resetPassword);
 
 // ------------------ Panel administrativo ------------------
-// Endpoint independiente del login publico: valida ademas que
-// el usuario tenga un rol administrativo.
+// Alias para clientes anteriores; comparte la lógica del ingreso unificado.
 router.post("/admin/login", authRateLimiter, authController.adminLogin);
 router.post("/admin/login/verify", authRateLimiter, authController.verifyAdminLogin);
 
 // ------------------ Rutas protegidas (cualquier sesion) ------------------
-router.post("/logout", requireAuth, authController.logout);
+// Permite borrar cookies y revocar la sesión incluso después de vencer el access token.
+router.post("/logout", authController.logout);
+router.post("/activity", requireAuth, authController.activity);
 router.get("/me", requireAuth, authController.me);
+router.patch("/profile", requireAuth, authController.updateProfile);
 router.get("/two-factor", requireAuth, authController.twoFactorStatus);
 router.post("/two-factor/setup", requireAuth, authRateLimiter, authController.twoFactorSetup);
 router.post("/two-factor/confirm", requireAuth, authRateLimiter, authController.twoFactorConfirm);

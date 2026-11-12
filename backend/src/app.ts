@@ -3,10 +3,12 @@ import cors from "cors";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
+import path from "node:path";
+import { frontendProduccion } from "./frontend";
 import { env, isProduction } from "./config/env";
 import routes from "./routes";
 import { errorMiddleware, notFoundMiddleware } from "./middlewares/error.middleware";
-import { globalRateLimiter } from "./middlewares/rateLimit.middleware";
+import { automaticReadLimiter, globalRateLimiter } from "./middlewares/rateLimit.middleware";
 
 const app = express();
 
@@ -22,6 +24,12 @@ app.use(
   })
 );
 
+// Producción: una sola dirección para React, sus enlaces QR y /api.
+// Si no se incluye frontend/dist, se conserva el despliegue de API independiente.
+if (isProduction) {
+  app.use(frontendProduccion(path.resolve(__dirname, '../../frontend/dist'), env.frontendUrl.startsWith('https://')));
+}
+
 // Parseo de body y cookies
 app.use(express.json({ limit: "1mb" }));
 app.use(express.urlencoded({ extended: true }));
@@ -32,6 +40,7 @@ app.use(morgan(isProduction ? "combined" : "dev"));
 
 // Rate limiting global
 app.use(globalRateLimiter);
+app.use(automaticReadLimiter);
 
 // Rutas de la API
 app.use("/api", routes);

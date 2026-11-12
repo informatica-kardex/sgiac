@@ -1,84 +1,62 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
-import { useAdminAuthStore } from "../store/adminAuthStore";
-import { useUserAuthStore } from "../store/userAuthStore";
+import { activeAuthStore, clearSession, sessionRevision, updateSessionInfo } from "../auth/session";
+import { ApiEnvelope, SessionInfo } from "./types";
+import { notifyDataChanged } from "../services/liveUpdates";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000/api";
+const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? "/api" : "http://localhost:4000/api");
+export const axiosClient = axios.create({ baseURL: API_URL, withCredentials: true });
+type SessionRequest = InternalAxiosRequestConfig & { _retry?: boolean; _sessionRevision?: number };
 
-export const axiosClient = axios.create({
-  baseURL: API_URL,
-  withCredentials: true, // permite el envio de cookies httpOnly
-});
-
-// Devuelve el store de la sesion actualmente activa. Solo una de
-// las dos deberia estar autenticada a la vez (admin o usuario
-// institucional); si por algun motivo ninguna lo esta, se sigue
-// dependiendo de la cookie httpOnly (withCredentials), que el
-// backend ya acepta como respaldo.
-function storeDeSesionActiva() {
-  if (useAdminAuthStore.getState().isAuthenticated) return useAdminAuthStore;
-  if (useUserAuthStore.getState().isAuthenticated) return useUserAuthStore;
-  return null;
-}
-
-// Adjunta el access token en memoria (Zustand) de la sesion activa
-// a cada request. Antes solo miraba adminAuthStore; ahora tambien
-// reconoce la sesion institucional sin cambiar el comportamiento
-// para un administrador autenticado.
 axiosClient.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-  const activeStore = storeDeSesionActiva();
-  const token = activeStore?.getState().accessToken;
-  if (token && config.headers) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
+  (config as SessionRequest)._sessionRevision = sessionRevision();
+  const token = activeAuthStore()?.getState().accessToken;
+  if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
 
-let isRefreshing = false;
-let pendingQueue: Array<() => void> = [];
+type RefreshResponse = ApiEnvelope<{ accessToken: string; session: SessionInfo }>;
+let refreshPromise: Promise<{ data: RefreshResponse }> | null = null;
 
-// Intercepta 401 y trata de renovar la sesion automaticamente
-// usando /auth/refresh (basado en la cookie httpOnly de refresh).
+// Una sola renovación por pestaña; Web Locks serializa las cookies entre pestañas.
+export function refreshSession() {
+  if (!refreshPromise) {
+    const request = () => axios.post<RefreshResponse>(`${API_URL}/auth/refresh`, {}, { withCredentials: true, timeout: 15000 });
+    refreshPromise = (async () => navigator.locks ? await navigator.locks.request("sgiac-refresh", request) : await request())()
+      .finally(() => { refreshPromise = null; });
+  }
+  return refreshPromise!;
+}
+
 axiosClient.interceptors.response.use(
-  (response) => response,
-  async (error: AxiosError) => {
-    const originalRequest = error.config as InternalAxiosRequestConfig & {
-      _retry?: boolean;
-    };
-
-    if (
-      error.response?.status === 401 &&
-      originalRequest &&
-      !originalRequest._retry &&
-      !originalRequest.url?.includes("/auth/refresh") &&
-      !originalRequest.url?.includes("/auth/login") &&
-      !originalRequest.url?.includes("/auth/admin/login")
-    ) {
-      if (isRefreshing) {
-        return new Promise((resolve) => {
-          pendingQueue.push(() => resolve(axiosClient(originalRequest)));
-        });
-      }
-
-      originalRequest._retry = true;
-      isRefreshing = true;
-
-      try {
-        const { data } = await axiosClient.post("/auth/refresh");
-        const activeStore = storeDeSesionActiva() ?? useAdminAuthStore;
-        activeStore.getState().setAccessToken(data.data.accessToken);
-        pendingQueue.forEach((cb) => cb());
-        pendingQueue = [];
-        return axiosClient(originalRequest);
-      } catch (refreshError) {
-        useAdminAuthStore.getState().clearSession();
-        useUserAuthStore.getState().clearSession();
-        pendingQueue = [];
-        return Promise.reject(refreshError);
-      } finally {
-        isRefreshing = false;
-      }
+  response => {
+    const { method = "get", url = "" } = response.config;
+    if (["post", "put", "patch", "delete"].includes(method.toLowerCase()) &&
+        !url.startsWith("/auth/") && !url.split("?")[0].endsWith("/disponibilidad")) notifyDataChanged();
+    return response;
+  },
+  async (error: AxiosError<{ details?: { code?: string } }>) => {
+    const original = error.config as SessionRequest;
+    if (error.response?.status !== 401 || !original || !activeAuthStore()) return Promise.reject(error);
+    if (original._sessionRevision !== sessionRevision()) return Promise.reject(error);
+    if (error.response.data.details?.code === "SESSION_EXPIRED") {
+      clearSession(true);
+      return Promise.reject(error);
     }
-
-    return Promise.reject(error);
+    const url = original.url?.split("?")[0];
+    if (original._retry || (url?.startsWith("/auth/") && !["/auth/me", "/auth/activity"].includes(url))) {
+      return Promise.reject(error);
+    }
+    original._retry = true;
+    const revision = sessionRevision();
+    try {
+      const { data } = await refreshSession();
+      if (revision !== sessionRevision() || !activeAuthStore()) return Promise.reject(error);
+      activeAuthStore()!.getState().setAccessToken(data.data.accessToken);
+      updateSessionInfo(data.data.session);
+      return axiosClient(original);
+    } catch (refreshError) {
+      if (revision === sessionRevision() && axios.isAxiosError(refreshError) && refreshError.response?.status === 401) clearSession(true);
+      return Promise.reject(refreshError);
+    }
   }
 );

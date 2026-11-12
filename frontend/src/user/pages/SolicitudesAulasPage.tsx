@@ -37,7 +37,7 @@ function NuevaSolicitud({ perfil, close, saved }: { perfil: PerfilAuxiliarAulas;
   </form></Modal>;
 }
 
-export default function SolicitudesAulasPage() {
+export function SolicitudesAulasPanel({ idAsignacion }: { idAsignacion?: string }) {
   const load = useCallback(async () => { const [perfil, solicitudes] = await Promise.all([solicitudesAulasApi.perfil(), solicitudesAulasApi.mias()]); return { perfil, solicitudes }; }, []);
   const { data, loading, error: loadError, refresh } = usePolling(load, 60000);
   const [open, setOpen] = useState(false), [detalle, setDetalle] = useState<SolicitudAula | null>(null);
@@ -52,21 +52,23 @@ export default function SolicitudesAulasPage() {
       setSuccess(accion === 'aceptar' ? 'Alternativa aceptada. El aula quedó reservada y figura en Horarios.' : accion === 'declinar' ? 'Kardex recibió tu respuesta y podrá proponerte otra opción.' : 'Solicitud cancelada.');
     } catch (e) { setConfirmar(null); setError(errorAcademico(e)); refresh(); } finally { setBusy(false); }
   }
-  const propuestas = data?.solicitudes.filter(s => s.estado === 'PROPUESTA').length ?? 0;
-  return <div className="container-public space-y-6 py-8">
-    <div className="rounded-2xl bg-emerald-900 p-6 text-white"><p className="text-xs uppercase tracking-widest text-emerald-200">Kardex · Auxiliares de docencia</p><h1 className="mt-2 text-3xl font-bold">Solicitud de aula o laboratorio</h1><p className="mt-3 max-w-3xl text-sm leading-6 text-emerald-50">Solicita un aula de Informática o LASIN para un día, dos días o todo el semestre. Kardex revisará tu solicitud. Si propone otra aula u horario, podrás aceptarlo o pedir otra opción.</p></div>
-    <div className="flex flex-wrap items-center justify-between gap-3"><h2 className="text-xl font-bold">Mis solicitudes</h2><div className="flex gap-2"><button className="btn-secondary" disabled={busy} onClick={refresh}>Actualizar</button><button className="btn-primary" disabled={busy || !data?.perfil.habilitado || !data.perfil.asignaciones.length || Boolean(loadError)} onClick={() => setOpen(true)}>+ Nueva solicitud</button></div></div>
+  const perfil = data ? { ...data.perfil, asignaciones: data.perfil.asignaciones.filter(a => !idAsignacion || a.idAsignacion === idAsignacion) } : null;
+  const solicitudes = data?.solicitudes.filter(s => !idAsignacion || s.asignacion.idAsignacion === idAsignacion) ?? [];
+  const propuestas = solicitudes.filter(s => s.estado === 'PROPUESTA').length;
+  return <div className={idAsignacion ? 'space-y-5' : 'container-public space-y-6 py-8'}>
+    {!idAsignacion && <div className="rounded-2xl bg-emerald-900 p-6 text-white"><p className="text-xs uppercase tracking-widest text-emerald-200">Kardex · Auxiliares de docencia</p><h1 className="mt-2 text-3xl font-bold">Solicitud de aula o laboratorio</h1><p className="mt-3 max-w-3xl text-sm leading-6 text-emerald-50">Solicita un aula de Informática o LASIN para un día, dos días o todo el semestre. Kardex revisará tu solicitud. Si propone otra aula u horario, podrás aceptarlo o pedir otra opción.</p></div>}
+    <div className="flex flex-wrap items-center justify-between gap-3"><h2 className="text-xl font-bold">{idAsignacion ? 'Solicitudes de esta materia' : 'Mis solicitudes'}</h2><div className="flex flex-wrap gap-2"><button className="btn-secondary" disabled={busy} onClick={refresh}>Actualizar</button><button className="btn-primary" disabled={busy || !perfil?.habilitado || !perfil.asignaciones.length || Boolean(loadError)} onClick={() => setOpen(true)}>+ Nueva solicitud</button></div></div>
     <ErrorNotice message={loadError} retry={refresh} />{!detalle && <ErrorNotice message={error} />}{success && <p role="status" className="rounded-lg bg-emerald-50 p-4 text-sm text-emerald-800">{success}</p>}
     {propuestas > 0 && <p role="status" className="rounded-lg bg-blue-50 p-4 text-sm text-blue-900">Tienes {propuestas} {propuestas === 1 ? 'alternativa pendiente' : 'alternativas pendientes'} de respuesta. Abre la solicitud para revisar el aula y horario propuestos.</p>}
     {loading ? <LoadingSpinner /> : data && <>
       {!data.perfil.habilitado ? <p className="rounded-lg bg-amber-50 p-4 text-sm text-amber-900">Para enviar solicitudes debes estar habilitado como auxiliar. Consulta con el administrador. Puedes seguir consultando tus solicitudes anteriores.</p> : !data.perfil.asignaciones.length && <p className="rounded-lg bg-amber-50 p-4 text-sm text-amber-900">No tienes materias asignadas en un periodo vigente. Pide al administrador que vincule tu auxiliaría con la materia y el docente.</p>}
-      {!data.solicitudes.length && <div className="card p-8 text-center text-slate-500">Todavía no enviaste solicitudes de aulas.</div>}
-      <div className="grid gap-4 lg:grid-cols-2">{data.solicitudes.map(s => <article key={s.id} className="card space-y-3 p-5"><div className="flex flex-wrap items-center justify-between gap-2"><strong>{s.codigo}</strong><EstadoSolicitudAula estado={s.estado} /></div><h3 className="font-semibold">{s.asignacion.siglas.join(' / ')} · {s.asignacion.materia}</h3><p className="text-xs text-slate-500">Paralelo {s.asignacion.grupo} · {s.asignacion.periodo} · {fechaSolicitudAula(s.creadaEn)}</p><ResumenReservaAula reserva={s.estado === 'APROBADA' ? s.propuesta ?? s.reserva : s.reserva} />
+      {!solicitudes.length && <div className="card p-8 text-center text-slate-500">{idAsignacion ? 'Todavía no enviaste solicitudes de aulas para esta materia.' : 'Todavía no enviaste solicitudes de aulas.'}</div>}
+      <div className="grid gap-4 lg:grid-cols-2">{solicitudes.map(s => <article key={s.id} className="card space-y-3 p-5"><div className="flex flex-wrap items-center justify-between gap-2"><strong>{s.codigo}</strong><EstadoSolicitudAula estado={s.estado} /></div><h3 className="font-semibold">{s.asignacion.siglas.join(' / ')} · {s.asignacion.materia}</h3><p className="text-xs text-slate-500">Paralelo {s.asignacion.grupo} · {s.asignacion.periodo} · {fechaSolicitudAula(s.creadaEn)}</p><ResumenReservaAula reserva={s.estado === 'APROBADA' ? s.propuesta ?? s.reserva : s.reserva} />
         <button className="btn-secondary" onClick={() => { setDetalle(s); setError(''); setComentario(''); }}>{s.estado === 'PROPUESTA' ? 'Revisar alternativa' : 'Ver solicitud'}</button>
       </article>)}</div>
     </>}
-    <Link className="inline-block text-sm text-emerald-700 underline" to="/usuario/dashboard">Volver a mi inicio</Link>
-    {open && data && <NuevaSolicitud perfil={data.perfil} close={() => setOpen(false)} saved={s => { setSuccess(`${s.codigo}: solicitud enviada a Kardex.`); refresh(); }} />}
+    {!idAsignacion && <Link className="inline-block text-sm text-emerald-700 underline" to="/usuario/dashboard">Volver a mi inicio</Link>}
+    {open && perfil && <NuevaSolicitud perfil={perfil} close={() => setOpen(false)} saved={s => { setSuccess(`${s.codigo}: solicitud enviada a Kardex.`); refresh(); }} />}
     {detalle && <Modal title="Seguimiento de solicitud" open onClose={() => !busy && setDetalle(null)} size="wide"><div className="space-y-5"><DetalleSolicitudAula solicitud={detalle} /><ErrorNotice message={error} />
       {detalle.estado === 'PROPUESTA' && <div className="space-y-3 border-t pt-4"><Field label="Comentario para Kardex (opcional)"><textarea maxLength={1000} rows={2} className="input-field" value={comentario} disabled={busy} onChange={e => setComentario(e.target.value)} /></Field><div className="flex flex-wrap gap-2"><button className="btn-primary" disabled={busy || !data?.perfil.habilitado} onClick={() => setConfirmar({ solicitud: detalle, accion: 'aceptar' })}>Aceptar alternativa y reservar</button><button className="btn-secondary" disabled={busy} onClick={() => setConfirmar({ solicitud: detalle, accion: 'declinar' })}>Pedir otra opción</button></div></div>}
       {['PENDIENTE', 'PROPUESTA'].includes(detalle.estado) && <button className="btn-ghost text-red-600" disabled={busy} onClick={() => setConfirmar({ solicitud: detalle, accion: 'cancelar' })}>Cancelar solicitud</button>}
@@ -75,3 +77,5 @@ export default function SolicitudesAulasPage() {
     <ConfirmDialog open={Boolean(confirmar)} title={confirmar?.accion === 'aceptar' ? 'Aceptar la alternativa' : confirmar?.accion === 'declinar' ? 'Pedir otra opción' : 'Cancelar solicitud'} message={confirmar?.accion === 'aceptar' ? 'Se reservarán el aula y los horarios de la alternativa, si siguen disponibles.' : confirmar?.accion === 'declinar' ? 'La solicitud volverá a revisión de Kardex. Esta alternativa no reservará ningún aula.' : 'La solicitud se cerrará sin reservar un aula.'} confirmLabel="Confirmar" onCancel={() => setConfirmar(null)} onConfirm={actuar} loading={busy} />
   </div>;
 }
+
+export default function SolicitudesAulasPage() { return <SolicitudesAulasPanel />; }

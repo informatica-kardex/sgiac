@@ -13,6 +13,10 @@ export const registerSchema = z.object({
   nombres: z.string().trim().min(1, "Ingresa tus nombres").max(120),
   apellidos: z.string().trim().min(1, "Ingresa tus apellidos").max(120),
   ci: z.string().trim().min(1, "Ingresa tu CI").max(30),
+  celular: z.string().trim().min(1, "Ingresa tu número de celular").max(30)
+    .regex(/^\+?[\d ()-]+$/, "Ingresa un número de celular válido")
+    .transform(value => value.replace(/[ ()-]/g, ""))
+    .pipe(z.string().regex(/^\+?\d{7,15}$/, "El celular debe tener entre 7 y 15 dígitos")),
   ru: z.string().trim().min(1, "Ingresa tu registro universitario").max(30),
   mencion: z.string().trim().min(1, "Selecciona tu mención").max(150),
   correo: z.string().trim().toLowerCase().email("Correo inválido").max(150)
@@ -72,6 +76,9 @@ export type HorarioFormData = z.infer<typeof horarioSchema>;
 
 export const comunicadoSchema = z.object({
   titulo: z.string().trim().min(5).max(150),
+  encabezado: z.string().trim().min(1, "Escribe el encabezado").max(80, "Usa hasta 80 caracteres").default("COMUNICADO"),
+  mayusculas: z.boolean().default(true),
+  tamanoLetra: z.number().int().min(8).max(72).default(13),
   tipo: z.enum(["texto", "imagen", "pdf"]),
   contenido: z.string().trim().max(50000),
   categoria: z.string().trim().min(2).max(60),

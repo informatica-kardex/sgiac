@@ -74,6 +74,7 @@ export default function RegisterPage() {
             {field("nombres", "Nombres", "Juan Carlos", "text", "given-name")}
             {field("apellidos", "Apellidos", "Pérez Gómez", "text", "family-name")}
             {field("ci", "Cédula de identidad (CI)", "1234567 LP")}
+            {field("celular", "Número de celular", "71234567", "tel", "tel")}
             {field("correo", "Correo institucional", "usuario@fcpn.edu.bo", "email", "email")}
             {field("contrasena", "Contraseña", "••••••••", "password", "new-password")}
             {field("confirmarContrasena", "Confirmar contraseña", "••••••••", "password", "new-password")}

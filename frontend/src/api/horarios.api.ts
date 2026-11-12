@@ -1,7 +1,7 @@
 import { axiosClient } from "./axiosClient";
 import { ApiEnvelope, HorarioAcademico as Horario } from "./types";
 
-export type CrearHorarioPayload = Pick<Horario, "idAsignacion" | "aula" | "dia" | "horaInicio" | "horaFin"> & Partial<Pick<Horario, 'idAuxiliar' | 'esAuxiliar' | 'fecha' | 'motivo'>>;
+export type CrearHorarioPayload = Pick<Horario, "idAsignacion" | "aula" | "dia" | "horaInicio" | "horaFin"> & Partial<Pick<Horario, 'idAuxiliar' | 'esAuxiliar' | 'fecha' | 'motivo'>> & { reubicaciones?: { idHorario: number; aula: string }[] };
 export type ActualizarHorarioPayload = Partial<CrearHorarioPayload>;
 
 export const horariosApi = {
@@ -12,5 +12,5 @@ export const horariosApi = {
     axiosClient.post<ApiEnvelope<Horario>>("/horarios", payload),
   actualizar: (id: number, payload: ActualizarHorarioPayload) =>
     axiosClient.put<ApiEnvelope<Horario>>(`/horarios/${id}`, payload),
-  eliminar: (id: number) => axiosClient.delete<ApiEnvelope<null>>(`/horarios/${id}`),
+  eliminar: (id: number) => axiosClient.delete<ApiEnvelope<{ avisos: string[] }>>(`/horarios/${id}`),
 };

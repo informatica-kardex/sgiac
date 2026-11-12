@@ -11,6 +11,11 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
+    "@tiptap/extension-bubble-menu": "3.32.2",
+    "@tiptap/extension-list": "3.32.2",
+    "@tiptap/pm": "3.32.2",
+    "@tiptap/react": "3.32.2",
+    "@tiptap/starter-kit": "3.32.2",
     "axios": "^1.7.7",
     "pdfjs-dist": "6.3.289",
     "pdfmake": "0.3.11",

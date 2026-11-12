@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { AxiosError } from "axios";
-import { useForm } from "react-hook-form";
+import { type Control, useController, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { comunicadosApi, comunicadoArchivoUrl } from "../../api/comunicados.api";
 import { ComunicadoArchivo } from "../../components/ComunicadoArchivo";
+import { ComunicadoTextoPreview } from "../../components/ComunicadoTextoPreview";
+import { ComunicadoTextoEditor } from "../../components/ComunicadoTextoEditor";
 import { Comunicado } from "../../api/types";
 import { ComunicadoFormData, comunicadoSchema } from "../../utils/validators";
 import { LoadingSpinner } from "../components/LoadingSpinner";
@@ -12,6 +14,22 @@ import { Modal } from "../components/Modal";
 import { ConfirmDialog } from "../components/ConfirmDialog";
 import { AlertMessage } from "../components/AlertMessage";
 import { formatFecha } from "../../utils/formatters";
+import { useAutoRefresh } from '../../hooks/useAutoRefresh';
+
+// Estas suscripciones actualizan solo el editor y la vista previa, no toda la página al escribir.
+function TextoDelComunicado({ control, disabled, invalido }: { control: Control<ComunicadoFormData>; disabled: boolean; invalido: boolean }) {
+  const { field } = useController({ control, name: "contenido" });
+  const { field: mayusculas } = useController({ control, name: "mayusculas" });
+  const { field: tamano } = useController({ control, name: "tamanoLetra" });
+  return <ComunicadoTextoEditor {...field} value={field.value ?? ""} id="comunicado-contenido" disabled={disabled} invalido={invalido}
+    mayusculas={mayusculas.value ?? true} tamanoLetra={tamano.value ?? 13} onMayusculasChange={mayusculas.onChange} onTamanoLetraChange={tamano.onChange} />;
+}
+
+function VistaPreviaDelComunicado({ control, fechaPublicacion }: { control: Control<ComunicadoFormData>; fechaPublicacion: string }) {
+  const [titulo, contenido, categoria, encabezado, mayusculas, tamanoLetra] = useWatch({ control, name: ["titulo", "contenido", "categoria", "encabezado", "mayusculas", "tamanoLetra"] });
+  return <ComunicadoTextoPreview titulo={titulo ?? ""} encabezado={encabezado} contenido={contenido ?? ""} categoria={categoria ?? ""}
+    fechaPublicacion={fechaPublicacion} mayusculas={mayusculas} tamanoLetra={tamanoLetra} />;
+}
 
 export default function ComunicadosPage() {
   const [comunicados, setComunicados] = useState<Comunicado[]>([]);
@@ -25,17 +43,19 @@ export default function ComunicadosPage() {
   const [previews, setPreviews] = useState<{ file: File; url: string }[]>([]);
   const [adjuntosEliminar, setAdjuntosEliminar] = useState<string[]>([]);
   const [errorPagina, setErrorPagina] = useState("");
+  const [fechaVistaPrevia, setFechaVistaPrevia] = useState(() => new Date().toISOString());
   const mensajeError = (e: unknown) => e instanceof AxiosError ? e.response?.data?.details?.[0]?.mensaje || e.response?.data?.message || "No se pudo completar la operación" : "No se pudo completar la operación";
 
   const {
     register,
+    control,
     handleSubmit,
     reset,
     watch,
     formState: { errors },
   } = useForm<ComunicadoFormData>({
     resolver: zodResolver(comunicadoSchema),
-    defaultValues: { estado: "borrador", tipo: "texto", contenido: "" },
+    defaultValues: { estado: "borrador", tipo: "texto", contenido: "", encabezado: "COMUNICADO", mayusculas: true, tamanoLetra: 13 },
   });
   const tipo = watch("tipo");
   const adjuntosActuales = (editando?.adjuntos ?? []).filter(a => !adjuntosEliminar.includes(a.idAdjunto)
@@ -48,28 +68,32 @@ export default function ComunicadosPage() {
 
   const limpiarArchivos = () => { setArchivos([]); setAdjuntosEliminar([]); };
 
-  const cargar = () => {
-    setCargando(true);
+  const cargarDatos = (silent = false) => {
+    if (!silent) setCargando(true);
     setErrorPagina("");
-    comunicadosApi
+    return comunicadosApi
       .listar()
       .then(({ data }) => setComunicados(data.data))
       .catch(e => setErrorPagina(mensajeError(e)))
       .finally(() => setCargando(false));
   };
 
+  const cargar = () => { void cargarDatos(); };
   useEffect(cargar, []);
+  useAutoRefresh(() => cargarDatos(true));
 
   const abrirCrear = () => {
     setEditando(null);
-    reset({ titulo: "", tipo: "texto", contenido: "", categoria: "", estado: "borrador" });
+    setFechaVistaPrevia(new Date().toISOString());
+    reset({ titulo: "", tipo: "texto", contenido: "", categoria: "", estado: "borrador", encabezado: "COMUNICADO", mayusculas: true, tamanoLetra: 13 });
     limpiarArchivos(); setError("");
     setModalAbierto(true);
   };
 
   const abrirEditar = (c: Comunicado) => {
     setEditando(c);
-    reset(c);
+    setFechaVistaPrevia(c.fechaPublicacion);
+    reset({ ...c, encabezado: c.encabezado || "COMUNICADO", mayusculas: c.mayusculas ?? true, tamanoLetra: c.tamanoLetra ?? 13 });
     limpiarArchivos(); setError("");
     setModalAbierto(true);
   };
@@ -179,12 +203,19 @@ export default function ComunicadosPage() {
       <Modal
         title={editando ? "Editar comunicado" : "Nuevo comunicado"}
         open={modalAbierto}
+        size={tipo === "texto" ? "wide" : "default"}
         onClose={() => { if (!guardando) { setModalAbierto(false); limpiarArchivos(); } }}
       >
         {error && <div className="mb-4"><AlertMessage type="error" message={error} /></div>}
         <form className="space-y-4" onSubmit={handleSubmit(onSubmit)} noValidate>
           <fieldset disabled={guardando} className="space-y-4">
           <label className="block text-sm font-medium text-slate-700">Tipo de publicación<select className="select-field mt-1" {...register("tipo", { onChange: () => { limpiarArchivos(); setError(""); } })}><option value="texto">Texto</option><option value="imagen">Imágenes</option><option value="pdf">Documento PDF</option></select></label>
+          {tipo === "texto" && <div className="space-y-1.5">
+            <label htmlFor="comunicado-encabezado" className="block text-sm font-medium text-slate-700">Encabezado de la hoja</label>
+            <input id="comunicado-encabezado" className="input-field" maxLength={80} placeholder="COMUNICADO, AVISO, ACLARACIÓN…" {...register("encabezado")} />
+            <p className="text-xs text-slate-500">Aparece en letras grandes encima del título.</p>
+            {errors.encabezado && <p className="text-xs text-red-600">{errors.encabezado.message}</p>}
+          </div>}
           <div className="space-y-1.5">
             <label className="block text-sm font-medium text-slate-700">Título</label>
             <input className="input-field" {...register("titulo")} />
@@ -233,11 +264,12 @@ export default function ComunicadosPage() {
             {adjuntosEliminar.length > 0 && <p className="text-xs text-slate-600">Los archivos retirados se eliminarán al guardar. <button type="button" className="font-semibold text-primary-700 underline" onClick={() => { setAdjuntosEliminar([]); setArchivos([]); setError(""); }}>Deshacer cambios de archivos</button></p>}
           </div>}
           <div className="space-y-1.5">
-            <label className="block text-sm font-medium text-slate-700">{tipo === "texto" ? "Texto del comunicado" : "Descripción (opcional)"}</label>
-            <textarea className="textarea-field" rows={5} {...register("contenido")} />
-            {tipo === "texto" && <p className="text-xs text-slate-500">Se mostrará en una hoja membretada con los logos institucionales. Usa **texto** para resaltar en negrita y una línea en blanco para separar párrafos.</p>}
+            <label htmlFor="comunicado-contenido" className="block text-sm font-medium text-slate-700">{tipo === "texto" ? "Texto del comunicado" : "Descripción (opcional)"}</label>
+            {tipo === "texto" ? <TextoDelComunicado control={control} disabled={guardando} invalido={!!errors.contenido} />
+              : <textarea id="comunicado-contenido" className="textarea-field" rows={5} {...register("contenido")} />}
             {errors.contenido && <p className="text-xs text-red-600">{errors.contenido.message}</p>}
           </div>
+          {tipo === "texto" && <VistaPreviaDelComunicado control={control} fechaPublicacion={fechaVistaPrevia} />}
           <div className="flex justify-end gap-3 pt-2">
             <button type="button" className="btn-secondary" onClick={() => { setModalAbierto(false); limpiarArchivos(); }}>
               Cancelar

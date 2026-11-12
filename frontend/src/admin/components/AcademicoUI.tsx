@@ -4,6 +4,7 @@ import { academicoApi, Asignacion, Auxiliar, Docente, Materia, Mencion, Periodo 
 import { Aula, HorarioAcademico as Horario } from '../../api/types';
 import '../../styles/academico.css';
 import { AdminIcon, AdminIconName } from './AdminIcon';
+import { useAutoRefresh } from '../../hooks/useAutoRefresh';
 
 export function AcademicAction({ icon, tone = 'secondary', children, className = '', ...props }: ButtonHTMLAttributes<HTMLButtonElement> & { icon: AdminIconName; tone?: 'primary' | 'secondary' | 'danger' }) {
   return <button type="button" {...props} className={`academic-action ${tone} ${className}`}><AdminIcon name={icon} size={17} /><span>{children}</span></button>;
@@ -17,16 +18,17 @@ export function useAcademico() {
   const [data, setData] = useState<{ docentes: Docente[]; auxiliares: Auxiliar[]; materias: Materia[]; menciones: Mencion[]; periodos: Periodo[]; asignaciones: Asignacion[]; aulas: Aula[]; horarios: Horario[] }>({ docentes: [], auxiliares: [], materias: [], menciones: [], periodos: [], asignaciones: [], aulas: [], horarios: [] });
   const [loading, setLoading] = useState(true), [error, setError] = useState('');
   const version = useRef(0);
-  const cargar = useCallback(async () => {
+  const cargar = useCallback(async (silent = false) => {
     const request = ++version.current;
-    setError(''); setLoading(true);
+    if (!silent) { setError(''); setLoading(true); }
     try {
       const [docentes, auxiliares, materias, menciones, periodos, asignaciones, aulas, horarios] = await Promise.all([academicoApi.docentes(), academicoApi.auxiliares(), academicoApi.materias(), academicoApi.menciones(), academicoApi.periodos(), academicoApi.asignaciones(), academicoApi.aulas(), academicoApi.horarios()]);
-      if (request === version.current) setData({ docentes, auxiliares, materias, menciones, periodos, asignaciones, aulas, horarios });
+      if (request === version.current) { setData({ docentes, auxiliares, materias, menciones, periodos, asignaciones, aulas, horarios }); setError(''); }
     } catch (e) { if (request === version.current) setError(errorAcademico(e)); }
     finally { if (request === version.current) setLoading(false); }
   }, []);
   useEffect(() => { void cargar(); return () => { version.current++; }; }, [cargar]);
+  useAutoRefresh(() => cargar(true));
   return { ...data, loading, error, cargar };
 }
 export function AcademicHeader({ title, description, children }: { title: string; description: string; children?: ReactNode }) {

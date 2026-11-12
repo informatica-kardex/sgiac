@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { CrearEstudianteModal } from './CrearEstudianteModal';
 import { academicoApi, Asignacion, EstudianteAuxiliar } from '../../api/academico.api';
 import { useAdminAuth } from '../../hooks/useAdminAuth';
 import { errorAcademico, ErrorNotice, Field, useAcademico } from './AcademicoUI';
@@ -39,6 +39,7 @@ export function HabilitarAuxiliarModal({ idEstudiante, idAuxiliarAnterior, onClo
   const [loading, setLoading] = useState(true), [loadError, setLoadError] = useState(''), [attempt, setAttempt] = useState(0);
   const [query, setQuery] = useState(''), [selected, setSelected] = useState(idEstudiante ?? '');
   const [assignment, setAssignment] = useState(''), [busy, setBusy] = useState(false), [error, setError] = useState('');
+  const [crearEstudiante, setCrearEstudiante] = useState(false);
   useEffect(() => {
     let active = true;
     setLoading(true); setLoadError('');
@@ -58,6 +59,7 @@ export function HabilitarAuxiliarModal({ idEstudiante, idAuxiliarAnterior, onClo
       await onSaved(); onClose();
     } catch (e) { setError(errorAcademico(e)); } finally { setBusy(false); }
   }
+  if (crearEstudiante) return <CrearEstudianteModal onClose={() => setCrearEstudiante(false)} onSaved={id => { setSelected(id); setQuery(''); setAttempt(a => a + 1); }} />;
   return <Modal title={idAuxiliarAnterior ? 'Vincular auxiliar con estudiante' : 'Habilitar estudiante como auxiliar'} open onClose={() => !busy && onClose()} size="wide">
     <form onSubmit={save} className="space-y-5">
       <p className="text-sm text-slate-500">Selecciona una cuenta de estudiante y su asignación docente. El estudiante conservará su cuenta institucional.</p>
@@ -76,7 +78,7 @@ export function HabilitarAuxiliarModal({ idEstudiante, idAuxiliarAnterior, onClo
         </div>
       </>}
       {student && <p className="rounded-lg bg-slate-50 p-3 text-sm">Estudiante seleccionado: <strong>{student.nombreCompleto}</strong> · {student.correo}</p>}
-      {usuario?.roles.includes('ADMINISTRADOR') && <p className="text-sm text-slate-500">Si aún no tiene cuenta, puedes <Link className="text-emerald-700 underline" to="/admin/estudiantes?crear=1">crear una cuenta de estudiante</Link> y luego habilitarlo.</p>}
+      {usuario?.roles.includes('ADMINISTRADOR') && <button type="button" className="btn-secondary" disabled={busy} onClick={() => { setAssignment(''); setError(''); setCrearEstudiante(true); }}>Crear estudiante</button>}
       <AsignacionAuxiliarFields catalogo={c} value={assignment} onChange={setAssignment} busy={busy} />
       <div className="flex justify-end gap-2 border-t border-slate-100 pt-4"><button type="button" className="btn-secondary" disabled={busy} onClick={onClose}>Cancelar</button>
         <button className="btn-primary" disabled={busy || loading || c.loading || Boolean(c.error || loadError) || !student || Boolean(student.idAuxiliar || student.motivoNoDisponible) || !assignment}>{busy ? 'Habilitando…' : 'Habilitar como auxiliar'}</button>

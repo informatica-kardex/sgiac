@@ -14,9 +14,10 @@ import { EstadoBadge } from "../components/EstadoBadge";
 import { Modal } from "../components/Modal";
 import { AlertMessage } from "../components/AlertMessage";
 import { formatFecha } from "../../utils/formatters";
+import { useAutoRefresh } from '../../hooks/useAutoRefresh';
 
 const subroles = ["SUBADMINISTRADOR"];
-const nuevoFormulario = { nombreCompleto: "", correo: "", ci: "" };
+const nuevoFormulario = { nombreCompleto: "", correo: "", ci: "", celular: "" };
 function mensajeError(error: unknown) {
   if (error instanceof AxiosError) {
     const data = error.response?.data;
@@ -66,8 +67,8 @@ export default function UsuariosPage({ tipo }: { tipo: "subadministradores" | "e
     finally { setActualizando(false); }
   };
 
-  const cargar = async () => {
-    setCargando(true);
+  const cargarDatos = async (silent = false) => {
+    if (!silent) setCargando(true);
     setError("");
     try {
       const [u, e] = await Promise.all([usersApi.listar(), esSubadministradores ? Promise.resolve([]) : academicoApi.estudiantesAuxiliares()]);
@@ -77,7 +78,9 @@ export default function UsuariosPage({ tipo }: { tipo: "subadministradores" | "e
     } catch (e) { setError(mensajeError(e)); }
     finally { setCargando(false); }
   };
-  useEffect(() => { void cargar(); }, []);
+  const cargar = () => cargarDatos();
+  useEffect(() => { void cargar(); }, [tipo]);
+  useAutoRefresh(() => cargarDatos(true));
 
   const cambiarEstado = async (usuario: UsuarioAdmin) => {
     setActualizando(true); setError(""); setExito("");
@@ -172,6 +175,7 @@ export default function UsuariosPage({ tipo }: { tipo: "subadministradores" | "e
           <label className="block text-sm font-medium">Nombre completo<input required minLength={3} maxLength={150} className="input-field mt-1" value={form.nombreCompleto} disabled={actualizando} onChange={e => setForm({ ...form, nombreCompleto: e.target.value })} /></label>
           <label className="block text-sm font-medium">Correo<input required type="email" maxLength={150} className="input-field mt-1" value={form.correo} disabled={actualizando} onChange={e => setForm({ ...form, correo: e.target.value })} /></label>
           <label className="block text-sm font-medium">CI<input required maxLength={30} autoComplete="off" className="input-field mt-1" value={form.ci} disabled={actualizando} onChange={e => setForm({ ...form, ci: e.target.value })} /></label>
+          <label className="block text-sm font-medium">Número de celular<input required type="tel" minLength={7} maxLength={30} autoComplete="tel" placeholder="71234567" className="input-field mt-1" value={form.celular} disabled={actualizando} onChange={e => setForm({ ...form, celular: e.target.value })} /></label>
           <p className="text-xs text-slate-500">El CI será la contraseña temporal. Al ingresar con su correo, deberá reemplazarla para usar el sistema.</p>
         </> : <p className="text-sm text-slate-600">Funciones de <strong>{seleccionado?.nombreCompleto}</strong>. Desmarca una función para quitarle el acceso.</p>}
         <PermisosChecklist value={permisos} onChange={setPermisos} disabled={actualizando} />

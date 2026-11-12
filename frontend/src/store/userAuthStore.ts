@@ -1,12 +1,8 @@
 import { create } from "zustand";
 import { UsuarioSesion } from "../api/types";
 
-// Estado global de la sesion del PORTAL INSTITUCIONAL (/login,
-// /usuario/*). Es independiente de adminAuthStore: un visitante
-// nunca requiere esta sesion, y un administrador usa el store de
-// adminAuthStore. Ambos consumen el mismo backend de auth
-// (JWT + cookies httpOnly), pero se mantienen separados en el
-// frontend para no mezclar el estado de una sesion con la otra.
+// Estado del área estudiantil. auth/session.ts asigna el ingreso único al
+// área correspondiente y mantiene una sola sesión activa entre ambos stores.
 interface UserAuthState {
   usuario: UsuarioSesion | null;
   accessToken: string | null;

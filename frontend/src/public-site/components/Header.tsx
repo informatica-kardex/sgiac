@@ -1,13 +1,14 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
-import { solicitudesAulasApi } from "../../api/solicitudes-aulas.api";
+import { useAuxiliarHabilitado } from "../../hooks/useAuxiliarHabilitado";
+import { AccountMenu } from "../../components/AccountMenu";
+import { useAdminAuthStore } from "../../store/adminAuthStore";
 import "../../styles/portal-navigation.css";
 
 const NAV_LINKS = [
   { to: "/", label: "Inicio", detail: "El punto de partida", end: true },
   { to: "/comunicados", label: "Comunicados", detail: "Novedades de la carrera" },
-  { to: "/horarios", label: "Horarios", detail: "Materias, aulas y clases" },
   { to: "/faq", label: "Preguntas frecuentes", detail: "Resuelve tus dudas" },
   { to: "/atencion", label: "Atención Kardex", detail: "Solicita tu atención" },
   { to: "/informacion", label: "Información", detail: "Conoce nuestro servicio" },
@@ -15,7 +16,7 @@ const NAV_LINKS = [
 const STUDENT_LINKS = [
   { to: "/usuario/dashboard", label: "Mi inicio", detail: "Tu espacio universitario", end: true },
   { to: "/usuario/fichas", label: "Mis fichas", detail: "Solicitudes y turnos" },
-  { to: "/usuario/documentos", label: "Mis documentos", detail: "Solicita y recoge en Kardex" },
+  { to: "/usuario/documentos", label: "Trámites en línea", detail: "Solicita y recoge en Kardex" },
   { to: "/usuario/horarios", label: "Horarios", detail: "Consulta tus clases" },
   { to: "/usuario/arma-tu-horario", label: "Arma tu horario", detail: "Organiza tu semestre" },
   { to: "/usuario/comunicados", label: "Comunicados", detail: "Novedades de la carrera" },
@@ -24,24 +25,19 @@ const STUDENT_LINKS = [
 
 export function Header({ portal = false }: { portal?: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { isAuthenticated, usuario } = useAuth();
-  const [esAuxiliar, setEsAuxiliar] = useState(false);
+  const { isAuthenticated } = useAuth();
+  const adminUsuario = useAdminAuthStore(state => state.isAuthenticated ? state.usuario : null);
+  const esAuxiliar = useAuxiliarHabilitado();
   const { pathname } = useLocation();
   const headerRef = useRef<HTMLElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLElement>(null);
   const menuId = useId();
-  const links = isAuthenticated ? [...STUDENT_LINKS, ...(esAuxiliar ? [{ to: '/usuario/solicitudes-aulas', label: 'Solicitar aula', detail: 'Auxiliarías y seguimiento', end: false }] : [])] : NAV_LINKS;
-  const accountPath = isAuthenticated ? "/usuario/perfil" : "/login";
-  const accountLabel = isAuthenticated ? "Mi perfil" : "Ingresar";
+  const links = isAuthenticated ? [...STUDENT_LINKS, ...(esAuxiliar ? [{ to: '/usuario/mi-auxiliatura', label: 'Mi auxiliatura', detail: 'Materias, horarios, carnet y aulas', end: false }] : [])] : NAV_LINKS;
+  const accountPath = isAuthenticated ? "/usuario/perfil" : adminUsuario ? "/admin/configuracion?seccion=perfil" : "/login";
+  const accountLabel = isAuthenticated || adminUsuario ? "Mi perfil" : "Ingresar";
 
   useEffect(() => { setMenuOpen(false); }, [pathname, isAuthenticated]);
-  useEffect(() => {
-    let active = true;
-    if (!isAuthenticated || !usuario?.correoVerificado || usuario.debeCambiarPassword) { setEsAuxiliar(false); return; }
-    solicitudesAulasApi.perfil().then(p => { if (active) setEsAuxiliar(p.habilitado); }).catch(() => { if (active) setEsAuxiliar(false); });
-    return () => { active = false; };
-  }, [isAuthenticated, usuario?.idUsuario, usuario?.correoVerificado, usuario?.debeCambiarPassword, pathname]);
   useEffect(() => {
     if (!menuOpen) return;
     const close = () => { setMenuOpen(false); toggleRef.current?.focus(); };
@@ -76,9 +72,7 @@ export function Header({ portal = false }: { portal?: boolean }) {
       </nav>
 
       <div className="kardex-header-actions">
-        <Link to={accountPath} className={`kardex-account${isAuthenticated ? " is-student" : ""}`} aria-label={isAuthenticated ? "Ver mi perfil" : "Ingresar"} onClick={() => setMenuOpen(false)}>
-          <span>{accountLabel}</span>
-        </Link>
+        <AccountMenu variant="portal" onOpen={() => setMenuOpen(false)} />
         <button ref={toggleRef} type="button" className="kardex-menu-toggle" aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"} aria-controls={menuId} aria-expanded={menuOpen}
           onClick={() => setMenuOpen(open => !open)} onKeyDown={event => {
             if (event.key === "ArrowDown") { event.preventDefault(); setMenuOpen(true); requestAnimationFrame(() => menuRef.current?.querySelector<HTMLAnchorElement>("a")?.focus()); }

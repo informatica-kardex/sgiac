@@ -29,17 +29,23 @@ export function useLoginCaptcha() {
 export function CaptchaField({ security, disabled }: {
   security: ReturnType<typeof useLoginCaptcha>; disabled: boolean;
 }) {
+  const loading = !security.captcha && !security.captchaError;
   return (
     <div className="space-y-2">
       <label htmlFor="login-captcha" className="block text-sm font-medium text-slate-700">
         Código CAPTCHA
       </label>
-      <div className="flex flex-wrap items-center gap-2">
+      <div className="login-captcha__challenge" aria-busy={loading}>
+        <div className="login-captcha__image">
         {security.captcha ? (
-          <img src={security.captcha.image} width={220} height={70} alt="CAPTCHA: escribe las seis letras y números que aparecen en la imagen" className="rounded border border-slate-200" />
+          <img src={security.captcha.image} width={220} height={70} alt="CAPTCHA: escribe las seis letras y números que aparecen en la imagen" />
         ) : <span className="text-sm text-slate-500" role="status">{security.captchaError ? "CAPTCHA no disponible" : "Cargando CAPTCHA..."}</span>}
-        <button type="button" className="text-sm font-medium text-blue-700 hover:underline" onClick={() => void security.reloadCaptcha()} disabled={disabled}>
-          Cambiar imagen
+        </div>
+        <button type="button" className="login-captcha__refresh" aria-label="Generar otro CAPTCHA" title="Generar otro CAPTCHA"
+          aria-busy={loading} onClick={() => void security.reloadCaptcha()} disabled={disabled || loading}>
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M20 7v5h-5M4 17v-5h5M6 6a8 8 0 0 1 14 6M18 18a8 8 0 0 1-14-6" />
+          </svg>
         </button>
       </div>
       <input id="login-captcha" className="input-field" autoCapitalize="characters" spellCheck={false} autoComplete="off" maxLength={6}

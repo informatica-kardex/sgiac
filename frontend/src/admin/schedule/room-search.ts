@@ -1,5 +1,6 @@
 import type { Aula, HorarioAcademico } from '../../api/types';
 import type { Periodo } from '../../api/academico.api';
+import { clockLabel, minuteOf } from './semester';
 
 export type RoomSearchFilters = {
   query: string; students: string; type: string; place: string; enabledOnly: boolean;
@@ -23,6 +24,7 @@ function containsDay(from: string, to: string, day: string) {
 }
 export type RoomAvailability = { horarios: HorarioAcademico[]; periodos: Periodo[]; periodId: string; today: string };
 export type RoomCombination = { rooms: Aula[]; capacity: number; minFloor: number; maxFloor: number };
+export type RoomSlot = { room: Aula; day: string; date: string; start: string; end: string; kind: 'same-day' | 'other-day' };
 
 // One optimal option per floor/window: fewest rooms first, then least unused capacity.
 // Capacity-bounded dynamic programming avoids enumerating every subset of the catalog.
@@ -65,47 +67,96 @@ function nearbyCombinations(rooms: Aula[], requested: number) {
 }
 
 /** Separate unknown and insufficient capacities; neither is a match for a requested group. */
-export function searchRooms(rooms: Aula[], filters: RoomSearchFilters, availability?: RoomAvailability) {
+export function searchRooms(rooms: Aula[], filters: RoomSearchFilters, availability?: RoomAvailability, suggest = true) {
   const value = filters.students.trim();
   const invalidCapacity = value !== '' && (!/^\d+$/.test(value) || Number(value) < 1 || Number(value) > 2000);
   const requested = !invalidCapacity && value ? Number(value) : null;
   const checkingAvailability = Boolean(filters.day || filters.start || filters.end || filters.date);
+  const flexibleTime = checkingAvailability && !filters.start && !filters.end;
   const period = availability?.periodos.find(p => p.idPeriodo === availability.periodId);
   let availabilityError = '';
   if (checkingAvailability) {
-    if (!days.slice(1).includes(filters.day) || !filters.start || !filters.end) availabilityError = 'Completa el día, la hora de inicio y la hora de fin para consultar disponibilidad.';
-    else if (![filters.start, filters.end].every(t => /^([01]\d|2[0-3]):[0-5]\d$/.test(t)) || filters.start < '07:00' || filters.end > '22:00' || filters.start >= filters.end) availabilityError = 'Usa un horario entre 07:00 y 22:00, con la hora de fin posterior al inicio.';
+    if (!days.slice(1).includes(filters.day)) availabilityError = 'Selecciona un día o una fecha para consultar disponibilidad.';
+    else if (!flexibleTime && (!filters.start || !filters.end)) availabilityError = 'Completa ambas horas o déjalas vacías para ver las franjas libres del día.';
+    else if (!flexibleTime && (![filters.start, filters.end].every(t => /^([01]\d|2[0-3]):[0-5]\d$/.test(t)) || filters.start < '07:00' || filters.end > '22:00' || filters.start >= filters.end)) availabilityError = 'Usa un horario entre 07:00 y 22:00, con la hora de fin posterior al inicio.';
     else if (!availability || !period || period.estado !== 'ACTIVO' || period.fechaFin < availability.today) availabilityError = 'Selecciona un periodo académico activo, vigente o futuro.';
     else if (filters.date && (!roomSearchDay(filters.date) || roomSearchDay(filters.date) !== filters.day || filters.date < availability.today || filters.date < period.fechaInicio || filters.date > period.fechaFin)) availabilityError = 'La fecha debe coincidir con el día, estar dentro del periodo y ser hoy o posterior.';
     else if (!containsDay([period.fechaInicio, availability.today].sort()[1], period.fechaFin, filters.day)) availabilityError = 'No quedan días de la semana elegida dentro de este periodo.';
   }
   const busyRooms = new Set<string>();
+  const occupied = new Map<string, { start: number; end: number }[]>();
+  const freeWindows = new Map<string, { start: string; end: string }[]>();
   if (checkingAvailability && !availabilityError && availability && period) {
     const periods = new Map(availability.periodos.filter(p => p.estado === 'ACTIVO').map(p => [p.idPeriodo, p]));
     for (const h of availability.horarios) {
       const other = periods.get(h.idPeriodo);
-      if (!other || h.dia !== filters.day || h.horaInicio >= filters.end || h.horaFin <= filters.start) continue;
+      if (!other || h.dia !== filters.day) continue;
       const from = [availability.today, period.fechaInicio, other.fechaInicio].sort()[2];
       const to = [period.fechaFin, other.fechaFin].sort()[0];
       // Overlapping active periods also occupy the room; touching time boundaries do not.
-      if (filters.date) {
-        if (filters.date >= from && filters.date <= to && (!h.fecha || h.fecha === filters.date)) busyRooms.add(h.aula);
-      } else if (h.fecha ? h.fecha >= from && h.fecha <= to : containsDay(from, to, filters.day)) busyRooms.add(h.aula);
+      const applies = filters.date ? filters.date >= from && filters.date <= to && (!h.fecha || h.fecha === filters.date) &&
+        !(h.traslados?.some(t => t.fecha === filters.date) && !h.fecha) : h.fecha ? h.fecha >= from && h.fecha <= to : containsDay(from, to, filters.day);
+      if (applies) {
+        occupied.set(h.aula, [...(occupied.get(h.aula) ?? []), { start: minuteOf(h.horaInicio), end: minuteOf(h.horaFin) }]);
+        if (!flexibleTime && h.horaInicio < filters.end && h.horaFin > filters.start) busyRooms.add(h.aula);
+      }
+    }
+    for (const room of rooms) {
+      let cursor = 420;
+      const windows: { start: string; end: string }[] = [];
+      for (const interval of (occupied.get(room.codigo) ?? []).sort((a,b) => a.start - b.start)) {
+        if (interval.start > cursor) windows.push({ start: clockLabel(cursor), end: clockLabel(Math.min(interval.start, 1320)) });
+        cursor = Math.max(cursor, interval.end);
+      }
+      if (cursor < 1320) windows.push({ start: clockLabel(cursor), end: '22:00' });
+      freeWindows.set(room.codigo, windows);
+      if (flexibleTime && !windows.length) busyRooms.add(room.codigo);
     }
   }
   const terms = normalizeRoomText(filters.query).split(' ').filter(Boolean);
   const candidates = rooms.filter(a => (!(checkingAvailability || filters.enabledOnly) || a.estado === 'disponible') &&
     (!filters.type || a.tipo === filters.type) && (!filters.place || a.lugar === filters.place) &&
-    terms.every(term => normalizeRoomText(`${a.codigo} ${a.nombre} ${a.ubicacion ?? ''} ${a.tipo}`).includes(term)));
+    terms.every(term => normalizeRoomText(`${a.codigo} ${a.nombre} ${a.ubicacion ?? ''} ${a.tipo} ${roomEquipment(a).map(e => e.nombre).join(' ')}`).includes(term)));
   const matching = invalidCapacity || availabilityError ? [] : candidates.filter(a => !busyRooms.has(a.codigo));
   const known = matching.filter(a => Number.isInteger(a.capacidad) && a.capacidad > 0);
   const adequate = known.filter(a => requested === null || a.capacidad >= requested)
     .sort((a, b) => (requested === null ? 0 : a.capacidad - b.capacidad) || byCode(a, b));
+  const combinations = requested !== null && !flexibleTime && !adequate.some(a => a.estado === 'disponible') ? nearbyCombinations(known, requested) : [];
+  const alternatives: RoomSlot[] = [];
+  if (suggest && checkingAvailability && !availabilityError && !invalidCapacity && !adequate.length && !combinations.length) {
+    const duration = flexibleTime ? 60 : minuteOf(filters.end) - minuteOf(filters.start);
+    const sameDay = searchRooms(rooms, { ...filters, start: '', end: '' }, availability, false);
+    for (const room of sameDay.adequate) for (const window of sameDay.freeWindows.get(room.codigo) ?? []) {
+      if (minuteOf(window.end) - minuteOf(window.start) < duration) continue;
+      const start = Math.max(minuteOf(window.start), Math.min(minuteOf(filters.start || window.start), minuteOf(window.end) - duration));
+      alternatives.push({ room, day: filters.day, date: filters.date, start: clockLabel(start), end: clockLabel(start + duration), kind: 'same-day' });
+    }
+    alternatives.sort((a,b) => Math.abs(minuteOf(a.start) - minuteOf(filters.start || '07:00')) - Math.abs(minuteOf(b.start) - minuteOf(filters.start || '07:00')) || byCode(a.room,b.room));
+    alternatives.splice(6);
+    const dayOptions = days.slice(1).filter(d => d !== filters.day).map(day => ({ day, date: '' }));
+    if (filters.date) {
+      dayOptions.length = 0;
+      for (let offset = 1; offset <= 7; offset++) {
+        const d = new Date(`${filters.date}T12:00:00Z`); d.setUTCDate(d.getUTCDate() + offset);
+        const date = d.toISOString().slice(0, 10), day = roomSearchDay(date);
+        if (day !== 'DOMINGO') dayOptions.push({ day, date });
+      }
+    }
+    for (const option of dayOptions) {
+      const result = searchRooms(rooms, { ...filters, ...option }, availability, false);
+      for (const room of result.adequate.slice(0, 2)) {
+        const window = result.freeWindows.get(room.codigo)?.find(w => minuteOf(w.end) - minuteOf(w.start) >= duration);
+        if (flexibleTime && !window) continue;
+        alternatives.push({ room, ...option, start: filters.start || window!.start,
+          end: filters.end || clockLabel(minuteOf(window!.start) + duration), kind: 'other-day' });
+      }
+    }
+  }
   return {
-    requested, invalidCapacity, checkingAvailability, availabilityError,
+    requested, invalidCapacity, checkingAvailability, flexibleTime, availabilityError, freeWindows, alternatives,
     occupiedCount: candidates.filter(a => busyRooms.has(a.codigo)).length,
     adequate,
-    combinations: requested !== null && !adequate.some(a => a.estado === 'disponible') ? nearbyCombinations(known, requested) : [],
+    combinations,
     smaller: invalidCapacity || requested === null ? [] : known.filter(a => a.capacidad < requested)
       .sort((a, b) => b.capacidad - a.capacidad || byCode(a, b)),
     unknown: matching.filter(a => !Number.isInteger(a.capacidad) || a.capacidad <= 0).sort(byCode),

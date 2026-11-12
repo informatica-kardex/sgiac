@@ -6,13 +6,20 @@ import { Modal } from './Modal';
 import { ConfirmDialog } from './ConfirmDialog';
 import { LoadingSpinner } from './LoadingSpinner';
 import { AsignacionAuxiliarFields, HabilitarAuxiliarModal } from './HabilitarAuxiliarModal';
+import { AuxiliarCarnetModal } from '../../components/AuxiliarCarnetModal';
+import { CrearEstudianteModal } from './CrearEstudianteModal';
+import { useAdminAuth } from '../../hooks/useAdminAuth';
 
 export function AuxiliaresPanel({ catalogo: c }: { catalogo: ReturnType<typeof useAcademico> }) {
+  const { usuario } = useAdminAuth();
+  const [crearEstudiante, setCrearEstudiante] = useState(false);
+  const [nuevoEstudiante, setNuevoEstudiante] = useState<string>();
   const [query, setQuery] = useState(''), [subjectFilter, setSubjectFilter] = useState('');
   const [open, setOpen] = useState(false), [legacy, setLegacy] = useState<Auxiliar | null>(null);
   const [busy, setBusy] = useState(false), [error, setError] = useState(''), [success, setSuccess] = useState('');
   const [selected, setSelected] = useState<{ id: string; edit: boolean } | null>(null), [assignment, setAssignment] = useState('');
   const [remove, setRemove] = useState<{ id?: string; asignacion?: string; nombre?: string } | null>(null);
+  const [carnet, setCarnet] = useState<string | null>(null);
   const activos = c.auxiliares.filter(a => a.estado === 'ACTIVO');
   const auxiliar = activos.find(a => a.idAuxiliar === selected?.id);
   function abrir(a: Auxiliar, edit: boolean) { setSelected({ id: a.idAuxiliar, edit }); setAssignment(''); setError(''); setSuccess(''); }
@@ -36,8 +43,9 @@ export function AuxiliaresPanel({ catalogo: c }: { catalogo: ReturnType<typeof u
   }
   return <div className="space-y-5">
     <AcademicHeader title="Auxiliares" description="Habilita estudiantes con cuenta institucional y vincúlalos a una materia y su docente titular.">
+      {usuario?.roles.includes('ADMINISTRADOR') && <AcademicAction icon="plus" disabled={busy} onClick={() => setCrearEstudiante(true)}>Crear estudiante</AcademicAction>}
       <AcademicAction icon="trash" tone="danger" disabled={busy || c.loading || Boolean(c.error) || !activos.length} onClick={() => { setError(''); setRemove({}); }}>Quitar todos</AcademicAction>
-      <AcademicAction icon="plus" tone="primary" disabled={busy} onClick={() => { setLegacy(null); setOpen(true); }}>Nuevo auxiliar</AcademicAction>
+      <AcademicAction icon="plus" tone="primary" disabled={busy} onClick={() => { setNuevoEstudiante(undefined); setLegacy(null); setOpen(true); }}>Nuevo auxiliar</AcademicAction>
     </AcademicHeader>
     <ErrorNotice message={c.error} retry={() => void c.cargar()} />{!auxiliar && <ErrorNotice message={error} />}
     {success && <p role="status" className="rounded-lg bg-emerald-50 p-3 text-sm text-emerald-800">{success}</p>}
@@ -70,12 +78,15 @@ export function AuxiliaresPanel({ catalogo: c }: { catalogo: ReturnType<typeof u
           {!a.idEstudiante && <AcademicAction icon="estudiantes" tone="primary" disabled={busy} onClick={() => { setLegacy(a); setOpen(true); }}>Vincular estudiante</AcademicAction>}
         </div>
         <div className="flex flex-wrap gap-2 border-t border-slate-100 bg-slate-50/60 p-4">
+          <AcademicAction icon="documentos" disabled={busy || !a.cuentaActiva} onClick={() => setCarnet(a.idAuxiliar)}>Carnet y QR</AcademicAction>
           <AcademicAction icon="view" disabled={busy} onClick={() => abrir(a, false)}>Ver detalle</AcademicAction>
           <AcademicAction icon="edit" tone="primary" disabled={busy} onClick={() => abrir(a, true)}>Editar materias</AcademicAction>
           <AcademicAction icon="trash" tone="danger" disabled={busy} onClick={() => { setError(''); setRemove({ id: a.idAuxiliar, nombre: a.nombreCompleto }); }}>Quitar auxiliar</AcademicAction>
         </div>
       </article>)}</div>}
-    {open && <HabilitarAuxiliarModal idAuxiliarAnterior={legacy?.idAuxiliar} onClose={() => setOpen(false)} onSaved={async () => { setSuccess('Estudiante habilitado como auxiliar y vinculado a su docente y materia.'); await c.cargar(); }} />}
+    {carnet && <AuxiliarCarnetModal idAuxiliar={carnet} onClose={() => setCarnet(null)} />}
+    {crearEstudiante && <CrearEstudianteModal onClose={() => setCrearEstudiante(false)} onSaved={id => { setNuevoEstudiante(id); setLegacy(null); setOpen(true); setSuccess('Estudiante creado. Ahora puedes habilitarlo como auxiliar.'); }} />}
+    {open && !crearEstudiante && <HabilitarAuxiliarModal idEstudiante={nuevoEstudiante} idAuxiliarAnterior={legacy?.idAuxiliar} onClose={() => setOpen(false)} onSaved={async () => { setSuccess('Estudiante habilitado como auxiliar y vinculado a su docente y materia.'); await c.cargar(); }} />}
     {auxiliar && <Modal title={selected?.edit ? 'Editar materias del auxiliar' : 'Detalle del auxiliar'} open onClose={() => !busy && setSelected(null)} size="wide"><div className="space-y-5">
       <div className="rounded-lg bg-emerald-50 p-4"><h2 className="font-bold">{auxiliar.nombreCompleto}</h2><p className="break-all text-sm text-slate-600">{auxiliar.correo || 'Sin correo institucional'}</p><p className="mt-1 text-sm text-slate-600">RU: {auxiliar.ru || 'Sin vincular'} · Celular: {auxiliar.telefono || 'Sin registrar'}</p></div>
       <ErrorNotice message={error || c.error} />{success && <p role="status" className="text-sm text-emerald-800">{success}</p>}

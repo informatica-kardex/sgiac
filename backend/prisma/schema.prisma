@@ -103,6 +103,7 @@ model Usuario {
   idUsuario               BigInt                   @id @default(autoincrement()) @map("id_usuario")
   nombreCompleto          String                   @map("nombre_completo") @db.VarChar(150)
   correo                  String                   @unique @map("correo") @db.VarChar(150)
+  celular                 String?                  @db.VarChar(30)
   estado                  String                   @default("ACTIVO") @map("estado") @db.VarChar(20)
   fechaCreacion           DateTime                 @default(now()) @map("fecha_creacion") @db.Timestamptz(6)
   contrasenaHash          String?                  @map("contrasena_hash")
@@ -301,6 +302,9 @@ model cierre_gestion {
 model comunicado {
   id_comunicado           BigInt                 @id @default(autoincrement())
   titulo                  String                 @db.VarChar(250)
+  encabezado              String                 @default("COMUNICADO") @db.VarChar(80)
+  mayusculas              Boolean                @default(true)
+  tamano_letra            Int                    @default(13)
   contenido               String
   fecha_creacion          DateTime               @default(now()) @db.Timestamptz(6)
   fecha_publicacion       DateTime?              @db.Timestamptz(6)
@@ -390,6 +394,9 @@ model ficha_atencion {
   hora_generacion  DateTime          @default(dbgenerated("CURRENT_TIME")) @db.Time(6)
   id_estudiante    BigInt
   id_jornada       BigInt
+  id_puesto        BigInt?
+  puesto_llamado   String?           @db.VarChar(80)
+  puesto_atencion  puesto_atencion?  @relation(fields: [id_puesto], references: [id_puesto], onDelete: Restrict)
   estudiante       estudiante        @relation(fields: [id_estudiante], references: [id_estudiante], onUpdate: NoAction, map: "fk_ficha_estudiante")
   jornada_atencion jornada_atencion  @relation(fields: [id_jornada], references: [id_jornada], onUpdate: NoAction, map: "fk_ficha_jornada")
   historial_ficha  historial_ficha[]
@@ -399,6 +406,7 @@ model ficha_atencion {
   @@index([id_jornada, estado_actual], map: "idx_ficha_jornada_estado")
   @@index([id_estudiante], map: "idx_ficha_estudiante")
   @@index([id_jornada], map: "idx_ficha_jornada")
+  @@index([id_puesto, estado_actual])
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -433,6 +441,12 @@ model historial_ficha {
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model horario {
   id_horario      BigInt         @id @default(autoincrement())
+  id_horario_base BigInt?
+  id_reserva_origen BigInt?
+  horario_base horario? @relation("TrasladoBase", fields: [id_horario_base], references: [id_horario], onDelete: Restrict, onUpdate: NoAction)
+  traslados horario[] @relation("TrasladoBase")
+  reserva_origen horario? @relation("TrasladoReserva", fields: [id_reserva_origen], references: [id_horario], onDelete: Restrict, onUpdate: NoAction)
+  reubicaciones horario[] @relation("TrasladoReserva")
   id_solicitud_aula BigInt?
   solicitudAula   SolicitudAula? @relation(fields: [id_solicitud_aula], references: [id], onDelete: Restrict)
   fecha           DateTime?      @db.Date
@@ -457,6 +471,8 @@ model horario {
   @@index([fecha])
   @@index([id_auxiliar])
   @@index([id_solicitud_aula])
+  @@unique([id_horario_base, fecha])
+  @@index([id_reserva_origen])
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
@@ -474,6 +490,7 @@ model jornada_atencion {
   minutos_por_estudiante Int       @default(10)
   puesto         String            @default("Kardex") @db.VarChar(80)
   identificador  String?           @db.VarChar(20)
+  puestos        jornada_puesto[]
   tramite        tramite_atencion? @relation(fields: [id_tramite], references: [id_tramite], onDelete: Restrict)
   ficha_atencion  ficha_atencion[]
   historial_ficha historial_ficha[]
@@ -481,6 +498,24 @@ model jornada_atencion {
 
   @@index([fecha], map: "idx_jornada_fecha")
   @@unique([fecha, id_tramite], map: "uq_jornada_fecha_tramite")
+}
+
+model puesto_atencion {
+  id_puesto BigInt @id @default(autoincrement())
+  nombre String @unique @db.VarChar(80)
+  activo Boolean @default(true)
+  jornadas jornada_puesto[]
+  fichas ficha_atencion[]
+}
+
+model jornada_puesto {
+  id_jornada BigInt
+  id_puesto BigInt
+  jornada jornada_atencion @relation(fields: [id_jornada], references: [id_jornada], onDelete: Cascade)
+  puesto puesto_atencion @relation(fields: [id_puesto], references: [id_puesto], onDelete: Restrict)
+
+  @@id([id_jornada, id_puesto])
+  @@index([id_puesto])
 }
 
 model tramite_atencion {

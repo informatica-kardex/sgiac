@@ -26,7 +26,7 @@ export function RoomPicker({ aulas, lugar, piso, includeAll = false, loading, pe
       </section>}
       {(!byFloor || piso !== null) && <section className="space-y-4" aria-label="Aulas del lugar">
         <div className="flex flex-wrap items-end justify-between gap-3"><div>
-          <p className="place-step"><span>{byFloor ? '03' : '02'}</span>Selecciona un aula para abrir su horario</p>
+          <p className="place-step"><span>{byFloor ? '03' : '02'}</span>Horarios de las aulas · abre una para verla por separado</p>
           <p className="mt-1 text-xs text-slate-500">{LUGARES[lugar]}{piso ? ` · ${pisoLabel(piso === 'null' ? null : Number(piso))}` : ''} · {rooms.length} ambientes</p>
         </div>
           {!byFloor && floors.some(p => p !== null) && <Field label="Piso"><select className="select-field" value={piso ?? ''} onChange={e => onFloor(e.target.value)}><option value="">Todos los pisos</option>{floors.map(p => <option key={String(p)} value={String(p)}>{pisoLabel(p)}</option>)}</select></Field>}

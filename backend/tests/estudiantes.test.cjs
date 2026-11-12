@@ -37,11 +37,12 @@ beforeEach(t => {
 });
 
 test('registro acepta mención sin semestre ni gestión y persiste en la columna existente', async t => {
-  const data = registerSchema.parse({ nombres: 'Ana', apellidos: 'Pérez', ci: '123', ru: '456', mencion: ' Sistemas ', correo: 'ana@example.test', contrasena: 'Password123!', confirmarContrasena: 'Password123!' });
+  const data = registerSchema.parse({ nombres: 'Ana', apellidos: 'Pérez', ci: '123', celular: '+591 7123-4567', ru: '456', mencion: ' Sistemas ', correo: 'ana@umsa.bo', contrasena: 'Password123!', confirmarContrasena: 'Password123!' });
   assert.equal(data.mencion, 'Sistemas');
   t.mock.method(prisma.estudiante, 'findFirst', async () => null);
   t.mock.method(prisma.usuario, 'create', async ({ data: user }) => {
     assert.equal(user.estudiante.create.carrera, 'Sistemas');
+    assert.equal(user.celular, '+59171234567');
     assert.equal('semestre' in user.estudiante.create, false);
     assert.equal('gestion' in user.estudiante.create, false);
   });

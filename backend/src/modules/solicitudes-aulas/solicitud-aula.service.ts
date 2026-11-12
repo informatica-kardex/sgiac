@@ -76,13 +76,14 @@ async function disponibilidad(tx: Prisma.TransactionClient, a: Auxiliar, p: Asig
       { OR: [{ codigo_ambiente: { in: aulas.map(aula => aula.codigo_ambiente) } }, { id_auxiliar: a.id_auxiliar }, { id_paralelo: p.id_paralelo }] },
       { OR: agenda.sesiones.map(s => ({ dia_semana: s.dia, bloque_horario: { hora_inicio: { lt: new Date(`1970-01-01T${s.horaFin}:00Z`) }, hora_fin: { gt: new Date(`1970-01-01T${s.horaInicio}:00Z`) } } })) },
     ],
-  }, include: { bloque_horario: true, paralelo: { include: { periodo_academico: true } } } });
+  }, include: { bloque_horario: true, traslados: { where: { estado: 'ASIGNADO' }, select: { fecha: true } }, paralelo: { include: { periodo_academico: true } } } });
   return aulas.map(aula => {
     let motivo = aula.estado !== 'DISPONIBLE' ? 'Aula no habilitada para reservas.' :
       aula.capacidad > 0 && aula.capacidad < numeroEstudiantes ? `Capacidad insuficiente: ${aula.capacidad} estudiantes.` : '';
     if (!motivo) {
       for (const s of agenda.sesiones) {
         const h = horarios.find(h => (h.codigo_ambiente === aula.codigo_ambiente || h.id_auxiliar === a.id_auxiliar || h.id_paralelo === p.id_paralelo) &&
+          !(s.fecha && !h.fecha && h.traslados?.some(t => t.fecha?.toISOString().slice(0, 10) === s.fecha)) &&
           s.horaInicio < hora(h.bloque_horario.hora_fin) && s.horaFin > hora(h.bloque_horario.hora_inicio) && compartenFecha(
             { fecha: s.fecha ? new Date(`${s.fecha}T00:00:00Z`) : null, inicio: p.periodo_academico.fecha_inicio, fin: p.periodo_academico.fecha_fin, dia: s.dia },
             { fecha: h.fecha, inicio: h.paralelo.periodo_academico.fecha_inicio, fin: h.paralelo.periodo_academico.fecha_fin, dia: h.dia_semana }));
@@ -171,6 +172,8 @@ export const solicitudAulaService = {
       const s = await cargar(tx, id, p.version);
       if (p.accion === 'CANCELAR') {
         if (s.estado !== 'APROBADA') throw ApiError.conflict('Solo puedes cancelar una reserva aprobada desde esta opción.');
+        const vinculados = await tx.horario.findMany({ where: { id_solicitud_aula: s.id, traslados: { some: {} } }, select: { id_horario: true } });
+        if (vinculados.length) throw ApiError.conflict('Esta solicitud tiene clases con traslados vinculados. Retira primero las reservas docentes que los originaron en Horarios.');
         await tx.horario.deleteMany({ where: { id_solicitud_aula: s.id } });
         return cambiar(tx, s, actor, 'CANCELADA', 'CANCELADA', p.comentario);
       }

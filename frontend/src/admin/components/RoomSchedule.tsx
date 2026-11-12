@@ -5,11 +5,12 @@ import { clockLabel, reservationDate, semesterLayout, semesterSessions, sessionC
 import '../../styles/ver-horarios.css';
 
 interface Props {
-  aula: Aula; periodo: Periodo; horarios: HorarioAcademico[]; today: string;
+  aula: Pick<Aula, 'codigo'>; periodo: Periodo; horarios: HorarioAcademico[]; today: string;
+  highlightIds?: ReadonlySet<number>;
   onCreate?: (day: DiaSemana, hour: number) => void;
   onEdit?: (session: HorarioAcademico) => void;
 }
-export function RoomSchedule({ aula, periodo, horarios, today, onCreate, onEdit }: Props) {
+export function RoomSchedule({ aula, periodo, horarios, today, onCreate, onEdit, highlightIds }: Props) {
   const sessions = semesterSessions(horarios, aula.codigo, periodo, today);
   const colors = useMemo(() => semesterColors(horarios.filter(h => h.idPeriodo === periodo.idPeriodo)), [horarios, periodo.idPeriodo]);
   const color = (h: HorarioAcademico) => colors.get(sessionKey(h)) ?? sessionColor(h);
@@ -29,10 +30,11 @@ export function RoomSchedule({ aula, periodo, horarios, today, onCreate, onEdit 
             <div className="room-cell-sessions">{block.sessions.map(h => {
               const title = `${h.siglas.join(' / ')} · ${h.materia} · ${h.grupo} · ${h.responsable} · ${h.horaInicio}–${h.horaFin}${h.fecha ? ` · Reservado ${reservationDate(h.fecha)} · ${h.motivo}` : ''}`;
               const content = <><strong>{isAssistantSession(h) ? 'AUX ' : ''}{h.siglas.join(' / ') || h.codigoMateria} {h.grupo === 'SIN PARALELO' ? '' : h.grupo}</strong><span>{h.responsable}</span>
-                {h.fecha && <small className="room-reserved">RESERVADO · {reservationDate(h.fecha)}</small>}
+                {h.fecha && <small className="room-reserved">{h.idHorarioBase ? `TRASLADO DESDE ${h.aulaOriginal}` : 'RESERVADO'} · {reservationDate(h.fecha)}</small>}
+                {h.traslados?.filter(t => t.fecha >= today).map(t => <small className="room-reserved" key={t.fecha}>{reservationDate(t.fecha)}: aula {t.aula}. Resto del semestre aquí.</small>)}
                 {(block.sessions.length > 1 || h.horaInicio.slice(3) !== '00' || h.horaFin.slice(3) !== '00') && <small>{h.horaInicio}–{h.horaFin}</small>}</>;
-              const props = { className: `room-session${h.fecha ? ' temporary' : ''}${isAssistantSession(h) ? ' assistant' : ''}`, style: { backgroundColor: color(h) }, title };
-              return onEdit ? <button type="button" key={h.idHorario} {...props} onClick={() => onEdit(h)} aria-label={`Editar ${title}`}>{content}</button> : <div key={h.idHorario} {...props}>{content}</div>;
+              const props = { className: `room-session${h.fecha ? ' temporary' : ''}${isAssistantSession(h) ? ' assistant' : ''}${highlightIds?.has(h.idHorario) ? ' is-search-match' : ''}`, style: { backgroundColor: color(h) }, title };
+              return onEdit ? <button type="button" key={h.idHorario} {...props} onClick={() => onEdit(horarios.find(s => s.idHorario === h.idReservaOrigen) ?? h)} aria-label={`Ver asignaciones y reservar: ${title}`}>{content}</button> : <div key={h.idHorario} {...props}>{content}</div>;
             })}</div>
           </td>;
         })}

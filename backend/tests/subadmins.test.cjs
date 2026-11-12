@@ -17,7 +17,7 @@ const { comparePassword } = require('../src/utils/password');
 let users, roles, audit, sessions;
 const service = new UserService();
 const auth = new AuthService();
-const input = () => crearSubadminSchema.parse({ nombreCompleto: 'Ana Pérez', correo: 'ANA@example.test', ci: '1234567', permisos: [{ modulo: 'aulas', desde: null, hasta: null }] });
+const input = () => crearSubadminSchema.parse({ nombreCompleto: 'Ana Pérez', correo: 'ANA@example.test', ci: '1234567', celular: '71234567', permisos: [{ modulo: 'aulas', desde: null, hasta: null }] });
 const relation = rol => ({ estado: 'ACTIVO', rol });
 beforeEach(t => {
   roles = [
@@ -45,12 +45,17 @@ beforeEach(t => {
   prisma.permisoUsuario.createMany = async ({ data }) => { for (const p of data) users.find(u => u.idUsuario === BigInt(p.idUsuario)).permisos.push(p); };
   prisma.usuarioRol.deleteMany = async ({ where }) => { users.find(u => u.idUsuario === BigInt(where.idUsuario)).roles = []; };
   prisma.usuarioRol.create = async ({ data }) => { users.find(u => u.idUsuario === BigInt(data.idUsuario)).roles.push(relation(roles.find(r => r.idRol === BigInt(data.idRol)))); };
-  prisma.refreshToken.create = async ({ data }) => { sessions.push({ ...data, revocado: false }); };
-  prisma.refreshToken.updateMany = async ({ where }) => { sessions.filter(s => where.idUsuario ? s.idUsuario === where.idUsuario : s.tokenHash === where.tokenHash).forEach(s => s.revocado = true); };
-  prisma.refreshToken.findUnique = async ({ where }) => sessions.find(s => s.tokenHash === where.tokenHash);
+  prisma.refreshToken.create = async ({ data }) => { const row = { ...data, idRefreshToken: sessions.length + 1, creadoEn: new Date(), revocado: false }; sessions.push(row); return row; };
+  prisma.refreshToken.updateMany = async ({ where, data }) => {
+    const rows = sessions.filter(s => Object.entries(where).every(([key, value]) => key === 'expiraEn' ? s.expiraEn > value.gt : s[key] === value));
+    rows.forEach(s => Object.assign(s, data)); return { count: rows.length };
+  };
+  prisma.refreshToken.findUnique = async ({ where }) => sessions.find(s => where.idRefreshToken !== undefined ? s.idRefreshToken === where.idRefreshToken : s.tokenHash === where.tokenHash);
   prisma.bitacora.create = async ({ data }) => { audit.push(data); return data; };
   prisma.$transaction = async fn => fn(prisma);
   t.mock.method(security, 'verifyCaptcha', () => {});
+  t.mock.method(require('../src/modules/aulas/aula.service').AulaService.prototype, 'listar', async () => []);
+  t.mock.method(require('../src/modules/fichas/ficha.service').FichaService.prototype, 'findAll', async () => []);
 });
 async function authorize(token, route = '/api/aulas', role = 'aulas', method = 'GET') {
   const req = { headers: { authorization: `Bearer ${token}` }, baseUrl: route, path: '/', method };
@@ -67,6 +72,7 @@ test('crea subadmin activo con CI cifrado, rol y cambio obligatorio, sin exponer
   assert.deepEqual(result.roles, ['SUBADMINISTRADOR']);
   assert.equal(result.debeCambiarPassword, true);
   assert.equal(users[1].estado, 'ACTIVO');
+  assert.equal(users[1].celular, '71234567');
   assert.equal(await comparePassword('1234567', users[1].contrasenaHash), true);
   assert.equal('contrasenaHash' in result, false);
   assert.equal('ci' in result, false);
@@ -144,7 +150,9 @@ test('ignora permisos de JWT y relaciones o roles inactivos', async () => {
   await service.crearSubadmin(input(), 1n);
   users[1].correoVerificado = true;
   users[1].debeCambiarPassword = false;
-  const token = signAccessToken({ credentialVersion: credentialVersion(users[1].contrasenaHash), idUsuario: '2', correo: 'ana@example.test', roles: ['ADMINISTRADOR'] });
+  const valid = await login('1234567');
+  const { iat, exp, ...claims } = verifyAccessToken(valid.tokens.accessToken);
+  const token = signAccessToken({ ...claims, roles: ['ADMINISTRADOR'] });
   assert.equal((await authorize(token, '/api/users', 'ADMINISTRADOR')).error.statusCode, 403);
   users[1].roles[0].estado = 'INACTIVO';
   assert.deepEqual(rolesActivos(users[1].roles), []);
@@ -183,7 +191,8 @@ test('rutas HTTP: solo el administrador crea y cambia roles; el primer ingreso b
     const listener = app.listen(0, '127.0.0.1', () => resolve(listener));
   });
   const base = `http://127.0.0.1:${server.address().port}/api`;
-  const adminToken = signAccessToken({ credentialVersion: credentialVersion(users[0].contrasenaHash), idUsuario: '1', correo: users[0].correo, roles: ['ADMINISTRADOR'] });
+  const adminSession = await prisma.refreshToken.create({ data: { idUsuario: 1n, tokenHash: 'admin-test-session', expiraEn: new Date(Date.now() + 180000) } });
+  const adminToken = signAccessToken({ credentialVersion: credentialVersion(users[0].contrasenaHash), sessionId: adminSession.idRefreshToken, idUsuario: '1', correo: users[0].correo, roles: ['ADMINISTRADOR'] });
   const request = (path, token, method = 'GET', body) => fetch(base + path, {
     method, headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
     ...(body ? { body: JSON.stringify(body) } : {}),

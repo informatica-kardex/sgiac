@@ -8,7 +8,8 @@ export const MAX_COMUNICADO_FILE_SIZE = 10 * 1024 * 1024;
 export const MAX_COMUNICADO_IMAGENES = 10;
 export const uploadComunicado = multer({
   storage: multer.memoryStorage(),
-  limits: { files: MAX_COMUNICADO_IMAGENES, fileSize: MAX_COMUNICADO_FILE_SIZE, fields: 8, fieldSize: 100000, parts: 18 },
+  // Los ocho campos del comunicado y adjuntosEliminar al editar, más diez imágenes.
+  limits: { files: MAX_COMUNICADO_IMAGENES, fileSize: MAX_COMUNICADO_FILE_SIZE, fields: 9, fieldSize: 100000, parts: 20 },
 }).array("archivo", MAX_COMUNICADO_IMAGENES);
 
 export interface ArchivoGuardado { nombre: string; mime: string; clave: string; }

@@ -4,6 +4,8 @@ import { authApi } from "../api/auth.api";
 import { esRolAdministrativo, puedeAccederModulo } from "../utils/roles";
 import { useAdminAuthStore } from "../store/adminAuthStore";
 import { LoadingSpinner } from "../admin/components/LoadingSpinner";
+import { useUserAuthStore } from "../store/userAuthStore";
+import { sessionHome } from "./session";
 
 // Protege todas las rutas bajo /admin/* (excepto /admin/login).
 // Si no hay sesion administrativa activa, redirige al login del
@@ -11,6 +13,7 @@ import { LoadingSpinner } from "../admin/components/LoadingSpinner";
 // fuerza a la pantalla de cambio antes de continuar.
 export function AdminProtectedRoute() {
   const { isAuthenticated, isInitializing, usuario } = useAdminAuthStore();
+  const student = useUserAuthStore();
   const location = useLocation();
   const [verificada, setVerificada] = useState("");
   const [error, setError] = useState(false);
@@ -45,12 +48,12 @@ export function AdminProtectedRoute() {
     return () => { vigente = false; window.clearInterval(intervalo); window.removeEventListener("focus", actualizar); };
   }, [isAuthenticated, location.pathname]);
 
-  if (isInitializing) {
+  if (isInitializing || student.isInitializing) {
     return <LoadingSpinner label="Verificando sesion administrativa..." />;
   }
 
-  if (!isAuthenticated) {
-    return <Navigate to="/admin/login" replace />;
+  if (!isAuthenticated || !esRolAdministrativo(usuario?.roles ?? [])) {
+    return <Navigate to={student.usuario ? sessionHome(student.usuario) : "/login"} replace />;
   }
 
   if (error) return <div className="p-8" role="alert">No se pudieron verificar tus permisos. <button className="btn-primary" onClick={() => window.location.reload()}>Reintentar</button></div>;

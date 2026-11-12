@@ -3,13 +3,13 @@ import { ApiEnvelope, Comunicado } from "./types";
 
 export type CrearComunicadoPayload = Pick<
   Comunicado,
-  "titulo" | "tipo" | "contenido" | "categoria" | "estado"
+  "titulo" | "encabezado" | "tipo" | "contenido" | "categoria" | "estado" | "mayusculas" | "tamanoLetra"
 >;
 export type ActualizarComunicadoPayload = Partial<CrearComunicadoPayload> & { adjuntosEliminar?: string[] };
 
 function formulario(payload: ActualizarComunicadoPayload, archivos?: File | File[] | null) {
   const form = new FormData();
-  Object.entries(payload).forEach(([key, value]) => { if (value !== undefined) form.append(key, Array.isArray(value) ? JSON.stringify(value) : value); });
+  Object.entries(payload).forEach(([key, value]) => { if (value !== undefined) form.append(key, Array.isArray(value) ? JSON.stringify(value) : String(value)); });
   if (archivos) (Array.isArray(archivos) ? archivos : [archivos]).forEach(archivo => form.append("archivo", archivo));
   return form;
 }

@@ -6,10 +6,10 @@ import { AdminIcon, AdminIconName } from "./AdminIcon";
 const groups: { title: string; items: { key: AdminIconName; label: string }[] }[] = [
   { title: "", items: [{ key: "dashboard", label: "Dashboard" }] },
   { title: "Gestión académica", items: [{ key: "docentes", label: "Docentes" }, { key: "auxiliares", label: "Auxiliares" }, { key: "solicitudes-aulas", label: "Solicitudes de aulas" }, { key: "materias", label: "Materias" }, { key: "aulas", label: "Aulas" }, { key: "ver-horarios", label: "Ver Horarios" }, { key: "horarios", label: "Horarios" }] },
-  { title: "Comunicación", items: [{ key: "comunicados", label: "Comunicados" }, { key: "faq", label: "Preguntas frecuentes" }, { key: "fichas", label: "Atención" }, { key: "documentos", label: "Solicitudes de documentos" }] },
+  { title: "Comunicación", items: [{ key: "comunicados", label: "Comunicados" }, { key: "faq", label: "Preguntas frecuentes" }, { key: "fichas", label: "Atención" }, { key: "documentos", label: "Trámites en línea" }] },
   { title: "Administración", items: [{ key: "reportes", label: "Reportes" }, { key: "subadministradores", label: "Subadministradores" }, { key: "estudiantes", label: "Estudiantes" }, { key: "roles", label: "Roles y permisos" }, { key: "auditoria", label: "Auditoría" }, { key: "configuracion", label: "Configuración" }] },
 ];
-export function AdminSidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
+export function AdminSidebar({ open, onClose, pending }: { open: boolean; onClose: () => void; pending: Record<string, number> }) {
   const { usuario, logout } = useAdminAuth();
   return <>
     {open && <button className="fixed inset-0 z-40 bg-slate-950/50 lg:hidden" onClick={onClose} aria-label="Cerrar menú" />}
@@ -25,7 +25,7 @@ export function AdminSidebar({ open, onClose }: { open: boolean; onClose: () => 
           if (!items.length) return null;
           return <div key={group.title} className="mb-5 last:mb-0">
             {group.title && <p className="mb-3 px-3 pt-1 text-[9px] font-bold uppercase tracking-[.16em] text-slate-500">{group.title}</p>}
-            {items.map(item => <NavLink key={item.key} to={`/admin/${item.key}`} onClick={onClose} className={({ isActive }) => `mb-1 flex items-center gap-3 px-3 py-2.5 text-[13px] font-medium transition ${isActive ? "bg-white/10 text-white" : "text-slate-400 hover:bg-white/5 hover:text-white"}`}><AdminIcon name={item.key} />{item.label}</NavLink>)}
+            {items.map(item => <NavLink key={item.key} to={`/admin/${item.key}`} onClick={onClose} className={({ isActive }) => `mb-1 flex items-center gap-3 px-3 py-2.5 text-[13px] font-medium transition ${isActive ? "bg-white/10 text-white" : "text-slate-400 hover:bg-white/5 hover:text-white"}`}><AdminIcon name={item.key} /><span className="min-w-0 flex-1">{item.label}</span>{pending[item.key] > 0 && <span className="shrink-0 rounded-full bg-red-500 px-1.5 py-0.5 text-center text-[10px] font-bold text-white" aria-label={`${pending[item.key]} solicitudes pendientes`} title={`${pending[item.key]} pendientes`}>{pending[item.key] > 99 ? "99+" : pending[item.key]}</span>}</NavLink>)}
           </div>;
         })}
       </nav>

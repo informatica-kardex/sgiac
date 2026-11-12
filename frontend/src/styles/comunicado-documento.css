@@ -1,3 +1,19 @@
+@font-face {
+  font-family: "Times New Roman";
+  src: local("Times New Roman"), url("/fonts/times-new-roman.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Times New Roman";
+  src: local("Times New Roman Bold"), url("/fonts/times-new-roman-bold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
 .comunicado-documento {
   position: relative;
   overflow: hidden;
@@ -6,7 +22,26 @@
   border-radius: 4px;
   background: #fff;
   color: #24334b;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 13pt;
+  text-transform: uppercase;
   box-shadow: 0 16px 48px rgb(27 44 74 / 9%), 0 2px 6px rgb(27 44 74 / 4%);
+}
+
+@font-face {
+  font-family: "Times New Roman";
+  src: local("Times New Roman Italic"), url("/fonts/times-new-roman-italic.ttf") format("truetype");
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Times New Roman";
+  src: local("Times New Roman Bold Italic"), url("/fonts/times-new-roman-bold-italic.ttf") format("truetype");
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
 }
 
 .comunicado-documento-membrete {
@@ -32,7 +67,7 @@
 
 .comunicado-documento-universidad {
   color: #20395e;
-  font-size: .94rem;
+  font-size: 13pt;
   font-weight: 800;
   letter-spacing: .035em;
   line-height: 1.5;
@@ -40,7 +75,7 @@
 
 .comunicado-documento-facultad {
   margin-top: .2rem;
-  font-size: .64rem;
+  font-size: 13pt;
   font-weight: 600;
   letter-spacing: .07em;
 }
@@ -48,7 +83,7 @@
 .comunicado-documento-carrera {
   margin-top: .25rem;
   color: #20395e;
-  font-size: .8rem;
+  font-size: 13pt;
   font-weight: 700;
   letter-spacing: .09em;
 }
@@ -56,15 +91,13 @@
 .comunicado-documento-ciudad {
   margin-top: .4rem;
   color: #64748b;
-  font-size: .68rem;
-  text-transform: none;
+  font-size: 13pt;
 }
 
 .comunicado-documento-cuerpo {
   position: relative;
   isolation: isolate;
   display: flex;
-  min-height: 35rem;
   flex-direction: column;
   padding: 1.5rem 3.5rem 2.5rem;
 }
@@ -87,11 +120,12 @@
   top: 50%;
   left: 1rem;
   color: #8d3b4b;
-  font-size: .5rem;
+  font-size: 13pt;
   font-weight: 700;
-  letter-spacing: .18em;
+  letter-spacing: .02em;
   text-transform: uppercase;
   writing-mode: vertical-rl;
+  white-space: nowrap;
   transform: translateY(-50%) rotate(180deg);
 }
 
@@ -102,7 +136,7 @@
   justify-content: space-between;
   gap: .75rem;
   color: #64748b;
-  font-size: .73rem;
+  font-size: 13pt;
 }
 
 .comunicado-documento-categoria {
@@ -112,29 +146,30 @@
   border-radius: 999px;
   background: #f5f7fa;
   color: #435675;
-  font-size: .68rem;
+  font-size: 13pt;
   font-weight: 600;
   overflow-wrap: anywhere;
 }
 
 .comunicado-documento-titular {
-  margin: 2.5rem 0 2rem;
+  margin: 1.25rem 0 1rem;
   text-align: center;
 }
 
 .comunicado-documento-etiqueta {
   color: #933d50;
-  font-size: .7rem;
+  font-size: 28pt;
   font-weight: 700;
-  letter-spacing: .3em;
+  line-height: 1.15;
+  letter-spacing: .06em;
+  overflow-wrap: anywhere;
   text-transform: uppercase;
 }
 
 .comunicado-documento-titulo {
   margin-top: .75rem;
   color: #20395e;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(1.65rem, 3vw, 2.25rem);
+  font-size: 13pt;
   font-weight: 700;
   line-height: 1.3;
   overflow-wrap: anywhere;
@@ -167,7 +202,7 @@
 .comunicado-documento--miniatura .comunicado-documento-meta,
 .comunicado-documento--miniatura .comunicado-documento-lateral { display: none; }
 .comunicado-documento--miniatura .comunicado-documento-titular { flex-shrink: 0; margin: 0 0 .65rem; }
-.comunicado-documento--miniatura .comunicado-documento-etiqueta { font-size: .4rem; }
+.comunicado-documento--miniatura .comunicado-documento-etiqueta { font-size: .75rem; }
 .comunicado-documento--miniatura .comunicado-documento-titulo { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; margin-top: .3rem; font-size: .9rem; }
 .comunicado-documento--miniatura .comunicado-documento-separador { width: 1.5rem; height: 2px; margin-top: .45rem; }
 .comunicado-documento--miniatura .comunicado-documento-texto { overflow: hidden; font-size: .59rem; line-height: 1.65; mask-image: linear-gradient(#000 80%, transparent); }
@@ -188,13 +223,13 @@
 
 .comunicado-documento-texto {
   flex: 1;
-  font-size: 1rem;
-  line-height: 1.95;
+  font-size: 13pt;
+  line-height: 1.5;
   overflow-wrap: anywhere;
 }
 
 .comunicado-documento-texto p {
-  margin: 0 0 1.15rem;
+  margin: 0 0 .75rem;
   white-space: pre-line;
 }
 
@@ -203,18 +238,27 @@
   font-weight: 700;
 }
 
+.comunicado-documento-texto ul,
+.comunicado-documento-texto ol {
+  margin: 0 0 .75rem;
+  padding-left: 1.5em;
+}
+
+.comunicado-documento-texto ul { list-style-type: disc; }
+.comunicado-documento-texto ol { list-style-type: decimal; }
+.comunicado-documento-texto li { margin-bottom: .25em; white-space: pre-line; }
+
 .comunicado-documento-emisor {
   align-self: center;
   min-width: 11rem;
   margin-top: 3rem;
-  padding-top: .85rem;
-  border-top: 1px solid #d5dce6;
+  padding-top: 0;
   text-align: center;
 }
 
 .comunicado-documento-emisor p {
   color: #20395e;
-  font-size: .85rem;
+  font-size: 13pt;
   font-weight: 700;
   letter-spacing: .15em;
   text-transform: uppercase;
@@ -222,7 +266,7 @@
 
 .comunicado-documento-emisor span {
   color: #64748b;
-  font-size: .72rem;
+  font-size: 13pt;
 }
 
 .comunicado-documento-pie {
@@ -233,7 +277,7 @@
   padding: .9rem 2.75rem;
   background: linear-gradient(105deg, #20395e 20%, #3c3455 65%, #843447);
   color: #fff;
-  font-size: .6rem;
+  font-size: 13pt;
   font-weight: 500;
   letter-spacing: .09em;
   text-transform: uppercase;
@@ -247,15 +291,10 @@
     padding: 1.4rem 0 1.1rem;
   }
 
-  .comunicado-documento-universidad { font-size: .68rem; letter-spacing: 0; }
-  .comunicado-documento-facultad { font-size: .48rem; letter-spacing: 0; }
-  .comunicado-documento-carrera { font-size: .57rem; letter-spacing: .02em; }
-  .comunicado-documento-ciudad { font-size: .58rem; }
-  .comunicado-documento-cuerpo { min-height: 31rem; padding: 1.25rem 1.25rem 2rem; }
+  .comunicado-documento-universidad { letter-spacing: 0; }
+  .comunicado-documento-facultad { letter-spacing: 0; }
+  .comunicado-documento-carrera { letter-spacing: .02em; }
+  .comunicado-documento-cuerpo { padding: 1.25rem 1.25rem 2rem; }
   .comunicado-documento-lateral { display: none; }
-  .comunicado-documento-meta { font-size: .65rem; }
-  .comunicado-documento-titular { margin: 2rem 0 1.5rem; }
-  .comunicado-documento-texto { font-size: .94rem; line-height: 1.85; }
-  .comunicado-documento-emisor { margin-top: 2.5rem; }
-  .comunicado-documento-pie { justify-content: center; padding: .85rem 1rem; font-size: .52rem; text-align: center; }
+  .comunicado-documento-pie { justify-content: center; padding: .85rem 1rem; text-align: center; }
 }

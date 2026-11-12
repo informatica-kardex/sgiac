@@ -53,18 +53,20 @@ const server = http.createServer((req, res) => {
       const { request, requestId } = message.params;
       const route = new URL(request.url).pathname;
       let data = [], status = 200;
-      if (route.endsWith('/auth/refresh')) { status = session ? 200 : 401; data = { accessToken: 'preview-token' }; }
+      if (route.endsWith('/auth/refresh')) { status = session ? 200 : 401; data = { accessToken: 'preview-token', session: { id: 1, expiresAt: Date.now() + 3600000 } }; }
       else if (route.endsWith('/auth/me')) data = { idUsuario: '1', nombreCompleto: 'Usuario de prueba', roles: [session === 'admin' ? 'ADMINISTRADOR' : 'ESTUDIANTE'], correoVerificado: true, debeCambiarPassword: false, permisos: [] };
       else if (route.includes('/comunicados')) {
         if (['POST', 'PUT'].includes(request.method)) {
           const entries = await evaluate('window.__ultimoFormulario');
           const fields = Object.fromEntries(entries.filter(e => e[0] !== 'archivo'));
+          // La API convierte los campos multipart antes de devolver el comunicado.
+          const parsedFields = { ...fields, mayusculas: fields.mayusculas === 'true', tamanoLetra: Number(fields.tamanoLetra) };
           const names = entries.filter(e => e[0] === 'archivo').map(e => e[1]);
           mutations.push({ method: request.method, fields, names });
           const index = request.method === 'POST' ? records.length : records.findIndex(r => r.idComunicado === route.split('/').at(-1));
           const old = records[index];
           const removed = JSON.parse(fields.adjuntosEliminar || '[]');
-          data = { ...records[0], ...old, ...fields, idComunicado: old?.idComunicado || String(index + 1), adjuntos: [...(old?.adjuntos || []).filter(a => !removed.includes(a.idAdjunto)), ...names.map(name => attachment(attachmentId++, name))] };
+          data = { ...records[0], ...old, ...parsedFields, idComunicado: old?.idComunicado || String(index + 1), adjuntos: [...(old?.adjuntos || []).filter(a => !removed.includes(a.idAdjunto)), ...names.map(name => attachment(attachmentId++, name))] };
           records[index] = data;
         } else data = route.endsWith('/comunicados') ? records : records.find(r => r.idComunicado === route.split('/').at(-1));
       } else if (route.endsWith('/telegram')) data = { available: false, url: null };

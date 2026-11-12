@@ -9,6 +9,7 @@ import { EstadoBadge } from "../components/EstadoBadge";
 import { Modal } from "../components/Modal";
 import { ConfirmDialog } from "../components/ConfirmDialog";
 import { AlertMessage } from "../components/AlertMessage";
+import { useAutoRefresh } from '../../hooks/useAutoRefresh';
 
 export default function FaqPage() {
   const [faqs, setFaqs] = useState<Faq[]>([]);
@@ -29,15 +30,18 @@ export default function FaqPage() {
     defaultValues: { estado: "publicada" },
   });
 
-  const cargar = () => {
-    setCargando(true);
-    faqApi
+  const cargarDatos = (silent = false) => {
+    if (!silent) setCargando(true);
+    return faqApi
       .listar()
       .then(({ data }) => setFaqs(data.data))
+      .catch(() => setError('No se pudieron actualizar las preguntas frecuentes.'))
       .finally(() => setCargando(false));
   };
 
+  const cargar = () => { void cargarDatos(); };
   useEffect(cargar, []);
+  useAutoRefresh(() => cargarDatos(true));
 
   const abrirCrear = () => {
     setEditando(null);

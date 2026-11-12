@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
+import { usePolling } from '../../hooks/usePolling';
 import { Link } from 'react-router-dom';
 import { Asignacion, Docente, Periodo, academicoApi, docenteLabel, LUGARES, pisoLabel } from '../../api/academico.api';
 import { useBoliviaDate } from '../../hooks/useBoliviaDate';
@@ -11,21 +12,13 @@ import { Modal } from './Modal';
 
 type TeacherSession = Awaited<ReturnType<typeof academicoApi.horariosDocente>>[number];
 function useTeacherSchedules(id: string) {
-  const [data, setData] = useState<TeacherSession[]>([]), [loading, setLoading] = useState(true), [error, setError] = useState('');
-  const [version, setVersion] = useState(0);
-  const retry = useCallback(() => setVersion(v => v + 1), []);
-  useEffect(() => {
-    let active = true;
-    setLoading(true); setError(''); setData([]);
-    academicoApi.horariosDocente(id).then(rows => { if (active) setData(rows); })
-      .catch(e => { if (active) setError(errorAcademico(e)); })
-      .finally(() => { if (active) setLoading(false); });
-    return () => { active = false; };
-  }, [id, version]);
-  return { data, loading, error, retry };
+  const load = useCallback(() => academicoApi.horariosDocente(id), [id]);
+  const { data, loading, error, refresh } = usePolling(load, 60000);
+  return { data: data ?? [], loading, error, retry: refresh };
 }
 
-function Sessions({ rows, periodos }: { rows: TeacherSession[]; periodos: Periodo[] }) {
+type ManageSession = (session: TeacherSession, cambiarAula: boolean) => void;
+function Sessions({ rows, periodos, onManage }: { rows: TeacherSession[]; periodos: Periodo[]; onManage?: ManageSession }) {
   const today = useBoliviaDate();
   const { usuario } = useAdminAuth();
   const canEdit = puedeAccederModulo(usuario?.roles ?? [], 'horarios', usuario?.permisos);
@@ -37,13 +30,13 @@ function Sessions({ rows, periodos }: { rows: TeacherSession[]; periodos: Period
     return <tr key={h.idHorario}>
       <td><strong>{scheduleDays.find(d => d.key === h.dia)?.label ?? h.dia}</strong><p>{h.fecha ? `Reserva · ${reservationDate(h.fecha)}` : 'Clase semanal'}</p>{h.motivo && <p>{h.motivo}</p>}{past && <span className="academic-tag">Finalizada</span>}{h.estado !== 'ASIGNADO' && <span className="academic-tag">{h.estado}</span>}</td>
       <td className="whitespace-nowrap">{h.horaInicio}–{h.horaFin}</td>
-      <td><strong>{h.aula}</strong><p>{LUGARES[h.lugar ?? ''] ?? 'Lugar por confirmar'} · {pisoLabel(h.piso)}</p>{canEdit && period?.estado === 'ACTIVO' && <Link className="teacher-room-link" to={`/admin/horarios?${new URLSearchParams({ aula: h.aula, periodo: h.idPeriodo })}`}>Abrir horario ↗</Link>}</td>
+      <td><strong>{h.aula}</strong><p>{LUGARES[h.lugar ?? ''] ?? 'Lugar por confirmar'} · {pisoLabel(h.piso)}</p>{canEdit && period?.estado === 'ACTIVO' && <><Link className="teacher-room-link" to={`/admin/horarios?${new URLSearchParams({ aula: h.aula, periodo: h.idPeriodo })}`}>Abrir horario ↗</Link>{onManage && h.estado === 'ASIGNADO' && <div className="mt-2 flex flex-wrap gap-2"><button type="button" className="btn-secondary" aria-label={`Editar sesión en ${h.aula} del ${h.fecha ?? h.dia}`} onClick={() => onManage(h, false)}>Editar</button><button type="button" className="btn-secondary" aria-label={`Cambiar aula de sesión en ${h.aula} del ${h.fecha ?? h.dia}`} onClick={() => onManage(h, true)}>Cambiar aula</button></div>}</>}</td>
       <td>{h.responsable}<p>{isAssistantSession(h) ? h.idAuxiliar ? 'Auxiliar vinculado' : 'Auxiliar por designar' : h.esCoordinacion ? 'Coordinador de C.P.U.' : 'Docente'}</p></td>
     </tr>;
   })}</tbody></table></div>;
 }
 
-export function TeacherSchedule({ docente, periodos, close }: { docente: Docente; periodos: Periodo[]; close: () => void }) {
+export function TeacherSchedule({ docente, periodos, close, onReserve, onManage }: { docente: Docente; periodos: Periodo[]; close: () => void; onReserve?: () => void; onManage?: ManageSession }) {
   const schedules = useTeacherSchedules(docente.idDocente);
   const [periodo, setPeriodo] = useState('');
   const periodOrder = new Map(periodos.map((p, index) => [p.idPeriodo, index]));
@@ -55,13 +48,14 @@ export function TeacherSchedule({ docente, periodos, close }: { docente: Docente
   return <Modal open title="Horarios y materias del docente" size="wide" onClose={close}>
     <div className="space-y-5">
       <div className="teacher-profile"><h2>{docenteLabel(docente)}</h2><p>Consulta todas sus materias, clases y reservas, incluidos los periodos anteriores. Las auxiliarías se identifican por su responsable.</p></div>
+      {onReserve && docente.estado === 'ACTIVO' && <button type="button" className="btn-primary" onClick={onReserve}>Nueva reserva temporal</button>}
       <Field label="Periodo del docente"><select className="select-field" value={periodo} onChange={e => setPeriodo(e.target.value)}><option value="">Todos los periodos</option>{periods.map(p => <option value={p.idPeriodo} key={p.idPeriodo}>{p.periodo}/{p.gestion}{p.estado !== 'ACTIVO' ? ' · Inactivo' : ''}</option>)}</select></Field>
       <ErrorNotice message={schedules.error} retry={schedules.retry} />
       {schedules.loading ? <LoadingSpinner /> : !schedules.error && <>
         <p role="status" className="text-sm text-slate-600">{count(new Set(assignments.map(a => a.codigoMateria)).size, 'materia', 'materias')} · {count(assignments.length, 'paralelo', 'paralelos')} · {count(rows.filter(h => !isAssistantSession(h) && !h.esCoordinacion).length, 'sesión del docente', 'sesiones del docente')} · {count(rows.filter(isAssistantSession).length, 'auxiliaría', 'auxiliarías')}{rows.some(h => h.esCoordinacion) && ` · ${count(rows.filter(h => h.esCoordinacion).length, 'sesión de C.P.U.', 'sesiones de C.P.U.')}`}</p>
         {!assignments.length ? <Empty>No hay materias asignadas en este periodo.</Empty> : assignments.map(a => <section className="teacher-subject" key={a.idAsignacion}>
           <div className="teacher-subject-heading"><h3>{a.siglas.join(' / ')} · {a.materia}</h3><p>Paralelo {a.grupo} · {a.periodo} {a.estado !== 'ACTIVO' ? '· Asignación inactiva' : ''}</p></div>
-          {rows.some(h => h.idAsignacion === a.idAsignacion) ? <Sessions rows={rows.filter(h => h.idAsignacion === a.idAsignacion)} periodos={periodos} /> : <p className="p-4 text-sm text-slate-500">Materia asignada sin horarios registrados.</p>}
+          {rows.some(h => h.idAsignacion === a.idAsignacion) ? <Sessions rows={rows.filter(h => h.idAsignacion === a.idAsignacion)} periodos={periodos} onManage={onManage} /> : <p className="p-4 text-sm text-slate-500">Materia asignada sin horarios registrados.</p>}
         </section>)}
       </>}
       <div className="flex justify-end"><button type="button" className="btn-secondary" onClick={close}>Cerrar consulta</button></div>

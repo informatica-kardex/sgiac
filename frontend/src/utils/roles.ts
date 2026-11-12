@@ -5,14 +5,14 @@ export function esRolAdministrativo(roles: string[]): boolean {
 }
 export const FUNCIONES_SUBADMIN: Record<string, string> = {
   auxiliares: "Gestionar auxiliares",
-  documentos: "Gestionar solicitudes de documentos",
+  documentos: "Gestionar trámites en línea",
   docentes: "Gestionar docentes", materias: "Gestionar materias", aulas: "Gestionar aulas", horarios: "Gestionar horarios", comunicados: "Gestionar comunicados",
   faq: "Gestionar preguntas frecuentes", fichas: "Gestionar atención Kardex", reportes: "Consultar reportes",
 };
 export const MODULOS_ADMIN: Record<string, { label: string }> = {
   'solicitudes-aulas': { label: 'Solicitudes de aulas' },
   auxiliares: { label: "Auxiliares" },
-  documentos: { label: "Solicitudes de documentos" },
+  documentos: { label: "Trámites en línea" },
   'ver-horarios': { label: 'Ver Horarios' },
   docentes: { label: "Docentes" }, materias: { label: "Materias" },
   dashboard: { label: "Dashboard" }, aulas: { label: "Aulas" }, horarios: { label: "Horarios" },
@@ -28,6 +28,7 @@ export function puedeAccederModulo(roles: string[], modulo: string, permisos: Pe
   if (!MODULOS_ADMIN[modulo === "usuarios" ? "subadministradores" : modulo]) return false;
   if (roles.includes("ADMINISTRADOR")) return true;
   if (modulo === 'ver-horarios') return roles.includes('SUBADMINISTRADOR') && permisos.some(p => ['docentes', 'materias', 'aulas', 'horarios'].includes(p.modulo) && permisoVigente(p));
-  return roles.includes("SUBADMINISTRADOR") && (modulo === "dashboard" ||
+  // Configuración contiene únicamente el perfil y la seguridad de la propia cuenta.
+  return roles.includes("SUBADMINISTRADOR") && (["dashboard", "configuracion"].includes(modulo) ||
     Object.prototype.hasOwnProperty.call(FUNCIONES_SUBADMIN, modulo) && permisos.some(p => p.modulo === modulo && permisoVigente(p)));
 }

@@ -35,6 +35,7 @@ beforeEach(t => {
   prisma.passwordResetToken.update = async ({ where, data }) => Object.assign(tokens.find(row => row.idToken === where.idToken), data);
   prisma.emailVerificationToken.updateMany = async () => ({ count: 0 });
   prisma.refreshToken.updateMany = async ({ where, data }) => { refreshes.filter(row => matches(row, where)).forEach(row => Object.assign(row, data)); return { count: 1 }; };
+  prisma.refreshToken.findUnique = async ({ where }) => refreshes.find(row => row.idRefreshToken === where.idRefreshToken);
   prisma.bitacora.create = async ({ data }) => { if (failAudit) throw Error('audit unavailable'); audit.push(data); return data; };
   let queue = Promise.resolve();
   prisma.$transaction = fn => { const run = queue.then(async () => {
@@ -47,7 +48,11 @@ beforeEach(t => {
 });
 const code = () => sent.at(-1).text.match(/\b\d{6}\b/)[0];
 const input = () => ({ correo: users[2].correo, codigo: code(), nuevaContrasena: 'NuevaClave1!' });
-const token = user => signAccessToken({ idUsuario: String(user.idUsuario), correo: user.correo, roles: [], debeCambiarPassword: user.debeCambiarPassword, credentialVersion: credentialVersion(user.contrasenaHash) });
+const token = user => {
+  const sessionId = refreshes.length + 1;
+  refreshes.push({ idRefreshToken: sessionId, idUsuario: user.idUsuario, revocado: false, creadoEn: new Date(), expiraEn: new Date(Date.now() + 180000) });
+  return signAccessToken({ sessionId, idUsuario: String(user.idUsuario), correo: user.correo, roles: [], debeCambiarPassword: user.debeCambiarPassword, credentialVersion: credentialVersion(user.contrasenaHash) });
+};
 async function authorize(value, path = '/api/auth/me') {
   let error; await requireAuth({ headers: { authorization: `Bearer ${value}` }, method: 'GET', baseUrl: path, path: '/' }, {}, e => { error = e; }); return error;
 }

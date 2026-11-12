@@ -25,7 +25,8 @@ export default function FichasPage() {
   const fichas = data?.fichas ?? [];
   const jornadas = data?.jornadas ?? [];
   const tramites = Array.from(new Map(jornadas.map(j => [j.idTramite ?? "general", j.tramite])).entries());
-  const disponibles = jornadas.filter(j => (j.idTramite ?? "general") === idTramite && j.disponibles > 0 && !fichas.some(f => f.jornada.idJornada === j.idJornada && f.estado !== "CANCELADA"));
+  const reservables = jornadas.filter(j => j.disponibles > 0 && !fichas.some(f => f.jornada.idJornada === j.idJornada && !["CANCELADA", "NO PRESENTADA"].includes(f.estado)));
+  const disponibles = reservables.filter(j => (j.idTramite ?? "general") === idTramite);
   const elegida = disponibles.find(j => j.idJornada === idJornada);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
@@ -54,6 +55,7 @@ export default function FichasPage() {
     <Link to="/usuario/dashboard" className="text-sm font-semibold text-emerald-700">← Volver a mi inicio</Link>
     <p className="rounded-xl bg-emerald-50 p-4 text-sm text-emerald-900">¿Necesitas tu récord o historial académico? <Link to="/usuario/documentos" className="font-semibold underline">Solicita el documento para recogerlo después</Link>.</p>
     <div className="flex flex-wrap items-center justify-between gap-4"><div><h1 className="text-3xl font-bold text-slate-800">Mis fichas de atención</h1><p className="mt-2 text-slate-500">Reserva tu trámite y sigue el avance de tu turno.</p></div><button className="btn-primary" onClick={() => setParams(solicitar ? {} : { solicitar: "1" })}>{solicitar ? "Ver mis fichas" : "Solicitar nueva ficha"}</button></div>
+    <p className="text-sm text-slate-600">Las reservas se abren a las 00:00 del día anterior a la atención (hora de Bolivia) y continúan hasta agotar cupos o terminar el horario. Si tu ficha figura como «NO SE PRESENTÓ», puedes solicitar otra si hay cupo.</p>
     {success && <p role="status" className="rounded-xl bg-emerald-50 p-4 text-emerald-900">{success}</p>}
     {error && <p role="alert" className="rounded-xl bg-red-50 p-4 text-red-700">{error}</p>}
     {loadError && <p role="alert" className="rounded-xl bg-amber-50 p-4 text-amber-900">No pudimos actualizar tus fichas. La información puede haber cambiado. <button className="underline" onClick={refresh}>Reintentar</button></p>}
@@ -71,7 +73,12 @@ export default function FichasPage() {
           </fieldset></form>}
       </section>}
       <section className="space-y-4"><div className="flex flex-wrap items-center justify-between gap-3"><h2 className="text-xl font-bold text-slate-800">Mis turnos e historial</h2><button className="btn-secondary" disabled={sending} onClick={refresh}>Actualizar</button></div>
-        {fichas.length ? fichas.map(f => <FichaCard key={f.idFicha} ficha={f} onCancelar={() => setCancelar(f.idFicha)} disabled={sending || !!loadError} />) : <div className="card p-8 text-center"><h3 className="font-semibold text-slate-800">Todavía no has solicitado una ficha</h3><p className="mt-2 text-sm text-slate-500">Tus turnos y su estado aparecerán aquí.</p>{!solicitar && <button className="btn-primary mt-5" onClick={() => setParams({ solicitar: "1" })}>Solicitar mi primera ficha</button>}</div>}
+        {fichas.length ? fichas.map(f => {
+          const siguiente = reservables.find(j => j.idJornada === f.jornada.idJornada) ?? reservables.find(j => j.idTramite === f.jornada.idTramite);
+          return <FichaCard key={f.idFicha} ficha={f} onCancelar={() => setCancelar(f.idFicha)} disabled={sending || !!loadError} onSolicitarOtra={f.estado === "NO PRESENTADA" && siguiente ? () => {
+            setIdTramite(siguiente.idTramite ?? "general"); setIdJornada(siguiente.idJornada); setError(""); setSuccess(""); setParams({ solicitar: "1" }); window.scrollTo({ top: 0, behavior: "smooth" });
+          } : undefined} />;
+        }) : <div className="card p-8 text-center"><h3 className="font-semibold text-slate-800">Todavía no has solicitado una ficha</h3><p className="mt-2 text-sm text-slate-500">Tus turnos y su estado aparecerán aquí.</p>{!solicitar && <button className="btn-primary mt-5" onClick={() => setParams({ solicitar: "1" })}>Solicitar mi primera ficha</button>}</div>}
       </section>
     </>}
     <TableroAtencion />

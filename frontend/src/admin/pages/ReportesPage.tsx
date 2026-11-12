@@ -4,26 +4,32 @@ import { ConteoCategoria, ConteoEstado, ResumenDashboard } from "../../api/types
 import { cargarResumenDashboard } from "../../services/dashboard.service";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 import { StatCard } from "../components/StatCard";
+import { useAutoRefresh } from '../../hooks/useAutoRefresh';
+import { ErrorNotice } from '../components/AcademicoUI';
 
 export default function ReportesPage() {
   const [cargando, setCargando] = useState(true);
+  const [error, setError] = useState('');
   const [resumen, setResumen] = useState<ResumenDashboard | null>(null);
   const [comunicadosPorCategoria, setComunicadosPorCategoria] = useState<ConteoCategoria[]>([]);
   const [fichasPorEstado, setFichasPorEstado] = useState<ConteoEstado[]>([]);
   const [aulasPorEstado, setAulasPorEstado] = useState<ConteoEstado[]>([]);
 
-  useEffect(() => {
-    cargarResumenDashboard()
+  const cargar = () => cargarResumenDashboard()
       .then((data) => {
+        setError('');
         setResumen(data.resumen);
         setComunicadosPorCategoria(data.comunicadosPorCategoria);
         setFichasPorEstado(data.fichasPorEstado);
         setAulasPorEstado(data.aulasPorEstado);
       })
+      .catch(() => setError('No se pudieron actualizar los reportes.'))
       .finally(() => setCargando(false));
-  }, []);
+  useEffect(() => { void cargar(); }, []);
+  useAutoRefresh(cargar);
 
-  if (cargando || !resumen) return <LoadingSpinner label="Cargando reportes..." />;
+  if (cargando) return <LoadingSpinner label="Cargando reportes..." />;
+  if (!resumen) return <ErrorNotice message={error} retry={() => void cargar()} />;
 
   const maxCom = Math.max(1, ...comunicadosPorCategoria.map((c) => c.cantidad));
   const maxFichas = Math.max(1, ...fichasPorEstado.map((f) => f.cantidad));
@@ -58,6 +64,7 @@ export default function ReportesPage() {
 
   return (
     <div className="space-y-6">
+      <ErrorNotice message={error} retry={() => void cargar()} />
       <div>
         <h1 className="text-xl font-bold text-slate-800">Reportes</h1>
         <p className="text-sm text-slate-500">Indicadores generales del sistema SGIAC.</p>

@@ -13,6 +13,8 @@ const tipoRegistro = (c: Registro) => c.adjunto_comunicado.some(a => a.tipo_arch
 function dto(c: Registro) {
   return {
     idComunicado: c.id_comunicado.toString(), titulo: c.titulo, contenido: c.contenido,
+    encabezado: c.encabezado ?? "COMUNICADO",
+    mayusculas: c.mayusculas ?? true, tamanoLetra: c.tamano_letra ?? 13,
     resumen: c.contenido.slice(0, 300), tipo: tipoRegistro(c), categoria: c.categoria_comunicado.nombre,
     estado: c.estado.toLowerCase(), fechaPublicacion: (c.fecha_publicacion || c.fecha_creacion).toISOString(),
     adjuntos: c.adjunto_comunicado.map(a => ({ idAdjunto: a.id_adjunto.toString(), nombre: a.nombre_archivo,
@@ -70,6 +72,9 @@ export class ComunicadoRepository {
       const retirados = aRetirar.map(a => a.url_archivo);
       const data = {
         titulo: input.titulo ?? anterior!.titulo, contenido, estado,
+        encabezado: input.encabezado ?? anterior?.encabezado ?? "COMUNICADO",
+        mayusculas: input.mayusculas ?? anterior?.mayusculas ?? true,
+        tamano_letra: input.tamanoLetra ?? anterior?.tamano_letra ?? 13,
         id_categoria_comunicado: categoria.id_categoria_comunicado,
         fecha_publicacion: estado === "PUBLICADO" && anterior?.estado !== "PUBLICADO" ? new Date() : anterior?.fecha_publicacion ?? null,
         fecha_archivado: estado === "ARCHIVADO" ? new Date() : null,

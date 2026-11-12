@@ -3,8 +3,9 @@ import { AxiosError } from "axios";
 import { authApi, LoginChallenge, VerifyLoginPayload } from "../api/auth.api";
 import { PasswordInput } from "./PasswordInput";
 import { LoginVerification } from "./LoginSecurity";
+import { AdminIcon } from "../admin/components/AdminIcon";
 
-export function TwoFactorSettings() {
+export function TwoFactorSettings({ onStatusChange }: { onStatusChange?: (enabled: boolean | null) => void } = {}) {
   const [enabled, setEnabled] = useState<boolean | null>(null);
   const [editing, setEditing] = useState(false);
   const [password, setPassword] = useState("");
@@ -12,6 +13,7 @@ export function TwoFactorSettings() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  useEffect(() => { onStatusChange?.(enabled); }, [enabled, onStatusChange]);
 
   useEffect(() => {
     let active = true;
@@ -56,12 +58,13 @@ export function TwoFactorSettings() {
   }
 
   return (
-    <section className="card space-y-4 p-6" aria-labelledby="two-factor-heading">
-      <div className="space-y-1">
-        <h2 id="two-factor-heading" className="font-semibold text-slate-800">Verificación en dos pasos (2FA)</h2>
+    <section className="card account-settings__card account-settings__two-factor space-y-4 p-6" aria-labelledby="two-factor-heading">
+      <div className="account-settings__card-heading">
+        <span className="account-settings__icon"><AdminIcon name="roles" size={21} /></span>
+        <div><h2 id="two-factor-heading" className="font-semibold text-slate-800">Verificación en dos pasos (2FA)</h2>
         <p className="text-sm text-slate-600">{enabled === null ? "Consultando estado..." : enabled
           ? "Activada. Al iniciar sesión te pediremos un código enviado a tu correo."
-          : "Desactivada. Puedes activarla para proteger tu cuenta con un código por correo."}</p>
+          : "Desactivada. Puedes activarla para proteger tu cuenta con un código por correo."}</p></div>
       </div>
       {error && <p role="alert" className="text-sm text-red-600">{error}</p>}
       {message && <p role="status" className="text-sm text-green-700">{message}</p>}

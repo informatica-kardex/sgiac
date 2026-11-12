@@ -1,4 +1,16 @@
 import rateLimit from "express-rate-limit";
+import type { Request } from 'express';
+
+const automaticRead = (req: Request) => req.method === 'GET' &&
+  /^\/api\/(academico|solicitudes-aulas|reportes|users|roles|comunicados|faq|events)(\/|$)/.test(req.path);
+
+// Separate read budget: automatic refreshes must not consume the write/login
+// budget. Authentication and module permissions remain enforced by each route.
+export const automaticReadLimiter = rateLimit({
+  windowMs: 60000, limit: 180, skip: req => !automaticRead(req),
+  standardHeaders: true, legacyHeaders: false,
+  message: { success: false, message: 'Demasiadas actualizaciones. Espera un minuto.' },
+});
 
 // Limite general para toda la API
 export const globalRateLimiter = rateLimit({
@@ -7,7 +19,7 @@ export const globalRateLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
   // Estas lecturas automáticas tienen límites propios para no consumir el de navegación.
-  skip: req => req.method === "GET" && ["/api/fichas/tablero", "/api/fichas/panel", "/api/estudiantes/atencion", "/api/fichas/tv/config", "/api/documentos/mis-solicitudes", "/api/documentos/bandeja", "/api/telegram/vinculo"].includes(req.path),
+  skip: req => automaticRead(req) || req.method === "GET" && ["/api/fichas/tablero", "/api/fichas/panel", "/api/estudiantes/atencion", "/api/fichas/tv/config", "/api/documentos/mis-solicitudes", "/api/documentos/bandeja", "/api/telegram/vinculo"].includes(req.path),
   message: {
     success: false,
     message: "Demasiadas solicitudes. Intenta nuevamente mas tarde.",

@@ -3,6 +3,7 @@ import { EmailVerification } from "../components/EmailVerification";
 import { useAdminAuthStore } from "../store/adminAuthStore";
 import { useUserAuthStore } from "../store/userAuthStore";
 import { authApi } from "../api/auth.api";
+import { clearSession } from "./session";
 
 export default function VerifyEmailPage({ admin = false }: { admin?: boolean }) {
   const adminSession = useAdminAuthStore();
@@ -14,13 +15,13 @@ export default function VerifyEmailPage({ admin = false }: { admin?: boolean }) 
   const continuar = async () => {
     const { data } = await authApi.me();
     const token = (admin ? useAdminAuthStore : useUserAuthStore).getState().accessToken;
-    if (!token) { navigate(admin ? "/admin/login" : "/login", { replace: true }); return; }
+    if (!token) { navigate("/login", { replace: true }); return; }
     session.setSession(data.data, token);
     navigate(admin ? data.data.debeCambiarPassword ? "/admin/cambiar-password" : "/admin/dashboard" : "/usuario/dashboard", { replace: true });
   };
   const salir = async () => {
     try { await authApi.logout(); }
-    finally { session.clearSession(); navigate(admin ? "/admin/login" : "/login", { replace: true }); }
+    finally { clearSession(); navigate("/login", { replace: true }); }
   };
   return <div className={admin ? "card space-y-5 p-8" : "card mx-auto my-10 max-w-md space-y-5 p-8"}>
     <EmailVerification correo={session.usuario.correo} autoSend onVerified={continuar} />

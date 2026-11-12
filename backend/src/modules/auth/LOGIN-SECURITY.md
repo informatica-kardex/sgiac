@@ -1,4 +1,12 @@
-El CAPTCHA del login institucional y administrativo contiene seis caracteres (letras y números), vence a los cinco minutos y admite un único intento. No distingue mayúsculas de minúsculas.
+El ingreso es único en `/login`, mediante `/api/auth/login` y `/api/auth/login/verify`. El perfil devuelto por el servidor determina el área: estudiante o panel de administrador/subadministrador. `/admin/login` redirige al mismo formulario; los endpoints administrativos anteriores permanecen como compatibilidad y usan la misma lógica de credenciales.
+
+La sesión vence tras **3 minutos de inactividad**, con un aviso **30 segundos antes** y la opción de continuar. Solo la interacción con la página visible o el botón de continuar llama a `/api/auth/activity`; el polling, `/auth/me` y la renovación de tokens no extienden el plazo. El servidor comprueba el vencimiento en cada acceso protegido y limita la duración absoluta a ocho horas. El plazo y el cierre se sincronizan entre pestañas. Al volver de una suspensión o recargar, se conserva el vencimiento del servidor.
+
+Se reutiliza la tabla `refresh_token`: `expira_en` guarda el vencimiento por inactividad y `creado_en` el comienzo de la sesión. **Este cambio no requiere migración de base de datos.** Los tokens anteriores requieren volver a iniciar sesión una vez. Cada access token queda ligado a una sesión revocable; el refresh rota de forma atómica sin modificar el vencimiento. Las cookies son de sesión y httpOnly; el refresh ya no se expone en JSON. En producción, las cookies siempre usan Secure y requieren HTTPS.
+
+Los roles, el estado de la cuenta, el correo confirmado, la contraseña temporal y los permisos vigentes se validan en el servidor. El registro público conserva exclusivamente el rol de estudiante. Los horarios ya no se cargan en el portal público y `/api/horarios` requiere autenticación, incluso para leer un detalle.
+
+El CAPTCHA contiene seis caracteres (letras y números), vence a los cinco minutos y admite un único intento. No distingue mayúsculas de minúsculas.
 
 El 2FA es opcional y queda desactivado por defecto para cuentas existentes y nuevas. Cada usuario puede activarlo o desactivarlo desde su cuenta; los administradores lo encuentran en Configuración. Ambos cambios requieren la contraseña actual y un código enviado al correo de la cuenta. Solo una confirmación correcta guarda la preferencia en la base de datos.
 
@@ -21,4 +29,17 @@ Pruebas aisladas, sin consultar la base de datos ni enviar correos reales:
 
 ```powershell
 node -r ts-node/register/transpile-only --test tests/login-security.test.cjs
+node -r ts-node/register/transpile-only tests/session-security.test.cjs
+node -r ts-node/register/transpile-only tests/subadmins.test.cjs
 ```
+
+Prueba de navegador desde la raíz (Chrome instalado; API simulada, sin usar cuentas reales):
+
+```powershell
+cd frontend
+node node_modules/vite/bin/vite.js build --outDir ../.preview-auth/dist
+cd ..
+node frontend/tests/session-security.browser.cjs
+```
+
+Los controles de vencimiento en servidor y comprobación de permisos por petición siguen las guías de [sesiones](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html) y [autorización](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html) de OWASP.

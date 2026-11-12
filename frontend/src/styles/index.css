@@ -152,3 +152,28 @@ a.text-blue-700:hover { color: #1b6f65; }
 .admin-theme [class~="text-[#2459a9]"] { color: #238878 !important; }
 .admin-theme [class~="text-[#13213d]"] { color: #153b36 !important; }
 .admin-theme header a:hover { color: #238878 !important; }
+
+/* Únicos efectos conservados del rediseño por petición del usuario:
+   resaltado del menú y color suave al pasar el cursor por las tablas. */
+.admin-theme .admin-sidebar nav a {
+  border-radius: 9px;
+  transition: background-color .15s, color .15s;
+}
+.admin-theme .admin-sidebar nav a[aria-current="page"] {
+  background: #244b40;
+  box-shadow: inset 3px 0 0 #d6ee9d;
+  color: #e4f5c3;
+  font-weight: 650;
+}
+.admin-theme .admin-sidebar nav a:hover:not([aria-current="page"]) {
+  background: #ffffff0d;
+  color: #fff;
+}
+.admin-theme .admin-sidebar nav a:focus-visible { outline-color: #d6ee9d; }
+.admin-theme main table:not(.room-timetable) tbody tr:hover,
+.admin-theme main table:not(.room-timetable) tbody tr:hover td {
+  background: #f5f9f3;
+}
+@media (prefers-reduced-motion: reduce) {
+  .admin-theme .admin-sidebar nav a { transition: none; }
+}

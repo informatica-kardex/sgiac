@@ -1,0 +1,123 @@
+.comunicado-editor {
+  overflow: hidden;
+  border: 1px solid #cbd5e1;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgb(15 23 42 / 4%);
+  transition: border-color .15s, box-shadow .15s;
+}
+.comunicado-editor:focus-within { border-color: #647da4; box-shadow: 0 0 0 3px rgb(59 93 143 / 12%); }
+.comunicado-editor[data-invalido] { border-color: #dc2626; }
+.comunicado-editor[data-disabled] { opacity: .65; }
+.comunicado-editor-barra {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 12px;
+  border-bottom: 1px solid #e2e8f0;
+  background: #f8fafc;
+}
+.comunicado-editor-herramientas, .comunicado-editor-burbuja { display: flex; align-items: center; gap: 3px; }
+.comunicado-editor-herramientas { flex-wrap: wrap; }
+.comunicado-editor-boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #475569;
+  font-family: system-ui, sans-serif;
+  font-size: 17px;
+  cursor: pointer;
+  transition: background .15s, color .15s;
+}
+.comunicado-editor-boton em { font-family: Georgia, serif; font-size: 20px; font-weight: 600; }
+.comunicado-editor-boton:hover:not(:disabled) { background: #e2e8f0; color: #172a48; }
+.comunicado-editor-boton[aria-pressed="true"] { background: #dbe7f5; color: #1e426f; }
+.comunicado-editor-boton:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+.comunicado-editor-boton:disabled { opacity: .35; cursor: default; }
+.comunicado-editor-divisor { width: 1px; height: 22px; margin: 0 4px; background: #cbd5e1; }
+.comunicado-editor-mayusculas { font-size: 15px; font-weight: 600; }
+.comunicado-editor-tamano input {
+  width: 62px;
+  height: 34px;
+  margin-left: 4px;
+  padding: 4px 6px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #fff;
+  color: #334155;
+  font-size: 13px;
+}
+.comunicado-editor-tamano input:focus { outline: 2px solid #647da4; outline-offset: 1px; }
+.comunicado-editor-papel { position: relative; }
+.comunicado-editor-contenido {
+  min-height: 340px;
+  padding: 24px 28px;
+  outline: none;
+  color: #24334b;
+  font-family: "Times New Roman", Times, serif;
+  font-size: var(--comunicado-tamano, 13pt);
+  line-height: 1.5;
+  text-transform: var(--comunicado-mayusculas, uppercase);
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+.comunicado-editor-contenido p { margin: 0 0 .75em; }
+.comunicado-editor-contenido p:last-child { margin-bottom: 0; }
+.comunicado-editor-contenido strong { font-weight: 700; }
+.comunicado-editor-contenido em { font-style: italic; }
+.comunicado-editor-contenido ul, .comunicado-editor-contenido ol { padding-left: 1.5em; margin: 0 0 .75em; }
+.comunicado-editor-contenido ul { list-style: disc; }
+.comunicado-editor-contenido ol { list-style: decimal; }
+.comunicado-editor-contenido li { margin-bottom: .25em; }
+.comunicado-editor-contenido ::selection { background: #b9d9d0; }
+.comunicado-editor-papel[data-vacio="true"]::before {
+  content: "Escribe aquí el comunicado…";
+  position: absolute;
+  top: 24px;
+  left: 28px;
+  right: 28px;
+  pointer-events: none;
+  color: #94a3b8;
+  font-family: "Times New Roman", Times, serif;
+  font-size: var(--comunicado-tamano, 13pt);
+  line-height: 1.5;
+}
+.comunicado-editor-burbuja {
+  z-index: 80;
+  padding: 6px;
+  border: 1px solid #334155;
+  border-radius: 14px;
+  background: #1e293b;
+  box-shadow: 0 6px 22px rgb(15 23 42 / 24%);
+}
+.comunicado-editor-burbuja .comunicado-editor-boton { color: #f1f5f9; }
+.comunicado-editor-burbuja .comunicado-editor-boton:hover:not(:disabled) { color: #fff; background: #475569; }
+.comunicado-editor-burbuja .comunicado-editor-boton[aria-pressed="true"] { color: #a7f3d0; background: #334d4b; }
+.comunicado-editor-pie {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  border-top: 1px solid #edf0f4;
+  padding: 10px 16px;
+  color: #64748b;
+  font-size: 11px;
+  line-height: 1.5;
+}
+.comunicado-editor-pie span { white-space: nowrap; }
+@media (max-width: 600px) {
+  .comunicado-editor-barra { padding: 8px; }
+  .comunicado-editor-boton { width: 32px; height: 36px; }
+  .comunicado-editor-herramientas { gap: 1px; }
+  .comunicado-editor-contenido { padding: 18px 16px; min-height: 300px; }
+  .comunicado-editor-papel[data-vacio="true"]::before { top: 18px; left: 16px; right: 16px; }
+  .comunicado-editor-pie { flex-wrap: wrap; gap: 6px; padding: 10px 12px; }
+}

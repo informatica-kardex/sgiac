@@ -48,7 +48,8 @@ beforeEach(t => {
   };
   prisma.emailVerificationToken.update = async ({ where, data }) => Object.assign(tokens.find(token => token.idToken === where.idToken), data);
   prisma.bitacora.create = async ({ data }) => { audit.push(data); return data; };
-  prisma.refreshToken.create = async ({ data }) => { refreshes.push(data); return data; };
+  prisma.refreshToken.create = async ({ data }) => { const row = { ...data, idRefreshToken: refreshes.length + 1, creadoEn: new Date(), revocado: false }; refreshes.push(row); return row; };
+  prisma.refreshToken.findUnique = async ({ where }) => refreshes.find(row => row.idRefreshToken === where.idRefreshToken);
   prisma.refreshToken.updateMany = async () => ({ count: refreshes.length });
   let queue = Promise.resolve();
   prisma.$transaction = fn => { const operation = queue.then(() => fn(prisma)); queue = operation.catch(() => {}); return operation; };
@@ -61,7 +62,8 @@ beforeEach(t => {
 const code = () => sent.at(-1).text.match(/\b\d{6}\b/)[0];
 const registerInput = { nombres: 'Ana', apellidos: 'Perez', ci: '123', ru: '456', mencion: 'Sistemas', correo: 'ana@example.test', contrasena: 'Abcdef1!', confirmarContrasena: 'Abcdef1!' };
 async function authorize(route, method = 'GET') {
-  const token = signAccessToken({ credentialVersion: credentialVersion(user.contrasenaHash), idUsuario: '2', correo: user.correo, roles: ['SUBADMINISTRADOR'], debeCambiarPassword: user.debeCambiarPassword });
+  const session = await prisma.refreshToken.create({ data: { idUsuario: user.idUsuario, expiraEn: new Date(Date.now() + 180000) } });
+  const token = signAccessToken({ sessionId: session.idRefreshToken, credentialVersion: credentialVersion(user.contrasenaHash), idUsuario: '2', correo: user.correo, roles: ['SUBADMINISTRADOR'], debeCambiarPassword: user.debeCambiarPassword });
   const req = { headers: { authorization: `Bearer ${token}` }, baseUrl: route, path: '/', method };
   let error;
   await requireAuth(req, {}, e => { error = e; });
@@ -180,7 +182,8 @@ test('HTTP: codigo confirma correo y habilita cambio temporal; repetidos errores
   app.use(require('../src/middlewares/error.middleware').errorMiddleware);
   const server = await new Promise(resolve => { const s = app.listen(0, '127.0.0.1', () => resolve(s)); });
   const base = `http://127.0.0.1:${server.address().port}/api`;
-  const token = signAccessToken({ credentialVersion: credentialVersion(user.contrasenaHash), idUsuario: '2', correo: user.correo, roles: [], debeCambiarPassword: true });
+  const session = await prisma.refreshToken.create({ data: { idUsuario: user.idUsuario, expiraEn: new Date(Date.now() + 180000) } });
+  const token = signAccessToken({ sessionId: session.idRefreshToken, credentialVersion: credentialVersion(user.contrasenaHash), idUsuario: '2', correo: user.correo, roles: [], debeCambiarPassword: true });
   const request = (route, body) => fetch(base + route, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }, body: JSON.stringify(body) });
   try {
     const password = { contrasenaActual: '1234567', nuevaContrasena: 'Abcdef1!', confirmarContrasena: 'Abcdef1!' };

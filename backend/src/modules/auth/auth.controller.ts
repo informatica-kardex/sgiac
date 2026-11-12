@@ -19,6 +19,8 @@ import {
   resendVerificationSchema,
 } from "./auth.validation";
 import { UserService } from "../users/user.service";
+import { recordActivity } from "./session-policy";
+import { TokensDTO } from "./auth.types";
 
 const authService = new AuthService();
 const userService = new UserService();
@@ -29,7 +31,7 @@ const ACCESS_COOKIE_NAME = "accessToken";
 function cookieOptionsBase() {
   return {
     httpOnly: true,
-    secure: env.cookieSecure,
+    secure: env.cookieSecure || env.nodeEnv === "production",
     sameSite: "lax" as const,
   };
 }
@@ -38,14 +40,13 @@ function setAuthCookies(
   res: Response,
   tokens: { accessToken: string; refreshToken: string }
 ) {
-  res.cookie(ACCESS_COOKIE_NAME, tokens.accessToken, {
-    ...cookieOptionsBase(),
-    maxAge: 15 * 60 * 1000, // 15 minutos
-  });
-  res.cookie(REFRESH_COOKIE_NAME, tokens.refreshToken, {
-    ...cookieOptionsBase(),
-    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 dias
-  });
+  res.cookie(ACCESS_COOKIE_NAME, tokens.accessToken, cookieOptionsBase());
+  res.cookie(REFRESH_COOKIE_NAME, tokens.refreshToken, cookieOptionsBase());
+}
+
+// El refresh solo viaja en la cookie httpOnly, nunca en una respuesta legible por JavaScript.
+function publicTokens(tokens: TokensDTO) {
+  return { accessToken: tokens.accessToken, session: tokens.session };
 }
 
 function clearAuthCookies(res: Response) {
@@ -85,7 +86,7 @@ export const authController = {
     res.setHeader("Cache-Control", "no-store");
     if ("tokens" in challenge) {
       setAuthCookies(res, challenge.tokens);
-      return sendSuccess(res, { usuario: challenge.usuario, ...challenge.tokens }, "Inicio de sesion exitoso");
+      return sendSuccess(res, { usuario: challenge.usuario, ...publicTokens(challenge.tokens) }, "Inicio de sesion exitoso");
     }
     return sendSuccess(res, challenge, "Codigo de verificacion enviado");
   }),
@@ -99,7 +100,7 @@ export const authController = {
     res.setHeader("Cache-Control", "no-store");
     if ("tokens" in challenge) {
       setAuthCookies(res, challenge.tokens);
-      return sendSuccess(res, { usuario: challenge.usuario, ...challenge.tokens }, "Inicio de sesion administrativo exitoso");
+      return sendSuccess(res, { usuario: challenge.usuario, ...publicTokens(challenge.tokens) }, "Inicio de sesion administrativo exitoso");
     }
     return sendSuccess(res, challenge, "Codigo de verificacion enviado");
   }),
@@ -109,7 +110,7 @@ export const authController = {
     const { usuario, tokens } = await authService.verificarLogin(parsed, false, getRequestMeta(req));
     res.setHeader("Cache-Control", "no-store");
     setAuthCookies(res, tokens);
-    return sendSuccess(res, { usuario, ...tokens }, "Inicio de sesion exitoso");
+    return sendSuccess(res, { usuario, ...publicTokens(tokens) }, "Inicio de sesion exitoso");
   }),
 
   verifyAdminLogin: asyncHandler(async (req, res) => {
@@ -117,7 +118,7 @@ export const authController = {
     const { usuario, tokens } = await authService.verificarLogin(parsed, true, getRequestMeta(req));
     res.setHeader("Cache-Control", "no-store");
     setAuthCookies(res, tokens);
-    return sendSuccess(res, { usuario, ...tokens }, "Inicio de sesion administrativo exitoso");
+    return sendSuccess(res, { usuario, ...publicTokens(tokens) }, "Inicio de sesion administrativo exitoso");
   }),
 
   changePassword: asyncHandler(async (req: Request, res: Response) => {
@@ -154,19 +155,27 @@ export const authController = {
   }),
 
   refresh: asyncHandler(async (req: Request, res: Response) => {
-    const refreshToken = req.cookies?.[REFRESH_COOKIE_NAME] || req.body?.refreshToken;
+    res.setHeader("Cache-Control", "no-store");
+    const refreshToken = req.cookies?.[REFRESH_COOKIE_NAME];
     if (!refreshToken) {
       throw ApiError.unauthorized("No se proporciono refresh token");
     }
     const tokens = await authService.refrescarSesion(refreshToken);
     setAuthCookies(res, tokens);
-    return sendSuccess(res, tokens, "Sesion renovada");
+    return sendSuccess(res, publicTokens(tokens), "Sesion renovada");
+  }),
+
+  activity: asyncHandler(async (req, res) => {
+    if (!req.user) throw ApiError.unauthorized("No autenticado");
+    return sendSuccess(res, await recordActivity(req.user.idUsuario, req.user.sessionId));
   }),
 
   logout: asyncHandler(async (req: Request, res: Response) => {
-    const refreshToken = req.cookies?.[REFRESH_COOKIE_NAME] || req.body?.refreshToken;
-    await authService.logout(refreshToken, req.user ? BigInt(req.user.idUsuario) : undefined);
+    const refreshToken = req.cookies?.[REFRESH_COOKIE_NAME];
     clearAuthCookies(res);
+    const accessToken = req.headers.authorization?.startsWith("Bearer ")
+      ? req.headers.authorization.slice(7) : req.cookies?.[ACCESS_COOKIE_NAME];
+    await authService.logout(refreshToken, req.user ? BigInt(req.user.idUsuario) : undefined, accessToken);
     return sendSuccess(res, null, "Sesion cerrada");
   }),
 
@@ -195,5 +204,11 @@ export const authController = {
     }
     const perfil = await userService.obtenerPerfil(BigInt(req.user.idUsuario));
     return sendSuccess(res, perfil, "Perfil obtenido");
+  }),
+
+  updateProfile: asyncHandler(async (req, res) => {
+    if (!req.user) throw ApiError.unauthorized("No autenticado");
+    const resultado = await userService.actualizarPerfilPropio(BigInt(req.user.idUsuario), req.body);
+    return sendSuccess(res, resultado, "Datos personales actualizados");
   }),
 };

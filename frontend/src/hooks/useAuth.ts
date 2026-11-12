@@ -2,36 +2,39 @@ import { useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useUserAuthStore } from "../store/userAuthStore";
 import { authApi, LoginPayload, VerifyLoginPayload } from "../api/auth.api";
+import { clearSession, establishSession, sessionHome } from "../auth/session";
+import { AuthResponse } from "../api/types";
 
-// Hook centralizado para las acciones de autenticacion del
-// portal institucional (usuarios normales, NO administradores).
-// Usa el mismo endpoint /auth/login que ya existia en la API,
-// solo que hasta ahora ningun componente lo consumia.
+// Ingreso único: el destino depende exclusivamente del perfil devuelto por el servidor.
 export function useAuth() {
   const navigate = useNavigate();
   const location = useLocation();
   const destino = location.state?.generarFicha === true ? "/usuario/fichas?solicitar=1" : "/usuario/dashboard";
-  const { usuario, isAuthenticated, setSession, clearSession } =
+  const { usuario, isAuthenticated } =
     useUserAuthStore();
+
+  const completeLogin = useCallback((data: AuthResponse) => {
+    establishSession(data);
+    const home = sessionHome(data.usuario);
+    navigate(home === "/usuario/dashboard" ? destino : home, { replace: true });
+  }, [navigate, destino]);
 
   const login = useCallback(
     async (payload: LoginPayload) => {
       const { data } = await authApi.login(payload);
       if ("requiresTwoFactor" in data.data) return data.data;
-      setSession(data.data.usuario, data.data.accessToken);
-      navigate(destino);
+      completeLogin(data.data);
       return null;
     },
-    [navigate, setSession, destino]
+    [completeLogin]
   );
 
   const verifyLogin = useCallback(
     async (payload: VerifyLoginPayload) => {
       const { data } = await authApi.verifyLogin(payload);
-      setSession(data.data.usuario, data.data.accessToken);
-      navigate(destino);
+      completeLogin(data.data);
     },
-    [navigate, setSession, destino]
+    [completeLogin]
   );
 
   const logout = useCallback(async () => {
@@ -41,7 +44,7 @@ export function useAuth() {
       clearSession();
       navigate("/login");
     }
-  }, [clearSession, navigate]);
+  }, [navigate]);
 
   return { usuario, isAuthenticated, login, verifyLogin, logout };
 }

@@ -13,7 +13,11 @@ Implementado en `backend/` y `frontend/` (la copia `sistema/` no se utiliza).
 
 El código combina el identificador elegido por el admin y el número automático: `KAR-001`, `KAR-002`, etc. Cada jornada comienza en 001; los números cancelados no se reutilizan y pueden superar los tres dígitos. El identificador se puede editar mientras no se hayan emitido fichas; después se conserva, incluso si todas fueron canceladas. Las jornadas anteriores conservan sus códigos `J<jornada>-<número>`. El tablero público y la TV muestran código, trámite y puesto; nunca nombre, correo, RU o detalle. En su ficha privada, el estudiante ve su nombre, estado, personas delante y espera aproximada. Las estimaciones son orientativas, desde el inicio de la jornada o el turno actual; no constituyen citas a una hora exacta.
 
-La fecha y el horario utilizan Bolivia (UTC−4), independientemente de la zona horaria del servidor. Los llamados se habilitan el día de la jornada desde la hora inicial. Se puede terminar la cola después del cierre del horario; no se aceptan nuevas reservas después de la hora final. No se atienden fichas futuras.
+En **Programar jornada → Añadir otro día** se pueden elegir hasta 60 fechas para el mismo trámite. Cada día adicional permite **Usar el mismo horario que la primera jornada** o desmarcar esa opción e indicar sus propias horas. Los horarios vinculados siguen los cambios de la primera jornada; los horarios propios se conservan. El cupo por tiempo se calcula con la duración de cada horario y el límite manual se aplica a cada día. Antes de guardar se muestra un resumen por fecha, horario y cupo. Se guardan juntas: si alguna fecha tiene un conflicto, ninguna jornada del lote se crea. Después se puede configurar cada jornada por separado.
+
+En la tarjeta de cada jornada, **Eliminar jornada** permite borrar una jornada activa o pausada que nunca haya emitido fichas, previa confirmación de fecha y horario. La eliminación se bloquea también en el servidor si tiene fichas (incluidas canceladas) o historial; en ese caso se puede pausar. Reservas y eliminaciones se serializan mediante el bloqueo de la jornada para que una reserva concurrente no pierda su registro.
+
+La fecha y el horario utilizan Bolivia (UTC−4), independientemente de la zona horaria del servidor. Las reservas se habilitan automáticamente a las **00:00 del día anterior** a cada jornada y continúan durante el día de atención mientras haya cupos y no se haya alcanzado la hora final. Las jornadas más lejanas no se ofrecen para reservar y el servidor también rechaza solicitudes directas antes de la apertura. Los llamados se habilitan el día de la jornada desde la hora inicial. Se puede terminar la cola después del cierre del horario; no se aceptan nuevas reservas después de la hora final. No se atienden fichas futuras.
 
 ## Reglas y concurrencia
 
@@ -38,7 +42,7 @@ La pantalla advierte cuando pierde conexión y vuelve a consultar automáticamen
 Los archivos públicos de TV permiten su visualización desde el origen del portal aunque este use otro puerto o dominio (`Cross-Origin-Resource-Policy: cross-origin` solo en la ruta de medios). Las respuestas parciales de video conservan esta cabecera. Si un archivo falla temporalmente, el visor reintenta automáticamente; **Actualizar TV** reinicia también el contenido.
 
 - Cupo y numeración se asignan en transacciones con bloqueo de la jornada. Las solicitudes concurrentes no sobrepasan el límite ni repiten números.
-- Una ficha vigente por estudiante y jornada, incluso cuando ya fue atendida o no se presentó. Para otro trámite puede solicitar otra ficha.
+- Una ficha vigente por estudiante y jornada, incluso cuando ya fue atendida. Una ficha **NO PRESENTADA** (mostrada como **NO SE PRESENTÓ**) permite solicitar otra si quedan cupos y la jornada está habilitada. Se conserva el turno anterior y se emite un número nuevo al final de la cola. Si ya existe otra ficha pendiente, llamada o atendida, se impide el reintento. Para otro trámite puede solicitar otra ficha.
 - El estudiante puede cancelar una ficha pendiente de hoy o futura. Libera el cupo; el número no se reutiliza. Si solicita de nuevo queda al final de la cola.
 - Las atendidas y no presentadas consumen cupo diario. No se permite reducir el cupo por debajo de las fichas vigentes.
 - Con fichas emitidas no se cambia el identificador, fecha, horario, trámite ni puesto de la jornada. Sí se puede ajustar cupo/duración o pausar.
@@ -83,6 +87,31 @@ npm run build
 Reiniciar el backend en ejecución después de regenerar Prisma. No fue necesario agregar dependencias.
 
 ## Verificación
+
+### Puestos de atención (noviembre de 2026)
+
+Atención incluye un catálogo de puestos con nombre editable. Cada jornada selecciona uno, varios o todos los puestos actuales. La cola y la numeración siguen siendo únicas por trámite y fecha; cada puesto puede atender una ficha a la vez, incluso entre trámites distintos. El cupo por tiempo se multiplica por la cantidad de puestos seleccionados; el cupo manual es el total de la jornada.
+
+Desde `backend/`, aplicar la actualización antes de usar el nuevo código:
+
+```powershell
+node scripts/migrate-puestos-atencion.cjs --check
+node scripts/migrate-puestos-atencion.cjs --apply
+npx prisma generate
+npm run build
+```
+
+En Windows, detener el proceso del backend antes de regenerar Prisma si está usando `query_engine-windows.dll.node`, y reiniciarlo al terminar. La migración conserva las jornadas y sus fichas, crea sus vínculos con los puestos anteriores y añade Ventanilla 1, 2, 3 y Encargada de Kardex al catálogo inicial. Es reejecutable sin deshacer cambios de nombre ni modificar destinos ya registrados. Un puesto con jornadas de hoy o futuras no se puede eliminar; los puestos de jornadas con fichas tampoco se pueden retirar de esa jornada. Los nuevos puestos se incorporan únicamente a las jornadas donde se seleccionen.
+
+El despliegue requiere frontend y backend actualizados juntos. La actualización no cambia permisos administrativos ni envía avisos.
+
+Regresión de programación y reservas, sin conectarse a la base de datos (desde `backend/`):
+
+```powershell
+node -r ts-node/register/transpile-only --test --test-isolation=none tests/fichas-identificador.test.cjs tests/fichas-jornadas.test.cjs
+```
+
+Estos cambios no requieren migraciones de base de datos. Las pruebas cubren apertura en hora de Bolivia, límites de fecha y hora, programación atómica, cupos y reintentos por ausencia.
 
 ```powershell
 cd backend

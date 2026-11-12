@@ -36,7 +36,7 @@ export const horarioController = {
   }),
 
   eliminar: asyncHandler(async (req, res) => {
-    await horarioService.eliminar(parseId(req.params.id));
-    return sendSuccess(res, null, "Horario eliminado");
+    const resultado = await horarioService.eliminar(parseId(req.params.id));
+    return sendSuccess(res, resultado, "Horario eliminado");
   }),
 };

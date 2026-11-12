@@ -12,6 +12,8 @@ export const tramiteSchema = z.object({
   descripcion: z.string().trim().max(500).default(""),
   identificador: identificadorSchema,
 });
+export const puestoSchema = z.object({ nombre: z.string().trim().min(2).max(80) });
+export const siguienteSchema = z.object({ idPuesto: idSchema });
 export const jornadaSchema = z.object({
   idTramite: idSchema.nullable(), fecha: fechaSchema,
   identificador: identificadorSchema.optional(),
@@ -19,9 +21,17 @@ export const jornadaSchema = z.object({
   modoCupo: z.enum(["MANUAL", "TIEMPO"]),
   cupoTotal: z.number().int().min(1).max(10000),
   minutosPorEstudiante: z.number().int().min(1).max(480),
-  puesto: z.string().trim().min(2).max(80),
+  puesto: z.string().trim().min(2).max(80).optional(),
+  idPuestos: z.array(idSchema).min(1, "Selecciona al menos un puesto de atención").max(50)
+    .refine(ids => new Set(ids).size === ids.length, "No repitas los puestos").optional(),
   estado: z.enum(["ACTIVO", "INACTIVO"]).default("ACTIVO"),
-}).refine(v => v.horaFin > v.horaInicio, { message: "La hora final debe ser posterior a la inicial", path: ["horaFin"] });
+}).refine(v => v.horaFin > v.horaInicio, { message: "La hora final debe ser posterior a la inicial", path: ["horaFin"] })
+  .refine(v => Boolean(v.idPuestos?.length || v.puesto), { message: "Selecciona los puestos de atención", path: ["idPuestos"] });
+export const programarJornadasSchema = z.object({
+  jornadas: z.array(jornadaSchema).min(1).max(60).refine(jornadas =>
+    new Set(jornadas.map(j => `${j.fecha}:${j.idTramite}`)).size === jornadas.length,
+  "No repitas una fecha para el mismo trámite."),
+});
 export const solicitarFichaSchema = z.object({
   idJornada: idSchema,
   detalle: z.string().trim().max(2000).default(""),

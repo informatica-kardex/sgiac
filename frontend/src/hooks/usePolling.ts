@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { AxiosError } from "axios";
+import { subscribeToUpdates } from '../services/liveUpdates';
 
 export function mensajeError(error: unknown) {
   return error instanceof AxiosError ? error.response?.data?.message || "No se pudo conectar. Intenta nuevamente." : "No se pudo completar la operación.";
@@ -19,6 +20,7 @@ export function usePolling<T>(load: () => Promise<T>, interval = 5000) {
     let timer: ReturnType<typeof setTimeout>;
     setLoading(true); setData(null); setError(""); setUpdatedAt(null);
     async function poll() {
+      if (!active) return;
       if (busy) { again = true; return; }
       clearTimeout(timer);
       busy = true;
@@ -36,8 +38,9 @@ export function usePolling<T>(load: () => Promise<T>, interval = 5000) {
       }
     }
     refreshRef.current = () => { void poll(); };
+    const unsubscribe = subscribeToUpdates(() => { void poll(); });
     void poll();
-    return () => { active = false; clearTimeout(timer); refreshRef.current = () => {}; };
+    return () => { active = false; clearTimeout(timer); unsubscribe(); refreshRef.current = () => {}; };
   }, [load, interval]);
   return { data, error, loading, updatedAt, refresh: () => refreshRef.current() };
 }

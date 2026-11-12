@@ -9,6 +9,7 @@ import HorariosPage from "../public-site/pages/HorariosPage";
 import FaqPage from "../public-site/pages/FaqPage";
 import AtencionPage from "../public-site/pages/AtencionPage";
 import PantallaAtencionPage from "../public-site/pages/PantallaAtencionPage";
+import AuxiliarHorarioPage from "../public-site/pages/AuxiliarHorarioPage";
 import InformacionPage from "../public-site/pages/InformacionPage";
 import PoliticasPage from "../public-site/pages/PoliticasPage";
 
@@ -23,13 +24,13 @@ import StudentDocumentosPage from "../user/pages/DocumentosPage";
 import AdminDocumentosPage from "../admin/pages/DocumentosPage";
 import SchedulePlannerPage from "../user/pages/SchedulePlannerPage";
 import SolicitudesAulasPage from "../user/pages/SolicitudesAulasPage";
+import MiAuxiliaturaPage from "../user/pages/MiAuxiliaturaPage";
 import SolicitudesAulasAdminPage from "../admin/pages/SolicitudesAulasPage";
 import { UserGuestRoute, UserProtectedRoute } from "../auth/UserProtectedRoute";
 
 // Panel administrativo
 import { AdminAuthLayout } from "../admin/layouts/AdminAuthLayout";
 import { AdminLayout } from "../admin/layouts/AdminLayout";
-import AdminLoginPage from "../admin/pages/AdminLoginPage";
 import ChangePasswordForcedPage from "../admin/pages/ChangePasswordForcedPage";
 import DashboardPage from "../admin/pages/DashboardPage";
 import DocentesPage from "../admin/pages/DocentesPage";
@@ -47,20 +48,21 @@ import AuditPage from "../admin/pages/AuditPage";
 import RolesPage from "../admin/pages/RolesPage";
 import ConfiguracionPage from "../admin/pages/ConfiguracionPage";
 
-import { AdminGuestRoute, AdminProtectedRoute } from "../auth/AdminProtectedRoute";
+import { AdminProtectedRoute } from "../auth/AdminProtectedRoute";
 import VerifyEmailPage from "../auth/VerifyEmailPage";
 import PasswordUpdatedPage from "../admin/pages/PasswordUpdatedPage";
 
 export function AppRoutes() {
   return (
     <Routes>
+      <Route path="/auxiliares/carnet/:token" element={<AuxiliarHorarioPage />} />
       <Route path="/atencion/pantalla" element={<PantallaAtencionPage />} />
       {/* ------------------ PORTAL PUBLICO (/) ------------------ */}
       <Route element={<PublicLayout />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/comunicados" element={<ComunicadosPage />} />
         <Route path="/comunicados/:id" element={<ComunicadoDetallePage />} />
-        <Route path="/horarios" element={<HorariosPage />} />
+        <Route path="/horarios" element={<Navigate to="/usuario/horarios" replace />} />
         <Route path="/faq" element={<FaqPage />} />
         <Route path="/atencion" element={<AtencionPage />} />
         <Route path="/informacion" element={<InformacionPage />} />
@@ -69,9 +71,7 @@ export function AppRoutes() {
         <Route path="/cookies" element={<PoliticasPage politica="cookies" />} />
       </Route>
 
-      {/* ------------------ LOGIN INSTITUCIONAL (/login) ------------------ */}
-      {/* Ruta completamente distinta del login administrativo: propio */}
-      {/* store, propio hook y propio endpoint /api/auth/login.        */}
+      {/* ------------------ INGRESO ÚNICO (/login) ------------------ */}
       <Route element={<PublicLayout />}>
         <Route element={<UserGuestRoute />}>
           <Route path="/login" element={<LoginPage />} />
@@ -89,6 +89,7 @@ export function AppRoutes() {
           <Route path="/usuario/fichas" element={<StudentFichasPage />} />
           <Route path="/usuario/documentos" element={<StudentDocumentosPage />} />
           <Route path="/usuario/solicitudes-aulas" element={<SolicitudesAulasPage />} />
+          <Route path="/usuario/mi-auxiliatura" element={<MiAuxiliaturaPage />} />
           <Route path="/usuario/horarios" element={<HorariosPage />} />
           <Route path="/usuario/arma-tu-horario" element={<SchedulePlannerPage />} />
           <Route path="/usuario/comunicados" element={<ComunicadosPage />} />
@@ -98,12 +99,7 @@ export function AppRoutes() {
         </Route>
       </Route>
 
-      {/* ------------------ LOGIN ADMINISTRATIVO (/admin/login) ------------------ */}
-      <Route element={<AdminGuestRoute />}>
-        <Route element={<AdminAuthLayout />}>
-          <Route path="/admin/login" element={<AdminLoginPage />} />
-        </Route>
-      </Route>
+      <Route path="/admin/login" element={<Navigate to="/login" replace />} />
 
       {/* La confirmación permanece visible después de cerrar la sesión. */}
       <Route element={<AdminAuthLayout />}>

@@ -1,17 +1,20 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useUserAuthStore } from "../store/userAuthStore";
 import { LoadingSpinner } from "../public-site/components/LoadingSpinner";
+import { useAdminAuthStore } from "../store/adminAuthStore";
+import { sessionHome } from "./session";
 
-// Protege las rutas bajo /usuario/*. Si no hay sesion
-// institucional activa, redirige a /login (NO a /admin/login:
-// son dos flujos de autenticacion completamente separados).
+// El portal estudiantil requiere una sesión; el personal accede a su panel.
 export function UserProtectedRoute() {
   const { isAuthenticated, isInitializing, usuario } = useUserAuthStore();
+  const admin = useAdminAuthStore();
   const location = useLocation();
 
-  if (isInitializing) {
+  if (isInitializing || admin.isInitializing) {
     return <LoadingSpinner label="Verificando sesion..." />;
   }
+
+  if (admin.isAuthenticated && admin.usuario) return <Navigate to={sessionHome(admin.usuario)} replace />;
 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
@@ -36,14 +39,16 @@ export function UserProtectedRoute() {
 // Evita que un usuario institucional ya autenticado vuelva a ver
 // la pantalla de login.
 export function UserGuestRoute() {
-  const { isAuthenticated, isInitializing } = useUserAuthStore();
+  const { isAuthenticated, isInitializing, usuario } = useUserAuthStore();
+  const admin = useAdminAuthStore();
 
-  if (isInitializing) {
+  if (isInitializing || admin.isInitializing) {
     return <LoadingSpinner label="Cargando..." />;
   }
 
-  if (isAuthenticated) {
-    return <Navigate to="/usuario/dashboard" replace />;
+  if (admin.isAuthenticated && admin.usuario) return <Navigate to={sessionHome(admin.usuario)} replace />;
+  if (isAuthenticated && usuario) {
+    return <Navigate to={sessionHome(usuario)} replace />;
   }
 
   return <Outlet />;

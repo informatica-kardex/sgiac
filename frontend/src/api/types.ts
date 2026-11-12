@@ -22,10 +22,12 @@ export interface UsuarioSesion {
   debeCambiarPassword: boolean;
 }
 
+export interface SessionInfo { id: number; expiresAt: number; }
+
 export interface AuthResponse {
   usuario: UsuarioSesion;
   accessToken: string;
-  refreshToken: string;
+  session: SessionInfo;
 }
 
 export type EstadoAula = "disponible" | "mantenimiento" | "inhabilitada";
@@ -65,6 +67,12 @@ export interface Horario {
 }
 
 export interface HorarioAcademico extends Horario {
+  idHorarioBase?: number | null;
+  idReservaOrigen?: number | null;
+  aulaOriginal?: string | null;
+  traslados?: { fecha: string; aula: string }[];
+  reubicaciones?: { idHorario: number; aula: string; responsable: string }[];
+  avisos?: string[];
   sesionCompartida?: string | null;
   fecha: string | null;
   motivo: string;
@@ -86,6 +94,9 @@ export interface Comunicado {
   idComunicado: string;
   tipo: "texto" | "imagen" | "pdf";
   titulo: string;
+  encabezado?: string;
+  mayusculas?: boolean;
+  tamanoLetra?: number;
   contenido: string;
   resumen: string;
   categoria: string;

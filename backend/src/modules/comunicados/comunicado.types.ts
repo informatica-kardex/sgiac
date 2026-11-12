@@ -11,6 +11,9 @@ export interface Comunicado {
   idComunicado: string | number;
   tipo?: "texto" | "imagen" | "pdf";
   titulo: string;
+  encabezado?: string;
+  mayusculas?: boolean;
+  tamanoLetra?: number;
   contenido: string;
   resumen: string;
   categoria: string;

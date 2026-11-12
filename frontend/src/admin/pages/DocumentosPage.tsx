@@ -7,6 +7,7 @@ import { Modal } from "../components/Modal";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 import { DocumentoGestion } from "../components/DocumentoGestion";
 import { sugerirIdentificador } from "../../utils/fichaIdentificador";
+import { useAutoRefresh } from '../../hooks/useAutoRefresh';
 
 const configInicial: ConfigDocumento = { nombre: "", identificador: "", descripcion: "", habilitado: false, desde: null, hasta: null, plazoHoras: 48, demoraRecojoMinutos: 60, cupoDiario: 50, lugar: "Kardex", requisitos: "Presenta tu identificación y tu ficha. Trae hojas blancas tamaño carta.", correoHabilitado: true, horaInicio: "08:00", horaFin: "16:00", diasAtencion: [1, 2, 3, 4, 5] };
 
@@ -30,13 +31,14 @@ export default function DocumentosPage() {
   const [editor, setEditor] = useState<SolicitudDocumento | null>(null);
   const [identificadorManual, setIdentificadorManual] = useState(false);
 
-  const cargarCatalogo = useCallback(async () => {
-    setCatalogoError(""); setCatalogoLoading(true);
-    try { const [t, r] = await Promise.all([documentosApi.tipos(), documentosApi.responsables()]); setTipos(t.data.data); setResponsables(r.data.data); }
+  const cargarCatalogo = useCallback(async (silent = false) => {
+    if (!silent) { setCatalogoError(''); setCatalogoLoading(true); }
+    try { const [t, r] = await Promise.all([documentosApi.tipos(), documentosApi.responsables()]); setTipos(t.data.data); setResponsables(r.data.data); setCatalogoError(''); }
     catch (e) { setCatalogoError(mensajeError(e)); }
     finally { setCatalogoLoading(false); }
   }, []);
   useEffect(() => { void cargarCatalogo(); }, [cargarCatalogo]);
+  useAutoRefresh(() => cargarCatalogo(true));
   async function operar(fn: () => Promise<unknown>, mensaje: string, cerrar = true) {
     if (lock.current) return;
     lock.current = true; setBusy(true); setError(""); setSuccess("");
@@ -64,7 +66,7 @@ export default function DocumentosPage() {
   const actual = editor && data?.solicitudes.find(s => s.id === editor.id);
   const vencida = !!editor && !!actual && actual.version > editor.version;
   return <div className="flex flex-col gap-6">
-    <div className="flex flex-wrap items-start justify-between gap-4"><div><p className="text-xs font-semibold uppercase tracking-widest text-emerald-700">Atención diferida · Kardex</p><h1 className="mt-2 text-2xl font-bold text-slate-800">Solicitudes de documentos</h1><p className="mt-2 max-w-3xl text-sm text-slate-500">Recibe solicitudes, prepara los documentos y organiza el recojo con una ficha. Todos los horarios corresponden a Bolivia.</p></div><button className="btn-secondary" onClick={() => { refresh(); void cargarCatalogo(); }}>Actualizar</button></div>
+    <div className="flex flex-wrap items-start justify-between gap-4"><div><p className="text-xs font-semibold uppercase tracking-widest text-emerald-700">Atención diferida · Kardex</p><h1 className="mt-2 text-2xl font-bold text-slate-800">Trámites en línea</h1><p className="mt-2 max-w-3xl text-sm text-slate-500">Recibe solicitudes, prepara los documentos y organiza el recojo con una ficha. Todos los horarios corresponden a Bolivia.</p></div><button className="btn-secondary" onClick={() => { refresh(); void cargarCatalogo(); }}>Actualizar</button></div>
     <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">{(["SOLICITADA", "EN_PREPARACION", "LISTA", "ENTREGADA"] as EstadoDocumento[]).map(estado => <button key={estado} onClick={() => { setFiltro({ q: "", estado, pagina: 1 }); setBusqueda(""); setTab("bandeja"); }} className={`rounded-xl border bg-white p-4 text-left ${filtro.estado === estado ? "border-emerald-500" : "border-slate-200"}`}><p className="text-xs text-slate-500">{ESTADOS_DOCUMENTO[estado]}</p><p className="mt-2 text-2xl font-bold text-slate-800">{data?.resumen[estado] ?? 0}</p></button>)}</div>
     <div className="flex flex-wrap gap-3"><button className={tab === "bandeja" ? "btn-primary" : "btn-secondary"} onClick={() => setTab("bandeja")}>Bandeja de solicitudes</button><button className={tab === "config" ? "btn-primary" : "btn-secondary"} onClick={() => setTab("config")}>Documentos y periodos</button></div>
     {success && <p role="status" className="rounded-xl bg-emerald-50 p-4 text-sm text-emerald-900">{success}</p>}

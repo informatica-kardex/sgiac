@@ -1,0 +1,90 @@
+.session-timeout {
+  --session-accent: #16786b;
+  --session-track: #e3f1ec;
+  width: min(440px, calc(100% - 32px));
+  max-height: calc(100dvh - 32px);
+  margin: auto;
+  padding: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  border: 1px solid #dcebe5;
+  border-radius: 24px;
+  background: #fff;
+  color: #193e37;
+  box-shadow: 0 28px 90px #092b3740, 0 8px 24px #092b371a;
+  text-align: center;
+}
+
+.session-timeout::backdrop {
+  background: rgb(9 30 37 / 48%);
+  backdrop-filter: blur(5px);
+}
+
+.session-timeout[open] { animation: session-timeout-enter 180ms ease-out; }
+.session-timeout__content { padding: 32px 36px 18px; }
+.session-timeout__eyebrow {
+  display: block;
+  margin-bottom: 10px;
+  color: #57756d;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+.session-timeout__title {
+  margin: 0;
+  color: #163e35;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -.035em;
+  line-height: 1.25;
+}
+.session-timeout__description { margin: 10px 0 0; color: #52665f; font-size: 15px; line-height: 1.6; }
+.session-timeout__countdown { position: relative; width: 144px; height: 144px; margin: 24px auto 20px; }
+.session-timeout__countdown > svg { display: block; width: 100%; height: 100%; transform: rotate(-90deg); }
+.session-timeout__track, .session-timeout__progress { fill: none; stroke-width: 5; }
+.session-timeout__track { stroke: var(--session-track); }
+.session-timeout__progress { stroke: var(--session-accent); stroke-linecap: round; transition: stroke-dashoffset 700ms linear, stroke 200ms ease; }
+.session-timeout__time {
+  position: absolute;
+  inset: 13px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  border-radius: 50%;
+  background: #f4faf7;
+}
+.session-timeout__time strong { color: var(--session-accent); font-size: 48px; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -.055em; line-height: 1.05; }
+.session-timeout__time span { color: #5f766d; font-size: 12px; }
+.session-timeout__hint { margin: 0; color: #65776f; font-size: 13px; line-height: 1.75; }
+.session-timeout__actions { display: grid; gap: 6px; margin-top: 25px; }
+.session-timeout__actions button { min-height: 46px; border-radius: 12px; font-size: 14px; font-weight: 600; transition: background-color 150ms ease, color 150ms ease; }
+.session-timeout__continue { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 12px 20px; border: 1px solid transparent; background: #16786b; color: #fff; }
+.session-timeout__continue:hover:not(:disabled) { background: #116255; }
+.session-timeout__continue:disabled { opacity: .65; cursor: wait; }
+.session-timeout__logout { padding: 10px 20px; border: 1px solid transparent; background: transparent; color: #62756e; }
+.session-timeout__logout:hover { background: #f0f6f3; color: #193e37; }
+.session-timeout__actions button:focus-visible { outline: 3px solid #7dc9b5; outline-offset: 3px; }
+.session-timeout__error { margin: 16px 0 0; padding: 10px 12px; border-radius: 10px; background: #fef2f2; color: #a12727; font-size: 13px; line-height: 1.5; }
+.session-timeout__footer { display: flex; align-items: center; justify-content: center; gap: 7px; padding: 14px 20px; border-top: 1px solid #e8f0eb; background: #f7faf8; color: #62756b; font-size: 11px; line-height: 1.5; }
+.session-timeout__footer svg { flex: 0 0 auto; }
+.session-timeout[data-urgent="true"] { --session-accent: #a55b16; --session-track: #f5e8d8; }
+.session-timeout[data-urgent="true"] .session-timeout__time { background: #fdf7ee; }
+
+@keyframes session-timeout-enter {
+  from { opacity: 0; transform: translateY(8px) scale(.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@media (max-width: 380px), (max-height: 650px) {
+  .session-timeout__content { padding: 24px 22px 12px; }
+  .session-timeout__title { font-size: 27px; }
+  .session-timeout__countdown { width: 124px; height: 124px; margin: 18px auto 16px; }
+  .session-timeout__time strong { font-size: 42px; }
+  .session-timeout__actions { margin-top: 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .session-timeout[open] { animation: none; }
+  .session-timeout__progress, .session-timeout__actions button { transition: none; }
+}

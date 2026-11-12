@@ -1,5 +1,12 @@
 import { axiosClient } from "./axiosClient";
-import { ApiEnvelope } from "./types";
+import { ApiEnvelope, Aula, HorarioAcademico } from "./types";
+import type { Periodo } from './academico.api';
+
+export interface HorariosAulasEstudiante {
+  aulas: Pick<Aula, 'codigo' | 'nombre' | 'lugar' | 'piso'>[];
+  periodos: Periodo[];
+  horarios: HorarioAcademico[];
+}
 
 export interface PerfilEstudiante {
   nombres: string;
@@ -14,6 +21,7 @@ export interface CatalogoHorario {
   materias: { nombre: string; siglas: string[]; planes: { mencion: string; semestre: number | null; orden: number }[] }[];
   periodos: { id: string; nombre: string; desde: string; hasta: string }[];
 }
+export interface PuestoAtencion { idPuesto: string; nombre: string }
 export interface JornadaEstudiante {
   idJornada: string;
   identificador: string;
@@ -29,11 +37,15 @@ export interface JornadaEstudiante {
   modoCupo: "MANUAL" | "TIEMPO";
   minutosPorEstudiante: number;
   puesto: string;
+  puestos: PuestoAtencion[];
+  idPuestos: string[];
   estado: "ACTIVO" | "INACTIVO";
   enEspera: number;
   atendidas: number;
 }
 export interface FichaEstudiante {
+  idPuesto: string | null;
+  puesto: string | null;
   idFicha: string;
   numero: number;
   codigo: string;
@@ -49,6 +61,7 @@ export interface FichaEstudiante {
   jornada: JornadaEstudiante;
 }
 export const estudiantesApi = {
+  horariosAulas: () => axiosClient.get<ApiEnvelope<HorariosAulasEstudiante>>('/estudiantes/horarios-aulas'),
   catalogoHorario: () => axiosClient.get<ApiEnvelope<CatalogoHorario>>("/estudiantes/catalogo-horario"),
   atencion: () => axiosClient.get<ApiEnvelope<{ fichas: FichaEstudiante[]; jornadas: JornadaEstudiante[] }>>("/estudiantes/atencion"),
   perfil: () => axiosClient.get<ApiEnvelope<PerfilEstudiante>>("/estudiantes/perfil"),

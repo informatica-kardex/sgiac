@@ -37,7 +37,7 @@ beforeEach((t) => {
   t.mock.method(UserRepository.prototype, 'findByIdWithRolesByCorreo', async () => user);
   t.mock.method(UserRepository.prototype, 'findByIdWithRoles', async () => user);
   t.mock.method(UserRepository.prototype, 'findById', async () => user);
-  t.mock.method(AuthRepository.prototype, 'guardarRefreshToken', async (value) => { sessions.push(value); });
+  t.mock.method(AuthRepository.prototype, 'guardarRefreshToken', async (value) => { const row = { ...value, idRefreshToken: sessions.length + 1 }; sessions.push(row); return row; });
   t.mock.method(AuthRepository.prototype, 'actualizarTwoFactor', async (id, enabled, correo, hash) => {
     assert.equal(id, user.idUsuario);
     assert.equal(correo, user.correo);

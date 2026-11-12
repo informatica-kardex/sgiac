@@ -8,6 +8,7 @@ import { AdminIcon } from "../components/AdminIcon";
 import { AlertMessage } from "../components/AlertMessage";
 import { useAdminAuthStore } from "../../store/adminAuthStore";
 import { MODULOS_ADMIN, puedeAccederModulo } from "../../utils/roles";
+import { useAutoRefresh } from '../../hooks/useAutoRefresh';
 
 export default function DashboardPage() {
   const usuario = useAdminAuthStore(state => state.usuario);
@@ -28,17 +29,19 @@ function DashboardAdministrador() {
   const [fichas, setFichas] = useState<ConteoEstado[]>([]);
   const [aulas, setAulas] = useState<ConteoEstado[]>([]);
   const usuario = useAdminAuthStore(state => state.usuario);
-  const cargar = () => {
-    setCargando(true);
+  const cargarDatos = (silent = false) => {
+    if (!silent) setCargando(true);
     setError(false);
-    cargarResumenDashboard().then(data => {
+    return cargarResumenDashboard().then(data => {
       setResumen(data.resumen);
       setComunicados(data.comunicadosPorCategoria);
       setFichas(data.fichasPorEstado);
       setAulas(data.aulasPorEstado);
     }).catch(() => setError(true)).finally(() => setCargando(false));
   };
+  const cargar = () => { void cargarDatos(); };
   useEffect(cargar, []);
+  useAutoRefresh(() => cargarDatos(true));
   if (cargando) return <LoadingSpinner label="Cargando panel..." />;
   if (error || !resumen) return <div className="space-y-4"><AlertMessage type="error" message="No se pudo cargar el resumen del panel." /><button className="btn-primary" onClick={cargar}>Reintentar</button></div>;
   const maxAulas = Math.max(1, ...aulas.map(item => item.cantidad));

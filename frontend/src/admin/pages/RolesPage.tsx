@@ -7,16 +7,18 @@ import { AdminIcon } from "../components/AdminIcon";
 import { MODULOS_ADMIN, FUNCIONES_SUBADMIN, puedeAccederModulo } from "../../utils/roles";
 import { AlertMessage } from "../components/AlertMessage";
 import { Link } from "react-router-dom";
+import { useAutoRefresh } from '../../hooks/useAutoRefresh';
 
 export default function RolesPage() {
   const [roles, setRoles] = useState<Rol[]>([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(false);
-  useEffect(() => {
-    rolesApi.listar().then(({ data }) => {
+  const cargar = () => rolesApi.listar().then(({ data }) => {
       setRoles(data.data.filter(r => ["ADMINISTRADOR", "SUBADMINISTRADOR"].includes(r.nombre)));
+      setError(false);
     }).catch(() => { setError(true); }).finally(() => setCargando(false));
-  }, []);
+  useEffect(() => { void cargar(); }, []);
+  useAutoRefresh(cargar);
   return <div className="space-y-6">
     <div><h1 className="text-xl font-bold">Roles y permisos</h1><p className="text-sm text-slate-500">Perfiles de acceso y distribución de permisos por módulo.</p></div>
     {cargando ? <LoadingSpinner /> : <>

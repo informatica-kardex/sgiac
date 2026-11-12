@@ -1,4 +1,5 @@
 import { FormEvent, useCallback, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { AccionRevisionAula, ReservaAula, SolicitudAula, actividadAulaLabel, solicitudesAulasApi } from '../../api/solicitudes-aulas.api';
 import { AgendaSolicitudAula, AulasDisponiblesSolicitud, DetalleSolicitudAula, EstadoSolicitudAula, ResumenReservaAula, fechaSolicitudAula } from '../../components/SolicitudAulaUI';
 import { AcademicAction, AcademicHeader, Empty, ErrorNotice, Field, errorAcademico } from '../components/AcademicoUI';
@@ -7,7 +8,9 @@ import { Modal } from '../components/Modal';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { usePolling } from '../../hooks/usePolling';
 
-function RevisarSolicitud({ solicitud: s, inicial, close, saved }: { solicitud: SolicitudAula; inicial: AccionRevisionAula | null; close: () => void; saved: () => void }) {
+const horarioSolicitud = (s: SolicitudAula) => `/admin/ver-horarios?${new URLSearchParams({ aula: (s.propuesta ?? s.reserva).aula, periodo: s.asignacion.idPeriodo })}`;
+
+function RevisarSolicitud({ solicitud: s, inicial, close, saved }: { solicitud: SolicitudAula; inicial: AccionRevisionAula | null; close: () => void; saved: (solicitud: SolicitudAula) => void }) {
   const [accion, setAccion] = useState<AccionRevisionAula | null>(inicial);
   const [propuesta, setPropuesta] = useState<ReservaAula>(s.propuesta ?? s.reserva);
   const [comentario, setComentario] = useState(''), [valida, setValida] = useState(false), [busy, setBusy] = useState(false), [error, setError] = useState('');
@@ -15,7 +18,7 @@ function RevisarSolicitud({ solicitud: s, inicial, close, saved }: { solicitud: 
   async function enviar(event: FormEvent) {
     event.preventDefault(); if (!accion || busy || accion === 'PROPONER' && !valida) return;
     setBusy(true); setError('');
-    try { await solicitudesAulasApi.revisar(s, accion, comentario, accion === 'PROPONER' ? propuesta : undefined); saved(); close(); }
+    try { const updated = await solicitudesAulasApi.revisar(s, accion, comentario, accion === 'PROPONER' ? propuesta : undefined); close(); saved(updated); }
     catch (e) { setError(errorAcademico(e)); } finally { setBusy(false); }
   }
   const pendiente = ['PENDIENTE', 'PROPUESTA'].includes(s.estado);
@@ -49,8 +52,9 @@ function RevisarSolicitud({ solicitud: s, inicial, close, saved }: { solicitud: 
 }
 
 export default function SolicitudesAulasAdminPage() {
+  const navigate = useNavigate();
   const load = useCallback(() => solicitudesAulasApi.bandeja(), []);
-  const { data, error, loading, refresh } = usePolling(load, 60000);
+  const { data, error, loading, refresh } = usePolling(load, 10000);
   const [estado, setEstado] = useState('REVISION'), [query, setQuery] = useState('');
   const [selected, setSelected] = useState<SolicitudAula | null>(null), [success, setSuccess] = useState('');
   const [inicial, setInicial] = useState<AccionRevisionAula | null>(null);
@@ -68,9 +72,13 @@ export default function SolicitudesAulasAdminPage() {
       </div>
       <div className="flex flex-wrap gap-2 border-t border-slate-100 bg-slate-50/60 p-4"><AcademicAction icon="view" tone="primary" onClick={() => abrir(s)}>{s.estado === 'PENDIENTE' ? 'Revisar solicitud' : 'Ver solicitud'}</AcademicAction>
         {['PENDIENTE', 'PROPUESTA'].includes(s.estado) && <><AcademicAction icon="edit" onClick={() => abrir(s, 'PROPONER')}>{s.estado === 'PROPUESTA' ? 'Editar alternativa' : 'Proponer otra aula'}</AcademicAction><AcademicAction icon="close" tone="danger" onClick={() => abrir(s, 'RECHAZAR')}>Rechazar</AcademicAction></>}
-        {s.estado === 'APROBADA' && <AcademicAction icon="trash" tone="danger" onClick={() => abrir(s, 'CANCELAR')}>Cancelar reserva</AcademicAction>}
+        {s.estado === 'APROBADA' && <><Link className="btn-secondary" to={horarioSolicitud(s)}>Ver horario del aula</Link><AcademicAction icon="trash" tone="danger" onClick={() => abrir(s, 'CANCELAR')}>Cancelar reserva</AcademicAction></>}
       </div>
     </article>)}</div>}
-    {selected && <RevisarSolicitud key={`${selected.id}-${selected.version}`} solicitud={selected} inicial={inicial} close={() => setSelected(null)} saved={() => { setSuccess('Respuesta registrada. El auxiliar puede verla en el seguimiento de su solicitud.'); refresh(); }} />}
+    {selected && <RevisarSolicitud key={`${selected.id}-${selected.version}`} solicitud={selected} inicial={inicial} close={() => setSelected(null)} saved={updated => {
+      refresh();
+      if (updated.estado === 'APROBADA') navigate(horarioSolicitud(updated));
+      else setSuccess('Respuesta registrada. El auxiliar puede verla en el seguimiento de su solicitud.');
+    }} />}
   </div>;
 }

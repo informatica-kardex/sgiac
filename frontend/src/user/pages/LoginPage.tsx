@@ -10,13 +10,12 @@ import { AlertMessage } from "../components/AlertMessage";
 import { useAuth } from "../../hooks/useAuth";
 import { LoginFormData, loginSchema } from "../../utils/validators";
 import { LoginBackdrop } from "../../components/LoginBrand";
+import { useSessionInfo } from "../../auth/session";
 
-// Login institucional (/login). Es un flujo completamente
-// independiente del login administrativo (/admin/login): usa su
-// propio hook (useAuth), su propio store (userAuthStore) y su
-// propio endpoint (/api/auth/login, no /api/auth/admin/login).
+// Un mismo formulario para estudiantes, administradores y subadministradores.
 export default function LoginPage() {
   const { login, verifyLogin } = useAuth();
+  const expired = useSessionInfo(s => s.expired);
   const security = useLoginCaptcha();
   const [challenge, setChallenge] = useState<LoginChallenge | null>(null);
   const [serverError, setServerError] = useState("");
@@ -48,7 +47,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="institutional-login container-public flex min-h-[70vh] items-center justify-center py-12">
+    <div className="institutional-login unified-login container-public flex min-h-[70vh] items-center justify-center py-12">
       <LoginBackdrop />
       <div className="login-panel card w-full max-w-md space-y-6 p-8">
         <div className="login-heading space-y-1 text-center">
@@ -59,6 +58,7 @@ export default function LoginPage() {
         </div>
 
         {serverError && <AlertMessage type="error" message={serverError} />}
+        {expired && <p role="status" className="rounded-lg bg-amber-50 p-3 text-sm text-amber-900">Tu sesión se cerró. Inicia sesión nuevamente para continuar.</p>}
 
         {challenge ? (
           <LoginVerification challenge={challenge} verify={verifyLogin} onBack={() => {

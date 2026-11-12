@@ -3,7 +3,7 @@ import { ApiError } from "../../utils/apiError";
 import { hashPassword } from "../../utils/password";
 import { UserRepository } from "./user.repository";
 import { RoleRepository, ROLES_SUBADMIN, rolesActivos } from "../roles/role.repository";
-import { CrearSubadminInput, CrearEstudianteInput } from "./user.validation";
+import { CrearSubadminInput, CrearEstudianteInput, perfilPersonalSchema, perfilEstudianteSchema } from "./user.validation";
 import { Prisma } from "@prisma/client";
 
 type UsuarioConRoles = NonNullable<Awaited<ReturnType<UserRepository["findByIdWithRoles"]>>>;
@@ -34,6 +34,7 @@ export class UserService {
         }
         const usuario = await tx.usuario.create({ data: {
           nombreCompleto: `${input.nombres} ${input.apellidos}`, correo: input.correo, contrasenaHash,
+          celular: input.celular,
           estado: 'ACTIVO', debeCambiarPassword: true, correoVerificado: false,
           roles: { create: { idRol: rol.idRol } },
         } });
@@ -77,6 +78,41 @@ export class UserService {
     return perfil(usuario);
   }
 
+  async actualizarPerfilPropio(idUsuario: bigint, input: unknown) {
+    try {
+      return await prisma.$transaction(async tx => {
+        await tx.$queryRaw`SELECT id_usuario FROM usuario WHERE id_usuario = ${idUsuario} FOR UPDATE`;
+        const actual = await tx.usuario.findUnique({ where: { idUsuario }, include: { estudiante: true } });
+        if (!actual || actual.estado.toUpperCase() !== "ACTIVO") throw ApiError.unauthorized("Cuenta inactiva o inexistente");
+        if (!actual.correoVerificado || actual.debeCambiarPassword) throw ApiError.forbidden("Completa la verificación de tu cuenta antes de editar tu perfil");
+        // El perfil de la base determina los campos editables, nunca un rol enviado por el cliente.
+        const estudiante = actual.estudiante ? perfilEstudianteSchema.parse(input) : null;
+        const nombreCompleto = estudiante ? `${estudiante.nombres} ${estudiante.apellidos}` : perfilPersonalSchema.parse(input).nombreCompleto;
+        const actualizado = await tx.usuario.update({
+          where: { idUsuario },
+          data: { nombreCompleto, ...(estudiante ? { estudiante: { update: {
+            nombres: estudiante.nombres, apellidos: estudiante.apellidos, ci: estudiante.ci,
+            ru: estudiante.ru, carrera: estudiante.mencion,
+          } } } : {}) },
+          include: { estudiante: true, permisos: true, roles: { include: { rol: true } } },
+        });
+        await tx.bitacora.create({ data: { accion: "PERFIL_PERSONAL_ACTUALIZADO", entidadAfectada: "usuario",
+          idRegistroAfectado: idUsuario.toString(), idUsuario,
+          detalle: estudiante ? "Actualización de nombres, apellidos, CI, RU y mención" : "Actualización de nombre completo",
+        } });
+        const e = actualizado.estudiante;
+        return { usuario: perfil(actualizado), estudiante: e ? {
+          nombres: e.nombres, apellidos: e.apellidos, ci: e.ci, ru: e.ru, mencion: e.carrera, correo: e.correo_institucional,
+        } : null };
+      });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
+        throw ApiError.conflict("El CI o registro universitario ya está registrado en otra cuenta.");
+      }
+      throw error;
+    }
+  }
+
   async listarUsuarios() {
     return (await this.repository.findAllWithRoles()).map(perfil);
   }
@@ -100,6 +136,7 @@ export class UserService {
       const usuario = await tx.usuario.create({
         data: {
           nombreCompleto: input.nombreCompleto, correo: input.correo, contrasenaHash,
+          celular: input.celular,
           estado: "ACTIVO", debeCambiarPassword: true, correoVerificado: false,
           roles: { create: { idRol: rol.idRol, estado: "ACTIVO" } },
           permisos: { create: input.permisos },

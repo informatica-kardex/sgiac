@@ -7,9 +7,21 @@ import { Modal } from '../components/Modal';
 import { TeacherSchedule, RemoveTeacherAssignment } from '../components/TeacherSchedule';
 import { SearchableSelect } from '../components/SearchableSelect';
 import { filterSubjects } from '../schedule/subjects';
+import { HorarioForm, ScheduleSeed, minutes } from '../components/HorarioForm';
+import { HorarioAcademico } from '../../api/types';
+import { horariosApi } from '../../api/horarios.api';
+import { ConfirmDialog } from '../components/ConfirmDialog';
+import { useAdminAuth } from '../../hooks/useAdminAuth';
+import { puedeAccederModulo } from '../../utils/roles';
 const blank: DocenteInput = { nombreCompleto: '', gradoAcademico: '', especialidad: '', correo: '', telefono: '', estado: 'ACTIVO' };
 export default function DocentesPage() {
   const c = useAcademico();
+  const { usuario } = useAdminAuth();
+  const puedeAsignarHorario = puedeAccederModulo(usuario?.roles ?? [], 'horarios', usuario?.permisos);
+  const [scheduleTeacher, setScheduleTeacher] = useState<Docente | null>(null), [schedulePeriod, setSchedulePeriod] = useState('');
+  const [scheduleSeed, setScheduleSeed] = useState<ScheduleSeed>({ aula: '', dia: 'LUNES', fecha: '', hora: 8, blank: true });
+  const [removeSession, setRemoveSession] = useState<HorarioAcademico | null>(null);
+  const [programarDespues, setProgramarDespues] = useState(false), [success, setSuccess] = useState('');
   const [subjectFilter, setSubjectFilter] = useState(''), [teacherFilter, setTeacherFilter] = useState('');
   const [open, setOpen] = useState(false), [editing, setEditing] = useState<Docente | null>(null), [otherDegree, setOtherDegree] = useState(false);
   const [form, setForm] = useState(blank), [error, setError] = useState(''), [busy, setBusy] = useState(false);
@@ -24,15 +36,37 @@ export default function DocentesPage() {
   }
   async function assign(e: FormEvent) {
     e.preventDefault(); if (!assignTo) return; setBusy(true); setError('');
-    try { await academicoApi.asignar({ ...assignment, idDocente: assignTo.idDocente }); setAssignTo(null); await c.cargar(); }
+    try { await academicoApi.asignar({ ...assignment, idDocente: assignTo.idDocente }); await c.cargar(); setAssignTo(null); if (programarDespues) { setSchedulePeriod(assignment.idPeriodo); setScheduleTeacher(assignTo); setProgramarDespues(false); } }
     catch (e) { setError(errorAcademico(e)); } finally { setBusy(false); }
   }
   const subjects = filterSubjects(c.materias, '', '');
+  function asignarHorario(d: Docente, temporal = false) {
+    setError(''); setSuccess('');
+    setViewTeacher(null); setScheduleSeed({ aula: '', dia: 'LUNES', fecha: '', hora: 8, blank: true, temporal, unaSesion: true });
+    const vigente = c.asignaciones.find(a => a.idDocente === d.idDocente && a.estado === 'ACTIVO' && c.periodos.some(p => p.idPeriodo === a.idPeriodo && p.estado === 'ACTIVO') && c.materias.some(m => m.codigo === a.codigoMateria && m.estado === 'ACTIVO'));
+    if (!vigente) { setProgramarDespues(true); setAssignment({ codigoMateria: '', idPeriodo: c.periodos.find(p => p.estado === 'ACTIVO')?.idPeriodo ?? '' }); setAssignTo(d); return; }
+    setSchedulePeriod(vigente.idPeriodo); setScheduleTeacher(d);
+  }
+  function gestionarSesion(d: Docente, session: HorarioAcademico, cambiarAula: boolean) {
+    const target = c.horarios.find(h => h.idHorario === session.idReservaOrigen) ?? session;
+    setViewTeacher(null); setError(''); setSuccess(''); setSchedulePeriod(target.idPeriodo);
+    setScheduleTeacher(c.docentes.find(docente => docente.idDocente === target.idDocente) ?? d);
+    setScheduleSeed({ aula: target.aula, dia: target.dia, fecha: target.fecha ?? '', hora: minutes(target.horaInicio) / 60, horaFin: target.horaFin, editing: target, cambiarAula });
+  }
+  async function eliminarSesion() {
+    if (!removeSession) return; setBusy(true); setError('');
+    try {
+      const response = await horariosApi.eliminar(removeSession.idHorario);
+      setRemoveSession(null); setScheduleTeacher(null); await c.cargar();
+      setSuccess(`Sesión eliminada. ${response.data.data?.avisos.join(' ') ?? ''}`);
+    } catch (e) { setRemoveSession(null); setError(errorAcademico(e)); } finally { setBusy(false); }
+  }
   const subjectTeachers = c.docentes.filter(d => !subjectFilter || (subjectFilter === '__unassigned__' ? !d.asignaciones.length : d.asignaciones.some(a => a.codigoMateria === subjectFilter)));
   const filtered = subjectTeachers.filter(d => !teacherFilter || d.idDocente === teacherFilter);
   return <div className="space-y-6">
     <AcademicHeader title="Docentes" description="Información y materias asignadas a cada docente, organizadas por periodo y paralelo."><button className="btn-primary" onClick={() => edit()}>+ Nuevo docente</button></AcademicHeader>
     <ErrorNotice message={c.error} retry={() => void c.cargar()} />{!open && !assignTo && <ErrorNotice message={error} />}
+    {success && <p role="status" className="rounded-lg bg-emerald-50 p-3 text-sm text-emerald-800">{success}</p>}
     <div className="grid items-end gap-3 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto]">
       <SearchableSelect label="Filtrar por materia" placeholder="Todas las materias" value={subjectFilter} options={[{ value: '__unassigned__', label: 'Sin materias asignadas' }, ...subjects.map(m => ({ value: m.codigo, label: `${m.siglas.join(' / ')} · ${m.nombre}` }))]} onChange={value => { setSubjectFilter(value); setTeacherFilter(''); }} />
       <SearchableSelect label="Filtrar por docente" placeholder="Todos los docentes" value={teacherFilter} options={subjectTeachers.map(d => ({ value: d.idDocente, label: docenteLabel(d), searchText: `${d.especialidad} ${d.correo}` }))} onChange={setTeacherFilter} />
@@ -43,7 +77,7 @@ export default function DocentesPage() {
       <td className="text-slate-500"><p>{d.correo || 'Sin correo'}</p><p className="mt-1">{d.telefono || 'Sin teléfono'}</p></td>
       <td className="min-w-[260px]">{!d.asignaciones.length ? <span className="text-slate-400">Sin materias asignadas</span> : d.asignaciones.map(a => <div key={a.idAsignacion} className="teacher-assignment"><div><span className="academic-tag">{a.siglas.join(' / ')} · {a.grupo}</span><span className="text-xs text-slate-500">{a.periodo}</span><p className="text-xs text-slate-600">{a.materia}</p></div><button type="button" aria-label={`Quitar ${a.materia} (${a.siglas.join(' / ')}) paralelo ${a.grupo} de ${d.nombreCompleto}`} className="teacher-remove" onClick={() => { setError(''); setRemove(a); }}><svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7M14 10v7" strokeLinecap="round" strokeLinejoin="round" /></svg>Quitar materia</button></div>)}</td>
       <td><span className={`badge ${d.estado === 'ACTIVO' ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-500'}`}>{d.estado === 'ACTIVO' ? 'Activo' : 'Inactivo'}</span></td>
-      <td><div className="flex flex-wrap gap-2"><button className="btn-ghost" onClick={() => edit(d)}>Editar</button><button className="btn-ghost" disabled={d.estado !== 'ACTIVO'} onClick={() => { setError(''); setAssignment({ codigoMateria: '', idPeriodo: c.periodos.find(p => p.estado === 'ACTIVO')?.idPeriodo ?? '' }); setAssignTo(d); }}>Asignar materia</button><button type="button" className="btn-secondary" aria-label={`Ver horarios y materias de ${d.nombreCompleto}`} onClick={() => setViewTeacher(d)}>Ver horarios y materias</button></div></td>
+      <td><div className="flex flex-wrap gap-2"><button className="btn-ghost" onClick={() => edit(d)}>Editar</button><button className="btn-ghost" disabled={d.estado !== 'ACTIVO'} onClick={() => { setError(''); setProgramarDespues(false); setAssignment({ codigoMateria: '', idPeriodo: c.periodos.find(p => p.estado === 'ACTIVO')?.idPeriodo ?? '' }); setAssignTo(d); }}>Asignar materia</button>{puedeAsignarHorario && <><button className="btn-primary" disabled={d.estado !== 'ACTIVO' || c.loading || Boolean(c.error)} onClick={() => asignarHorario(d)}>Asignar horario</button><button className="btn-secondary" disabled={d.estado !== 'ACTIVO' || c.loading || Boolean(c.error)} onClick={() => asignarHorario(d, true)}>Reservar aulas</button></>}<button type="button" className="btn-secondary" aria-label={`Ver horarios y materias de ${d.nombreCompleto}`} onClick={() => setViewTeacher(d)}>Ver horarios y materias</button></div></td>
     </tr>)}</tbody></table></div>}
     <Modal open={open} title={editing ? 'Editar docente' : 'Nuevo docente'} onClose={() => !busy && setOpen(false)}><form className="space-y-4" onSubmit={save}><ErrorNotice message={error} />
       <Field label="Nombre completo"><input autoFocus required minLength={3} maxLength={150} className="input-field" value={form.nombreCompleto} onChange={e => setForm({ ...form, nombreCompleto: e.target.value })} /></Field>
@@ -55,12 +89,16 @@ export default function DocentesPage() {
       <Field label="Estado"><select className="select-field" value={form.estado} onChange={e => setForm({ ...form, estado: e.target.value })}><option value="ACTIVO">Activo</option><option value="INACTIVO">Inactivo</option></select></Field>
       <SaveActions busy={busy} close={() => setOpen(false)} /></form></Modal>
     <Modal open={Boolean(assignTo)} title="Asignar materia" onClose={() => !busy && setAssignTo(null)}><form className="space-y-4" onSubmit={assign}><p className="font-medium text-slate-700">{assignTo ? docenteLabel(assignTo) : ''}</p><ErrorNotice message={error} />
-      <Field label="Periodo"><select required className="select-field" value={assignment.idPeriodo} onChange={e => setAssignment({ ...assignment, idPeriodo: e.target.value })}><option value="">Selecciona un periodo</option>{c.periodos.filter(p => p.estado === 'ACTIVO').map(p => <option key={p.idPeriodo} value={p.idPeriodo}>{p.periodo}/{p.gestion}</option>)}</select></Field>
+      {programarDespues && <p className="text-sm text-slate-600">Primero vincula la materia al docente. Al guardar se abrirá el formulario para elegir aulas, días y horas.</p>}<Field label="Periodo"><select required className="select-field" value={assignment.idPeriodo} onChange={e => setAssignment({ ...assignment, idPeriodo: e.target.value })}><option value="">Selecciona un periodo</option>{c.periodos.filter(p => p.estado === 'ACTIVO').map(p => <option key={p.idPeriodo} value={p.idPeriodo}>{p.periodo}/{p.gestion}</option>)}</select></Field>
       {!c.periodos.length && <p className="text-sm text-slate-500">Crea un periodo desde <Link className="underline" to="/admin/horarios">Horarios</Link>.</p>}
       <Field label="Materia"><select required className="select-field" value={assignment.codigoMateria} onChange={e => setAssignment({ ...assignment, codigoMateria: e.target.value })}><option value="">Selecciona una materia</option>{c.materias.filter(m => m.estado === 'ACTIVO').map(m => <option key={m.codigo} value={m.codigo}>{m.siglas.join(' / ')} · {m.nombre}</option>)}</select></Field>
       <p className="rounded-lg bg-emerald-50 p-3 text-sm text-emerald-800">El paralelo se asigna automáticamente: A, B, C… según las asignaciones de esta materia en el periodo.</p>
       <p className="text-xs text-slate-500">La materia aparecerá en la ficha del docente y estará disponible para programar sus clases.</p><SaveActions busy={busy} close={() => setAssignTo(null)} /></form></Modal>
-    {viewTeacher && <TeacherSchedule key={viewTeacher.idDocente} docente={viewTeacher} periodos={c.periodos} close={() => setViewTeacher(null)} />}
+    {scheduleTeacher && <HorarioForm key={`${scheduleTeacher.idDocente}-${schedulePeriod}`} c={c} periodo={schedulePeriod} cambiarPeriodo={id => { setSchedulePeriod(id); setScheduleSeed({ aula: '', dia: 'LUNES', fecha: '', hora: 8, blank: true, temporal: Boolean(scheduleSeed.temporal || scheduleSeed.editing), unaSesion: true }); }} docenteId={scheduleTeacher.idDocente}
+      seed={scheduleSeed}
+      close={() => setScheduleTeacher(null)} remove={setRemoveSession} saved={async () => { await c.cargar(); setScheduleTeacher(null); setSuccess('Asignación guardada. Las sesiones ya están registradas en Horarios y en la consulta del docente.'); }} />}
+    {viewTeacher && <TeacherSchedule key={viewTeacher.idDocente} docente={viewTeacher} periodos={c.periodos} close={() => setViewTeacher(null)} onReserve={puedeAsignarHorario ? () => asignarHorario(viewTeacher, true) : undefined} onManage={puedeAsignarHorario ? (h, cambiarAula) => gestionarSesion(viewTeacher, h, cambiarAula) : undefined} />}
+    <ConfirmDialog open={Boolean(removeSession)} title="Eliminar sesión" message={`¿Retirar la asignación de ${removeSession?.materia} en ${removeSession?.aula}${removeSession?.fecha ? ` del ${removeSession.fecha}` : ''}? Solo se eliminará esta sesión.`} onCancel={() => setRemoveSession(null)} onConfirm={eliminarSesion} loading={busy} />
     {remove && <RemoveTeacherAssignment key={remove.idAsignacion} assignment={remove} periodos={c.periodos} close={() => setRemove(null)} removed={async () => { setRemove(null); await c.cargar(); }} viewTeacher={() => { setViewTeacher(c.docentes.find(d => d.idDocente === remove.idDocente) ?? null); setRemove(null); }} />}
   </div>;
 }

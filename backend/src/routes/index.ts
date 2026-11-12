@@ -1,4 +1,5 @@
 import { Router } from "express";
+import notificacionRoutes from "../modules/notificaciones/notificacion.routes";
 import documentoRoutes from "../modules/documentos/documento.routes";
 import solicitudAulaRoutes from "../modules/solicitudes-aulas/solicitud-aula.routes";
 import academicoRoutes from "../modules/academico/academico.routes";
@@ -13,14 +14,19 @@ import fichaRoutes from "../modules/fichas/ficha.routes";
 import reporteRoutes from "../modules/reportes/reporte.routes";
 import estudianteRoutes from "../modules/estudiantes/estudiante.routes";
 import telegramRoutes from "../modules/telegram/telegram.routes";
+import { requireAuth } from "../middlewares/auth.middleware";
+import { notifySuccessfulMutation, streamChanges } from "../modules/realtime/realtime";
 
 const router = Router();
+router.use(notifySuccessfulMutation);
+router.get('/events', requireAuth, streamChanges);
 
 // ------------------------------------------------------------
 // Registro central de rutas de la API.
 // ------------------------------------------------------------
 
 router.use("/auth", authRoutes);
+router.use("/notificaciones", notificacionRoutes);
 router.use("/documentos", documentoRoutes);
 router.use("/solicitudes-aulas", solicitudAulaRoutes);
 router.use("/users", userRoutes);

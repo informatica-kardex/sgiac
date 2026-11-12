@@ -11,12 +11,14 @@ export interface AccessTokenPayload {
   debeCambiarPassword?: boolean;
   correoVerificado?: boolean;
   credentialVersion?: string;
+  sessionId?: number;
 }
 
 export interface RefreshTokenPayload {
   idUsuario: string;
   tokenId: string;
   credentialVersion?: string;
+  sessionVersion?: number;
 }
 
 // Vincula la sesión a la contraseña vigente sin publicar su hash de almacenamiento.
@@ -37,9 +39,9 @@ export function signRefreshToken(payload: RefreshTokenPayload): string {
 }
 
 export function verifyAccessToken(token: string): AccessTokenPayload {
-  return jwt.verify(token, env.jwtSecret) as AccessTokenPayload;
+  return jwt.verify(token, env.jwtSecret, { algorithms: ["HS256"] }) as AccessTokenPayload;
 }
 
 export function verifyRefreshToken(token: string): RefreshTokenPayload {
-  return jwt.verify(token, env.jwtRefreshSecret) as RefreshTokenPayload;
+  return jwt.verify(token, env.jwtRefreshSecret, { algorithms: ["HS256"] }) as RefreshTokenPayload;
 }

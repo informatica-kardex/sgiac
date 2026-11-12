@@ -4,7 +4,7 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 process.env.DATABASE_URL = 'postgresql://test:test@localhost:5432/test';
 process.env.JWT_SECRET = 'test-access'; process.env.JWT_REFRESH_SECRET = 'test-refresh';
-const prisma = { usuario: {}, comunicado: {}, categoria_comunicado: {}, adjunto_comunicado: {}, historial_comunicado: {}, bitacora: {}, $transaction() {}, $queryRaw: async () => [] };
+const prisma = { usuario: {}, refreshToken: {}, comunicado: {}, categoria_comunicado: {}, adjunto_comunicado: {}, historial_comunicado: {}, bitacora: {}, $transaction() {}, $queryRaw: async () => [] };
 require('../src/database/prisma').prisma = prisma;
 const { credentialVersion, signAccessToken } = require('../src/utils/jwt');
 const { ComunicadoService } = require('../src/modules/comunicados/comunicado.service');
@@ -21,6 +21,7 @@ beforeEach(async () => {
   rows = []; attachments = []; categories = []; histories = []; failSave = false; nextAttachment = 1n;
   directory = await fs.mkdtemp(path.join(__dirname, '.tmp-comunicados-'));
   process.env.COMUNICADOS_UPLOAD_DIR = directory;
+  prisma.refreshToken.findUnique = async ({ where }) => ({ idRefreshToken: where.idRefreshToken, idUsuario: BigInt(where.idRefreshToken), creadoEn: new Date(), expiraEn: new Date(Date.now() + 180000), revocado: false });
   prisma.usuario.findUnique = async ({ where }) => ({ idUsuario: BigInt(where.idUsuario), correo: 'test@example.test', estado: 'ACTIVO', correoVerificado: true, debeCambiarPassword: false,
     permisos: [{ modulo: BigInt(where.idUsuario) === 2n ? 'comunicados' : 'fichas', desde: null, hasta: null }],
     roles: [{ estado: 'ACTIVO', rol: { estado: 'ACTIVO', nombre: BigInt(where.idUsuario) === 1n ? 'ADMINISTRADOR' : BigInt(where.idUsuario) === 2n ? 'SUBADMINISTRADOR' : 'SUBADMINISTRADOR' } }] });
@@ -68,7 +69,7 @@ afterEach(async () => {
   await fs.rm(directory, { recursive: true, force: true });
   delete process.env.COMUNICADOS_UPLOAD_DIR;
 });
-function token(id) { return signAccessToken({ credentialVersion: credentialVersion(null), idUsuario: String(id), correo: 'test@example.test', roles: ['ADMINISTRADOR'] }); }
+function token(id) { return signAccessToken({ sessionId: Number(id), credentialVersion: credentialVersion(null), idUsuario: String(id), correo: 'test@example.test', roles: ['ADMINISTRADOR'] }); }
 async function request(route = '', { actor, method = 'GET', body, headers = {} } = {}) {
   return fetch(base + '/api/comunicados' + route, { method, body, headers: { ...headers, ...(actor ? { Authorization: `Bearer ${token(actor)}` } : {}) } });
 }
@@ -84,6 +85,31 @@ test('texto persiste mediante repositorio real y una nueva instancia lo recupera
   assert.equal((await new ComunicadoService().listarPublicados())[0].contenido, 'Texto de prueba');
   assert.equal(rows[0].id_usuario, 1n); assert.equal(histories[0].id_usuario, 1n);
 });
+test('encabezado personalizado persiste al crear, editar y publicar sin modificar el formato del texto', async () => {
+  const contenido = 'Texto **negrita**, *cursiva* y ***ambas***.\n\n- Uno\n- Dos\n\n1. Primero\n2. Segundo';
+  const creado = await service.guardar(input({ encabezado: 'ACLARACIÓN', contenido, estado: 'borrador' }), 1n);
+  assert.equal(creado.encabezado, 'ACLARACIÓN');
+  assert.equal((await new ComunicadoService().obtener(BigInt(creado.idComunicado))).contenido, contenido);
+  const editado = await service.guardar({ encabezado: 'AVISO' }, 1n, BigInt(creado.idComunicado));
+  assert.equal(editado.encabezado, 'AVISO');
+  await service.guardar({ estado: 'publicado' }, 1n, BigInt(creado.idComunicado));
+  const publico = await service.obtener(BigInt(creado.idComunicado), true);
+  assert.equal(publico.encabezado, 'AVISO');
+  assert.equal(publico.contenido, contenido);
+});
+
+test('encabezado conserva compatibilidad y valida el nuevo campo por multipart', async () => {
+  const creado = await service.guardar(input(), 1n);
+  assert.equal(creado.encabezado, 'COMUNICADO');
+  assert.equal(crearComunicadoSchema.safeParse({ ...input(), encabezado: ' ' }).success, false);
+  assert.equal(crearComunicadoSchema.safeParse({ ...input(), encabezado: 'x'.repeat(81) }).success, false);
+  const response = await request('', { actor: 1, method: 'POST', body: multipart({ titulo: 'Título de prueba', encabezado: '  AVISO  ', categoria: 'General', contenido: 'Un texto con *cursiva*.', tipo: 'texto', estado: 'publicado' }) });
+  assert.equal(response.status, 201);
+  const data = (await response.json()).data;
+  assert.equal(data.encabezado, 'AVISO');
+  assert.equal((await (await request('/' + data.idComunicado + '?publico=1')).json()).data.encabezado, 'AVISO');
+});
+
 test('imagen sin texto guarda bytes en disco y metadatos en tablas existentes', async () => {
   const c = await service.guardar(input({ tipo: 'imagen', contenido: '' }), 2n, undefined, file(PNG));
   assert.equal(c.tipo, 'imagen'); assert.equal(c.adjuntos[0].tipo, 'image/png');
@@ -92,6 +118,34 @@ test('imagen sin texto guarda bytes en disco y metadatos en tablas existentes', 
   assert.equal(response.status, 200); assert.match(response.headers.get('content-type'), /image\/png/);
   assert.equal(response.headers.get('cross-origin-resource-policy'), 'cross-origin');
   assert.deepEqual(Buffer.from(await response.arrayBuffer()), PNG);
+});
+
+test('tipografía conserva valores por defecto y ajustes al editar/publicar', async () => {
+  const creado = await service.guardar(input(), 1n);
+  assert.equal(creado.mayusculas, true);
+  assert.equal(creado.tamanoLetra, 13);
+  const editado = await service.guardar({ mayusculas: false, tamanoLetra: 18 }, 1n, BigInt(creado.idComunicado));
+  assert.equal(editado.mayusculas, false);
+  assert.equal(editado.tamanoLetra, 18);
+  await service.guardar({ estado: 'publicado' }, 1n, BigInt(creado.idComunicado));
+  const publico = await service.obtener(BigInt(creado.idComunicado), true);
+  assert.equal(publico.mayusculas, false);
+  assert.equal(publico.tamanoLetra, 18);
+});
+
+test('tipografía valida booleanos y tamaños enviados por multipart', async () => {
+  for (const tamanoLetra of ['0', '7', '73', '13.5', 'texto', '']) {
+    assert.equal(crearComunicadoSchema.safeParse({ ...input(), tamanoLetra }).success, false);
+  }
+  assert.equal(crearComunicadoSchema.safeParse({ ...input(), mayusculas: 'incorrecto' }).success, false);
+  const response = await request('', { actor: 1, method: 'POST', body: multipart({ ...input(), mayusculas: 'false', tamanoLetra: '16' }) });
+  assert.equal(response.status, 201);
+  const data = (await response.json()).data;
+  assert.equal(data.mayusculas, false);
+  assert.equal(data.tamanoLetra, 16);
+  const publicado = (await (await request('/' + data.idComunicado + '?publico=1')).json()).data;
+  assert.equal(publicado.mayusculas, false);
+  assert.equal(publicado.tamanoLetra, 16);
 });
 test('PDF multipart del subadmin se visualiza inline, permite rangos y descarga', async () => {
   const response = await request('', { actor: 2, method: 'POST', body: multipart(input({ tipo: 'pdf', contenido: '' }), PDF) });
@@ -200,6 +254,24 @@ test('editar añade nuevas imágenes y retira solo las indicadas; conserva archi
   assert.equal((await fetch(base + c.adjuntos[0].url)).status, 404);
   assert.equal((await fetch(base + c.adjuntos[1].url)).status, 200);
   assert.equal((await fs.readdir(directory)).length, 2);
+});
+
+test('edición completa desde el formulario admite nueve campos y diez imágenes nuevas', async () => {
+  const original = await service.guardar(input({ tipo: 'imagen', contenido: '' }), 1n, undefined, file(PNG, 'original.png'));
+  const fields = { ...input({ tipo: 'imagen', contenido: '', encabezado: 'AVISO', tamanoLetra: 16, mayusculas: false }), adjuntosEliminar: '[]' };
+  const added = await request('/1', { actor: 1, method: 'PUT', body: multipart(fields, PNG, 'añadida.png', 'image/png') });
+  assert.equal(added.status, 200, await added.clone().text());
+  const withImage = (await added.json()).data;
+  assert.equal(withImage.adjuntos.length, 2);
+  assert.equal(withImage.adjuntos[0].idAdjunto, original.adjuntos[0].idAdjunto);
+  assert.equal(withImage.mayusculas, false);
+  assert.equal(withImage.tamanoLetra, 16);
+  const form = multipart({ ...fields, adjuntosEliminar: JSON.stringify(withImage.adjuntos.map(a => a.idAdjunto)) });
+  for (let i = 0; i < 10; i++) form.append('archivo', new Blob([PNG], { type: 'image/png' }), `nueva-${i}.png`);
+  const replaced = await request('/1', { actor: 1, method: 'PUT', body: form });
+  assert.equal(replaced.status, 200, await replaced.clone().text());
+  assert.equal((await replaced.json()).data.adjuntos.length, 10);
+  assert.equal((await fs.readdir(directory)).length, 10);
 });
 
 test('permite retirar imágenes sin añadir otras, pero exige conservar al menos una', async () => {

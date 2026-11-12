@@ -23,6 +23,7 @@ export const env = {
   directUrl: process.env.DIRECT_URL || "",
 
   jwtSecret: required("JWT_SECRET"),
+  auxiliarCarnetSecret: process.env.AUXILIAR_CARNET_SECRET?.trim() || required("JWT_SECRET"),
   jwtRefreshSecret: required("JWT_REFRESH_SECRET"),
   jwtAccessExpiresIn: process.env.JWT_ACCESS_EXPIRES_IN || "15m",
   jwtRefreshExpiresIn: process.env.JWT_REFRESH_EXPIRES_IN || "7d",

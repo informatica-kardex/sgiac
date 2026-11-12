@@ -1,8 +1,10 @@
 ﻿import { z } from "zod";
 import { passwordSchema } from "./password-policy";
+import { celularSchema } from "../users/user.validation";
 
 const correoSchema = z.string().trim().toLowerCase().email("Correo inválido").max(150);
 export const registerSchema = z.object({
+  celular: celularSchema,
   nombres: z.string().trim().min(1, "Ingresa tus nombres").max(120),
   apellidos: z.string().trim().min(1, "Ingresa tus apellidos").max(120),
   ci: z.string().trim().min(1, "Ingresa tu CI").max(30),

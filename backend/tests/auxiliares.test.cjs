@@ -82,7 +82,7 @@ test('solo el administrador o subadministrador con auxiliares puede gestionar el
   assert.equal(tienePermiso({ roles: ['CONSULTA_INTERNA'], permisos }, 'auxiliares'), false);
 });
 test('alta administrativa de estudiantes exige correo institucional y datos completos', () => {
-  const body = { nombres: 'Ana', apellidos: 'Pérez', ci: '123', ru: '456', correo: 'ANA@UMSA.BO', mencion: 'Sistemas' };
+  const body = { nombres: 'Ana', apellidos: 'Pérez', ci: '123', celular: '71234567', ru: '456', correo: 'ANA@UMSA.BO', mencion: 'Sistemas' };
   assert.equal(crearEstudianteSchema.parse(body).correo, 'ana@umsa.bo');
-  for (const invalid of [{ ...body, correo: 'ana@gmail.com' }, { ...body, ru: '' }, { ...body, idRol: '1' }]) assert.equal(crearEstudianteSchema.safeParse(invalid).success, false);
+  for (const invalid of [{ ...body, correo: 'ana@gmail.com' }, { ...body, ru: '' }, { ...body, idRol: '1' }, { ...body, celular: '' }, { ...body, celular: 'abcdefg' }, { ...body, celular: undefined }]) assert.equal(crearEstudianteSchema.safeParse(invalid).success, false);
 });

@@ -1,6 +1,6 @@
 import { axiosClient } from './axiosClient';
 import { ApiEnvelope, Aula, HorarioAcademico } from './types';
-export const LUGARES: Record<string, string> = { ANTIGUO: 'Edificio antiguo', PABELLONES: 'Pabellones', LASIN: 'LASIN', INFORMATICA: 'Edificio de Informática' };
+export const LUGARES: Record<string, string> = { INFORMATICA: 'Edificio de Informática', LASIN: 'LASIN', PABELLONES: 'Pabellones', ANTIGUO: 'Edificio antiguo' };
 export const pisoLabel = (piso: number | null) => piso === null ? 'Sin piso / por confirmar' : piso === -1 ? 'Subsuelo' : piso === 0 ? 'Planta baja' : `Piso ${piso}`;
 export interface Asignacion { idAsignacion: string; idDocente: string; codigoMateria: string; siglas: string[]; materia: string; docente: string; grupo: string; idPeriodo: string; periodo: string; estado: string }
 export interface Docente { idDocente: string; nombreCompleto: string; gradoAcademico: string; nombreConGrado?: string; especialidad: string; correo: string; telefono: string; estado: string; asignaciones: Asignacion[] }

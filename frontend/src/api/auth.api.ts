@@ -1,7 +1,13 @@
-import { axiosClient } from "./axiosClient";
-import { ApiEnvelope, AuthResponse, UsuarioSesion } from "./types";
+import { axiosClient, refreshSession } from "./axiosClient";
+import { ApiEnvelope, AuthResponse, SessionInfo, UsuarioSesion } from "./types";
+import { PerfilEstudiante } from "./estudiantes.api";
+
+export type PersonalProfilePayload = { nombreCompleto: string } | {
+  nombres: string; apellidos: string; ci: string; ru: string; mencion: string;
+};
 
 export interface RegisterPayload {
+  celular: string;
   nombres: string;
   apellidos: string;
   ci: string;
@@ -53,6 +59,9 @@ export interface ChangePasswordPayload {
 }
 
 export const authApi = {
+  updateProfile: (payload: PersonalProfilePayload) => axiosClient.patch<ApiEnvelope<{
+    usuario: UsuarioSesion; estudiante: PerfilEstudiante | null;
+  }>>("/auth/profile", payload),
   // Portal publico
   register: (payload: RegisterPayload) =>
     axiosClient.post<ApiEnvelope<{ idUsuario: string; correo: string; mensaje: string; correoEnviado: boolean }>>(
@@ -70,7 +79,7 @@ export const authApi = {
     axiosClient.post<ApiEnvelope<AuthResponse>>("/auth/login/verify", payload),
 
   verifyAdminLogin: (payload: VerifyLoginPayload) =>
-    axiosClient.post<ApiEnvelope<AuthResponse>>("/auth/admin/login/verify", payload),
+    axiosClient.post<ApiEnvelope<AuthResponse>>("/auth/login/verify", payload),
 
   verifyEmail: (payload: VerifyEmailPayload) =>
     axiosClient.post<ApiEnvelope<{ mensaje: string }>>("/auth/verify-email", payload),
@@ -92,7 +101,7 @@ export const authApi = {
 
   // Panel administrativo
   adminLogin: (payload: LoginPayload) =>
-    axiosClient.post<ApiEnvelope<LoginChallenge | AuthResponse>>("/auth/admin/login", payload),
+    axiosClient.post<ApiEnvelope<LoginChallenge | AuthResponse>>("/auth/login", payload),
 
   twoFactorStatus: () => axiosClient.get<ApiEnvelope<{ enabled: boolean }>>("/auth/two-factor"),
 
@@ -111,10 +120,10 @@ export const authApi = {
   // Compartidas (requieren sesion)
   logout: () => axiosClient.post<ApiEnvelope<null>>("/auth/logout"),
 
-  refresh: () =>
-    axiosClient.post<ApiEnvelope<{ accessToken: string; refreshToken: string }>>(
-      "/auth/refresh"
-    ),
+  refresh: refreshSession,
 
-  me: () => axiosClient.get<ApiEnvelope<UsuarioSesion>>("/auth/me"),
+  activity: () => axiosClient.post<ApiEnvelope<SessionInfo>>("/auth/activity"),
+
+  me: (accessToken?: string) => axiosClient.get<ApiEnvelope<UsuarioSesion>>("/auth/me",
+    accessToken ? { headers: { Authorization: `Bearer ${accessToken}` } } : undefined),
 };

@@ -4,6 +4,7 @@ import { ApiError } from "../utils/apiError";
 import { AccessTokenPayload, credentialVersion, verifyAccessToken } from "../utils/jwt";
 import { ROLES_ADMINISTRATIVOS, rolesActivos } from "../modules/roles/role.repository";
 import { prisma } from "../database/prisma";
+import { currentSession } from "../modules/auth/session-policy";
 
 declare global {
   namespace Express {
@@ -22,6 +23,7 @@ async function sesionActual(token: string): Promise<AccessTokenPayload> {
     payload = verifyAccessToken(token);
     if (!/^\d+$/.test(payload.idUsuario)) throw new Error("ID inválido");
   } catch { throw ApiError.unauthorized("Token inválido o expirado"); }
+  await currentSession(payload.idUsuario, payload.sessionId);
   const usuario = await prisma.usuario.findUnique({
     where: { idUsuario: BigInt(payload.idUsuario) }, include: { permisos: true, roles: { include: { rol: true } } },
   });
@@ -33,7 +35,7 @@ async function sesionActual(token: string): Promise<AccessTokenPayload> {
   if (payload.debeCambiarPassword && !usuario.debeCambiarPassword) {
     throw ApiError.unauthorized("La contraseña cambió. Inicia sesión nuevamente");
   }
-  return { idUsuario: usuario.idUsuario.toString(), correo: usuario.correo,
+  return { idUsuario: usuario.idUsuario.toString(), correo: usuario.correo, sessionId: payload.sessionId,
     roles: rolesActivos(usuario.roles), permisos: usuario.permisos ?? [], debeCambiarPassword: usuario.debeCambiarPassword,
     correoVerificado: usuario.correoVerificado };
 }
@@ -51,14 +53,16 @@ export async function optionalAuth(req: Request, _res: Response, next: NextFunct
   return next();
 }
 
-export async function requireAuth(req: Request, _res: Response, next: NextFunction) {
+export async function requireAuth(req: Request, res: Response, next: NextFunction) {
+  res.setHeader?.("Cache-Control", "no-store");
   const token = extractToken(req);
   if (!token) return next(ApiError.unauthorized("No se proporcionó un token de acceso"));
   try {
     req.user = await sesionActual(token);
-    const permitidas = ["GET /api/auth/me", "POST /api/auth/logout", "POST /api/auth/change-password"];
+    const basicas = ["GET /api/auth/me", "POST /api/auth/logout", "POST /api/auth/activity"];
+    const permitidas = [...basicas, "POST /api/auth/change-password"];
     const ruta = `${req.method} ${req.baseUrl}${req.path}`.replace(/\/$/, "");
-    if (!req.user.correoVerificado && !["GET /api/auth/me", "POST /api/auth/logout"].includes(ruta)) {
+    if (!req.user.correoVerificado && !basicas.includes(ruta)) {
       return next(new ApiError(403, "Confirma tu correo electrónico antes de continuar", { code: "EMAIL_VERIFICATION_REQUIRED" }));
     }
     if (req.user.debeCambiarPassword && !permitidas.includes(ruta)) {

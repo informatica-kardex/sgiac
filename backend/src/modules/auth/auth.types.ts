@@ -12,4 +12,5 @@ export interface AuthenticatedUserDTO {
 export interface TokensDTO {
   accessToken: string;
   refreshToken: string;
+  session: { id: number; expiresAt: number };
 }

@@ -25,7 +25,7 @@ export function RoomSearch({ aulas, horarios, periodos, periodo, disabled, error
   const today = useBoliviaDate();
   const [showSmaller, setShowSmaller] = useState(false), [showUnknown, setShowUnknown] = useState(false);
   const trigger = useRef<HTMLButtonElement>(null), content = useRef<HTMLDivElement>(null);
-  const { adequate, smaller, unknown, combinations, requested, invalidCapacity, availabilityError, checkingAvailability, occupiedCount } = searchRooms(aulas, filters, { horarios, periodos, periodId: searchPeriod, today });
+  const { adequate, smaller, unknown, combinations, alternatives, freeWindows, flexibleTime, requested, invalidCapacity, availabilityError, checkingAvailability, occupiedCount } = searchRooms(aulas, filters, { horarios, periodos, periodId: searchPeriod, today });
   const availablePeriods = periodos.filter(p => p.estado === 'ACTIVO' && p.fechaFin >= today);
   const selectedPeriod = availablePeriods.find(p => p.idPeriodo === searchPeriod);
   function show() {
@@ -35,10 +35,11 @@ export function RoomSearch({ aulas, horarios, periodos, periodo, disabled, error
   function update<K extends keyof RoomSearchFilters>(key: K, value: RoomSearchFilters[K]) { setFilters(f => ({ ...f, [key]: value })); }
   function reset() { setFilters({ ...EMPTY_ROOM_SEARCH }); setShowSmaller(false); setShowUnknown(false); }
   function select(a: Aula) { setOpen(false); onSelect(a, searchPeriod); }
-  function assign(rooms: Aula[]) {
+  function assign(rooms: Aula[], slot?: Pick<RoomSearchFilters, 'day' | 'start' | 'end' | 'date'>) {
     if (!canAssign || !selectedPeriod || rooms.some(a => a.estado !== 'disponible')) return;
     const request: RoomAssignmentRequest = { aulas: rooms.map(a => a.codigo), periodo: searchPeriod,
-      ...(checkingAvailability && !availabilityError ? { dia: filters.day as RoomAssignmentRequest['dia'], inicio: filters.start, fin: filters.end, fecha: filters.date } : {}) };
+      ...(slot ? { dia: slot.day as RoomAssignmentRequest['dia'], inicio: slot.start, fin: slot.end, fecha: slot.date } :
+        checkingAvailability && !availabilityError ? { dia: filters.day as RoomAssignmentRequest['dia'], inicio: filters.start || undefined, fin: filters.end || undefined, fecha: filters.date } : {}) };
     setOpen(false);
     if (onAssign) onAssign(request); else navigate(roomAssignmentUrl(request));
   }
@@ -69,9 +70,10 @@ export function RoomSearch({ aulas, horarios, periodos, periodo, disabled, error
         {requested !== null && <p className={`room-search-fit room-search-fit--${kind}`}>{kind === 'unknown' ? 'Falta confirmar si alcanza para el grupo' : kind === 'smaller' ? `Capacidad insuficiente: faltan ${-difference} plazas` : difference === 0 ? 'Capacidad exacta para tu grupo' : `${difference} plazas adicionales para tu grupo`}</p>}
         <p className="room-search-location">{LUGARES[a.lugar ?? ''] ?? 'Lugar por confirmar'} · {pisoLabel(a.piso)}</p>
         {a.ubicacion && <p className="room-search-location">{a.ubicacion}</p>}
-        <div className="room-search-result-footer"><span className={`room-search-state ${a.estado !== 'disponible' ? 'room-search-state--unavailable' : ''}`}>{a.estado === 'disponible' ? checkingAvailability ? 'Libre en el horario consultado' : 'Habilitada' : a.estado === 'mantenimiento' ? 'En mantenimiento' : 'Inhabilitada'}</span>
+        {flexibleTime && <div className="space-y-2"><p className="text-sm font-semibold">Franjas libres:</p>{freeWindows.get(a.codigo)?.map(slot => <div key={slot.start} className="flex flex-wrap items-center gap-2 text-sm"><span>{slot.start}–{slot.end}</span>{canAssign && <button type="button" className="btn-secondary" onClick={() => assign([a], { ...filters, ...slot })}>Elegir esta franja</button>}</div>)}</div>}
+        <div className="room-search-result-footer"><span className={`room-search-state ${a.estado !== 'disponible' ? 'room-search-state--unavailable' : ''}`}>{a.estado === 'disponible' ? flexibleTime ? 'Tiene franjas libres en el día consultado' : checkingAvailability ? 'Libre en el horario consultado' : 'Habilitada' : a.estado === 'mantenimiento' ? 'En mantenimiento' : 'Inhabilitada'}</span>
           <button type="button" className="btn-secondary" aria-label={`${actionLabel} ${a.codigo}`} onClick={() => select(a)}>{actionLabel} <span aria-hidden="true">↗</span></button>
-          {canAssign && <button type="button" className="btn-primary" disabled={!selectedPeriod || a.estado !== 'disponible'} aria-label={`Asignar aula ${a.codigo}`} onClick={() => assign([a])}>Asignar aula ↗</button>}
+          {canAssign && !flexibleTime && <button type="button" className="btn-primary" disabled={!selectedPeriod || a.estado !== 'disponible'} aria-label={`Asignar aula ${a.codigo}`} onClick={() => assign([a])}>Asignar aula ↗</button>}
         </div>
       </article>;
     })}</div>;
@@ -95,15 +97,21 @@ export function RoomSearch({ aulas, horarios, periodos, periodo, disabled, error
           <Field label="Hora de inicio"><input type="time" min="07:00" max="22:00" className="input-field" value={filters.start} onChange={e => update('start', e.target.value)} /></Field>
           <Field label="Hora de fin"><input type="time" min="07:00" max="22:00" className="input-field" value={filters.end} onChange={e => update('end', e.target.value)} /></Field>
           <Field label="Fecha del examen (opcional)"><input type="date" min={selectedPeriod && selectedPeriod.fechaInicio > today ? selectedPeriod.fechaInicio : today} max={selectedPeriod?.fechaFin} className="input-field" value={filters.date} onChange={e => setFilters(f => ({ ...f, date: e.target.value, day: e.target.value ? roomSearchDay(e.target.value) : f.day }))} /></Field>
-          <p className="room-search-time-help">Sin fecha se consideran las clases y todas las reservas vigentes del día elegido durante el periodo. Con fecha se comprueba ese día específico.</p>
+          <p className="room-search-time-help">Puedes elegir solo el día y dejar ambas horas vacías para ver sus franjas libres. Sin fecha se consideran las clases y reservas vigentes del día elegido durante el periodo. Con fecha se comprueba ese día específico.</p>
         </div></fieldset>
         <div className="room-search-options"><label><input type="checkbox" checked={checkingAvailability || filters.enabledOnly} disabled={checkingAvailability} onChange={e => update('enabledOnly', e.target.checked)} /><span>Solo ambientes habilitados</span></label><button type="button" className="btn-ghost" onClick={reset}>Limpiar búsqueda</button></div>
         {error ? <ErrorNotice message={error} retry={() => void refresh()} /> : disabled ? <p role="status" className="room-search-empty">Actualizando aulas y horarios…</p> : invalidCapacity || availabilityError ? <p role="alert" className="room-search-empty">{invalidCapacity ? 'Indica una cantidad entera entre 1 y 2000 estudiantes.' : availabilityError}</p> : <>
           <div role="status" className="room-search-summary">{requested === null ? `${count} ${count === 1 ? 'ambiente encontrado' : 'ambientes encontrados'}` : `${adequate.length} ${adequate.length === 1 ? 'ambiente' : 'ambientes'} con capacidad suficiente para ${requested} ${requested === 1 ? 'estudiante' : 'estudiantes'}`}{requested !== null && <span>Primero las capacidades iguales o más cercanas que alcanzan para todo el grupo.</span>}
-            <span>{checkingAvailability ? `${occupiedCount} ${occupiedCount === 1 ? 'ambiente ocupado excluido' : 'ambientes ocupados excluidos'}. La disponibilidad se comprueba nuevamente al asignar el horario.` : 'Indica día y horas para comprobar cuáles están libres.'}</span>
+            <span>{checkingAvailability ? `${occupiedCount} ${occupiedCount === 1 ? 'ambiente sin disponibilidad excluido' : 'ambientes sin disponibilidad excluidos'}. La disponibilidad se comprueba nuevamente al asignar el horario.` : 'Elige un día para ver franjas libres; las horas son opcionales.'}</span>
           </div>
           {adequate.length > 0 && <section aria-label="Resultados de aulas"><h4 className="room-search-section-title">{requested === null ? 'Ambientes con capacidad registrada' : 'Opciones para tu grupo'}</h4>{cards(adequate, 'adequate')}</section>}
           {adequate.length === 0 && <p className="room-search-empty">{requested === null ? 'No hay ambientes con capacidad registrada para estos filtros.' : combinations.length ? 'Ningún aula por sí sola alcanza para tu grupo. Puedes distribuirlo en estas aulas cercanas.' : 'No hay un aula ni una combinación cercana con capacidad suficiente. Prueba otro horario, tipo o lugar.'}</p>}
+          {alternatives.length > 0 && <section aria-label="Alternativas de día y horario"><h4 className="room-search-section-title">Otras opciones disponibles</h4><p className="room-search-note">Se conserva la capacidad, el tipo y el lugar solicitados. Cada opción indica el día y la franja que cambian.</p><div className="room-search-results">{alternatives.map((slot, index) => <article key={`${slot.room.codigo}-${slot.day}-${slot.start}-${index}`} className="room-search-result">
+            <p className="room-search-kind">{slot.kind === 'same-day' ? 'Mismo día · otro horario' : flexibleTime ? 'Otro día · franja libre' : 'Otro día · misma hora'}</p><h4>{slot.room.codigo}</h4>
+            <p>{scheduleDays.find(d => d.key === slot.day)?.label}{slot.date ? ` · ${slot.date.split('-').reverse().join('/')}` : ''} · {slot.start}–{slot.end}</p><p>{slot.room.capacidad} plazas · {LUGARES[slot.room.lugar ?? ''] ?? 'Lugar por confirmar'}</p>
+            <button type="button" className="btn-secondary" onClick={() => setFilters(f => ({ ...f, day: slot.day, date: slot.date, start: slot.start, end: slot.end }))}>Ver esta disponibilidad</button>
+            {canAssign && <button type="button" className="btn-primary" onClick={() => assign([slot.room], slot)}>Asignar esta opción</button>}
+          </article>)}</div></section>}
           {combinations.length > 0 && <section aria-label="Combinaciones de aulas para examen"><h4 className="room-search-section-title">Varias aulas para tu examen</h4><p className="room-search-note">Primero en el mismo piso, luego en pisos contiguos del mismo edificio. Solo se combinan aulas con capacidad y piso confirmados.</p><div className="room-search-results">{combinations.map((option, index) => <article className="room-search-combination" key={option.rooms.map(a => a.codigo).join('|')} data-room-codes={option.rooms.map(a => a.codigo).join('|')}>
             <div className="room-search-result-top"><div><span className="room-search-kind">Opción {index + 1}</span><h4>{option.rooms.length} aulas cercanas</h4></div><div className="room-search-capacity"><strong>{option.capacity}</strong><span>plazas en total</span></div></div>
             <p className="room-search-location">{LUGARES[option.rooms[0].lugar!] ?? option.rooms[0].lugar} · {option.minFloor === option.maxFloor ? `${pisoLabel(option.minFloor)} · mismo piso` : `${pisoLabel(option.minFloor)} y ${pisoLabel(option.maxFloor)} · pisos contiguos`}</p>

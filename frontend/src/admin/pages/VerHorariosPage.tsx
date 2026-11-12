@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal, flushSync } from 'react-dom';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useAdminAuth } from '../../hooks/useAdminAuth';
 import { puedeAccederModulo } from '../../utils/roles';
 import { AcademicHeader, Empty, ErrorNotice, Field, useAcademico } from '../components/AcademicoUI';
@@ -11,9 +11,13 @@ import { RoomSearch } from '../components/RoomSearch';
 import { RoomScheduleHeader } from '../components/RoomScheduleHeader';
 import { HorariosPdfPreview, type HorariosPdfSnapshot } from '../components/HorariosPdfPreview';
 import { capturarHorariosPdf } from '../../utils/horarioPdf';
+import { selectedRooms } from '../schedule/room-selection';
+import { SchedulePeopleSearch } from '../components/SchedulePeopleSearch';
 
 export default function VerHorariosPage() {
   const c = useAcademico();
+  const [params] = useSearchParams();
+  const initialSelection = useRef(false);
   const { usuario } = useAdminAuth();
   const canEdit = puedeAccederModulo(usuario?.roles ?? [], 'horarios', usuario?.permisos);
   const [lugar, setLugar] = useState<string | null>(null), [piso, setPiso] = useState<string | null>(''), [aula, setAula] = useState('');
@@ -24,6 +28,13 @@ export default function VerHorariosPage() {
   const today = useBoliviaDate();
   const period = c.periodos.find(p => p.idPeriodo === periodo);
   useEffect(() => { if (!periodo && c.periodos.length) setPeriodo((c.periodos.find(p => p.estado === 'ACTIVO') ?? c.periodos[0]).idPeriodo); }, [c.periodos, periodo]);
+  useEffect(() => {
+    if (initialSelection.current || c.loading || c.error) return;
+    initialSelection.current = true;
+    const room = c.aulas.find(a => a.codigo === params.get('aula'));
+    if (room) { setLugar(room.lugar ?? ''); setPiso(String(room.piso)); setAula(room.codigo); setPrintMode('selected'); }
+    if (c.periodos.some(p => p.idPeriodo === params.get('periodo'))) setPeriodo(params.get('periodo')!);
+  }, [c.loading, c.error, c.aulas, c.periodos, params]);
 
   useEffect(() => { document.body.classList.add('print-room-schedules'); return () => document.body.classList.remove('print-room-schedules'); }, []);
   useLayoutEffect(() => { window.scrollTo({ top: 0, behavior: 'instant' }); }, [aula]);
@@ -51,9 +62,8 @@ export default function VerHorariosPage() {
     window.addEventListener('beforeprint', fit);
     return () => window.removeEventListener('beforeprint', fit);
   }, [c.horarios, c.aulas, c.periodos, c.loading, c.error, periodo, lugar, piso, aula, today, printMode]);
-  const placeRooms = c.aulas.filter(a => lugar !== null && (!lugar || a.lugar === lugar));
-  const rooms = placeRooms.filter(a => piso !== null && (!piso || String(a.piso) === piso)).sort((a, b) => (a.lugar ?? '').localeCompare(b.lugar ?? '', 'es') || (a.piso ?? -99) - (b.piso ?? -99) || a.codigo.localeCompare(b.codigo, 'es', { numeric: true }));
-  const visible = aula ? rooms.filter(a => aula === a.codigo) : lugar === '' ? rooms : [];
+  const rooms = selectedRooms(c.aulas, lugar, piso);
+  const visible = aula ? rooms.filter(a => aula === a.codigo) : rooms;
   const printRooms = printMode === 'selected' ? visible : rooms;
   const pages = Array.from({ length: Math.ceil(printRooms.length / 2) }, (_, i) => printRooms.slice(i * 2, i * 2 + 2));
   const ready = Boolean(period && rooms.length && !c.loading && !c.error);
@@ -69,12 +79,13 @@ export default function VerHorariosPage() {
   function backToRooms() { setAula(''); setPrintMode('filtered'); }
   const periodControl = <Field label="Periodo académico"><select className="select-field" value={periodo} onChange={e => setPeriodo(e.target.value)}><option value="">Selecciona</option>{c.periodos.map(p => <option key={p.idPeriodo} value={p.idPeriodo}>{p.periodo}/{p.gestion}{p.estado !== 'ACTIVO' ? ' (inactivo)' : ''}</option>)}</select></Field>;
   return <div className="space-y-6">
-    <AcademicHeader title="Ver Horarios" description="Elige un lugar, selecciona un aula y consulta su horario del semestre.">
+    <AcademicHeader title="Ver Horarios" description="Elige un lugar para ver los horarios de todas sus aulas. También puedes abrir un aula por separado.">
       <RoomSearch aulas={c.aulas} horarios={c.horarios} periodos={c.periodos} periodo={periodo} disabled={c.loading || Boolean(c.error)} error={c.error} refresh={c.cargar} onSelect={(a, idPeriodo) => { if (idPeriodo) setPeriodo(idPeriodo); setLugar(a.lugar ?? ''); setPiso(String(a.piso)); selectRoom(a.codigo); }} />
       <button className="btn-secondary" disabled={!ready} onClick={() => print('filtered')}>Imprimir / PDF{rooms.length > 0 ? ` · ${rooms.length} ${rooms.length === 1 ? 'aula' : 'aulas'}` : ''}</button>
       {aula && visible.length > 0 && <button className="btn-primary" disabled={!ready} onClick={() => print('selected')}>Imprimir aula {aula}</button>}
     </AcademicHeader>
     <ErrorNotice message={c.error} retry={() => void c.cargar()} />
+    <SchedulePeopleSearch horarios={c.horarios} periodo={periodo} today={today} disabled={c.loading || Boolean(c.error)} onRoom={code => { const room = c.aulas.find(a => a.codigo === code); if (room) { setLugar(room.lugar ?? ''); setPiso(String(room.piso)); selectRoom(code); } }} />
     {!aula ? <RoomPicker aulas={c.aulas} lugar={lugar} piso={piso} includeAll loading={c.loading} periodControl={periodControl}
       onPlace={selectPlace} onFloor={floor => { setPiso(floor); setPrintMode('filtered'); }} onRoom={selectRoom} />
       : <div className="flex flex-wrap items-end justify-between gap-3"><button className="btn-secondary" onClick={backToRooms}>{lugar === '' ? '← Volver a todos los horarios' : '← Volver a las aulas'}</button>{periodControl}</div>}

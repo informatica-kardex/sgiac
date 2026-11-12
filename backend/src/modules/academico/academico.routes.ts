@@ -7,9 +7,17 @@ import { sendSuccess } from '../../utils/apiResponse';
 import { academicoService as s } from './academico.service';
 import { AulaRepository } from '../aulas/aula.repository';
 import { auxiliarService } from './auxiliar.service';
+import { auxiliarCarnetService } from './auxiliar-carnet.service';
 import { HorarioRepository } from '../horarios/horario.repository';
 import { menciones } from './planes-estudio';
 const router = Router();
+// Única consulta pública del carnet. Los catálogos y la emisión conservan sus permisos.
+router.get('/auxiliares/carnet/:token', (_req, res, next) => {
+  res.setHeader('Cache-Control', 'no-store, max-age=0');
+  res.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive');
+  res.setHeader('Referrer-Policy', 'no-referrer');
+  next();
+}, asyncHandler(async (req, res) => sendSuccess(res, await auxiliarCarnetService.consultar(req.params.token))));
 router.use(requireAuth);
 // Los selectores del calendario necesitan leer los catálogos relacionados.
 router.use((req, _res, next) => (['docentes', 'auxiliares', 'materias', 'aulas', 'horarios'] as const).some(m => tienePermiso(req.user, m)) ? next() : next(ApiError.forbidden()));
@@ -18,6 +26,7 @@ router.get('/docentes/:id/horarios', requirePermission('docentes'), asyncHandler
 router.get('/horarios', asyncHandler(async (_req, res) => sendSuccess(res, await new HorarioRepository().findAll(true))));
 router.get('/auxiliares', asyncHandler(async (_req, res) => sendSuccess(res, await auxiliarService.listar())));
 router.get('/auxiliares/estudiantes', requirePermission('auxiliares'), asyncHandler(async (_req, res) => sendSuccess(res, await auxiliarService.estudiantes())));
+router.get('/auxiliares/:id/carnet', requirePermission('auxiliares'), asyncHandler(async (req, res) => sendSuccess(res, await auxiliarCarnetService.emitir(req.params.id))));
 router.post('/auxiliares', requirePermission('auxiliares'), asyncHandler(async (req, res) => sendSuccess(res, await auxiliarService.guardar(req.body), 'Estudiante habilitado como auxiliar', 201)));
 router.put('/auxiliares/:id', requirePermission('auxiliares'), asyncHandler(async (req, res) => sendSuccess(res, await auxiliarService.guardar(req.body, req.params.id))));
 router.delete('/auxiliares', requirePermission('auxiliares'), asyncHandler(async (_req, res) => sendSuccess(res, await auxiliarService.quitar(), 'Auxiliares retirados')));

@@ -1,11 +1,28 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "../../database/prisma";
 import { ApiError } from "../../utils/apiError";
+import { HorarioRepository } from "../horarios/horario.repository";
 import planesEstudio from "../academico/data/planes-estudio.json";
 import { ahoraBolivia, fichaDTO, fichaInclude, jornadaDTO, jornadaInclude, jornadaVigente, ESPERA } from "../fichas/ficha.shared";
 export { ahoraBolivia } from "../fichas/ficha.shared";
 
 export class EstudianteService {
+  async horariosAulas(idUsuario: string) {
+    await this.estudiante(idUsuario);
+    const [aulas, periodos, horarios] = await Promise.all([
+      prisma.ambiente.findMany({ select: { codigo_ambiente: true, nombre: true, lugar: true, piso: true } }),
+      prisma.periodo_academico.findMany({ where: { estado: 'ACTIVO' }, orderBy: [{ gestion: 'desc' }, { periodo: 'desc' }] }),
+      new HorarioRepository().findAll(true),
+    ]);
+    return {
+      aulas: aulas.map(a => ({ codigo: a.codigo_ambiente, nombre: a.nombre, lugar: a.lugar, piso: a.piso })),
+      periodos: periodos.map(p => ({ idPeriodo: String(p.id_periodo), gestion: p.gestion, periodo: p.periodo,
+        fechaInicio: p.fecha_inicio.toISOString().slice(0, 10), fechaFin: p.fecha_fin.toISOString().slice(0, 10), estado: p.estado })),
+      // La consulta estudiantil muestra la ocupación, sin los motivos internos de las reservas.
+      horarios: horarios.map(h => ({ ...h, motivo: '' })),
+    };
+  }
+
   async catalogoHorario(idUsuario: string) {
     await this.estudiante(idUsuario);
     const periodos = await prisma.periodo_academico.findMany({ where: { estado: "ACTIVO" }, orderBy: [{ gestion: "desc" }, { periodo: "desc" }] });
@@ -51,7 +68,7 @@ export class EstudianteService {
         await tx.$queryRaw`SELECT id_jornada FROM jornada_atencion WHERE id_jornada = ${idJornada} FOR UPDATE`;
         const jornada = await tx.jornada_atencion.findUnique({ where: { id_jornada: idJornada }, include: { tramite: true } });
         if (!jornada || !jornadaVigente(jornada) || jornada.tramite?.activo === false || jornada.id_tramite !== inicial.id_tramite) throw ApiError.conflict("La jornada ya no está disponible. Actualiza y elige otra fecha.");
-        if (await tx.ficha_atencion.findFirst({ where: { id_jornada: idJornada, id_estudiante: e.id_estudiante, estado_actual: { not: "CANCELADA" } } })) throw ApiError.conflict("Ya tienes una ficha para este trámite y jornada. Revisa Mis fichas.");
+        if (await tx.ficha_atencion.findFirst({ where: { id_jornada: idJornada, id_estudiante: e.id_estudiante, estado_actual: { notIn: ["CANCELADA", "NO PRESENTADA"] } } })) throw ApiError.conflict("Ya tienes una ficha para este trámite y jornada. Revisa Mis fichas.");
         const ocupadas = await tx.ficha_atencion.count({ where: { id_jornada: idJornada, estado_actual: { not: "CANCELADA" } } });
         if (ocupadas >= jornada.cupo_total) throw ApiError.conflict("Se agotaron los cupos de esta jornada. Elige otra fecha.");
         const ultima = await tx.ficha_atencion.aggregate({ where: { id_jornada: idJornada }, _max: { numero_ficha: true } });

@@ -4,6 +4,7 @@ import { RegisterInput } from "./auth.validation";
 import { ApiError } from "../../utils/apiError";
 import { Prisma } from "@prisma/client";
 import { ROL_POR_DEFECTO } from "../roles/role.repository";
+import { sessionExpired } from "./session-policy";
 
 export class AuthRepository {
   async actualizarTwoFactor(idUsuario: bigint, enabled: boolean, correo: string, contrasenaHash: string) {
@@ -29,6 +30,7 @@ export class AuthRepository {
       data: {
         nombreCompleto: input.nombres + " " + input.apellidos,
         correo: input.correo,
+        celular: input.celular,
         contrasenaHash,
         estado: "ACTIVO",
         ...(rol ? { roles: { create: { idRol: rol.idRol } } } : {}),
@@ -69,11 +71,23 @@ export class AuthRepository {
     return prisma.refreshToken.findUnique({ where: { tokenHash } });
   }
 
+  async rotarRefreshToken(idRefreshToken: number, anterior: string, siguiente: string) {
+    const result = await prisma.refreshToken.updateMany({
+      where: { idRefreshToken, tokenHash: anterior, revocado: false, expiraEn: { gt: new Date() } },
+      data: { tokenHash: siguiente },
+    });
+    if (result.count !== 1) throw sessionExpired();
+  }
+
   async revocarRefreshToken(tokenHash: string) {
     return prisma.refreshToken.updateMany({
       where: { tokenHash },
       data: { revocado: true },
     });
+  }
+
+  async revocarSesion(idRefreshToken: number, idUsuario: bigint) {
+    return prisma.refreshToken.updateMany({ where: { idRefreshToken, idUsuario }, data: { revocado: true } });
   }
 
   async revocarTodosLosRefreshTokens(idUsuario: bigint | number) {

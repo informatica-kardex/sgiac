@@ -8,6 +8,7 @@ import {
   signAccessToken,
   signRefreshToken,
   verifyRefreshToken,
+  verifyAccessToken,
   credentialVersion,
 } from "../../utils/jwt";
 import { UserRepository } from "../users/user.repository";
@@ -26,6 +27,7 @@ import {
   VerifyEmailInput,
 } from "./auth.validation";
 import { AuthenticatedUserDTO, TokensDTO } from "./auth.types";
+import { currentSession, SESSION_IDLE_MS, sessionExpired } from "./session-policy";
 
 
 function hashToken(token: string): string {
@@ -83,7 +85,7 @@ export class AuthService {
   // ---------------------------------------------------------
   // LOGIN
   // ---------------------------------------------------------
-  async login(input: LoginInput, meta: RequestMeta) {
+  async login(input: LoginInput, meta: RequestMeta, adminOnly = false) {
     verifyCaptcha(input.captchaId, input.captchaCode);
     const usuario = await this.userRepository.findByIdWithRolesByCorreo(
       input.correo
@@ -118,72 +120,19 @@ export class AuthService {
       throw ApiError.unauthorized("Credenciales invalidas");
     }
 
-    if (!usuario.twoFactorEnabled) return this.crearSesion(usuario, false, meta);
-    return beginLoginVerification({ ...usuario, contrasenaHash: usuario.contrasenaHash }, false);
+    if (adminOnly && !rolesActivos(usuario.roles).some(rol =>
+      (ROLES_ADMINISTRATIVOS as readonly string[]).includes(rol))) {
+      throw ApiError.forbidden("Tu cuenta no tiene permisos para acceder al panel administrativo");
+    }
+    if (!usuario.twoFactorEnabled) return this.crearSesion(usuario, adminOnly, meta);
+    return beginLoginVerification({ ...usuario, contrasenaHash: usuario.contrasenaHash }, adminOnly);
   }
 
   // ---------------------------------------------------------
-  // LOGIN ADMINISTRATIVO (/api/auth/admin/login)
-  // Reutiliza la misma logica de credenciales que el login
-  // publico, pero exige ademas que el usuario tenga alguno de
-  // los roles administrativos y registra una accion de
-  // auditoria distinta (LOGIN_ADMIN_EXITOSO / LOGIN_ADMIN_FALLIDO).
+  // Compatibilidad con clientes anteriores; usa la misma autenticación.
   // ---------------------------------------------------------
   async loginAdmin(input: AdminLoginInput, meta: RequestMeta) {
-    verifyCaptcha(input.captchaId, input.captchaCode);
-    const usuario = await this.userRepository.findByIdWithRolesByCorreo(
-      input.correo
-    );
-
-    if (!usuario || !usuario.contrasenaHash) {
-      await this.auditService.registrar({
-        accion: AuditAction.LOGIN_ADMIN_FALLIDO,
-        entidadAfectada: "usuario",
-        detalle: `Intento de login administrativo con correo inexistente: ${input.correo}`,
-      });
-      throw ApiError.unauthorized("Credenciales invalidas");
-    }
-
-    if (usuario.estado.toUpperCase() !== "ACTIVO") {
-      throw ApiError.forbidden("Tu cuenta se encuentra inactiva. Contacta al administrador.");
-    }
-
-    const contrasenaValida = await comparePassword(
-      input.contrasena,
-      usuario.contrasenaHash
-    );
-
-    if (!contrasenaValida) {
-      await this.auditService.registrar({
-        accion: AuditAction.LOGIN_ADMIN_FALLIDO,
-        entidadAfectada: "usuario",
-        idRegistroAfectado: usuario.idUsuario,
-        detalle: "Contrasena incorrecta (login administrativo)",
-        idUsuario: usuario.idUsuario,
-      });
-      throw ApiError.unauthorized("Credenciales invalidas");
-    }
-
-    const roles = rolesActivos(usuario.roles);
-    const esAdministrativo = roles.some((rol) =>
-      (ROLES_ADMINISTRATIVOS as readonly string[]).includes(rol)
-    );
-
-    if (!esAdministrativo) {
-      await this.auditService.registrar({
-        accion: AuditAction.LOGIN_ADMIN_FALLIDO,
-        entidadAfectada: "usuario",
-        idRegistroAfectado: usuario.idUsuario,
-        detalle: "Usuario sin rol administrativo intento acceder al panel",
-        idUsuario: usuario.idUsuario,
-      });
-      throw ApiError.forbidden(
-        "Tu cuenta no tiene permisos para acceder al panel administrativo"
-      );
-    }
-
-    if (!usuario.twoFactorEnabled) return this.crearSesion(usuario, true, meta);
-    return beginLoginVerification({ ...usuario, contrasenaHash: usuario.contrasenaHash }, true);
+    return this.login(input, meta, true);
   }
 
   async verificarLogin(input: { challengeId: string; codigo: string }, admin: boolean, meta: RequestMeta): Promise<{
@@ -206,21 +155,24 @@ export class AuthService {
     if (admin && !roles.some((rol) => (ROLES_ADMINISTRATIVOS as readonly string[]).includes(rol))) {
       throw ApiError.forbidden("Tu cuenta no tiene permisos para acceder al panel administrativo");
     }
-    const accessToken = signAccessToken({
-      idUsuario: usuario.idUsuario.toString(), correo: usuario.correo, roles, debeCambiarPassword: usuario.debeCambiarPassword,
-      credentialVersion: credentialVersion(usuario.contrasenaHash),
-    });
     const refreshToken = signRefreshToken({
       idUsuario: usuario.idUsuario.toString(), tokenId: crypto.randomUUID(),
       credentialVersion: credentialVersion(usuario.contrasenaHash),
+      sessionVersion: 2,
     });
-    await this.authRepository.guardarRefreshToken({
+    const expiresAt = Date.now() + SESSION_IDLE_MS;
+    const session = await this.authRepository.guardarRefreshToken({
       idUsuario: usuario.idUsuario, tokenHash: hashToken(refreshToken),
-      expiraEn: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      expiraEn: new Date(expiresAt),
       userAgent: meta.userAgent, ip: meta.ip,
     });
+    const accessToken = signAccessToken({
+      idUsuario: usuario.idUsuario.toString(), correo: usuario.correo, roles, debeCambiarPassword: usuario.debeCambiarPassword,
+      credentialVersion: credentialVersion(usuario.contrasenaHash), sessionId: session.idRefreshToken,
+    });
     await this.auditService.registrar({
-      accion: admin ? AuditAction.LOGIN_ADMIN_EXITOSO : AuditAction.LOGIN_EXITOSO,
+      accion: roles.some(rol => (ROLES_ADMINISTRATIVOS as readonly string[]).includes(rol))
+        ? AuditAction.LOGIN_ADMIN_EXITOSO : AuditAction.LOGIN_EXITOSO,
       entidadAfectada: "usuario", idRegistroAfectado: usuario.idUsuario,
       detalle: usuario.twoFactorEnabled ? "Login exitoso con verificacion en dos pasos" : "Login exitoso",
       idUsuario: usuario.idUsuario,
@@ -231,7 +183,7 @@ export class AuthService {
         correo: usuario.correo, roles, permisos: usuario.permisos ?? [], correoVerificado: usuario.correoVerificado,
         debeCambiarPassword: usuario.debeCambiarPassword,
       },
-      tokens: { accessToken, refreshToken },
+      tokens: { accessToken, refreshToken, session: { id: session.idRefreshToken, expiresAt } },
     };
   }
 
@@ -316,9 +268,9 @@ export class AuthService {
       tokenHash
     );
 
-    if (!registro || registro.revocado || registro.expiraEn < new Date()) {
-      throw ApiError.unauthorized("Sesion expirada, inicia sesion nuevamente");
-    }
+    // Los refresh anteriores al control de inactividad requieren un nuevo ingreso.
+    if (!registro || payload.sessionVersion !== 2) throw sessionExpired();
+    const session = await currentSession(payload.idUsuario, registro.idRefreshToken);
 
     const usuario = await this.userRepository.findByIdWithRoles(BigInt(payload.idUsuario));
 
@@ -330,9 +282,6 @@ export class AuthService {
       throw ApiError.unauthorized("La contraseña cambió. Inicia sesión nuevamente");
     }
 
-    // Rotacion de refresh token: se revoca el anterior y se emite uno nuevo
-    await this.authRepository.revocarRefreshToken(tokenHash);
-
     const roles = rolesActivos(usuario.roles);
 
     const nuevoAccessToken = signAccessToken({
@@ -341,6 +290,7 @@ export class AuthService {
       roles,
       debeCambiarPassword: usuario.debeCambiarPassword,
       credentialVersion: credentialVersion(usuario.contrasenaHash),
+      sessionId: session.idRefreshToken,
     });
 
     const tokenId = crypto.randomUUID();
@@ -348,13 +298,10 @@ export class AuthService {
       idUsuario: usuario.idUsuario.toString(),
       tokenId,
       credentialVersion: credentialVersion(usuario.contrasenaHash),
+      sessionVersion: 2,
     });
-
-    await this.authRepository.guardarRefreshToken({
-      idUsuario: usuario.idUsuario,
-      tokenHash: hashToken(nuevoRefreshToken),
-      expiraEn: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-    });
+    // Rotación atómica sobre la misma sesión. Renovar tokens no cuenta como actividad.
+    await this.authRepository.rotarRefreshToken(session.idRefreshToken, tokenHash, hashToken(nuevoRefreshToken));
 
     await this.auditService.registrar({
       accion: AuditAction.REFRESH_TOKEN,
@@ -363,13 +310,23 @@ export class AuthService {
       idUsuario: usuario.idUsuario,
     });
 
-    return { accessToken: nuevoAccessToken, refreshToken: nuevoRefreshToken };
+    return { accessToken: nuevoAccessToken, refreshToken: nuevoRefreshToken,
+      session: { id: session.idRefreshToken, expiresAt: session.expiraEn.getTime() } };
   }
 
   // ---------------------------------------------------------
   // LOGOUT
   // ---------------------------------------------------------
-  async logout(refreshToken: string | undefined, idUsuario?: bigint | number) {
+  async logout(refreshToken: string | undefined, idUsuario?: bigint | number, accessToken?: string) {
+    // Revoca también por la identidad firmada de la sesión: cubre una rotación concurrente.
+    if (accessToken) {
+      let payload;
+      try { payload = verifyAccessToken(accessToken); } catch { /* El refresh aún permite cerrar una sesión con access vencido. */ }
+      if (payload?.sessionId && /^\d+$/.test(payload.idUsuario)) {
+        idUsuario = BigInt(payload.idUsuario);
+        await this.authRepository.revocarSesion(payload.sessionId, idUsuario);
+      }
+    }
     if (refreshToken) {
       await this.authRepository.revocarRefreshToken(hashToken(refreshToken));
     }

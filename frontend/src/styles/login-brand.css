@@ -14,6 +14,25 @@
     linear-gradient(135deg, #edf2f6 0%, #fafbf9 48%, #e8f0ed 100%);
 }
 
+.institutional-login.unified-login {
+  background:
+    linear-gradient(180deg, #fff4, transparent 85%),
+    linear-gradient(90deg, #238878 0%, #6ab29d 18%, #c7e4d8 36%, #f8fcfa 46%, #fff 50%, #f8fcfa 54%, #c7e4d8 64%, #6ab29d 82%, #238878 100%);
+}
+.unified-login .login-background-logo { background-color: #e7f8ed; opacity: .3; }
+
+.login-captcha__challenge { display: flex; align-items: center; gap: 12px; }
+.login-captcha__image { display: grid; flex: 1; min-width: 0; min-height: 78px; place-items: center; padding: 3px; overflow: hidden; border: 1px solid #dce7e2; border-radius: 12px; background: #f6faf8; }
+.login-captcha__image img { display: block; width: min(220px, 100%); height: auto; border-radius: 7px; }
+.login-captcha__image > span { padding: 8px; font-size: 12px; text-align: center; }
+.login-captcha__refresh { display: grid; flex: 0 0 44px; width: 44px; height: 44px; place-items: center; border: 1px solid #c5dfd1; border-radius: 13px; background: linear-gradient(145deg, #f7fcf9, #e1f0e8); color: #237560; box-shadow: 0 3px 8px #245e4810; transition: background .18s ease, border-color .18s ease, box-shadow .18s ease; }
+.login-captcha__refresh:hover:not(:disabled) { border-color: #76b79b; background: #d9eee2; box-shadow: 0 4px 12px #245e4820; }
+.login-captcha__refresh svg { transition: transform .25s ease; }
+.login-captcha__refresh:hover:not(:disabled) svg { transform: rotate(-35deg); }
+.login-captcha__refresh:disabled { opacity: .55; cursor: wait; }
+.login-captcha__refresh[aria-busy="true"] svg { animation: login-captcha-spin .85s linear infinite; }
+@keyframes login-captcha-spin { to { transform: rotate(360deg); } }
+
 .admin-theme.admin-login-shell {
   background: radial-gradient(circle at 12% 12%, rgb(58 197 166 / 28%), transparent 30%),
     radial-gradient(circle at 88% 18%, rgb(35 136 120 / 36%), transparent 35%),
@@ -72,19 +91,19 @@
   position: relative;
   z-index: 1;
   padding: 2rem;
-  border: 1px solid #dce6e7;
-  border-top: 3px solid var(--login-accent);
+  border: 2px solid transparent;
   border-radius: 24px;
-  background: #fff;
-  box-shadow: 0 20px 60px -24px rgb(32 59 76 / 25%), 0 3px 12px rgb(32 59 76 / 4%);
+  background:
+    linear-gradient(#fff, #fff) padding-box,
+    linear-gradient(145deg, #5da995 0%, #bbdfcf 38%, #8ec5b3 64%, #438f7f 100%) border-box;
+  box-shadow: 0 20px 60px -24px rgb(26 85 68 / 24%), 0 3px 12px rgb(26 85 68 / 5%);
   animation: login-panel-enter .35s ease both;
-  transition: box-shadow .2s ease, border-color .2s ease;
+  transition: box-shadow .2s ease;
 }
 
 .institutional-login .login-panel.card:focus-within,
 .admin-theme.admin-login-shell .login-panel.card:focus-within {
-  border-color: #8ab7af;
-  box-shadow: 0 20px 64px -24px rgb(32 59 76 / 30%), 0 0 0 3px rgb(36 108 103 / 5%);
+  box-shadow: 0 24px 64px -24px rgb(26 85 68 / 28%), 0 0 0 3px rgb(88 163 139 / 9%);
 }
 
 .login-panel.card .login-heading::before {
@@ -193,6 +212,7 @@
 }
 
 @media (max-width: 1023px) {
+  .unified-login .login-background-logo { background-color: #285f54; opacity: .18; }
   .institutional-login.container-public,
   .admin-theme.admin-login-shell { padding-top: 150px; }
 
@@ -222,6 +242,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .login-captcha__refresh[aria-busy="true"] svg { animation: none; }
   .institutional-login .login-panel.card,
   .admin-theme.admin-login-shell .login-panel.card { animation: none; }
   .login-panel.card *, .login-panel.card { transition: none !important; }

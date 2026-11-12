@@ -6,6 +6,7 @@ const fields = z.object({
   esAuxiliar: z.boolean().optional().default(false),
   fecha: z.string().date().nullable().optional().default(null),
   motivo: z.string().trim().max(200).optional().default(''),
+  reubicaciones: z.array(z.object({ idHorario: z.number().int().positive().safe(), aula: codigoSchema })).max(24).optional().default([]),
   dia: z.enum(['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO']),
   horaInicio: z.string().regex(/^(0[7-9]|1\d|2[01]):[0-5]\d$/, 'El inicio debe estar entre 07:00 y 21:59'),
   horaFin: z.string().regex(/^(0[7-9]|1\d|2[01]):[0-5]\d$|^22:00$/, 'El final debe estar entre 07:00 y 22:00'),

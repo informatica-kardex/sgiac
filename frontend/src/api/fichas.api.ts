@@ -1,12 +1,14 @@
 import { axiosClient } from "./axiosClient";
 import { ApiEnvelope } from "./types";
-import { FichaEstudiante, JornadaEstudiante } from "./estudiantes.api";
+import { FichaEstudiante, JornadaEstudiante, PuestoAtencion } from "./estudiantes.api";
 
 export interface Tramite { idTramite: string; nombre: string; descripcion: string; identificador: string | null }
 export interface TramitePayload { nombre: string; descripcion: string; identificador: string }
-export type JornadaPayload = Pick<JornadaEstudiante, "idTramite" | "identificador" | "fecha" | "horaInicio" | "horaFin" | "modoCupo" | "cupoTotal" | "minutosPorEstudiante" | "puesto" | "estado">;
+export type JornadaPayload = Pick<JornadaEstudiante, "idTramite" | "identificador" | "fecha" | "horaInicio" | "horaFin" | "modoCupo" | "cupoTotal" | "minutosPorEstudiante" | "idPuestos" | "estado">;
+interface TurnoActual { codigo: string; numero: number; puesto: string; evento: string | null; llamadaEn: string | null }
 export interface TurnoPublico extends JornadaEstudiante {
-  actual: { codigo: string; numero: number; evento: string | null; llamadaEn: string | null } | null;
+  actual: TurnoActual | null;
+  actuales: TurnoActual[];
   siguientes: string[];
 }
 export interface LlamadoPublico {
@@ -32,7 +34,9 @@ export const fichasApi = {
   tvProbarVoz: () => axiosClient.post("/fichas/tv/probar-voz"),
   tvSubir: (archivo: File) => { const form = new FormData(); form.append("archivo", archivo); return axiosClient.post("/fichas/tv/archivos", form); },
   tvEliminar: (id: string) => axiosClient.delete(`/fichas/tv/archivos/${id}`),
-  panel: (fecha: string) => axiosClient.get<ApiEnvelope<{ jornadas: JornadaEstudiante[]; fichas: FichaEstudiante[]; tramites: Tramite[] }>>("/fichas/panel", { params: { fecha } }),
+  panel: (fecha: string) => axiosClient.get<ApiEnvelope<{ jornadas: JornadaEstudiante[]; fichas: FichaEstudiante[]; tramites: Tramite[]; puestos: PuestoAtencion[] }>>("/fichas/panel", { params: { fecha } }),
+  guardarPuesto: (nombre: string, id?: string) => id ? axiosClient.put(`/fichas/puestos/${id}`, { nombre }) : axiosClient.post('/fichas/puestos', { nombre }),
+  borrarPuesto: (id: string) => axiosClient.delete(`/fichas/puestos/${id}`),
   listar: (fecha: string) => axiosClient.get<ApiEnvelope<FichaEstudiante[]>>("/fichas", { params: { fecha } }),
   tramites: () => axiosClient.get<ApiEnvelope<Tramite[]>>("/fichas/tramites"),
   guardarTramite: (data: TramitePayload, id?: string) => id
@@ -40,8 +44,10 @@ export const fichasApi = {
   borrarTramite: (id: string) => axiosClient.delete(`/fichas/tramites/${id}`),
   jornadas: (fecha: string) => axiosClient.get<ApiEnvelope<JornadaEstudiante[]>>("/fichas/jornadas", { params: { fecha } }),
   guardarJornada: (data: JornadaPayload, id?: string) => id
-    ? axiosClient.put(`/fichas/jornadas/${id}`, data) : axiosClient.post("/fichas/jornadas", data),
-  siguiente: (id: string) => axiosClient.post<ApiEnvelope<FichaEstudiante>>(`/fichas/jornadas/${id}/siguiente`),
+    ? axiosClient.put(`/fichas/jornadas/${id}`, { ...data, puesto: undefined }) : axiosClient.post("/fichas/jornadas", { ...data, puesto: undefined }),
+  programarJornadas: (jornadas: JornadaPayload[]) => axiosClient.post("/fichas/jornadas/programar", { jornadas: jornadas.map(j => ({ ...j, puesto: undefined })) }, { timeout: 40000 }),
+  borrarJornada: (id: string) => axiosClient.delete(`/fichas/jornadas/${id}`),
+  siguiente: (id: string, idPuesto: string) => axiosClient.post<ApiEnvelope<FichaEstudiante>>(`/fichas/jornadas/${id}/siguiente`, { idPuesto }),
   accion: (id: string, accion: "RELLAMAR" | "FINALIZAR" | "AUSENTE") => axiosClient.post(`/fichas/${id}/accion`, { accion }),
   tablero: () => axiosClient.get<ApiEnvelope<Tablero>>("/fichas/tablero", { timeout: 10000 }),
 };
