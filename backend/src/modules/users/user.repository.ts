@@ -35,8 +35,12 @@ export class UserRepository {
     });
   }
 
-  async findAllWithRoles() {
+  async findAllWithRoles(soloEstudiantes = false) {
     return prisma.usuario.findMany({
+      where: soloEstudiantes ? {
+        roles: { none: { rol: { nombre: { in: ['ADMINISTRADOR', 'SUBADMINISTRADOR'] } } } },
+        OR: [{ estudiante: { isNot: null } }, { roles: { some: { rol: { nombre: 'CONSULTA_INTERNA' } } } }],
+      } : undefined,
       include: { permisos: true, estudiante: { select: { ci: true } }, roles: { include: { rol: true } } },
       orderBy: { fechaCreacion: "desc" },
     });

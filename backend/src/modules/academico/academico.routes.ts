@@ -20,12 +20,14 @@ router.get('/auxiliares/carnet/:token', (_req, res, next) => {
 }, asyncHandler(async (req, res) => sendSuccess(res, await auxiliarCarnetService.consultar(req.params.token))));
 router.use(requireAuth);
 // Los selectores del calendario necesitan leer los catálogos relacionados.
-router.use((req, _res, next) => (['docentes', 'auxiliares', 'materias', 'aulas', 'horarios'] as const).some(m => tienePermiso(req.user, m)) ? next() : next(ApiError.forbidden()));
+router.use((req, _res, next) =>
+  (req.method === 'GET' && req.path === '/auxiliares/estudiantes' && tienePermiso(req.user, 'estudiantes')) ||
+  (['docentes', 'auxiliares', 'materias', 'aulas', 'horarios', 'ver-horarios', 'solicitudes-aulas'] as const).some(m => tienePermiso(req.user, m)) ? next() : next(ApiError.forbidden()));
 router.get('/docentes', asyncHandler(async (_req, res) => sendSuccess(res, await s.docentes())));
 router.get('/docentes/:id/horarios', requirePermission('docentes'), asyncHandler(async (req, res) => sendSuccess(res, await new HorarioRepository().findByDocente(req.params.id))));
 router.get('/horarios', asyncHandler(async (_req, res) => sendSuccess(res, await new HorarioRepository().findAll(true))));
 router.get('/auxiliares', asyncHandler(async (_req, res) => sendSuccess(res, await auxiliarService.listar())));
-router.get('/auxiliares/estudiantes', requirePermission('auxiliares'), asyncHandler(async (_req, res) => sendSuccess(res, await auxiliarService.estudiantes())));
+router.get('/auxiliares/estudiantes', (req, res, next) => tienePermiso(req.user, 'estudiantes') ? next() : requirePermission('auxiliares')(req, res, next), asyncHandler(async (_req, res) => sendSuccess(res, await auxiliarService.estudiantes())));
 router.get('/auxiliares/:id/carnet', requirePermission('auxiliares'), asyncHandler(async (req, res) => sendSuccess(res, await auxiliarCarnetService.emitir(req.params.id))));
 router.post('/auxiliares', requirePermission('auxiliares'), asyncHandler(async (req, res) => sendSuccess(res, await auxiliarService.guardar(req.body), 'Estudiante habilitado como auxiliar', 201)));
 router.put('/auxiliares/:id', requirePermission('auxiliares'), asyncHandler(async (req, res) => sendSuccess(res, await auxiliarService.guardar(req.body, req.params.id))));

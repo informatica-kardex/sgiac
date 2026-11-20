@@ -7,7 +7,8 @@ import { HabilitarAuxiliarModal } from "../components/HabilitarAuxiliarModal";
 import { ConfirmDialog } from "../components/ConfirmDialog";
 import { usersApi } from "../../api/users.api";
 import { PermisosChecklist } from "../components/PermisosChecklist";
-import { FUNCIONES_SUBADMIN, permisoVigente } from "../../utils/roles";
+import { FUNCIONES_SUBADMIN, permisoVigente, puedeAccederModulo } from "../../utils/roles";
+import { useAdminAuth } from "../../hooks/useAdminAuth";
 import { PermisoUsuario, UsuarioAdmin } from "../../api/types";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 import { EstadoBadge } from "../components/EstadoBadge";
@@ -28,6 +29,8 @@ function mensajeError(error: unknown) {
 
 export default function UsuariosPage({ tipo }: { tipo: "subadministradores" | "estudiantes" }) {
   const esSubadministradores = tipo === "subadministradores";
+  const { usuario } = useAdminAuth();
+  const gestionaAuxiliares = puedeAccederModulo(usuario?.roles ?? [], 'auxiliares', usuario?.permisos);
   const [usuarios, setUsuarios] = useState<UsuarioAdmin[]>([]);
   const [estudiantes, setEstudiantes] = useState<EstudianteAuxiliar[]>([]);
   const [params, setParams] = useSearchParams();
@@ -71,7 +74,7 @@ export default function UsuariosPage({ tipo }: { tipo: "subadministradores" | "e
     if (!silent) setCargando(true);
     setError("");
     try {
-      const [u, e] = await Promise.all([usersApi.listar(), esSubadministradores ? Promise.resolve([]) : academicoApi.estudiantesAuxiliares()]);
+      const [u, e] = await Promise.all([esSubadministradores ? usersApi.listar() : usersApi.listarEstudiantes(), esSubadministradores ? Promise.resolve([]) : academicoApi.estudiantesAuxiliares()]);
       setUsuarios(u.data.data);
       setEstudiantes(e);
 
@@ -142,7 +145,7 @@ export default function UsuariosPage({ tipo }: { tipo: "subadministradores" | "e
           <td className="px-4 py-3 text-slate-500">{formatFecha(u.fechaCreacion)}</td>
           <td className="px-4 py-3"><EstadoBadge estado={u.estado} /></td>
           <td className="px-4 py-3"><div className="flex flex-wrap gap-2">
-            {!esSubadministradores && estudiante && (estudiante.idAuxiliar ? <><Link className="btn-ghost" to="/admin/auxiliares">Ver auxiliar</Link><button className="btn-ghost text-red-600" disabled={actualizando} onClick={() => setQuitarAuxiliar(estudiante)}>Quitar auxiliar</button></> :
+            {!esSubadministradores && gestionaAuxiliares && estudiante && (estudiante.idAuxiliar ? <><Link className="btn-ghost" to="/admin/auxiliares">Ver auxiliar</Link><button className="btn-ghost text-red-600" disabled={actualizando} onClick={() => setQuitarAuxiliar(estudiante)}>Quitar auxiliar</button></> :
               <button className="btn-ghost" disabled={actualizando || Boolean(estudiante.motivoNoDisponible)} title={estudiante.motivoNoDisponible || undefined} onClick={() => setHabilitarEstudiante(estudiante.idEstudiante)}>Habilitar como auxiliar</button>)}
             {esSubadministradores && <button className="btn-ghost" disabled={actualizando} onClick={() => { setSeleccionado(u); setPermisos(u.permisos ?? []); setErrorModal(""); }}>Asignar funciones</button>}
             <button className="btn-ghost" disabled={actualizando} onClick={() => void cambiarEstado(u)}>{u.estado === "activo" ? "Desactivar" : "Activar"}</button>

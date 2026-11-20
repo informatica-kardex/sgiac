@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import type { HorarioAcademico } from '../../api/types';
 import { EMPTY_PEOPLE_FILTERS, searchSchedulePeople } from '../schedule/people-search';
 import { isAssistantSession, reservationDate, scheduleDays } from '../schedule/semester';
 
-export function SchedulePeopleSearch({ horarios, periodo, today, disabled = false, onRoom }: {
-  horarios: HorarioAcademico[]; periodo: string; today: string; disabled?: boolean; onRoom?: (code: string) => void;
+export function SchedulePeopleSearch({ horarios, periodo, today, disabled = false, onRoom, roomDetails }: {
+  horarios: HorarioAcademico[]; periodo: string; today: string; disabled?: boolean; onRoom?: (code: string) => void; roomDetails?: (code: string) => ReactNode;
 }) {
   const [filters, setFilters] = useState({ ...EMPTY_PEOPLE_FILTERS });
   const active = Object.values(filters).some(Boolean);
@@ -25,7 +25,7 @@ export function SchedulePeopleSearch({ horarios, periodo, today, disabled = fals
       <div className="max-h-96 overflow-auto"><table className="w-full text-left text-sm"><thead><tr>{['Responsable', 'Materia', 'Día y horario', 'Aula', 'Vigencia'].map(label => <th className="p-2" key={label}>{label}</th>)}</tr></thead>
         <tbody>{sessions.map(h => <tr key={h.idHorario} className="border-t border-slate-200"><td className="p-2"><strong>{h.responsable || h.docente}</strong><span className="block text-xs text-slate-500">{isAssistantSession(h) ? 'Auxiliar' : 'Docente'}</span></td>
           <td className="p-2">{h.siglas.join(' / ')} · {h.materia} · {h.grupo}</td><td className="p-2">{scheduleDays.find(d => d.key === h.dia)?.label}<span className="block whitespace-nowrap">{h.horaInicio}–{h.horaFin}</span></td>
-          <td className="p-2">{onRoom ? <button type="button" className="text-blue-700 underline" onClick={() => onRoom(h.aula)}>{h.aula}</button> : h.aula}</td>
+          <td className="p-2">{onRoom ? <button type="button" className="text-blue-700 underline" onClick={() => onRoom(h.aula)}>{h.aula}</button> : h.aula}{roomDetails?.(h.aula)}</td>
           <td className="p-2">{h.fecha ? `${h.idHorarioBase ? 'Traslado' : 'Reserva'} · ${reservationDate(h.fecha)}` : 'Todo el semestre'}{h.traslados?.filter(t => t.fecha >= today).map(t => <small key={t.fecha} className="block">Excepto {reservationDate(t.fecha)}: aula {t.aula}</small>)}</td>
         </tr>)}</tbody></table></div>
     </> : <p className="mt-3 text-sm text-slate-500">{disabled ? 'Actualizando horarios…' : !periodo ? 'Selecciona un periodo académico.' : 'Completa cualquier filtro para listar todas las coincidencias.'}</p>}

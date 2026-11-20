@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { z } from "zod";
-import { requireAuth, requirePermission, requireAdmin } from "../../middlewares/auth.middleware";
+import { requireAuth, requirePermission } from "../../middlewares/auth.middleware";
 import { documentosMutationLimiter, atencionPollingLimiter } from "../../middlewares/rateLimit.middleware";
 import { asyncHandler } from "../../utils/asyncHandler";
 import { sendSuccess } from "../../utils/apiResponse";
@@ -16,8 +16,8 @@ router.use(requirePermission("documentos"));
 router.get("/bandeja", atencionPollingLimiter, asyncHandler(async (req, res) => sendSuccess(res, await s.bandeja(filtroDocumentoSchema.parse(req.query)))));
 router.get("/tipos", asyncHandler(async (_req, res) => sendSuccess(res, await s.tipos())));
 router.get("/responsables", asyncHandler(async (_req, res) => sendSuccess(res, await s.responsables())));
-router.post("/tipos", requireAdmin("ADMINISTRADOR"), asyncHandler(async (req, res) => sendSuccess(res, await s.guardarTipo(null, configuracionDocumentoSchema.parse(req.body), req.user!.idUsuario), "Documento creado", 201)));
-router.put("/tipos/:id", requireAdmin("ADMINISTRADOR"), asyncHandler(async (req, res) => sendSuccess(res, await s.guardarTipo(documentoId.parse(req.params.id), configuracionDocumentoSchema.parse(req.body), req.user!.idUsuario))));
+router.post("/tipos", asyncHandler(async (req, res) => sendSuccess(res, await s.guardarTipo(null, configuracionDocumentoSchema.parse(req.body), req.user!.idUsuario), "Documento creado", 201)));
+router.put("/tipos/:id", asyncHandler(async (req, res) => sendSuccess(res, await s.guardarTipo(documentoId.parse(req.params.id), configuracionDocumentoSchema.parse(req.body), req.user!.idUsuario))));
 router.post("/:id/accion", asyncHandler(async (req, res) => sendSuccess(res, await s.accion(documentoId.parse(req.params.id), accionDocumentoSchema.parse(req.body), req.user!.idUsuario))));
 router.post("/:id/reintentar-correo", documentosMutationLimiter, asyncHandler(async (req, res) => sendSuccess(res, await s.reintentarCorreo(documentoId.parse(req.params.id), req.user!.idUsuario, z.enum(["CORREO", "TELEGRAM"]).default("CORREO").parse(req.body?.canal)))));
 export default router;

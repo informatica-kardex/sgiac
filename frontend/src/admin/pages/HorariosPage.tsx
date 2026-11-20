@@ -19,6 +19,9 @@ import { scheduleDays } from '../schedule/semester';
 import { selectedRooms } from '../schedule/room-selection';
 import { HorarioPdfImport } from '../components/HorarioPdfImport';
 import { SchedulePeopleSearch } from '../components/SchedulePeopleSearch';
+import { BuildingMap } from '../../components/BuildingMap';
+import { hasRoomLocation } from '../../components/informatica-plans';
+import { LocationPublication } from '../components/LocationPublication';
 export default function HorariosPage() {
   const c = useAcademico();
   const [params] = useSearchParams();
@@ -94,6 +97,7 @@ export default function HorariosPage() {
   }
   const periodControl = <Field label="Periodo académico"><select className="select-field" value={periodo} onChange={e => { setPeriodo(e.target.value); setSelection(null); setCompleted([]); }}><option value="">Selecciona</option>{c.periodos.filter(p => p.estado === 'ACTIVO').map(p => <option key={p.idPeriodo} value={p.idPeriodo}>{p.periodo}/{p.gestion}</option>)}</select></Field>;
   return <div className="space-y-6"><AcademicHeader title="Horarios" description="Consulta el horario de cada aula y programa clases, auxiliarías o reservas para fechas específicas."><RoomSearch aulas={c.aulas} horarios={c.horarios} periodos={c.periodos} periodo={periodo} disabled={c.loading || Boolean(c.error)} error={c.error} refresh={c.cargar} onAssign={startAssignment} onSelect={(a, idPeriodo) => { setSelection(null); setCompleted([]); if (idPeriodo) setPeriodo(idPeriodo); selectRoom(a); }} /><button className="btn-secondary" disabled={c.loading || Boolean(c.error) || !c.periodos.some(p => p.estado === 'ACTIVO')} onClick={() => setImportOpen(true)}>Importar PDF</button><button className="btn-secondary" onClick={() => { setError(''); setPeriodOpen(true); }}>+ Periodo</button><button className="btn-primary" disabled={!canCreate} onClick={() => create()}>+ Asignar horario</button></AcademicHeader>
+    <LocationPublication tipo="horarios" />
     <ErrorNotice message={c.error} retry={() => void c.cargar()} />{!periodOpen && <ErrorNotice message={error} />}
     <SchedulePeopleSearch horarios={c.horarios} periodo={periodo} today={today} disabled={c.loading || Boolean(c.error)} onRoom={code => { const room = c.aulas.find(a => a.codigo === code); if (room) selectRoom(room); }} />
     {!aula ? <RoomPicker aulas={c.aulas} lugar={lugar} piso={piso} includeAll loading={c.loading} periodControl={periodControl}
@@ -116,6 +120,7 @@ export default function HorariosPage() {
     </section>}
     {aula && (c.loading ? <LoadingSpinner /> : !selectedRoom || !period ? <Empty>Selecciona un periodo activo y un aula disponible para consultar el horario.</Empty> : <section className="space-y-4" aria-label={`Horario del aula ${aula}`}>
       <RoomScheduleHeader aula={selectedRoom} periodo={period}><button className="btn-primary" disabled={!canCreate} onClick={() => create()}>Asignar en esta aula</button></RoomScheduleHeader>
+      {hasRoomLocation(selectedRoom) && <details key={selectedRoom.codigo} className="subsuelo-location-details"><summary>Ver ubicación del aula</summary><BuildingMap aulas={c.aulas} floor={selectedRoom.piso!} selectedCode={selectedRoom.codigo} canAssign onRoom={selectRoom} /></details>}
       <p className="text-xs text-slate-500">{visible.length} sesiones del semestre y reservas vigentes</p>
       {selectedRoom.estado !== 'disponible' && <p className="text-sm text-amber-700">El aula está {selectedRoom.estado}. Solo puedes consultar o retirar sus sesiones.</p>}
       <div className="card overflow-x-auto"><RoomSchedule aula={selectedRoom} periodo={period} horarios={c.horarios} today={today} onCreate={canCreate ? create : undefined} onEdit={edit} /></div>

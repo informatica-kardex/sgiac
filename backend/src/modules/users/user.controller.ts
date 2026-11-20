@@ -11,6 +11,9 @@ const estadoSchema = z.object({
 });
 
 export const userController = {
+  listarEstudiantes: asyncHandler(async (_req, res) => {
+    return sendSuccess(res, await userService.listarUsuarios(true), 'Estudiantes obtenidos');
+  }),
   crearEstudiante: asyncHandler(async (req, res) => {
     return sendSuccess(res, await userService.crearEstudiante(crearEstudianteSchema.parse(req.body), BigInt(req.user!.idUsuario)), 'Cuenta de estudiante creada', 201);
   }),

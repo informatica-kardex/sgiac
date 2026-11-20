@@ -9,6 +9,7 @@ import { env, isProduction } from "./config/env";
 import routes from "./routes";
 import { errorMiddleware, notFoundMiddleware } from "./middlewares/error.middleware";
 import { automaticReadLimiter, globalRateLimiter } from "./middlewares/rateLimit.middleware";
+import { auditRequests } from './modules/audit/audit.middleware';
 
 const app = express();
 
@@ -29,6 +30,9 @@ app.use(
 if (isProduction) {
   app.use(frontendProduccion(path.resolve(__dirname, '../../frontend/dist'), env.frontendUrl.startsWith('https://')));
 }
+
+// Incluye rechazos de validación y límites de solicitudes en la bitácora.
+app.use('/api', auditRequests);
 
 // Parseo de body y cookies
 app.use(express.json({ limit: "1mb" }));

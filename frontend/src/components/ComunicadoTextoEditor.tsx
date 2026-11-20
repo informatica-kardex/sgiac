@@ -3,6 +3,7 @@ import { EditorContent, useEditor, useEditorState } from "@tiptap/react";
 import { BubbleMenu } from "@tiptap/react/menus";
 import StarterKit from "@tiptap/starter-kit";
 import { ListItem } from "@tiptap/extension-list";
+import { Fragment, Slice, type Node as EditorNode } from '@tiptap/pm/model';
 import { documentoEditor, textoEditor } from "../utils/comunicadoEditor";
 import "../styles/comunicado-editor.css";
 
@@ -36,6 +37,18 @@ const extensiones = [
   ListItem.extend({ content: "paragraph+" }),
 ];
 
+function textoIngresado(texto: string, mayusculas: boolean) {
+  return mayusculas ? texto.toLocaleUpperCase('es-BO') : texto.toLocaleLowerCase('es-BO');
+}
+
+function formatoPegado(fragmento: Fragment, mayusculas: boolean): Fragment {
+  const nodos: EditorNode[] = [];
+  fragmento.forEach(nodo => nodos.push(nodo.isText
+    ? nodo.type.schema.text(textoIngresado(nodo.text!, mayusculas), nodo.marks)
+    : nodo.copy(formatoPegado(nodo.content, mayusculas))));
+  return Fragment.fromArray(nodos);
+}
+
 function Icono({ accion }: { accion: Accion }) {
   if (accion === "bold") return <strong aria-hidden="true">B</strong>;
   if (accion === "italic") return <em aria-hidden="true">I</em>;
@@ -52,6 +65,8 @@ function Icono({ accion }: { accion: Accion }) {
 export const ComunicadoTextoEditor = memo(forwardRef<{ focus: () => void }, Props>(function ComunicadoTextoEditor({ value, onChange, onBlur, name, id, invalido, disabled = false, mayusculas, tamanoLetra, onMayusculasChange, onTamanoLetraChange }, ref) {
   const contenedor = useRef<HTMLDivElement>(null);
   const ultimoValor = useRef(value);
+  const modoEntrada = useRef(mayusculas);
+  modoEntrada.current = mayusculas;
   const [scrollTarget, setScrollTarget] = useState<HTMLElement | Window>(window);
   // No volver a interpretar todo el comunicado en cada pulsación o cambio de selección.
   const [contenidoInicial] = useState(() => documentoEditor(value));
@@ -63,6 +78,13 @@ export const ComunicadoTextoEditor = memo(forwardRef<{ focus: () => void }, Prop
     editable: !disabled,
     shouldRerenderOnTransaction: false,
     editorProps: {
+      handleTextInput: (view, from, _to, texto, defaultTransaction) => {
+        const nuevo = textoIngresado(texto, modoEntrada.current);
+        if (nuevo === texto) return false;
+        view.dispatch(defaultTransaction().insertText(nuevo, from, from + texto.length).scrollIntoView());
+        return true;
+      },
+      transformPasted: contenido => new Slice(formatoPegado(contenido.content, modoEntrada.current), contenido.openStart, contenido.openEnd),
       attributes: {
         id, role: "textbox", "aria-label": "Texto del comunicado", "aria-multiline": "true",
         "aria-describedby": `${id}-ayuda`, class: "comunicado-editor-contenido",
@@ -137,15 +159,15 @@ export const ComunicadoTextoEditor = memo(forwardRef<{ focus: () => void }, Prop
   }
 
   return <div ref={contenedor} className="comunicado-editor" data-invalido={invalido || undefined} data-disabled={disabled || undefined}
-    style={{ "--comunicado-tamano": `${tamanoLetra}pt`, "--comunicado-mayusculas": mayusculas ? "uppercase" : "none" } as CSSProperties}>
+    style={{ "--comunicado-tamano": `${tamanoLetra}pt` } as CSSProperties}>
     <div className="comunicado-editor-barra">
       <div role="group" aria-label="Formato del texto" className="comunicado-editor-herramientas">
         {acciones.map(([accion, etiqueta, atajo]) => boton(accion, etiqueta, atajo))}
         <span className="comunicado-editor-divisor" />
         {boton("undo", "Deshacer", "Ctrl+Z")}{boton("redo", "Rehacer", "Ctrl+Shift+Z")}
         <span className="comunicado-editor-divisor" />
-        <button type="button" className="comunicado-editor-boton comunicado-editor-mayusculas" aria-label="Todo en mayúsculas"
-          title="Todo en mayúsculas" aria-pressed={mayusculas} disabled={disabled}
+        <button type="button" className="comunicado-editor-boton comunicado-editor-mayusculas" aria-label="Bloquear mayúsculas al escribir"
+          title={mayusculas ? "Mayúsculas activadas: solo texto nuevo" : "Minúsculas activadas: solo texto nuevo"} aria-pressed={mayusculas} disabled={disabled}
           onMouseDown={event => event.preventDefault()} onClick={() => { onMayusculasChange(!mayusculas); editor?.commands.focus(); }}>Aa</button>
         <label className="comunicado-editor-tamano" title="Tamaño de letra del comunicado">
           <span className="sr-only">Tamaño de letra</span>
@@ -165,7 +187,7 @@ export const ComunicadoTextoEditor = memo(forwardRef<{ focus: () => void }, Prop
     </BubbleMenu>}
     <input type="hidden" name={name} value={value} />
     <div className="comunicado-editor-pie">
-      <p id={`${id}-ayuda`}>Selecciona texto para darle formato. Enter crea un párrafo; Mayús+Enter, un salto de línea.</p>
+      <p id={`${id}-ayuda`}>Aa cambia solo el texto nuevo, sin modificar lo anterior. Selecciona texto para darle formato. Enter crea un párrafo; Mayús+Enter, un salto de línea.</p>
       <span>{palabras} {palabras === 1 ? "palabra" : "palabras"}</span>
     </div>
   </div>;

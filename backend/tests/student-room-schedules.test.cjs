@@ -6,8 +6,8 @@ let estudiante, consultas, incluirTemporales;
 db.prisma = {
   estudiante: { findUnique: async args => { consultas.push(['estudiante', args]); return estudiante; } },
   ambiente: { findMany: async args => { consultas.push(['aulas', args]); return [
-    { codigo_ambiente: 'SS-A1', nombre: 'Aula 1', lugar: 'INFORMATICA', piso: -1, inventarioInterno: 'privado' },
-    { codigo_ambiente: 'SS-A2', nombre: 'Aula 2', lugar: 'INFORMATICA', piso: -1 },
+    { codigo_ambiente: 'SS-A1', nombre: 'Aula 1', lugar: 'INFORMATICA', piso: -1, capacidad:45, inventarioInterno: 'privado' },
+    { codigo_ambiente: 'SS-A2', nombre: 'Aula 2', lugar: 'INFORMATICA', piso: -1, capacidad:0 },
   ]; } },
   periodo_academico: { findMany: async args => { consultas.push(['periodos', args]); return [
     { id_periodo: 3n, gestion: 2026, periodo: 'II', estado: 'ACTIVO', fecha_inicio: new Date('2026-07-01'), fecha_fin: new Date('2026-12-31') },
@@ -19,12 +19,17 @@ require('../src/modules/horarios/horario.repository').HorarioRepository.prototyp
 };
 const { EstudianteService } = require('../src/modules/estudiantes/estudiante.service');
 const service = new EstudianteService();
-beforeEach(() => { estudiante = { id_estudiante: 12n, usuario: { estado: 'ACTIVO' } }; consultas = []; incluirTemporales = false; });
+const { schedulePublication } = require('../src/modules/horarios/horario.publicacion');
+let publicado = true;
+schedulePublication.read = async () => ({ publico: false, estudiantes: publicado, actualizadoEn: null });
+beforeEach(() => { estudiante = { id_estudiante: 12n, usuario: { estado: 'ACTIVO' } }; consultas = []; incluirTemporales = false; publicado = true; });
 
 test('consulta todas las aulas, incluso vacías, y las reservas sin motivos internos', async () => {
   const data = await service.horariosAulas('44');
   assert.deepEqual(consultas[0][1].where, { id_usuario: 44n });
   assert.deepEqual(data.aulas.map(a => a.codigo), ['SS-A1', 'SS-A2']);
+  assert.deepEqual(data.aulas.map(a => a.capacidad), [45,0]);
+  assert.equal(consultas.find(([key]) => key === 'aulas')[1].select.capacidad,true);
   assert.equal(data.horarios.length, 1);
   assert.equal(data.horarios[0].fecha, '2026-11-16');
   assert.equal(incluirTemporales, true);
@@ -74,4 +79,12 @@ test('HTTP: requiere sesión, no almacena la consulta y no concede acceso admini
   assert.equal((await fetch(url, { method: 'POST', headers })).status, 404);
   estudiante = null;
   assert.equal((await fetch(url, { headers })).status, 403);
+});
+
+test('retirar horarios de estudiantes impide consultar datos por la URL directa', async () => {
+  publicado = false;
+  const response = await fetch(`http://127.0.0.1:${server.address().port}/api/estudiantes/horarios-aulas`, { headers: { Authorization: 'student' } });
+  assert.equal(response.status, 200);
+  assert.deepEqual((await response.json()).data, { publicado: false, aulas: [], periodos: [], horarios: [] });
+  assert.deepEqual(consultas, []);
 });

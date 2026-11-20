@@ -10,12 +10,12 @@ export class EstudianteService {
   async horariosAulas(idUsuario: string) {
     await this.estudiante(idUsuario);
     const [aulas, periodos, horarios] = await Promise.all([
-      prisma.ambiente.findMany({ select: { codigo_ambiente: true, nombre: true, lugar: true, piso: true } }),
+      prisma.ambiente.findMany({ select: { codigo_ambiente: true, nombre: true, lugar: true, piso: true, capacidad: true } }),
       prisma.periodo_academico.findMany({ where: { estado: 'ACTIVO' }, orderBy: [{ gestion: 'desc' }, { periodo: 'desc' }] }),
       new HorarioRepository().findAll(true),
     ]);
     return {
-      aulas: aulas.map(a => ({ codigo: a.codigo_ambiente, nombre: a.nombre, lugar: a.lugar, piso: a.piso })),
+      aulas: aulas.map(a => ({ codigo: a.codigo_ambiente, nombre: a.nombre, lugar: a.lugar, piso: a.piso, capacidad: a.capacidad })),
       periodos: periodos.map(p => ({ idPeriodo: String(p.id_periodo), gestion: p.gestion, periodo: p.periodo,
         fechaInicio: p.fecha_inicio.toISOString().slice(0, 10), fechaFin: p.fecha_fin.toISOString().slice(0, 10), estado: p.estado })),
       // La consulta estudiantil muestra la ocupación, sin los motivos internos de las reservas.

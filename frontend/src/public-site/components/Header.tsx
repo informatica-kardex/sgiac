@@ -5,10 +5,14 @@ import { useAuxiliarHabilitado } from "../../hooks/useAuxiliarHabilitado";
 import { AccountMenu } from "../../components/AccountMenu";
 import { useAdminAuthStore } from "../../store/adminAuthStore";
 import "../../styles/portal-navigation.css";
+import { ubicacionApi } from '../../api/ubicacion.api';
+import { usePolling } from '../../hooks/usePolling';
+import { horariosPublicacionApi } from '../../api/horarios.api';
 
 const NAV_LINKS = [
   { to: "/", label: "Inicio", detail: "El punto de partida", end: true },
   { to: "/comunicados", label: "Comunicados", detail: "Novedades de la carrera" },
+  { to: "/horarios", label: "Horarios y ubicación", detail: "Busca tus clases y ubica las aulas en el plano" },
   { to: "/faq", label: "Preguntas frecuentes", detail: "Resuelve tus dudas" },
   { to: "/atencion", label: "Atención Kardex", detail: "Solicita tu atención" },
   { to: "/informacion", label: "Información", detail: "Conoce nuestro servicio" },
@@ -26,6 +30,8 @@ const STUDENT_LINKS = [
 export function Header({ portal = false }: { portal?: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const { isAuthenticated } = useAuth();
+  const publication = usePolling(ubicacionApi.visibilidad,60000);
+  const schedulesPublication = usePolling(horariosPublicacionApi.visibilidad,60000);
   const adminUsuario = useAdminAuthStore(state => state.isAuthenticated ? state.usuario : null);
   const esAuxiliar = useAuxiliarHabilitado();
   const { pathname } = useLocation();
@@ -33,7 +39,11 @@ export function Header({ portal = false }: { portal?: boolean }) {
   const toggleRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLElement>(null);
   const menuId = useId();
-  const links = isAuthenticated ? [...STUDENT_LINKS, ...(esAuxiliar ? [{ to: '/usuario/mi-auxiliatura', label: 'Mi auxiliatura', detail: 'Materias, horarios, carnet y aulas', end: false }] : [])] : NAV_LINKS;
+  const baseLinks = (isAuthenticated ? STUDENT_LINKS : NAV_LINKS).filter(link =>
+    (link.label !== 'Horarios' || (!schedulesPublication.error && schedulesPublication.data?.[isAuthenticated ? 'estudiantes' : 'publico'])) &&
+    (link.label !== 'Horarios y ubicación' || (!publication.error && publication.data?.publico) || (!schedulesPublication.error && schedulesPublication.data?.publico)));
+  const links = [...baseLinks, ...(isAuthenticated && esAuxiliar ? [{ to: '/usuario/mi-auxiliatura', label: 'Mi auxiliatura', detail: 'Materias, horarios, carnet y aulas', end: false }] : []),
+    ...(isAuthenticated && !publication.error && publication.data?.estudiantes ? [{to:'/usuario/ubicacion',label:'Ubicación',detail:'Planos y horarios de las aulas',end:false}] : [])];
   const accountPath = isAuthenticated ? "/usuario/perfil" : adminUsuario ? "/admin/configuracion?seccion=perfil" : "/login";
   const accountLabel = isAuthenticated || adminUsuario ? "Mi perfil" : "Ingresar";
 

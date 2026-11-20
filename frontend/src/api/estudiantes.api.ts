@@ -3,7 +3,7 @@ import { ApiEnvelope, Aula, HorarioAcademico } from "./types";
 import type { Periodo } from './academico.api';
 
 export interface HorariosAulasEstudiante {
-  aulas: Pick<Aula, 'codigo' | 'nombre' | 'lugar' | 'piso'>[];
+  aulas: Pick<Aula, 'codigo' | 'nombre' | 'lugar' | 'piso' | 'capacidad'>[];
   periodos: Periodo[];
   horarios: HorarioAcademico[];
 }

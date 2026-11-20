@@ -4,10 +4,18 @@ import { requireAuth, requirePermission } from "../../middlewares/auth.middlewar
 import { asyncHandler } from '../../utils/asyncHandler';
 import { sendSuccess } from '../../utils/apiResponse';
 import { horarioImport } from './horario.import';
+import { publishedSchedules, schedulePublication } from './horario.publicacion';
 
 const router = Router();
 
-// Los horarios solo se consultan con una cuenta verificada y una sesión vigente.
+router.use((_req, res, next) => { res.setHeader('Cache-Control', 'no-store'); next(); });
+router.get('/publicacion/visibilidad', asyncHandler(async (_req, res) => sendSuccess(res, await schedulePublication.read())));
+router.get('/publicacion/publico', asyncHandler(async (_req, res) => sendSuccess(res, await publishedSchedules('publico'))));
+router.get('/publicacion/config', requireAuth, requirePermission('horarios'), asyncHandler(async (_req, res) => sendSuccess(res, await schedulePublication.read())));
+router.put('/publicacion/config', requireAuth, requirePermission('horarios'), asyncHandler(async (req, res) =>
+  sendSuccess(res, await schedulePublication.save(req.body), 'Publicación de horarios actualizada')));
+
+// La consulta interna conserva sus requisitos de sesión.
 router.get("/", requireAuth, horarioController.listar);
 router.get("/:id", requireAuth, horarioController.obtener);
 

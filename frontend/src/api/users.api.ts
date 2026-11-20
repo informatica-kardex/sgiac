@@ -10,6 +10,7 @@ export const usersApi = {
   crear: (input: { nombreCompleto: string; correo: string; ci: string; celular: string; permisos: PermisoUsuario[] }) =>
     axiosClient.post<ApiEnvelope<UsuarioAdmin>>("/users", input),
   listar: () => axiosClient.get<ApiEnvelope<UsuarioAdmin[]>>("/users"),
+  listarEstudiantes: () => axiosClient.get<ApiEnvelope<UsuarioAdmin[]>>("/users/estudiantes"),
   cambiarEstado: (id: string, estado: "activo" | "inactivo") =>
     axiosClient.patch<ApiEnvelope<unknown>>(`/users/${id}/estado`, { estado }),
   asignarPermisos: (id: string, permisos: PermisoUsuario[]) =>

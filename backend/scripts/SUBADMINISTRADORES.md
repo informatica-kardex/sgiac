@@ -2,7 +2,9 @@
 
 Desde **Subadministradores → Añadir subadministrador**, el administrador registra nombre completo, correo y CI. Existe un único rol **Subadministrador**. Consulta interna se conserva para estudiantes y no se ofrece como opción en esta gestión ni en Roles y permisos.
 
-El checklist permite asignar independientemente aulas, horarios, comunicados, preguntas frecuentes, atención Kardex y reportes. Crear cuentas, gestionar estudiantes, asignar funciones, auditoría y configuración permanecen a cargo del administrador.
+El checklist permite asignar independientemente docentes, auxiliares, materias, aulas, gestión de horarios, consulta de horarios, solicitudes de aulas, comunicados, preguntas frecuentes, atención Kardex (incluye puestos, jornadas y TV), trámites en línea, cuentas de estudiantes, reportes y consulta/exportación de auditoría. Solo el administrador crea subadministradores y asigna sus funciones. Configuración permite a cada usuario gestionar su propio perfil y seguridad.
+
+La ampliación de funciones requiere `node scripts/migrate-auditoria-permisos.cjs --check` y `node scripts/migrate-auditoria-permisos.cjs --apply` desde `backend`. Conserva las asignaciones actuales; no concede nuevos permisos automáticamente. Gestionar solicitudes de aulas incluye consultar horarios para comprobar la reserva aprobada; modificarlos manualmente requiere `horarios`. El permiso de documentos incluye configurar tipos, periodos y requisitos. Ver `src/modules/audit/AUDITORIA.md` para la cobertura de la bitácora.
 
 Cada función tiene su propia vigencia:
 

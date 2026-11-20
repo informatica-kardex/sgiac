@@ -113,8 +113,8 @@ export class UserService {
     }
   }
 
-  async listarUsuarios() {
-    return (await this.repository.findAllWithRoles()).map(perfil);
+  async listarUsuarios(soloEstudiantes = false) {
+    return (await this.repository.findAllWithRoles(soloEstudiantes)).map(perfil);
   }
 
   private async validarCuentaEditable(idUsuario: bigint | number, actor: bigint) {
@@ -154,11 +154,13 @@ export class UserService {
   async cambiarEstado(idUsuario: bigint | number, estado: "activo" | "inactivo", actor: bigint) {
     await this.validarCuentaEditable(idUsuario, actor);
     await prisma.$transaction(async tx => {
+      await tx.$queryRaw`SELECT id_usuario FROM usuario WHERE id_usuario = ${idUsuario} FOR UPDATE`;
+      const anterior = await tx.usuario.findUnique({ where: { idUsuario }, select: { estado: true } });
       await tx.usuario.update({ where: { idUsuario }, data: { estado: estado.toUpperCase() } });
       await tx.refreshToken.updateMany({ where: { idUsuario, revocado: false }, data: { revocado: true } });
       await tx.bitacora.create({ data: {
         accion: "USUARIO_ESTADO_CAMBIADO", entidadAfectada: "usuario", idRegistroAfectado: idUsuario.toString(),
-        detalle: `Estado: ${estado}`, idUsuario: actor,
+        detalle: JSON.stringify({ antes: { estado: anterior?.estado }, despues: { estado: estado.toUpperCase() } }), idUsuario: actor,
       } });
     });
     return this.obtenerPerfil(idUsuario);
@@ -169,16 +171,17 @@ export class UserService {
     await prisma.$transaction(async tx => {
       // Serializa dos ediciones simultáneas de la misma cuenta.
       await tx.$queryRaw`SELECT id_usuario FROM usuario WHERE id_usuario = ${idUsuario} FOR UPDATE`;
-      const usuario = await tx.usuario.findUnique({ where: { idUsuario }, include: { roles: { include: { rol: true } } } });
+      const usuario = await tx.usuario.findUnique({ where: { idUsuario }, include: { permisos: true, roles: { include: { rol: true } } } });
       if (!usuario || usuario.roles.some(r => r.rol.nombre === "ADMINISTRADOR") ||
           !rolesActivos(usuario.roles).some(r => ROLES_SUBADMIN.includes(r))) {
         throw ApiError.forbidden("Solo puedes asignar funciones a un subadministrador");
       }
+      const permisosAnteriores = (usuario.permisos ?? []).map(({ modulo, desde, hasta }) => ({ modulo, desde, hasta }));
       await tx.permisoUsuario.deleteMany({ where: { idUsuario } });
       if (permisos.length) await tx.permisoUsuario.createMany({ data: permisos.map(p => ({ ...p, idUsuario })) });
       await tx.bitacora.create({ data: {
         accion: "SUBADMIN_PERMISOS_CAMBIADOS", entidadAfectada: "usuario", idRegistroAfectado: idUsuario.toString(),
-        detalle: JSON.stringify({ permisos }), idUsuario: actor,
+        detalle: JSON.stringify({ antes: { permisos: permisosAnteriores }, despues: { permisos } }), idUsuario: actor,
       } });
     });
     return this.obtenerPerfil(idUsuario);

@@ -16,6 +16,7 @@ import estudianteRoutes from "../modules/estudiantes/estudiante.routes";
 import telegramRoutes from "../modules/telegram/telegram.routes";
 import { requireAuth } from "../middlewares/auth.middleware";
 import { notifySuccessfulMutation, streamChanges } from "../modules/realtime/realtime";
+import auditRoutes from '../modules/audit/audit.routes';
 
 const router = Router();
 router.use(notifySuccessfulMutation);
@@ -26,6 +27,7 @@ router.get('/events', requireAuth, streamChanges);
 // ------------------------------------------------------------
 
 router.use("/auth", authRoutes);
+router.use('/auditoria', auditRoutes);
 router.use("/notificaciones", notificacionRoutes);
 router.use("/documentos", documentoRoutes);
 router.use("/solicitudes-aulas", solicitudAulaRoutes);

@@ -10,7 +10,7 @@ export async function solicitudesPendientes(usuario: { roles: string[]; permisos
   const { fecha, hora } = ahoraBolivia(now);
   const hoy = new Date(`${fecha}T00:00:00Z`);
   const [aulas, documentos, fichas] = await Promise.all([
-    usuario.roles.includes("ADMINISTRADOR")
+    tienePermiso(usuario, "solicitudes-aulas", now.getTime())
       ? prisma.solicitudAula.count({ where: { estado: "PENDIENTE" } }) : 0,
     tienePermiso(usuario, "documentos", now.getTime())
       ? prisma.solicitudDocumento.count({ where: { estado: "SOLICITADA" } }) : 0,

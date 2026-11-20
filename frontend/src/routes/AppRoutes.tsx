@@ -6,6 +6,7 @@ import HomePage from "../public-site/pages/HomePage";
 import ComunicadosPage from "../public-site/pages/ComunicadosPage";
 import ComunicadoDetallePage from "../public-site/pages/ComunicadoDetallePage";
 import HorariosPage from "../public-site/pages/HorariosPage";
+import UbicacionPage, { LegacyLocationRedirect } from '../public-site/pages/UbicacionPage';
 import FaqPage from "../public-site/pages/FaqPage";
 import AtencionPage from "../public-site/pages/AtencionPage";
 import PantallaAtencionPage from "../public-site/pages/PantallaAtencionPage";
@@ -62,7 +63,8 @@ export function AppRoutes() {
         <Route path="/" element={<HomePage />} />
         <Route path="/comunicados" element={<ComunicadosPage />} />
         <Route path="/comunicados/:id" element={<ComunicadoDetallePage />} />
-        <Route path="/horarios" element={<Navigate to="/usuario/horarios" replace />} />
+        <Route path="/horarios" element={<UbicacionPage />} />
+        <Route path="/ubicacion" element={<LegacyLocationRedirect />} />
         <Route path="/faq" element={<FaqPage />} />
         <Route path="/atencion" element={<AtencionPage />} />
         <Route path="/informacion" element={<InformacionPage />} />
@@ -90,7 +92,8 @@ export function AppRoutes() {
           <Route path="/usuario/documentos" element={<StudentDocumentosPage />} />
           <Route path="/usuario/solicitudes-aulas" element={<SolicitudesAulasPage />} />
           <Route path="/usuario/mi-auxiliatura" element={<MiAuxiliaturaPage />} />
-          <Route path="/usuario/horarios" element={<HorariosPage />} />
+          <Route path="/usuario/horarios" element={<HorariosPage student />} />
+          <Route path="/usuario/ubicacion" element={<UbicacionPage student />} />
           <Route path="/usuario/arma-tu-horario" element={<SchedulePlannerPage />} />
           <Route path="/usuario/comunicados" element={<ComunicadosPage />} />
           <Route path="/usuario/comunicados/:id" element={<ComunicadoDetallePage />} />

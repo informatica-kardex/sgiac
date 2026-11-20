@@ -48,12 +48,12 @@ export function RoomCards({ aulas, value, onChange, showPlace = false }: {
   </div>;
 }
 
-export function FloorCards({ aulas, value, onChange }: {
-  aulas: Aula[]; value: string | null; onChange: (floor: string) => void;
+export function FloorCards({ aulas, value, onChange, availableFloors }: {
+  aulas: Pick<Aula, 'piso'>[]; value: string | null; onChange: (floor: string) => void; availableFloors?: number[];
 }) {
-  const floors = [...new Set([1, 2, 3, 4, 5, ...aulas.map(a => a.piso)])]
+  const floors = [...new Set(availableFloors ?? [-1, 0, 1, 2, 3, 4, 5, 6, ...aulas.map(a => a.piso)])]
     .sort((a, b) => (a ?? 999) - (b ?? 999));
-  const names: Record<number, string> = { 1: 'Primer piso', 2: 'Segundo piso', 3: 'Tercer piso', 4: 'Cuarto piso', 5: 'Quinto piso' };
+  const names: Record<number, string> = { 1: 'Primer piso', 2: 'Segundo piso', 3: 'Tercer piso', 4: 'Cuarto piso', 5: 'Quinto piso', 6: 'Sexto piso' };
   const options = [{ key: '', label: 'Todas las aulas', count: aulas.length }, ...floors.map(floor => ({
     key: String(floor), label: floor === null ? 'Sin piso / por confirmar' : names[floor] ?? pisoLabel(floor),
     count: aulas.filter(a => a.piso === floor).length,

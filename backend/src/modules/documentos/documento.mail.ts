@@ -1,5 +1,6 @@
 import { prisma } from "../../database/prisma";
 import { sendMail } from "../../utils/mail";
+import { academicNoticeHtml } from "../../utils/mail-template";
 import { env } from "../../config/env";
 import { TelegramApiError, TelegramClient } from "../telegram/telegram.client";
 
@@ -7,7 +8,22 @@ export function mensajeRecojo(s: { codigo: string | null; documento: string; fec
   if (s.hojas === null || !s.fechaRecojo) throw new Error("Faltan datos de recojo confirmados");
   const fecha = s.fechaRecojo!.toLocaleString("es-BO", { timeZone: "America/La_Paz", dateStyle: "full", timeStyle: "short" });
   return { subject: `Tu documento está listo · ${s.codigo}`,
-    text: `Tu ${s.documento.toLowerCase()} está listo para recoger.\n\nFicha: ${s.codigo}\nRecojo a partir de: ${fecha} (hora de Bolivia).\nLugar: ${s.lugar}\nHojas en blanco que debes traer: ${s.hojas}.\n${s.requisitos}\n\nPresenta tu ficha y tu identificación. Consulta la información actualizada en tu sesión de estudiante, en Mis documentos.\n\nSGIAC · Kardex` };
+    text: `Tu ${s.documento.toLowerCase()} está listo para recoger.\n\nFicha: ${s.codigo}\nRecojo a partir de: ${fecha} (hora de Bolivia).\nLugar: ${s.lugar}\nHojas en blanco que debes traer: ${s.hojas}.\n${s.requisitos}\n\nPresenta tu ficha y tu identificación. Consulta la información actualizada en tu sesión de estudiante, en Mis documentos.\n\nSGIAC · Kardex`,
+    html: academicNoticeHtml({
+      title: "Tu documento está listo", category: "Documentos académicos",
+      description: `Tu ${s.documento.toLowerCase()} está listo para recoger. Revisa los datos de entrega y prepara lo necesario para tu visita.`,
+      status: "Listo para recoger", tone: "success",
+      highlight: { label: "Número de ficha", value: s.codigo ?? "Consulta Mis documentos", caption: s.documento },
+      details: [
+        { label: "Recojo a partir de", value: `${fecha} (hora de Bolivia)` },
+        { label: "Lugar de entrega", value: s.lugar },
+        { label: "Hojas en blanco que debes traer", value: String(s.hojas) },
+      ],
+      note: { title: "Antes de ir a Kardex", text: ["Presenta tu ficha y tu identificación.", s.requisitos].filter(Boolean).join("\n\n") },
+      instructions: "Consulta la información actualizada en tu sesión de estudiante, en Mis documentos.",
+      action: { label: "Consultar mis documentos", url: `${env.frontendUrl.replace(/\/$/, "")}/usuario/documentos` },
+    }),
+  };
 }
 
 // Cola persistente: una falla del proveedor no revierte el cambio de estado.

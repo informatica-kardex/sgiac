@@ -7,6 +7,7 @@ import { sendSuccess } from "../../utils/apiResponse";
 import { EstudianteService } from "./estudiante.service";
 import { auxiliaturaService } from "./auxiliatura.service";
 import { auxiliarCarnetService } from "../academico/auxiliar-carnet.service";
+import { publishedSchedules } from '../horarios/horario.publicacion';
 
 export { solicitarFichaSchema } from "../fichas/ficha.validation";
 
@@ -22,7 +23,7 @@ router.get("/atencion", atencionPollingLimiter, asyncHandler(async (req, res) =>
 }));
 router.get("/perfil", asyncHandler(async (req, res) => sendSuccess(res, await service.perfil(req.user!.idUsuario))));
 router.get("/catalogo-horario", asyncHandler(async (req, res) => sendSuccess(res, await service.catalogoHorario(req.user!.idUsuario))));
-router.get("/horarios-aulas", atencionPollingLimiter, asyncHandler(async (req, res) => sendSuccess(res, await service.horariosAulas(req.user!.idUsuario))));
+router.get("/horarios-aulas", atencionPollingLimiter, asyncHandler(async (req, res) => sendSuccess(res, await publishedSchedules('estudiantes', req.user!.idUsuario))));
 router.get("/jornadas", asyncHandler(async (req, res) => sendSuccess(res, await service.jornadas(req.user!.idUsuario))));
 router.get("/fichas", asyncHandler(async (req, res) => sendSuccess(res, await service.fichas(req.user!.idUsuario))));
 router.post("/fichas/:id/cancelar", asyncHandler(async (req, res) => sendSuccess(res, await service.cancelar(req.user!.idUsuario, idSchema.parse(req.params.id)), "Ficha cancelada")));

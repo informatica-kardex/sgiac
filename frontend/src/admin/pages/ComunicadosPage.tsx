@@ -17,12 +17,12 @@ import { formatFecha } from "../../utils/formatters";
 import { useAutoRefresh } from '../../hooks/useAutoRefresh';
 
 // Estas suscripciones actualizan solo el editor y la vista previa, no toda la página al escribir.
-function TextoDelComunicado({ control, disabled, invalido }: { control: Control<ComunicadoFormData>; disabled: boolean; invalido: boolean }) {
+function TextoDelComunicado({ control, disabled, invalido, mayusculasIniciales }: { control: Control<ComunicadoFormData>; disabled: boolean; invalido: boolean; mayusculasIniciales: boolean }) {
   const { field } = useController({ control, name: "contenido" });
-  const { field: mayusculas } = useController({ control, name: "mayusculas" });
+  const [mayusculas, setMayusculas] = useState(mayusculasIniciales);
   const { field: tamano } = useController({ control, name: "tamanoLetra" });
   return <ComunicadoTextoEditor {...field} value={field.value ?? ""} id="comunicado-contenido" disabled={disabled} invalido={invalido}
-    mayusculas={mayusculas.value ?? true} tamanoLetra={tamano.value ?? 13} onMayusculasChange={mayusculas.onChange} onTamanoLetraChange={tamano.onChange} />;
+    mayusculas={mayusculas} tamanoLetra={tamano.value ?? 13} onMayusculasChange={setMayusculas} onTamanoLetraChange={tamano.onChange} />;
 }
 
 function VistaPreviaDelComunicado({ control, fechaPublicacion }: { control: Control<ComunicadoFormData>; fechaPublicacion: string }) {
@@ -55,7 +55,7 @@ export default function ComunicadosPage() {
     formState: { errors },
   } = useForm<ComunicadoFormData>({
     resolver: zodResolver(comunicadoSchema),
-    defaultValues: { estado: "borrador", tipo: "texto", contenido: "", encabezado: "COMUNICADO", mayusculas: true, tamanoLetra: 13 },
+    defaultValues: { estado: "borrador", tipo: "texto", contenido: "", encabezado: "COMUNICADO", mayusculas: false, tamanoLetra: 13 },
   });
   const tipo = watch("tipo");
   const adjuntosActuales = (editando?.adjuntos ?? []).filter(a => !adjuntosEliminar.includes(a.idAdjunto)
@@ -85,7 +85,7 @@ export default function ComunicadosPage() {
   const abrirCrear = () => {
     setEditando(null);
     setFechaVistaPrevia(new Date().toISOString());
-    reset({ titulo: "", tipo: "texto", contenido: "", categoria: "", estado: "borrador", encabezado: "COMUNICADO", mayusculas: true, tamanoLetra: 13 });
+    reset({ titulo: "", tipo: "texto", contenido: "", categoria: "", estado: "borrador", encabezado: "COMUNICADO", mayusculas: false, tamanoLetra: 13 });
     limpiarArchivos(); setError("");
     setModalAbierto(true);
   };
@@ -93,7 +93,9 @@ export default function ComunicadosPage() {
   const abrirEditar = (c: Comunicado) => {
     setEditando(c);
     setFechaVistaPrevia(c.fechaPublicacion);
-    reset({ ...c, encabezado: c.encabezado || "COMUNICADO", mayusculas: c.mayusculas ?? true, tamanoLetra: c.tamanoLetra ?? 13 });
+    // Materializa la presentación anterior una sola vez; desde aquí se guarda cada letra tal como se escribe.
+    reset({ ...c, contenido: c.tipo === 'texto' && c.mayusculas !== false ? c.contenido.toLocaleUpperCase('es-BO') : c.contenido,
+      encabezado: c.encabezado || "COMUNICADO", mayusculas: false, tamanoLetra: c.tamanoLetra ?? 13 });
     limpiarArchivos(); setError("");
     setModalAbierto(true);
   };
@@ -265,7 +267,7 @@ export default function ComunicadosPage() {
           </div>}
           <div className="space-y-1.5">
             <label htmlFor="comunicado-contenido" className="block text-sm font-medium text-slate-700">{tipo === "texto" ? "Texto del comunicado" : "Descripción (opcional)"}</label>
-            {tipo === "texto" ? <TextoDelComunicado control={control} disabled={guardando} invalido={!!errors.contenido} />
+            {tipo === "texto" ? <TextoDelComunicado control={control} disabled={guardando} invalido={!!errors.contenido} mayusculasIniciales={editando?.mayusculas ?? true} />
               : <textarea id="comunicado-contenido" className="textarea-field" rows={5} {...register("contenido")} />}
             {errors.contenido && <p className="text-xs text-red-600">{errors.contenido.message}</p>}
           </div>

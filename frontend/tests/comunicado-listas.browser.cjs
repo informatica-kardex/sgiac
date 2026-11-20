@@ -25,7 +25,7 @@ const server = http.createServer((req, res) => {
 (async () => {
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   origin = `http://127.0.0.1:${server.address().port}`;
-  records = [{ idComunicado: '1', titulo: 'Regresión de conversión a listas', encabezado: 'COMUNICADO', tipo: 'texto', contenido: 'Introducción\n\n- Lista anterior\n\n**Primer párrafo**\n\n_Segundo párrafo_\n\nTercer párrafo\n\nFinal sin seleccionar', resumen: '', categoria: 'Académico', estado: 'publicado', fechaPublicacion: '2026-11-03T12:00:00.000Z', adjuntos: [] }];
+  records = [{ mayusculas: false, idComunicado: '1', titulo: 'Regresión de conversión a listas', encabezado: 'COMUNICADO', tipo: 'texto', contenido: 'Introducción\n\n- Lista anterior\n\n**Primer párrafo**\n\n_Segundo párrafo_\n\nTercer párrafo\n\nFinal sin seleccionar', resumen: '', categoria: 'Académico', estado: 'publicado', fechaPublicacion: '2026-11-03T12:00:00.000Z', adjuntos: [] }];
   chrome = spawn('C:/Program Files/Google/Chrome/Application/chrome.exe', ['--headless=new', '--disable-gpu', '--no-first-run', '--remote-debugging-port=9385', '--user-data-dir=' + path.join(output, 'chrome'), 'about:blank'], { stdio: 'ignore', windowsHide: true });
   chrome.on('error', error => errors.push(error.message));
   let tabs;
@@ -198,19 +198,20 @@ const server = http.createServer((req, res) => {
       input.dispatchEvent(new Event('input', { bubbles: true })); })()`);
     await delay(100);
   };
-  assert.equal(await evaluate(`document.querySelector('button[aria-label="Todo en mayúsculas"]').getAttribute('aria-pressed')`), 'true');
+  await toolbar("Bloquear mayúsculas al escribir");
+  assert.equal(await evaluate(`document.querySelector('button[aria-label="Bloquear mayúsculas al escribir"]').getAttribute('aria-pressed')`), 'true');
   assert.equal(await evaluate(`document.querySelector('input[aria-label="Tamaño de letra"]').value`), '13');
   assert.equal(await evaluate(`!!document.querySelector('.comunicado-editor-fuente')`), false);
-  await toolbar('Todo en mayúsculas');
+  await toolbar('Bloquear mayúsculas al escribir');
   assert.equal(await evaluate(`getComputedStyle(document.querySelector('.comunicado-editor-contenido')).textTransform`), 'none');
   await setSize('18');
   assert.equal(await evaluate(`getComputedStyle(document.querySelector('.comunicado-editor-contenido')).fontSize`), '24px');
-  await setSize(''); await toolbar('Todo en mayúsculas');
+  await setSize(''); await toolbar('Bloquear mayúsculas al escribir');
   assert.equal(await evaluate(`document.querySelector('input[aria-label="Tamaño de letra"]').value`), '18');
-  await toolbar('Todo en mayúsculas');
-  await setSize('100'); await toolbar('Todo en mayúsculas');
+  await toolbar('Bloquear mayúsculas al escribir');
+  await setSize('100'); await toolbar('Bloquear mayúsculas al escribir');
   assert.equal(await evaluate(`document.querySelector('input[aria-label="Tamaño de letra"]').value`), '18');
-  await toolbar('Todo en mayúsculas');
+  await toolbar('Bloquear mayúsculas al escribir');
   await setSize('16'); await key('Enter', 'Enter', '\r');
   assert.ok(await evaluate(`!!document.querySelector('[role="dialog"]')`));
   await evaluate(`document.querySelector('.comunicado-editor-contenido').editor.commands.setContent({ type:'doc',content:[
@@ -226,7 +227,7 @@ const server = http.createServer((req, res) => {
   assert.equal(mutations.at(-1).fields.tamanoLetra, '16');
   assert.ok(mutations.at(-1).fields.contenido.endsWith(' final'));
   await click('Editar'); await wait(`!!document.querySelector('.comunicado-editor-contenido')`);
-  assert.equal(await evaluate(`document.querySelector('button[aria-label="Todo en mayúsculas"]').getAttribute('aria-pressed')`), 'false');
+  assert.equal(await evaluate(`document.querySelector('button[aria-label="Bloquear mayúsculas al escribir"]').getAttribute('aria-pressed')`), 'false');
   assert.equal(await evaluate(`document.querySelector('input[aria-label="Tamaño de letra"]').value`), '16');
   await previewReady();
   assert.notEqual(await evaluate(`document.querySelector('img[alt^="Vista previa"]').src`), imageBefore);
@@ -238,7 +239,61 @@ const server = http.createServer((req, res) => {
   await click('Cancelar'); await click('+ Nuevo comunicado');
   await wait(`!!document.querySelector('.comunicado-editor-contenido')`);
   assert.equal(await evaluate(`document.querySelector('input[aria-label="Tamaño de letra"]').value`), '13');
-  assert.equal(await evaluate(`document.querySelector('button[aria-label="Todo en mayúsculas"]').getAttribute('aria-pressed')`), 'true');
+  assert.equal(await evaluate(`document.querySelector('button[aria-label="Bloquear mayúsculas al escribir"]').getAttribute('aria-pressed')`), 'true');
+  const caps = 'Bloquear mayúsculas al escribir';
+  const nativeText = text => send('Input.insertText', { text });
+  const rawText = () => evaluate(`document.querySelector('.comunicado-editor-contenido').editor.getText()`);
+  await evaluate(`document.querySelector('.comunicado-editor-contenido').editor.commands.focus('end')`);
+  await nativeText('área inicial');
+  await wait(`document.querySelector('.comunicado-editor-contenido').editor.getText() === 'ÁREA INICIAL'`);
+  await toolbar(caps);
+  assert.equal(await rawText(), 'ÁREA INICIAL');
+  await nativeText(' TEXTO NUEVO');
+  await wait(`document.querySelector('.comunicado-editor-contenido').editor.getText() === 'ÁREA INICIAL texto nuevo'`);
+  await toolbar(caps);
+  assert.equal(await rawText(), 'ÁREA INICIAL texto nuevo');
+  await toolbar('Negrita');
+  await nativeText(' final ñ');
+  await wait(`document.querySelector('.comunicado-editor-contenido strong')?.textContent === ' FINAL Ñ'`);
+  // Activar y desactivar con una selección no modifica el texto existente.
+  const mixed = await currentText();
+  await select('texto nuevo'); await toolbar(caps);
+  assert.equal(await currentText(), mixed);
+  await nativeText('OTRO TEXTO');
+  await wait(`document.querySelector('.comunicado-editor-contenido').editor.getText() === 'ÁREA INICIAL otro texto FINAL Ñ'`);
+  const replaced = await currentText();
+  await toolbar('Deshacer'); await toolbar('Rehacer');
+  assert.equal(await currentText(), replaced);
+  // Pegar mantiene negrita y convierte solo el fragmento nuevo.
+  await evaluate(`(() => {
+    const editor = document.querySelector('.comunicado-editor-contenido'); editor.editor.commands.focus('end');
+    const data = new DataTransfer(); data.setData('text/html', '<p><em> PEGADO Á</em></p>'); data.setData('text/plain', ' PEGADO Á');
+    editor.dispatchEvent(new ClipboardEvent('paste', { clipboardData: data, bubbles: true, cancelable: true }));
+  })()`);
+  await wait(`document.querySelector('.comunicado-editor-contenido').editor.getText().includes('pegado á')`);
+  assert.ok((await rawText()).startsWith('ÁREA INICIAL otro texto FINAL Ñ'));
+  await toolbar(caps);
+  // El modo activo al guardar tampoco convierte los tramos escritos en minúsculas.
+  for (const [name, value] of [['titulo', 'Prueba de mayúsculas por tramo'], ['categoria', 'Académico']]) {
+    await evaluate(`(() => { const input = document.querySelector('input[name="${name}"]'); Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(input, ${JSON.stringify(value)}); input.dispatchEvent(new Event('input', { bubbles: true })); })()`);
+  }
+  const mixedSaved = await currentText();
+  await click('Guardar'); await wait('!document.querySelector("[role=dialog]")');
+  assert.equal(mutations.at(-1).fields.mayusculas, 'false');
+  assert.equal(mutations.at(-1).fields.contenido, mixedSaved);
+  await wait(`[...document.querySelectorAll('button')].filter(b => b.textContent.trim() === 'Editar').length === 2`);
+  await evaluate(`[...document.querySelectorAll('button')].filter(b => b.textContent.trim() === 'Editar').at(-1).click()`);
+  await wait(`!!document.querySelector('.comunicado-editor-contenido')`);
+  assert.equal(await currentText(), mixedSaved);
+  await previewReady();
+  await click('Cancelar');
+  // Los comunicados anteriores con transformación global conservan su apariencia al editarlos.
+  records[1].mayusculas = true; records[1].contenido = 'Anterior en mayúsculas';
+  await navigate('/admin/comunicados');
+  await wait(`[...document.querySelectorAll('button')].filter(b => b.textContent.trim() === 'Editar').length === 2`);
+  await evaluate(`[...document.querySelectorAll('button')].filter(b => b.textContent.trim() === 'Editar').at(-1).click()`);
+  await wait(`document.querySelector('.comunicado-editor-contenido')?.editor.getText() === 'ANTERIOR EN MAYÚSCULAS'`);
+  await toolbar(caps); assert.equal(await rawText(), 'ANTERIOR EN MAYÚSCULAS');
   await click('Cancelar');
   session = null;
   await navigate('/comunicados/1'); await wait(`!!document.querySelector('.comunicado-documento-texto')`);
@@ -260,7 +315,7 @@ const server = http.createServer((req, res) => {
   assert.ok(items.some(i=>i.text.includes('Estudiantes')));
   const punto=items.find(i=>i.text.includes('Primer')); assert.ok(punto); assert.equal(punto.size,16);
   assert.deepEqual(errors, []);
-  console.log('OK: mayúsculas reversibles, tamaño editable, límites, valores iniciales, guardado inmediato, PNG y PDF con la tipografía elegida.');
+  console.log('OK: modo de escritura, tamaño editable, límites, valores iniciales, guardado inmediato, PNG y PDF con la tipografía elegida.');
 })().catch(error => { console.error(error); process.exitCode = 1; }).finally(async () => {
   ws?.close(); chrome?.kill(); await new Promise(resolve => server.close(resolve));
 });

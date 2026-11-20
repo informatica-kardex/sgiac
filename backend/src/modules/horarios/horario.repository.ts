@@ -6,6 +6,8 @@ import { ActualizarHorarioInput, CrearHorarioInput, crearHorarioSchema } from '.
 import { compartenFecha, diaDeFecha } from './horario.fechas';
 import { nombreDocente } from '../academico/docente.nombre';
 import { sendMail } from '../../utils/mail';
+import { academicNoticeHtml } from '../../utils/mail-template';
+import { env } from '../../config/env';
 const include = { auxiliar: { include: { estudiante: { select: { correo_institucional: true } } } }, bloque_horario: true, ambiente: true,
   horario_base: { select: { codigo_ambiente: true } }, traslados: true,
   reserva_origen: { select: { paralelo: { select: { id_docente: true } } } },
@@ -67,7 +69,29 @@ export class HorarioRepository {
         : `El aula ${origen} será ocupada por ${nombreDocente(row.paralelo.docente)} el ${fecha}. Por ese día debes pasar en el aula ${t.codigo_ambiente}, de ${t.bloque_horario.hora_inicio.toISOString().slice(11, 16)} a ${t.bloque_horario.hora_fin.toISOString().slice(11, 16)}. Tu asignación semanal en ${origen} se conserva para las demás fechas. Consulta Mi auxiliatura para ver el cambio.`;
       try {
         if (!correo) throw new Error('Sin correo');
-        await sendMail({ to: correo, subject: cancelada ? 'SGIAC · Cambio de traslado de aula' : 'SGIAC · Traslado de aula por un día', text: mensaje });
+        await sendMail({ to: correo, subject: cancelada ? 'SGIAC · Cambio de traslado de aula' : 'SGIAC · Traslado de aula por un día', text: mensaje,
+          html: academicNoticeHtml({
+            title: cancelada ? 'Tu traslado de aula cambió' : 'Tienes un traslado de aula',
+            category: 'Horarios · Auxiliatura', name: t.auxiliar?.nombre_completo,
+            description: cancelada
+              ? `Se canceló o modificó la reserva del ${fecha} en ${origen}. El traslado a ${t.codigo_ambiente} queda sin efecto.`
+              : `El aula ${origen} será ocupada por ${nombreDocente(row.paralelo.docente)} el ${fecha}. Por ese día, tu sesión se realizará en otra aula.`,
+            status: cancelada ? 'Traslado sin efecto' : 'Cambio por un día', tone: cancelada ? 'warning' : 'info',
+            highlight: cancelada
+              ? { label: 'Revisa tu asignación actual', value: 'Mi auxiliatura', caption: `El traslado a ${t.codigo_ambiente} ya no está vigente.` }
+              : { label: 'Aula para esta sesión', value: t.codigo_ambiente, caption: `Cambio temporal desde el aula ${origen}.` },
+            details: [
+              { label: 'Fecha del traslado', value: fecha },
+              { label: 'Horario de la sesión', value: `${t.bloque_horario.hora_inicio.toISOString().slice(11, 16)} a ${t.bloque_horario.hora_fin.toISOString().slice(11, 16)}` },
+              { label: 'Aula habitual', value: origen },
+            ],
+            note: { title: cancelada ? 'Consulta el cambio' : 'Tu horario semanal se conserva', text: cancelada
+              ? 'Revisa Mi auxiliatura para confirmar tu aula antes de asistir a la sesión.'
+              : `Este traslado aplica únicamente al ${fecha}. Tu asignación semanal en ${origen} se conserva para las demás fechas.` },
+            instructions: 'Consulta tu asignación actualizada en tu sesión de estudiante, en Mi auxiliatura.',
+            action: { label: 'Consultar mi auxiliatura', url: `${env.frontendUrl.replace(/\/$/, '')}/usuario/mi-auxiliatura` },
+          }),
+        });
       } catch { avisos.push(`No se pudo enviar el correo a ${t.auxiliar?.nombre_completo ?? 'un auxiliar'}. Comunícale el cambio; la asignación actual está disponible en Mi auxiliatura y su QR.`); }
     }
     return avisos;

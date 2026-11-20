@@ -4,8 +4,12 @@ export function esRolAdministrativo(roles: string[]): boolean {
   return roles.some(rol => (ROLES_ADMINISTRATIVOS as readonly string[]).includes(rol));
 }
 export const FUNCIONES_SUBADMIN: Record<string, string> = {
+  'solicitudes-aulas': "Gestionar solicitudes de aulas",
+  'ver-horarios': "Consultar horarios (sin modificar)",
+  estudiantes: "Gestionar cuentas de estudiantes",
+  auditoria: "Consultar y exportar auditoría",
   auxiliares: "Gestionar auxiliares",
-  documentos: "Gestionar trámites en línea",
+  documentos: "Gestionar y configurar trámites en línea",
   docentes: "Gestionar docentes", materias: "Gestionar materias", aulas: "Gestionar aulas", horarios: "Gestionar horarios", comunicados: "Gestionar comunicados",
   faq: "Gestionar preguntas frecuentes", fichas: "Gestionar atención Kardex", reportes: "Consultar reportes",
 };
@@ -27,7 +31,7 @@ export function permisoVigente(p: PermisoUsuario, ahora = Date.now()) {
 export function puedeAccederModulo(roles: string[], modulo: string, permisos: PermisoUsuario[] = []) {
   if (!MODULOS_ADMIN[modulo === "usuarios" ? "subadministradores" : modulo]) return false;
   if (roles.includes("ADMINISTRADOR")) return true;
-  if (modulo === 'ver-horarios') return roles.includes('SUBADMINISTRADOR') && permisos.some(p => ['docentes', 'materias', 'aulas', 'horarios'].includes(p.modulo) && permisoVigente(p));
+  if (modulo === 'ver-horarios') return roles.includes('SUBADMINISTRADOR') && permisos.some(p => ['ver-horarios', 'solicitudes-aulas', 'docentes', 'materias', 'aulas', 'horarios'].includes(p.modulo) && permisoVigente(p));
   // Configuración contiene únicamente el perfil y la seguridad de la propia cuenta.
   return roles.includes("SUBADMINISTRADOR") && (["dashboard", "configuracion"].includes(modulo) ||
     Object.prototype.hasOwnProperty.call(FUNCIONES_SUBADMIN, modulo) && permisos.some(p => p.modulo === modulo && permisoVigente(p)));

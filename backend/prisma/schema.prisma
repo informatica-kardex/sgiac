@@ -176,6 +176,10 @@ model Bitacora {
   idUsuario          BigInt?  @map("id_usuario")
   usuario            Usuario? @relation(fields: [idUsuario], references: [idUsuario], onUpdate: NoAction, map: "fk_bitacora_usuario")
 
+  @@index([fechaHora(sort: Desc), idBitacora(sort: Desc)], map: "bitacora_fecha_id_idx")
+  @@index([idUsuario, fechaHora(sort: Desc)], map: "bitacora_usuario_fecha_idx")
+  @@index([entidadAfectada, idRegistroAfectado], map: "bitacora_entidad_registro_idx")
+  @@index([accion], map: "bitacora_accion_idx")
   @@map("bitacora")
 }
 

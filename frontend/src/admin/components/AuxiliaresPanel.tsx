@@ -9,6 +9,7 @@ import { AsignacionAuxiliarFields, HabilitarAuxiliarModal } from './HabilitarAux
 import { AuxiliarCarnetModal } from '../../components/AuxiliarCarnetModal';
 import { CrearEstudianteModal } from './CrearEstudianteModal';
 import { useAdminAuth } from '../../hooks/useAdminAuth';
+import { puedeAccederModulo } from '../../utils/roles';
 
 export function AuxiliaresPanel({ catalogo: c }: { catalogo: ReturnType<typeof useAcademico> }) {
   const { usuario } = useAdminAuth();
@@ -43,7 +44,7 @@ export function AuxiliaresPanel({ catalogo: c }: { catalogo: ReturnType<typeof u
   }
   return <div className="space-y-5">
     <AcademicHeader title="Auxiliares" description="Habilita estudiantes con cuenta institucional y vincúlalos a una materia y su docente titular.">
-      {usuario?.roles.includes('ADMINISTRADOR') && <AcademicAction icon="plus" disabled={busy} onClick={() => setCrearEstudiante(true)}>Crear estudiante</AcademicAction>}
+      {puedeAccederModulo(usuario?.roles ?? [], 'estudiantes', usuario?.permisos) && <AcademicAction icon="plus" disabled={busy} onClick={() => setCrearEstudiante(true)}>Crear estudiante</AcademicAction>}
       <AcademicAction icon="trash" tone="danger" disabled={busy || c.loading || Boolean(c.error) || !activos.length} onClick={() => { setError(''); setRemove({}); }}>Quitar todos</AcademicAction>
       <AcademicAction icon="plus" tone="primary" disabled={busy} onClick={() => { setNuevoEstudiante(undefined); setLegacy(null); setOpen(true); }}>Nuevo auxiliar</AcademicAction>
     </AcademicHeader>
